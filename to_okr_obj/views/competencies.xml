@@ -1,0 +1,65 @@
+<?xml version="1.2" encoding="utf-8"?>
+<odoo>
+
+    <record id="okr_comp_view_form" model="ir.ui.view">
+        <field name="model">okr.comp</field>
+        <field name="arch" type="xml">
+            <form string="Record rules">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="bench1"/>
+                            <field name="date1"/>
+                            <field name="attach1"/>
+                            <field name="rate1"/>
+                            <field name="percentage1" widget="percentpie"/>
+                        </group>
+                        <group>
+                            <field name="result1"/>
+                            <field name="note1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+
+    <record id="okr_comp_tree" model="ir.ui.view">
+        <field name="model">okr.comp</field>
+        <field name="arch" type="xml">
+            <tree string="Record rules">
+                <field name="name"/>
+                <field name="bench1"/>
+                <field name="date1"/>
+                <field name="rate1"/>
+                <field name="percentage1" widget="percentpie"/>
+                <field name="result1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_comp_form" model="ir.actions.act_window">
+        <field name="name">Competencies</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">okr.comp</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="okr_comp_tree"/>
+    </record>
+
+    <menuitem id="okr_comp_root"
+              name="Competencies"
+              parent="okr_configuration"
+              action="action_comp_form"
+              sequence="4"
+    />
+
+
+</odoo>

@@ -1,0 +1,230 @@
+<?xml version="1.2" encoding="utf-8"?>
+<odoo>
+
+    <record id="okr_form_view_form" model="ir.ui.view">
+        <field name="model">okr.form</field>
+        <field name="arch" type="xml">
+            <form string="Record rules">
+                <header>
+                    <button name="action_employee_rating" string="Submit"
+                            class="oe_highlight" type="object" states="draft"
+                            confirm="Are you sure, you want to Submit?" groups="to_okr_obj.group_okr_employee_rating"
+                    />
+                    <button name="action_tm_leader" string="Submit"
+                            class="oe_highlight" type="object" states="em_r"
+                            confirm="Are you sure, you want to send it to Team Leader Rating Stage?"
+                            groups="to_okr_obj.group_okr_team_leader_rating"
+                    />
+                    <button name="action_hod" string="Submit"
+                            class="oe_highlight" type="object" states="team_l_r"
+                            confirm="Are you sure, you want to send it to HOD?"
+                            groups="to_okr_obj.group_okr_hod_rating"
+                    />
+                    <button name="action_hr_rating" string="Submit"
+                            class="oe_highlight" type="object" states="hod_r"
+                            confirm="Are you sure, you want to send it to HR?"
+                            groups="to_okr_obj.group_okr_hr_rating"
+                    />
+                    <button name="action_done" string="Done"
+                            class="oe_highlight" type="object" states="hr_r"
+                            confirm="Are you sure, you want to send it to Done Stage?"
+                            groups="to_okr_obj.group_okr_hr_rating"
+                    />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,em_r,team_l_r,hod_r,hr_r,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="okr_no" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="doc_date" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="year" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="quarter" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="description" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="target" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="type" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                        </group>
+                        <group>
+                            <field name="ev_on" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="start_date" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="end_date" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="company"
+                                   attrs="{'invisible': [('target', 'not in', ['com'])], 'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="employee"
+                                   attrs="{'invisible': [('target', 'not in', ['em'])], 'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="department"
+                                   attrs="{'invisible': [('target', 'not in', ['dep'])], 'readonly': [('state', 'in', ['done'])]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="OKR">
+                            <field name="okr_line" attrs="{'readonly': [('state', 'in', ['done'])]}">
+                                <tree String="OKR">
+                                    <field name="title"/>
+                                    <field name="owner"/>
+                                    <field name="company"/>
+                                    <field name="weight"/>
+                                </tree>
+                                <form string="Record rules">
+                                    <header>
+                                        <button name="action_confirm" string="Confirm"
+                                                class="oe_highlight" type="object"
+                                                confirm="Are you sure, you want to send it to Confirm Stage?"
+                                                groups="to_okr_obj.group_okr_hr_rating"
+                                        />
+                                        <button name="action_cancel" string="Cancel"
+                                                class="oe_highlight" type="object"
+                                                confirm="Are you sure, you want to send it to Cancel Stage?"
+                                                groups="to_okr_obj.group_okr_hr_rating"
+                                        />
+                                        <field name="stage" widget="statusbar"
+                                               statusbar_visible="draft,confirm,cancel"/>
+                                    </header>
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="title"/>
+                                                <field name="objective" attrs="{'invisible': [('checkk', '=', True)]}"/>
+                                                <field name="competencies" attrs="{'invisible': [('checkk', '=', False)]}"/>
+                                                <field name="checkk" invisible="1"/>
+                                                <field name="owner"/>
+                                            </group>
+                                            <group>
+                                                <field name="company"/>
+                                                <field name="weight"/>
+                                                <field name="department"/>
+                                            </group>
+                                            <group string="Employee Rating"
+                                                   groups="to_okr_obj.group_okr_employee_rating">
+                                                <field name="point"/>
+                                                <field name="progress" widget="percentpie"/>
+                                                <field name="result"/>
+                                            </group>
+                                            <group string="Team Leader Rating"
+                                                   groups="to_okr_obj.group_okr_team_leader_rating">
+                                                <field name="point1"/>
+                                                <field name="progress1" widget="percentpie"/>
+                                                <field name="result1"/>
+                                            </group>
+                                            <group string="HOD Rating" groups="to_okr_obj.group_okr_hod_rating">
+                                                <field name="point2"/>
+                                                <field name="progress2" widget="percentpie"/>
+                                                <field name="result2"/>
+                                            </group>
+                                            <group string="HR Rating" groups="to_okr_obj.group_okr_hr_rating" attrs="{'invisible':[('department', '!=', 8)]}">
+                                                <field name="point3"/>
+                                                <field name="progress3" widget="percentpie"/>
+                                                <field name="result3"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <data noupdate="1">
+
+        <record id="seq_okr_form" model="ir.sequence">
+            <field name="name">Wilcare Employee's OKR Form</field>
+            <field name="code">okr.form</field>
+            <field name="prefix">OKR</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+
+    <record id="okr_form_tree" model="ir.ui.view">
+        <field name="model">okr.form</field>
+        <field name="arch" type="xml">
+            <tree string="Record rules">
+                <field name="name"/>
+                <field name="doc_date"/>
+                <field name="year"/>
+                <field name="quarter"/>
+                <field name="description"/>
+                <field name="state"/>
+                <field name="target"/>
+                <field name="type"/>
+                <field name="ev_on"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id='okr_form_search' model='ir.ui.view'>
+        <field name="name">okr.form.search</field>
+        <field name="model">okr.form</field>
+        <field name="arch" type="xml">
+            <search string="OKR Form">
+                <field name="name"/>
+                <field name="doc_date"/>
+                <field name="year"/>
+                <field name="quarter"/>
+                <field name="description"/>
+                <field name="target"/>
+                <field name="type"/>
+                <field name="ev_on"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Employee's Rating" name="em_r" domain="[('state', '=', 'em_r')]"/>
+                <filter string="Team Leader Rating" name="team_l_r" domain="[('state', '=', 'team_l_r')]"/>
+                <filter string="HOD Rating" name="hod_r" domain="[('state', '=', 'hod_r')]"/>
+                <filter string="HR Rating" name="hr_r" domain="[('state', '=', 'hr_r')]"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                <group expand="1" string="Group By">
+
+                    <filter string="Title" name="name" context="{'group_by':'name'}"/>
+                    <filter string="Employee" name="employee" context="{'group_by':'employee'}"/>
+                    <filter string="Department" name="department" context="{'group_by':'department'}"/>
+                    <filter string="Company" name="company" context="{'group_by':'company'}"/>
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_okr_form" model="ir.actions.act_window">
+        <field name="name">Employee OKR Form</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">okr.form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="okr_form_tree"/>
+    </record>
+
+    <menuitem id="okr_form"
+              name="OKR"
+              sequence="11"
+              web_icon="to_okr_obj,static/description/icon.png"
+    />
+    <menuitem id="okr_form_root"
+              name="OKR Form"
+              parent="okr_form"
+              action="action_okr_form"
+              sequence="1"
+    />
+    <menuitem id="okr_configuration"
+              name="Configuration"
+              parent="okr_form"
+              sequence="2"
+    />
+
+
+</odoo>

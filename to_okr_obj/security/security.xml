@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="to_okr_obj.module_category_to_okr_obj" model="ir.module.category">
+            <field name="description">Help you to manage OKR Evaluation.</field>
+            <field name="name">OKR</field>
+            <field name="sequence">7</field>
+        </record>
+
+
+        <record id="group_okr_employee_rating" model="res.groups">
+            <field name="name">Employee Rating</field>
+            <field name="category_id" ref="to_okr_obj.module_category_to_okr_obj"/>
+        </record>
+
+        <record id="group_okr_team_leader_rating" model="res.groups">
+            <field name="name">Team Leader Rating</field>
+            <field name="category_id" ref="to_okr_obj.module_category_to_okr_obj"/>
+        </record>
+
+        <record id="group_okr_hod_rating" model="res.groups">
+            <field name="name">HOD Rating</field>
+            <field name="category_id" ref="to_okr_obj.module_category_to_okr_obj"/>
+        </record>
+
+        <record id="group_okr_hr_rating" model="res.groups">
+            <field name="name">HR Rating</field>
+            <field name="category_id" ref="to_okr_obj.module_category_to_okr_obj"/>
+        </record>
+
+    </data>
+</odoo>

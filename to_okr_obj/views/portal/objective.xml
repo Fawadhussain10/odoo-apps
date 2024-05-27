@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="okr_objective_to_portal" name="OKR Objective / Competencies" inherit_id="portal.portal_my_home"
+              priority="252">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">OKR Objective / Competencies</t>
+                <t t-set="url" t-value="'/my/okr/obj/list'"/>
+                <t t-set="placeholder_count" t-value="'okr_objective'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="okr_obj_list_view">
+        <t t-call="portal.portal_layout">
+            <body>
+                <style>
+                    th, td {
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                    }
+                    tr:hover {background-color: Lightgrey;}
+                </style>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end"
+                     style="margin-top:0.5rem;margin-bottom:0.5rem;">
+                    <a href="/my/okr/obj/create">
+                        <button type="button" class="btn btn-primary btn-rounded btn-lg">
+                            Create
+                        </button>
+                    </a>
+                </div>
+                <t t-call="portal.portal_table">
+                    <thead>
+                        <tr class="active" style="background-color:lightgrey;">
+                            <th style="text-align:center;">Name</th>
+                            <th style="text-align:center;">Benchmark</th>
+                            <th style="text-align:center;">Date</th>
+                            <th style="text-align:center;">Rating</th>
+                            <th style="text-align:center;">Percentage</th>
+                            <th style="text-align:center;">Result</th>
+                            <th style="text-align:center;">Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <t t-foreach="z" t-as="y">
+                            <t t-if="y.bench">
+                                <tr>
+                                    <td style="text-align:center;">
+                                        <t t-esc="y.name"/>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <t t-esc="y.bench"/>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <t t-esc="y.date"/>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <t t-if="y.rate == 'one'">
+                                            One
+                                        </t>
+                                        <t t-if="y.rate == 'two'">
+                                            Two
+                                        </t>
+                                        <t t-if="y.rate == 'three'">
+                                            Three
+                                        </t>
+                                        <t t-if="y.rate == 'four'">
+                                            Four
+                                        </t>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <div class="progress-bar bg-info" role="progressbar"
+                                             t-attf-style="width: {{ y.percentage }}%;"
+                                             t-attf-aria-valuenow="{{ y.percentage }}"
+                                             aria-valuemin="0" aria-valuemax="100">
+                                            <t t-esc="y.percentage"/>%
+                                        </div>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <t t-if="y.result == 'pas'">
+                                            Pass
+                                        </t>
+                                        <t t-if="y.result == 'fail'">
+                                            Fail
+                                        </t>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <t t-esc="y.note"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+
+                        <t t-foreach="x" t-as="o">
+                            <t t-if="o.bench1">
+                                <tr>
+                                    <td style="text-align:center;">
+                                        <t t-esc="o.name"/>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <t t-esc="o.bench1"/>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <t t-esc="o.date1"/>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <t t-if="o.rate1 == 'one'">
+                                            One
+                                        </t>
+                                        <t t-if="o.rate1 == 'two'">
+                                            Two
+                                        </t>
+                                        <t t-if="o.rate1 == 'three'">
+                                            Three
+                                        </t>
+                                        <t t-if="o.rate1 == 'four'">
+                                            Four
+                                        </t>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <div class="progress-bar bg-info" role="progressbar"
+                                             t-attf-style="width: {{ o.percentage1 }}%;"
+                                             t-attf-aria-valuenow="{{ o.percentage1 }}"
+                                             aria-valuemin="0" aria-valuemax="100">
+                                            <t t-esc="o.percentage1"/>%
+                                        </div>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <t t-if="o.result1 == 'pas'">
+                                            Pass
+                                        </t>
+                                        <t t-if="o.result1 == 'fail'">
+                                            Fail
+                                        </t>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <t t-esc="o.note1"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </tbody>
+                </t>
+            </body>
+        </t>
+    </template>
+
+    <template id="okr_objective_breadcrums" name="OKR Objectivw"
+              inherit_id="portal.portal_breadcrumbs" priority="29">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'okr_list_view'" class="breadcrumb-item">
+                Objective / Competencies
+            </li>
+            <li t-if="page_name == 'okr_createee_view'" class="breadcrumb-item">
+                Objective / Competencies
+            </li>
+        </xpath>
+    </template>
+
+    <template id="abd_create" inherit_id="portal.portal_sidebar">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <form action="/my/okr/obj/create/rec" method="post"
+                  enctype="multipart/form-data" id="okr_form_obj_44">
+                <t t-if="page_name == 'okr_createee_view'">
+                    <section style="background-color: #eeee;">
+                        <br/>
+                        <p>&#160;&#160;Please add objective &amp; competencies.</p>
+                        <br/>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Name</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">
+                                            <input type="Char" id="namees" name="namee" placeholder="Alex..."
+                                                   style="text-align: left; width: 80%;height:35px;" required="True"/>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Benchmark</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">
+                                            <input type="Char" id="benchhs" name="benchh" placeholder="abc..."
+                                                   style="text-align: left; width: 80%;height:35px;" required="True"/>
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <body onload="setInitialDate()">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Document Date</p>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <p class="text-muted mb-0">
+                                                <script>
+                                                    function setInitialDate() {
+                                                    const currentDate = new Date();
+                                                    const year = currentDate.getFullYear();
+                                                    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+                                                    const day = String(currentDate.getDate()).padStart(2, '0');
+
+                                                    const formattedDate = `${year}-${month}-${day}`;
+                                                    document.getElementById('dodate').value = formattedDate;
+                                                    }
+                                                </script>
+                                                <input type="date" id="dodate" name="dodate1"
+                                                       style="text-align: left; width: 80%; height: 35px;"
+                                                       required="True"/>
+                                            </p>
+                                        </div>
+                                    </body>
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Attachment</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">
+                                            <input type="file" name="attach" id="att3" multiple="true"
+                                                   data-show-upload="true" data-show-caption="true"
+                                                   class="file" data-show-preview="true"
+                                                   style="display: block; margin-top: 5px;"/>
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Rating</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">
+                                            <select id="rates" class="select"
+                                                    style="text-align: left; width: 80%; height: 35px;"
+                                                    required="True" default="false" name="rate"
+                                                    placeholder="Choose an option"
+                                                    onchange="updateResult(); updateProgressBar()">
+                                                <option value=""></option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Percentage</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">
+                                            <div class="progress">
+                                                <div class="progress-bar bg-info" role="progressbar" id="progressBar"
+                                                     name="progress"
+                                                     style="width: 10%;" aria-valuemin="0" aria-valuemax="100">
+                                                    0%
+                                                </div>
+                                            </div>
+                                        </p>
+                                    </div>
+                                </div>
+                                <script>
+                                    function updateResult() {
+                                    var rateSelect = document.getElementById("rates");
+                                    var resuSelect = document.getElementById("resu");
+                                    console.log('hiii');
+                                    console.log(resuSelect.value);
+
+                                    var selectedRate = parseInt(rateSelect.value);
+                                    var result = "";
+                                    console.log('resulttttttt');
+                                    if (selectedRate >= 1 &amp;&amp; selectedRate&lt;= 2) {
+                                    result = "3";
+
+                                    } else {
+                                    result = "2";
+                                    }
+
+                                    resuSelect.value = result;
+                                    console.log(result);
+                                    }
+
+                                    function updateProgressBar() {
+                                    const selectElement = document.getElementById("rates");
+                                    const progressBar = document.getElementById("progressBar");
+
+                                    const selectedValue = parseInt(selectElement.value);
+                                    const percentage = (selectedValue) * 25;
+
+                                    progressBar.style.width = percentage + "%";
+                                    progressBar.textContent = percentage + "%";
+                                    }
+                                </script>
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Result</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">
+                                            <select id="resu" class="select"
+                                                    style="text-align: left; width: 80%;height:35px;"
+                                                    required="True" default="false" name="resu1"
+                                                    placeholder="Choose an option">
+                                                <option value=""></option>
+                                                <option value="2">Pass</option>
+                                                <option value="3">Fail</option>
+                                            </select>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Note</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">
+                                            <input type="text" id="notes" name="note1" placeholder="Details..."
+                                                   style="text-align: left; width: 80%; height: 35px;" required="True"/>
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Quarter</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="text-muted mb-0">
+                                            <select id="quarter" class="select"
+                                                    style="text-align: left; width: 80%;height:35px;"
+                                                    required="True" default="false" name="quarters"
+                                                    placeholder="Choose an option">
+                                                <option value=""></option>
+                                                <option value="q1">Q1</option>
+                                                <option value="q2">Q2</option>
+                                                <option value="q3">Q3</option>
+                                                <option value="q4">Q4</option>
+                                            </select>
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <input type="hidden" name="csrf_token"
+                                   t-att-value="request.csrf_token()"/>
+                            <button type="submit" id="create_okr_form"
+                                    class="btn btn-success btn-rounded btn-lg">Save
+                            </button>
+                        </div>
+                    </section>
+                </t>
+            </form>
+
+        </xpath>
+    </template>
+
+
+</odoo>

@@ -1,0 +1,65 @@
+<?xml version="1.2" encoding="utf-8"?>
+<odoo>
+
+    <record id="okr_objective_view_form" model="ir.ui.view">
+        <field name="model">okr.objective</field>
+        <field name="arch" type="xml">
+            <form string="Record rules">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="bench"/>
+                            <field name="date"/>
+                            <field name="attach"/>
+                            <field name="rate"/>
+                            <field name="percentage" widget="percentpie"/>
+                        </group>
+                        <group>
+                            <field name="result"/>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+
+    <record id="okr_objective_tree" model="ir.ui.view">
+        <field name="model">okr.objective</field>
+        <field name="arch" type="xml">
+            <tree string="Record rules">
+                <field name="name"/>
+                <field name="bench"/>
+                <field name="date"/>
+                <field name="rate"/>
+                <field name="percentage" widget="percentpie"/>
+                <field name="result"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_objective_form" model="ir.actions.act_window">
+        <field name="name">Objective</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">okr.objective</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="okr_objective_tree"/>
+    </record>
+
+    <menuitem id="okr_objective_root"
+              name="Objective"
+              parent="okr_configuration"
+              action="action_objective_form"
+              sequence="2"
+    />
+
+
+</odoo>

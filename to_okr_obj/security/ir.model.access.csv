@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_okr_form,access.okr.form,model_okr_form,,1,1,1,1
+access_okr_type,access.okr.type,model_okr_type,,1,1,1,1
+access_okr_objective,access.okr.objective,model_okr_objective,,1,1,1,1
+access_okr_line,access.okr.line,model_okr_line,,1,1,1,1
+access_okr_time,access.okr.time,model_okr_time,,1,1,1,1
+access_okr_comp,access.okr.comp,model_okr_comp,,1,1,1,1
