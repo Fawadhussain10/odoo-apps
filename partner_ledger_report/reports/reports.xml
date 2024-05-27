@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="report_partnerledger_action" model="ir.actions.report">
+            <field name="name">Partner Ledger</field>
+            <field name="model">accounting_report.partner_ledger</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">partner_ledger_report.report_partnerledger</field>
+            <field name="report_file">partner_ledger_report.report_partnerledger</field>
+        </record>
+
+        <record id="action_aged_partner_balance_report" model="ir.actions.report">
+            <field name="name">Aged Partner Balance</field>
+            <field name="model">account.aged.partner.balance</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">partner_ledger_report.report_agedpartnerbalance</field>
+            <field name="report_file">partner_ledger_report.report_agedpartnerbalance</field>
+        </record>
+        
+    </data>
+</odoo>
