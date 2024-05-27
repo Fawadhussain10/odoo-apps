@@ -31,10 +31,10 @@ class OkrForm(models.Model):
                     raise ValidationError("Quarter 1 months range is from January to March.")
             elif record.quarter == 'q2':
                 if not (datetime(int(record.year), 4, 1) <= datetime.combine(record.start_date,
-                                                                             datetime.min.time()) <= datetime(
+                                                                              datetime.min.time()) <= datetime(
                     int(record.year), 6, 30)) or not (
                         datetime(int(record.year), 4, 1) <= datetime.combine(record.end_date,
-                                                                             datetime.min.time()) <= datetime(
+                                                                              datetime.min.time()) <= datetime(
                     int(record.year), 6, 30)):
                     raise ValidationError("Quarter 2 months range is from April to June.")
             elif record.quarter == 'q3':
@@ -47,9 +47,9 @@ class OkrForm(models.Model):
                     raise ValidationError("Quarter 3 months range is from July to September.")
             elif record.quarter == 'q4':
                 if not (datetime(int(record.year), 10, 1) <= datetime.combine(record.start_date,
-                                                                              datetime.min.time()) <= datetime(
+                                                                             datetime.min.time()) <= datetime(
                     int(record.year), 12, 31)) or not (
                         datetime(int(record.year), 10, 1) <= datetime.combine(record.end_date,
-                                                                              datetime.min.time()) <= datetime(
+                                                                             datetime.min.time()) <= datetime(
                     int(record.year), 12, 31)):
                     raise ValidationError("Quarter 4 months range is from October to December.")

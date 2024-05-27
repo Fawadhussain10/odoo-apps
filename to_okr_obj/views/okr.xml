@@ -7,26 +7,26 @@
             <form string="Record rules">
                 <header>
                     <button name="action_employee_rating" string="Submit"
-                            class="oe_highlight" type="object" states="draft"
+                            class="oe_highlight" type="object" invisible="state != 'draft'"
                             confirm="Are you sure, you want to Submit?" groups="to_okr_obj.group_okr_employee_rating"
                     />
                     <button name="action_tm_leader" string="Submit"
-                            class="oe_highlight" type="object" states="em_r"
+                            class="oe_highlight" type="object" invisible="state != 'em_r'"
                             confirm="Are you sure, you want to send it to Team Leader Rating Stage?"
                             groups="to_okr_obj.group_okr_team_leader_rating"
                     />
                     <button name="action_hod" string="Submit"
-                            class="oe_highlight" type="object" states="team_l_r"
+                            class="oe_highlight" type="object" invisible="state != 'team_l_r'"
                             confirm="Are you sure, you want to send it to HOD?"
                             groups="to_okr_obj.group_okr_hod_rating"
                     />
                     <button name="action_hr_rating" string="Submit"
-                            class="oe_highlight" type="object" states="hod_r"
+                            class="oe_highlight" type="object" invisible="state != 'hod_r'"
                             confirm="Are you sure, you want to send it to HR?"
                             groups="to_okr_obj.group_okr_hr_rating"
                     />
                     <button name="action_done" string="Done"
-                            class="oe_highlight" type="object" states="hr_r"
+                            class="oe_highlight" type="object" invisible="state != 'hr_r'"
                             confirm="Are you sure, you want to send it to Done Stage?"
                             groups="to_okr_obj.group_okr_hr_rating"
                     />
@@ -40,29 +40,26 @@
                     </div>
                     <group>
                         <group>
-                            <field name="name" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
-                            <field name="doc_date" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
-                            <field name="year" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
-                            <field name="quarter" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
-                            <field name="description" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
-                            <field name="target" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
-                            <field name="type" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="name" readonly="state in 'done'"/>
+                            <field name="doc_date" readonly="state in 'done'"/>
+                            <field name="year" readonly="state in 'done'"/>
+                            <field name="quarter" readonly="state in 'done'"/>
+                            <field name="description" readonly="state in 'done'"/>
+                            <field name="target" readonly="state in 'done'"/>
+                            <field name="type" readonly="state in 'done'"/>
                         </group>
                         <group>
-                            <field name="ev_on" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
-                            <field name="start_date" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
-                            <field name="end_date" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
-                            <field name="company"
-                                   attrs="{'invisible': [('target', 'not in', ['com'])], 'readonly': [('state', 'in', ['done'])]}"/>
-                            <field name="employee"
-                                   attrs="{'invisible': [('target', 'not in', ['em'])], 'readonly': [('state', 'in', ['done'])]}"/>
-                            <field name="department"
-                                   attrs="{'invisible': [('target', 'not in', ['dep'])], 'readonly': [('state', 'in', ['done'])]}"/>
+                            <field name="ev_on" readonly="state in 'done'"/>
+                            <field name="start_date" readonly="state in 'done'"/>
+                            <field name="end_date" readonly="state in 'done'"/>
+                            <field name="company" invisible="target not in ['com']" readonly="state in 'done'"/>
+                            <field name="employee" invisible="target not in ['em']" readonly="state in 'done'"/>
+                            <field name="department" invisible="target not in ['dep']" readonly="state in 'done'"/>
                         </group>
                     </group>
                     <notebook>
                         <page name="OKR">
-                            <field name="okr_line" attrs="{'readonly': [('state', 'in', ['done'])]}">
+                            <field name="okr_line" readonly="state in 'done'">
                                 <tree String="OKR">
                                     <field name="title"/>
                                     <field name="owner"/>
@@ -88,8 +85,8 @@
                                         <group>
                                             <group>
                                                 <field name="title"/>
-                                                <field name="objective" attrs="{'invisible': [('checkk', '=', True)]}"/>
-                                                <field name="competencies" attrs="{'invisible': [('checkk', '=', False)]}"/>
+                                                <field name="objective" invisible="checkk == True"/>
+                                                <field name="competencies" invisible="checkk == False"/>
                                                 <field name="checkk" invisible="1"/>
                                                 <field name="owner"/>
                                             </group>
@@ -101,23 +98,23 @@
                                             <group string="Employee Rating"
                                                    groups="to_okr_obj.group_okr_employee_rating">
                                                 <field name="point"/>
-                                                <field name="progress" widget="percentpie"/>
+                                                <field name="progress" widget="progressbar"/>
                                                 <field name="result"/>
                                             </group>
                                             <group string="Team Leader Rating"
                                                    groups="to_okr_obj.group_okr_team_leader_rating">
                                                 <field name="point1"/>
-                                                <field name="progress1" widget="percentpie"/>
+                                                <field name="progress1" widget="progressbar"/>
                                                 <field name="result1"/>
                                             </group>
                                             <group string="HOD Rating" groups="to_okr_obj.group_okr_hod_rating">
                                                 <field name="point2"/>
-                                                <field name="progress2" widget="percentpie"/>
+                                                <field name="progress2" widget="progressbar"/>
                                                 <field name="result2"/>
                                             </group>
-                                            <group string="HR Rating" groups="to_okr_obj.group_okr_hr_rating" attrs="{'invisible':[('department', '!=', 8)]}">
+                                            <group string="HR Rating" groups="to_okr_obj.group_okr_hr_rating">
                                                 <field name="point3"/>
-                                                <field name="progress3" widget="percentpie"/>
+                                                <field name="progress3" widget="progressbar"/>
                                                 <field name="result3"/>
                                             </group>
                                         </group>

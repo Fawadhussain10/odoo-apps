@@ -13,7 +13,7 @@
                             <field name="date"/>
                             <field name="attach"/>
                             <field name="rate"/>
-                            <field name="percentage" widget="percentpie"/>
+                            <field name="percentage" widget="progressbar"/>
                         </group>
                         <group>
                             <field name="result"/>
@@ -40,7 +40,7 @@
                 <field name="bench"/>
                 <field name="date"/>
                 <field name="rate"/>
-                <field name="percentage" widget="percentpie"/>
+                <field name="percentage" widget="progressbar"/>
                 <field name="result"/>
             </tree>
         </field>

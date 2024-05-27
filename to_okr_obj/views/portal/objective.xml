@@ -6,6 +6,8 @@
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
                 <t t-set="title">OKR Objective / Competencies</t>
+                <t t-set="icon" t-value="'/purchase/static/src/img/rfq.svg'"/>
+                <t t-set="text">Add objectives and competencies</t>
                 <t t-set="url" t-value="'/my/okr/obj/list'"/>
                 <t t-set="placeholder_count" t-value="'okr_objective'"/>
             </t>
