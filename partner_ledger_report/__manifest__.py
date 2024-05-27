@@ -6,7 +6,7 @@
     'category': 'Accounting',
     'license':'OPL-1',
     'depends': ['account'],
-    'price': 70,
+    'price': 40,
     'currency': 'USD',
     'data': [
         'security/ir.model.access.csv',
