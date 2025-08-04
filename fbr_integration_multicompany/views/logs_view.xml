@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_move_fbr_logs_tree" model="ir.ui.view">
+            <field name="name">account.move.fbr.list</field>
+            <field name="model">account.move</field>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+                <list string="FBR Logs" create="0" edit="0">
+                    <field name="name"/>
+                    <field name="create_date"/>
+                    <field name="fbr_invoice_number"/>
+                    <field name="fbr_request" column_invisible="1"/>
+                    <field name="fbr_response"/>
+                    <field name="fbr_status"/>
+                    <field name="scenario_id"/>
+                    <field name="fbr_qr_image" widget="image" options="{'preview_image': 'fbr_qr_image'}"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_fbr_logs" model="ir.actions.act_window">
+            <field name="name">FBR Logs</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="fbr_integration_multicompany.view_move_fbr_logs_tree"/>
+            <field name="domain">[('fbr_request', '!=', False)]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Let's get to work!
+                </p>
+                <p>
+                    Not a single invoice sent to FBR.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_fbr_root"
+                  name="FBR"
+                  sequence="10"
+                  parent="account.menu_finance_configuration"/>
+
+        <menuitem id="menu_fbr_logs"
+                  name="FBR Logs"
+                  action="action_fbr_logs"
+                  parent="menu_fbr_root"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="view_res_company_fbr_form" model="ir.ui.view">
+            <field name="name">res.company.view.form.fbr</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="fbr_mode"/>
+                    <field name="fbr_token"/>
+                    <field name="fbr_bpos_id"/>
+                    <field name="fbr_enable_service" widget="boolean_toggle"/>
+                    <field name="fbr_service_fee" invisible="fbr_enable_service == False"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
