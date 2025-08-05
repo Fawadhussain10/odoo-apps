@@ -227,7 +227,7 @@ class AccountMove(models.Model):
                         "hsCode": line.pct_code,
                         "productDescription": line.product_id.name or "",
                         "ProductCode": line.product_id.default_code or "",
-                        "rate": f"{int(tax_rate)}%" or line.other_tax,
+                        "rate": f"{int(tax_rate)}%" if tax_rate > 0 else line.other_tax,
                         "uoM": line.product_uom_id.name or "",
                         "quantity": abs(line.quantity),
                         "totalValues": price_total,
