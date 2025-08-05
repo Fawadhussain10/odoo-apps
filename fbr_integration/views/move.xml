@@ -44,7 +44,7 @@
                 <xpath expr="//header" position="inside">
                     <button name="action_post_data_to_fbr" type="object" string="Send to FBR"
                             class="oe_highlight"
-                            invisible="move_type not in ('out_invoice', 'out_refund') or state != 'posted'"/>
+                            invisible="move_type not in ('out_invoice', 'out_refund') or state != 'posted' or fbr_invoice_number != False"/>
                 </xpath>
             </field>
         </record>
