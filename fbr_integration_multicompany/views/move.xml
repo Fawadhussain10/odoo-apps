@@ -39,12 +39,12 @@
                     </page>
                 </xpath>
                 <xpath expr="//header/button[@name='button_draft']" position="attributes">
-                    <attribute name="invisible">fbr_invoice_number != False</attribute>
+                    <attribute name="invisible">qr_in_report != False</attribute>
                 </xpath>
                 <xpath expr="//header" position="inside">
                     <button name="action_post_data_to_fbr" type="object" string="Send to FBR"
                             class="oe_highlight"
-                            invisible="move_type not in ('out_invoice', 'out_refund') or state != 'posted' or fbr_invoice_number != False"/>
+                            invisible="move_type not in ('out_invoice', 'out_refund') or state != 'posted' or qr_in_report != False"/>
                 </xpath>
             </field>
         </record>
