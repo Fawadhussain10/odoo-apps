@@ -152,7 +152,8 @@ class AccountMove(models.Model):
                 raise ValidationError(_('Please post the invoice first.'))
 
             fbr_enable_service = self.company_id.sudo().fbr_enable_service
-            service_fee_product = self.env.ref('fbr_integration_multicompany.product_fbr_service_fee', raise_if_not_found=False)
+            service_fee_product = self.env.ref('fbr_integration_multicompany.product_fbr_service_fee',
+                                               raise_if_not_found=False)
             fbr_service_fee = self.company_id.sudo().fbr_service_fee or 1.0
             fbr_auth_token = self.company_id.sudo().fbr_token
             fbr_mode = self.company_id.sudo().fbr_mode
@@ -265,7 +266,7 @@ class AccountMove(models.Model):
             if not invoice.reversed_entry_id:
                 fbr_payload['invoiceType'] = "Sale Invoice"
             else:
-                fbr_payload['invoiceType'] = "Credit Note"
+                fbr_payload['invoiceType'] = "Debit Note"
 
             if fbr_mode == 'sandbox':
                 fbr_payload['scenarioId'] = invoice.scenario_id or ""
@@ -279,7 +280,8 @@ class AccountMove(models.Model):
                 invoice.fbr_response = json.dumps(result, indent=4)
                 statuses = result.get('validationResponse', {}).get('invoiceStatuses', [])
                 if statuses and isinstance(statuses, list) and isinstance(statuses[0], dict):
-                    invoice.fbr_invoice_number = statuses[0].get('invoiceNo', '')
+                    # invoice.fbr_invoice_number = statuses[0].get('invoiceNo', '')
+                    invoice.fbr_invoice_number = result.get('invoiceNumber')
                 else:
                     invoice.fbr_invoice_number = ''
                 invoice.fbr_status = 'verified' if result.get('invoiceNumber') else 'failed'

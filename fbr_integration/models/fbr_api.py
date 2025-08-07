@@ -267,7 +267,7 @@ class AccountMove(models.Model):
             if not invoice.reversed_entry_id:
                 fbr_payload['invoiceType'] = "Sale Invoice"
             else:
-                fbr_payload['invoiceType'] = "Credit Note"
+                fbr_payload['invoiceType'] = "Debit Note"
 
             if fbr_mode == 'sandbox':
                 fbr_payload['scenarioId'] = invoice.scenario_id or ""
@@ -281,7 +281,8 @@ class AccountMove(models.Model):
                 invoice.fbr_response = json.dumps(result, indent=4)
                 statuses = result.get('validationResponse', {}).get('invoiceStatuses', [])
                 if statuses and isinstance(statuses, list) and isinstance(statuses[0], dict):
-                    invoice.fbr_invoice_number = statuses[0].get('invoiceNo', '')
+                    # invoice.fbr_invoice_number = statuses[0].get('invoiceNo', '')
+                    invoice.fbr_invoice_number = result.get('invoiceNumber')
                 else:
                     invoice.fbr_invoice_number = ''
                 invoice.fbr_status = 'verified' if result.get('invoiceNumber') else 'failed'

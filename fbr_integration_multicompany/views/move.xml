@@ -27,7 +27,7 @@
                                 <field name="fbr_invoice_number" readonly="1"/>
                                 <field name="fbr_post_successful" readonly="1"/>
                                 <field name="fbr_qr_image" widget="image" options="{'preview_image': 'fbr_qr_image'}"
-                                       style="width: 150px; height: 150px;" invisible="not fbr_invoice_number"/>
+                                       style="width: 150px; height: 150px;" invisible="not qr_in_report"/>
                                 <field name="qr_in_report" invisible="1"/>
                                 <field name="display_scenario" invisible="1"/>
                                 <field name="fbr_request" readonly="1" invisible="1"/>
