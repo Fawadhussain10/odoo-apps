@@ -91,7 +91,8 @@ class AccountMoveLine(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        if any(f in vals for f in ['fed_duty', 'further_tax', 'extra_tax', 'other_tax', 'product_id', 'withholding_tax']):
+        if any(f in vals for f in
+               ['fed_duty', 'further_tax', 'extra_tax', 'other_tax', 'product_id', 'withholding_tax']):
             self._apply_custom_taxes()
         return res
 
@@ -266,7 +267,7 @@ class AccountMove(models.Model):
             if not invoice.reversed_entry_id:
                 fbr_payload['invoiceType'] = "Sale Invoice"
             else:
-                fbr_payload['invoiceType'] = "Credit Note"
+                fbr_payload['invoiceType'] = "Debit Note"
 
             if fbr_mode == 'sandbox':
                 fbr_payload['scenarioId'] = invoice.scenario_id or ""
@@ -280,7 +281,8 @@ class AccountMove(models.Model):
                 invoice.fbr_response = json.dumps(result, indent=4)
                 statuses = result.get('validationResponse', {}).get('invoiceStatuses', [])
                 if statuses and isinstance(statuses, list) and isinstance(statuses[0], dict):
-                    invoice.fbr_invoice_number = statuses[0].get('invoiceNo', '')
+                    # invoice.fbr_invoice_number = statuses[0].get('invoiceNo', '')
+                    invoice.fbr_invoice_number = result.get('invoiceNumber')
                 else:
                     invoice.fbr_invoice_number = ''
                 invoice.fbr_status = 'verified' if result.get('invoiceNumber') else 'failed'
