@@ -4,7 +4,7 @@
     "summary": "Send invoices to FBR (Federal Board of Revenue Pakistan)",
     "description": "Integrate Odoo invoices with FBR's real-time invoice reporting system.",
     "category": "Accounting",
-    "author": "Fawad Hussain",
+    "author": "Fawad Hussain (Developer) & Umer Hayat (Functional Consultant)",
     "depends": ["base", "account", "product"],
     "data": [
         "data/data.xml",
