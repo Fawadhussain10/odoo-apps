@@ -234,7 +234,7 @@ class AccountMove(models.Model):
                         "valueSalesExcludingST": price_subtotal,
                         "salesTaxApplicable": tax_charged,
                         "fixedNotifiedValueOrRetailPrice": (
-                            line.price_subtotal if fbr_mode == 'sandbox' and invoice.scenario_id == "SN008" else 0
+                            line.price_subtotal if fbr_mode == 'sandbox' and (invoice.scenario_id == "SN008" or invoice.scenario_id == "SN027") else 0
                         ),
                         "salesTaxWithheldAtSource": abs(withholding_tax_amount) or 0,
                         "extraTax": f"{extra_tax_amount}" if extra_tax_amount > 0.0 else "",
