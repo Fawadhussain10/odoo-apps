@@ -10,7 +10,7 @@
                 <xpath expr="//field[@name='currency_id']" position="after">
                     <field name="fbr_mode"/>
                     <field name="fbr_token"/>
-                    <field name="fbr_bpos_id"/>
+                    <field name="fbr_bpos_id" invisible="1"/>
                     <field name="fbr_enable_service" widget="boolean_toggle"/>
                     <field name="fbr_service_fee" invisible="fbr_enable_service == False"/>
                 </xpath>
