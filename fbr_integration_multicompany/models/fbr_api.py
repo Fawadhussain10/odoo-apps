@@ -132,19 +132,23 @@ class AccountMove(models.Model):
 
     def _generate_qr_code(self, silent_errors=False):
         for order in self:
-            order.fbr_qr_image = None
-            fbr_invoice_number = order.fbr_invoice_number
-            supplier_name = order.company_id.name
-            date = str(order.invoice_date)
-            total = ''.join([order.currency_id.name, str(order.amount_total)])
-            invoice = f"Seller name: {supplier_name}\nDate: {date}\nFBR Invoice No: {fbr_invoice_number}\nTotal with VAT: {total}"
+            qr_img = False
             try:
-                qr_img = generate_qr_code(invoice)
                 if order.fbr_invoice_number:
-                    order.write({'fbr_qr_image': qr_img})
+                    supplier_name = order.company_id.name or ''
+                    date = str(order.invoice_date or '')
+                    total = f"{order.currency_id.name or ''}{order.amount_total or 0.0}"
+                    invoice_text = (
+                        f"Seller name: {supplier_name}\n"
+                        f"Date: {date}\n"
+                        f"FBR Invoice No: {order.fbr_invoice_number}\n"
+                        f"Total with VAT: {total}"
+                    )
+                    qr_img = generate_qr_code(invoice_text)
             except Exception as e:
                 if not silent_errors:
                     raise e
+            order.fbr_qr_image = qr_img
 
     def action_post_data_to_fbr(self):
         for invoice in self:
