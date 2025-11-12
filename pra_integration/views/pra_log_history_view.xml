@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_pos_order_log_history_tree" model="ir.ui.view">
+        <field name="name">pos.order.log.history.list</field>
+        <field name="model">pos.order.log.history</field>
+        <field name="arch" type="xml">
+            <list string="POS Order Log History" create="false" decoration-success="pra_response_success == True"
+                  decoration-danger="pra_response_success == False">
+                <field name="pos_order_reference"/>
+                <field name="pos_order_id"/>
+                <field name="pra_invoice_number"/>
+                <field name="pra_response_success"/>
+                <field name="create_date" string="Log Date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_pos_order_log_history_form" model="ir.ui.view">
+        <field name="name">pos.order.log.history.form</field>
+        <field name="model">pos.order.log.history</field>
+        <field name="arch" type="xml">
+            <form string="POS Order Log History" create="false">
+                <sheet>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="pos_order_reference" placeholder="Order Reference" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Order Information">
+                            <field name="pos_order_id" readonly="1"/>
+                            <field name="pra_invoice_number" readonly="1"/>
+                            <field name="pra_response_success" readonly="1"/>
+                        </group>
+                        <group string="Log Information">
+                            <field name="create_date" string="Log Date" readonly="1"/>
+                            <field name="create_uid" string="Created By" readonly="1"/>
+                            <field name="pra_qr_code" readonly="1" widget="image" class="oe_avatar"
+                                   style="margin-right:38px;"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Send Data" name="send_data">
+                            <field name="order_send_data" widget="html" options="{'mode': 'json'}"
+                                   placeholder="Data sent to PRA..."/>
+                        </page>
+                        <page string="PRA Response" name="pra_response">
+                            <field name="pra_response" widget="html" options="{'mode': 'json'}"
+                                   placeholder="Response from PRA..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_pos_order_log_history" model="ir.actions.act_window">
+        <field name="name">POS Order Log History</field>
+        <field name="res_model">pos.order.log.history</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No POS order logs found!
+            </p>
+            <p>
+                POS order logs will appear here when orders are synced with PRA system.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem
+            id="menu_pos_order_log_history"
+            name="PRA Order History Logs"
+            parent="point_of_sale.menu_point_of_sale"
+            action="action_pos_order_log_history"
+            sequence="301"
+            groups="pra_integration.group_pra_users"
+    />
+
+</odoo>

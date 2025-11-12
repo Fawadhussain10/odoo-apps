@@ -1,0 +1,11 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Create PRA User Group -->
+        <record id="group_pra_users" model="res.groups">
+            <field name="name">PRA Users</field>
+            <field name="category_id" ref="base.module_category_administration"/>
+            <field name="comment">Users from lahore branch access PRA features</field>
+        </record>
+
+    </data>
+</odoo>

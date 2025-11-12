@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_pos_order_form_inherit" model="ir.ui.view">
+            <field name="name">pos.order.form.inherit</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="PRA" groups="pra_integration.group_pra_users">
+                        <group>
+                            <group>
+                                <field name="pra_qr_code" readonly="1" force_save="1" widget="image" class="oe_avatar"
+                                       style="margin-right:38px;"/>
+                            </group>
+                            <group>
+                                <field name="pra_invoice_number" readonly="1" force_save="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <header>
+                    <button name="action_pra_order" string="Sync PRA Order" type="object" class="oe_highlight"
+                            invisible="pra_invoice_number != False" groups="pra_integration.group_pra_users"/>
+                </header>
+            </field>
+        </record>
+
+        <record id="view_pos_config_form_srb" model="ir.ui.view">
+            <field name="name">pos.config.form.srb</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="inside">
+                    <group string="PRA Integration" groups="pra_integration.group_pra_users">
+                        <group>
+                            <field name="pra_integration_enabled"/>
+                            <field name="pra_sync_enabled" invisible="pra_integration_enabled != True"/>
+                            <field name="pra_environment" invisible="pra_integration_enabled != True"/>
+                        </group>
+                        <group>
+                            <field name="pra_test_api_url"
+                                   invisible="pra_integration_enabled != True or pra_environment == 'production'"/>
+                            <field name="pra_test_api_key"
+                                   invisible="pra_integration_enabled != True or pra_environment == 'production'"/>
+                            <field name="pra_test_pos_id"
+                                   invisible="pra_integration_enabled != True or pra_environment == 'production'"/>
+                            <field name="pra_test_access_code"
+                                   invisible="pra_integration_enabled != True or pra_environment == 'production'"/>
+                            <field name="pra_production_api_url"
+                                   invisible="pra_integration_enabled != True or pra_environment == 'test'"/>
+                            <field name="pra_production_pos_id"
+                                   invisible="pra_integration_enabled != True or pra_environment == 'test'"/>
+                            <field name="pra_production_api_key"
+                                   invisible="pra_integration_enabled != True or pra_environment == 'test'"/>
+                            <field name="pra_production_access_code"
+                                   invisible="pra_integration_enabled != True or pra_environment == 'test'"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

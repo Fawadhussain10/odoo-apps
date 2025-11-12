@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pra_integration.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('pos-receipt-center-align')]" position="before">
+            <!-- FBR Invoice Section -->
+            <div t-if="props.data.pra_invoice_number and props.data.pra_invoice_number != 'N/A'"
+                 class="pos-receipt-fbr-section"
+                 style="margin: 20px 0; padding: 15px;">
+
+                <!-- FBR Invoice Number Header -->
+                <div class="pos-receipt-fbr-header"
+                     style="text-align: center; margin-bottom: 15px;">
+                    <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">
+                       PRA Invoice Number::
+                    </div>
+                    <div style="font-size: 14px; font-weight: bold; letter-spacing: 1px;">
+                        <t t-esc="props.data.pra_invoice_number"/>
+                    </div>
+                </div>
+
+                <!-- FBR Logo and QR Code Row -->
+                <div class="pos-receipt-fbr-content"
+                     style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                    <!-- SRB Logo Section -->
+                    <div t-if="props.data.pra_invoice_number"
+                         class="pos-receipt-srb-logo"
+                         style="flex: 1; text-align: left;">
+
+                        <img src="/pra_integration/static/description/icon.png"
+                             alt="SRB Logo"
+                             style="width: 80px; height: 80px;"/>
+                    </div>
+
+                    <!-- QR Code Section -->
+                    <div t-if="props.data.pra_invoice_number"
+                         class="pos-receipt-qr-code"
+                         style="flex: 1; text-align: right;">
+                        <img t-attf-src="/web/image?model=pos.order&amp;id={{props.data.id}}&amp;field=pra_qr_code"
+                             alt="FBR QR Code"
+                             class="pos-receipt-qr-code-img"
+                             style="width: 80px; height: 80px border: 1px solid #000; display: block; margin-left: auto;"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </t>
+</templates>
