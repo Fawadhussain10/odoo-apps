@@ -94,7 +94,8 @@ class PosOrder(models.Model):
                 "TotalQuantity": abs(sum(line.qty for line in pos_order.lines)),
                 "TotalSaleValue": abs(pos_order.amount_total),
                 "TotalTaxCharged": abs(pos_order.amount_tax),
-                "Discount": self.get_custom_discount(pos_order),  # You might need to implement a discount field
+                # "Discount": self.get_custom_discount(pos_order),  # You might need to implement a discount field
+                "Discount": 0.0,  # You might need to implement a discount field
                 "FurtherTax": 0.0,  # Implement as necessary
                 "PaymentMode": pos_order.online_payment_method_id.id or 1,
                 # Define how you want to handle payment modes
@@ -223,7 +224,8 @@ class PosOrder(models.Model):
                 "TotalQuantity": abs(sum(line.qty for line in pos_order.lines)),
                 "TotalSaleValue": abs(pos_order.amount_total),
                 "TotalTaxCharged": abs(pos_order.amount_tax),
-                "Discount": self.get_custom_discount(pos_order),  # You might need to implement a discount field
+                "Discount": 0.0,  # You might need to implement a discount field
+                # "Discount": self.get_custom_discount(pos_order),  # You might need to implement a discount field
                 "FurtherTax": 0.0,  # Implement as necessary
                 "PaymentMode": pos_order.online_payment_method_id.id or 1,
                 # Define how you want to handle payment modes
@@ -335,16 +337,16 @@ class PosOrder(models.Model):
                 except Exception as e:
                     _logger.error(f"Failed to sync order {order.id} with PRA: {str(e)}")
 
-    def get_custom_discount(self, order):
-        """
-        Custom method to calculate discount.
-        This is a placeholder and should be replaced with actual logic.
-        """
-        for line in order.lines:
-            discount_records = self.env['loyalty.program'].search([('product_id', '=', line.product_id.id)])
-            if discount_records:
-                return abs(line.price_subtotal_incl)
-        return 0.0
+    # def get_custom_discount(self, order):
+    #     """
+    #     Custom method to calculate discount.
+    #     This is a placeholder and should be replaced with actual logic.
+    #     """
+    #     for line in order.lines:
+    #         discount_records = self.env['loyalty.program'].search([('product_id', '=', line.product_id.id)])
+    #         if discount_records:
+    #             return abs(line.price_subtotal_incl)
+    #     return 0.0
 
     def action_pra_order(self):
         for order in self:
