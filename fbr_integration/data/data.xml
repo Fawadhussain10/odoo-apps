@@ -6,7 +6,7 @@
             <field name="name">FBR Service Fee</field>
             <field name="code">410000</field>
             <field name="account_type">income</field>
-            <field name="reconcile">True</field>
+            <field name="reconcile" eval="False"/>
         </record>
 
         <record id="product_fbr_service_fee" model="product.product">
