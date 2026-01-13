@@ -2,13 +2,13 @@
 <odoo>
     <data>
 
-        <record id="account_fbr_service_fee" model="account.account">
-            <field name="name">FBR Service Fee</field>
-            <field name="code">410000</field>
-            <field name="account_type">income</field>
-            <field name="reconcile" eval="True"/>
-            <field name="create_asset" eval="False"/>
-        </record>
+        <!--        <record id="account_fbr_service_fee" model="account.account">-->
+        <!--            <field name="name">FBR Service Fee</field>-->
+        <!--            <field name="code">410000</field>-->
+        <!--            <field name="account_type">income</field>-->
+        <!--            <field name="reconcile" eval="True"/>-->
+        <!--            <field name="create_asset" eval="False"/>-->
+        <!--        </record>-->
 
         <record id="product_fbr_service_fee" model="product.product">
             <field name="name">FBR Service Fee</field>
@@ -20,7 +20,7 @@
             <field name="lst_price">1.0</field>
             <field name="taxes_id" eval="[(6, 0, [])]"/>
             <field name="supplier_taxes_id" eval="[(6, 0, [])]"/>
-            <field name="property_account_income_id" ref="fbr_integration_multicompany.account_fbr_service_fee"/>
+            <!--            <field name="property_account_income_id" ref="fbr_integration_multicompany.account_fbr_service_fee"/>-->
         </record>
 
     </data>
