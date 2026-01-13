@@ -7,6 +7,7 @@
             <field name="code">410000</field>
             <field name="account_type">income</field>
             <field name="reconcile" eval="True"/>
+            <field name="create_asset" eval="False"/>
         </record>
 
         <record id="product_fbr_service_fee" model="product.product">
