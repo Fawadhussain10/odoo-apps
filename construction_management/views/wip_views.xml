@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_construction_wip_period_list" model="ir.ui.view">
+        <field name="name">construction.wip.period.list</field>
+        <field name="model">construction.wip.period</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'posted' or state == 'locked'" decoration-muted="state == 'locked'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="period_month"/>
+                <field name="completion_pct" widget="progressbar"/>
+                <field name="closing_wip" sum="Total"/>
+                <field name="recognized_revenue" sum="Total"/>
+                <field name="billed_revenue" sum="Total"/>
+                <field name="contract_asset" sum="Total"/>
+                <field name="billing_in_excess" sum="Total"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_wip_period_form" model="ir.ui.view">
+        <field name="name">construction.wip.period.form</field>
+        <field name="model">construction.wip.period</field>
+        <field name="arch" type="xml">
+            <form class="o_construction_management">
+                <header>
+                    <button name="action_freeze" string="Freeze Cut-off" type="object" invisible="state != 'open'" class="btn-primary"/>
+                    <button name="action_calculate" string="Calculate" type="object" invisible="state != 'frozen'" class="btn-primary"/>
+                    <button name="action_review" string="Submit for Review" type="object" invisible="state != 'calculated'" class="btn-primary"/>
+                    <button name="action_approve" string="Finance Approve" type="object" invisible="state != 'reviewed'" class="btn-primary"
+                            groups="construction_management.group_construction_finance"/>
+                    <button name="action_post" string="Post Journal Entry" type="object" invisible="state != 'approved'" class="btn-primary"
+                            groups="construction_management.group_construction_finance"/>
+                    <button name="action_lock" string="Lock" type="object" invisible="state != 'posted'" class="btn-secondary"
+                            groups="construction_management.group_construction_finance"/>
+                    <field name="state" widget="statusbar" statusbar_visible="open,frozen,calculated,reviewed,approved,posted,locked"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" readonly="state != 'open'"/>
+                            <field name="period_month" readonly="state != 'open'"/>
+                            <field name="recognition_method"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="completion_pct" widget="progressbar"/>
+                            <field name="move_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="WIP (Cost) Ledger">
+                            <group>
+                                <group>
+                                    <field name="opening_wip"/>
+                                    <field name="current_additions"/>
+                                    <field name="recognized_cost" readonly="state in ('posted','locked')"/>
+                                    <field name="closing_wip" class="fw-bold"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Revenue Recognition">
+                            <group>
+                                <group>
+                                    <field name="recognized_revenue" readonly="state in ('posted','locked')"/>
+                                    <field name="billed_revenue" readonly="state in ('posted','locked')"/>
+                                </group>
+                                <group>
+                                    <field name="unbilled_work"/>
+                                    <field name="contract_asset"/>
+                                    <field name="billing_in_excess"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="WBS Breakdown">
+                            <field name="line_ids" readonly="1">
+                                <list>
+                                    <field name="wbs_id"/>
+                                    <field name="completion_pct" widget="progressbar"/>
+                                    <field name="opening_wip" sum="Total"/>
+                                    <field name="current_additions" sum="Total"/>
+                                    <field name="recognized_cost" sum="Total"/>
+                                    <field name="closing_wip" sum="Total"/>
+                                    <field name="recognized_revenue" sum="Total"/>
+                                    <field name="billed_revenue" sum="Total"/>
+                                    <field name="contract_asset" sum="Total"/>
+                                    <field name="billing_in_excess" sum="Total"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_wip_period" model="ir.actions.act_window">
+        <field name="name">WIP Periods</field>
+        <field name="res_model">construction.wip.period</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Read-only "Earned Value" page added to the existing WBS form (owned by wbs_views.xml,
+         not edited directly per the build brief). -->
+    <record id="view_construction_wbs_form_evm_inherit" model="ir.ui.view">
+        <field name="name">construction.wbs.form.evm.inherit</field>
+        <field name="model">construction.wbs</field>
+        <field name="inherit_id" ref="construction_management.view_construction_wbs_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Earned Value">
+                    <group>
+                        <group string="Value">
+                            <field name="bac"/>
+                            <field name="pv"/>
+                            <field name="ev"/>
+                            <field name="ac"/>
+                        </group>
+                        <group string="Variance / Index">
+                            <field name="cv"/>
+                            <field name="sv"/>
+                            <field name="cpi"/>
+                            <field name="spi"/>
+                            <field name="rag_status" widget="badge"
+                                   decoration-success="rag_status == 'green'"
+                                   decoration-warning="rag_status == 'amber'"
+                                   decoration-danger="rag_status == 'red'"/>
+                        </group>
+                    </group>
+                    <group string="Forecast">
+                        <group>
+                            <field name="eac"/>
+                            <field name="etc"/>
+                            <field name="vac"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

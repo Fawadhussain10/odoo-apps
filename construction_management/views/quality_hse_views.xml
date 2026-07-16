@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ================= Quality: ITP ================= -->
+    <record id="view_construction_quality_itp_list" model="ir.ui.view">
+        <field name="name">construction.quality.itp.list</field>
+        <field name="model">construction.quality.itp</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="wbs_id"/>
+                <field name="boq_line_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_quality_itp_form" model="ir.ui.view">
+        <field name="name">construction.quality.itp.form</field>
+        <field name="model">construction.quality.itp</field>
+        <field name="arch" type="xml">
+            <form class="o_construction_management">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="ITP Name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="wbs_id"/>
+                        </group>
+                        <group>
+                            <field name="boq_line_id"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <field name="checklist_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="description"/>
+                            <field name="is_mandatory"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_quality_itp" model="ir.actions.act_window">
+        <field name="name">Inspection &amp; Test Plans</field>
+        <field name="res_model">construction.quality.itp</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_construction_ncr" model="ir.actions.act_window">
+        <field name="name">NCRs</field>
+        <field name="res_model">construction.ncr</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= Quality: Inspection ================= -->
+    <record id="view_construction_quality_inspection_list" model="ir.ui.view">
+        <field name="name">construction.quality.inspection.list</field>
+        <field name="model">construction.quality.inspection</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'passed'" decoration-danger="state == 'failed'" decoration-muted="state == 'conditional'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="wbs_id"/>
+                <field name="inspection_date"/>
+                <field name="inspector_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_quality_inspection_form" model="ir.ui.view">
+        <field name="name">construction.quality.inspection.form</field>
+        <field name="model">construction.quality.inspection</field>
+        <field name="arch" type="xml">
+            <form class="o_construction_management">
+                <header>
+                    <button name="action_start" string="Start" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_confirm_result" string="Confirm Result" type="object" invisible="state not in ('draft','in_progress')" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,passed,failed,conditional"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_construction_ncr)d" type="action" class="oe_stat_button" icon="fa-exclamation-triangle"
+                                context="{'search_default_inspection_id': id, 'default_inspection_id': id, 'default_project_id': project_id}">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="ncr_count"/></span>
+                                <span class="o_stat_text">NCRs</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="wbs_id"/>
+                            <field name="boq_line_id"/>
+                            <field name="itp_id"/>
+                        </group>
+                        <group>
+                            <field name="inspection_date"/>
+                            <field name="inspector_id"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="description"/>
+                            <field name="result"/>
+                            <field name="remarks"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_quality_inspection" model="ir.actions.act_window">
+        <field name="name">Quality Inspections</field>
+        <field name="res_model">construction.quality.inspection</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= NCR ================= -->
+    <record id="view_construction_ncr_list" model="ir.ui.view">
+        <field name="name">construction.ncr.list</field>
+        <field name="model">construction.ncr</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'open'" decoration-success="state == 'closed'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="wbs_id"/>
+                <field name="owner_id"/>
+                <field name="target_date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_ncr_form" model="ir.ui.view">
+        <field name="name">construction.ncr.form</field>
+        <field name="model">construction.ncr</field>
+        <field name="arch" type="xml">
+            <form class="o_construction_management">
+                <header>
+                    <button name="action_start" string="Start" type="object" invisible="state != 'open'" class="btn-primary"/>
+                    <button name="action_submit_for_verification" string="Submit for Verification" type="object" invisible="state != 'in_progress'" class="btn-primary"/>
+                    <button name="action_close" string="Close" type="object" invisible="state != 'closed_pending_verification'" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="open,in_progress,closed_pending_verification,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="wbs_id"/>
+                            <field name="inspection_id"/>
+                        </group>
+                        <group>
+                            <field name="owner_id"/>
+                            <field name="target_date"/>
+                        </group>
+                    </group>
+                    <group string="Details">
+                        <field name="description" nolabel="1" placeholder="Non-conformance description..."/>
+                        <field name="root_cause" nolabel="1" placeholder="Root cause..."/>
+                        <field name="corrective_action" nolabel="1" placeholder="Corrective action..."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================= Snag List ================= -->
+    <record id="view_construction_snag_list" model="ir.ui.view">
+        <field name="name">construction.snag.list</field>
+        <field name="model">construction.snag</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'open'" decoration-success="state == 'closed'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="wbs_id"/>
+                <field name="raised_by"/>
+                <field name="target_date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_snag_form" model="ir.ui.view">
+        <field name="name">construction.snag.form</field>
+        <field name="model">construction.snag</field>
+        <field name="arch" type="xml">
+            <form class="o_construction_management">
+                <header>
+                    <button name="action_rectify" string="Mark Rectified" type="object" invisible="state != 'open'" class="btn-primary"/>
+                    <button name="action_verify" string="Verify" type="object" invisible="state != 'rectified'" class="btn-primary"/>
+                    <button name="action_close" string="Close" type="object" invisible="state != 'verified'" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="open,rectified,verified,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="wbs_id"/>
+                            <field name="boq_line_id"/>
+                        </group>
+                        <group>
+                            <field name="raised_by"/>
+                            <field name="raised_date"/>
+                            <field name="target_date"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Snag description..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_snag" model="ir.actions.act_window">
+        <field name="name">Snag List</field>
+        <field name="res_model">construction.snag</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= HSE: Toolbox Talk ================= -->
+    <record id="view_construction_hse_toolbox_list" model="ir.ui.view">
+        <field name="name">construction.hse.toolbox.list</field>
+        <field name="model">construction.hse.toolbox</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="topic"/>
+                <field name="conducted_by"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_toolbox_form" model="ir.ui.view">
+        <field name="name">construction.hse.toolbox.form</field>
+        <field name="model">construction.hse.toolbox</field>
+        <field name="arch" type="xml">
+            <form class="o_construction_management">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="date"/>
+                            <field name="topic"/>
+                        </group>
+                        <group>
+                            <field name="conducted_by"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <field name="attendee_ids" widget="many2many_tags"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_hse_toolbox" model="ir.actions.act_window">
+        <field name="name">Toolbox Talks</field>
+        <field name="res_model">construction.hse.toolbox</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= HSE: Inspection ================= -->
+    <record id="view_construction_hse_inspection_list" model="ir.ui.view">
+        <field name="name">construction.hse.inspection.list</field>
+        <field name="model">construction.hse.inspection</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'passed'" decoration-danger="state == 'failed'" decoration-muted="state == 'conditional'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="wbs_id"/>
+                <field name="inspection_date"/>
+                <field name="inspector_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_inspection_form" model="ir.ui.view">
+        <field name="name">construction.hse.inspection.form</field>
+        <field name="model">construction.hse.inspection</field>
+        <field name="arch" type="xml">
+            <form class="o_construction_management">
+                <header>
+                    <button name="action_start" string="Start" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_confirm_result" string="Confirm Result" type="object" invisible="state not in ('draft','in_progress')" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,passed,failed,conditional"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="wbs_id"/>
+                            <field name="permit_to_work_ref"/>
+                        </group>
+                        <group>
+                            <field name="inspection_date"/>
+                            <field name="inspector_id"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="description"/>
+                            <field name="result"/>
+                            <field name="remarks"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_hse_inspection" model="ir.actions.act_window">
+        <field name="name">HSE Inspections</field>
+        <field name="res_model">construction.hse.inspection</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= HSE: Incident ================= -->
+    <record id="view_construction_hse_incident_list" model="ir.ui.view">
+        <field name="name">construction.hse.incident.list</field>
+        <field name="model">construction.hse.incident</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'open'" decoration-success="state == 'closed'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="wbs_id"/>
+                <field name="incident_date"/>
+                <field name="incident_type"/>
+                <field name="severity"/>
+                <field name="risk_score"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_incident_form" model="ir.ui.view">
+        <field name="name">construction.hse.incident.form</field>
+        <field name="model">construction.hse.incident</field>
+        <field name="arch" type="xml">
+            <form class="o_construction_management">
+                <header>
+                    <button name="action_investigate" string="Investigate" type="object" invisible="state != 'open'" class="btn-primary"/>
+                    <button name="action_submit_for_verification" string="Submit for Verification" type="object" invisible="state != 'investigating'" class="btn-primary"/>
+                    <button name="action_close" string="Close" type="object" invisible="state != 'closed_pending_verification'" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="open,investigating,closed_pending_verification,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="wbs_id"/>
+                            <field name="incident_date"/>
+                            <field name="incident_type"/>
+                        </group>
+                        <group>
+                            <field name="severity"/>
+                            <field name="probability"/>
+                            <field name="risk_score"/>
+                            <field name="responsible_id"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="What happened..."/>
+                    <group string="Investigation">
+                        <field name="investigation_notes" nolabel="1" placeholder="Investigation notes..."/>
+                        <field name="corrective_action" nolabel="1" placeholder="Corrective action..."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_hse_incident" model="ir.actions.act_window">
+        <field name="name">HSE Incidents</field>
+        <field name="res_model">construction.hse.incident</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Project-scoped visibility: base-tier users (site engineer/storekeeper/estimator/
+        procurement) only see records of projects they manage or are a team member of.
+        Manager/finance/admin/auditor tiers see everything (combined with OR per Odoo's rule
+        evaluation, since "manager" group membership implies "user" group membership too).
+    -->
+    <record id="rule_construction_wbs_user" model="ir.rule">
+        <field name="name">Construction WBS: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_wbs"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_wbs_all" model="ir.rule">
+        <field name="name">Construction WBS: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_wbs"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_boq_user" model="ir.rule">
+        <field name="name">Construction BOQ: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_boq"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_boq_all" model="ir.rule">
+        <field name="name">Construction BOQ: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_boq"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_variation_user" model="ir.rule">
+        <field name="name">Construction Variation: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_variation"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_variation_all" model="ir.rule">
+        <field name="name">Construction Variation: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_variation"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_material_request_user" model="ir.rule">
+        <field name="name">Material Request: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_material_request"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_material_request_all" model="ir.rule">
+        <field name="name">Material Request: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_material_request"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_subcontract_user" model="ir.rule">
+        <field name="name">Subcontract: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_subcontract"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_subcontract_all" model="ir.rule">
+        <field name="name">Subcontract: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_subcontract"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_measurement_user" model="ir.rule">
+        <field name="name">Measurement: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_measurement"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_measurement_all" model="ir.rule">
+        <field name="name">Measurement: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_measurement"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_ra_certificate_user" model="ir.rule">
+        <field name="name">RA Certificate: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_ra_certificate"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_ra_certificate_all" model="ir.rule">
+        <field name="name">RA Certificate: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_ra_certificate"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_site_receipt_user" model="ir.rule">
+        <field name="name">Site Receipt: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_site_receipt"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_site_receipt_all" model="ir.rule">
+        <field name="name">Site Receipt: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_site_receipt"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_material_issue_user" model="ir.rule">
+        <field name="name">Material Issue: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_material_issue"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_material_issue_all" model="ir.rule">
+        <field name="name">Material Issue: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_material_issue"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_material_consumption_user" model="ir.rule">
+        <field name="name">Material Consumption: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_material_consumption"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_material_consumption_all" model="ir.rule">
+        <field name="name">Material Consumption: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_material_consumption"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_daily_report_user" model="ir.rule">
+        <field name="name">Daily Report: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_daily_report"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_daily_report_all" model="ir.rule">
+        <field name="name">Daily Report: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_daily_report"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_work_order_user" model="ir.rule">
+        <field name="name">Work Order: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_work_order"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_work_order_all" model="ir.rule">
+        <field name="name">Work Order: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_work_order"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_cost_sheet_user" model="ir.rule">
+        <field name="name">Cost Sheet: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_cost_sheet"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_cost_sheet_all" model="ir.rule">
+        <field name="name">Cost Sheet: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_cost_sheet"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_quality_inspection_user" model="ir.rule">
+        <field name="name">Quality Inspection: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_quality_inspection"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_quality_inspection_all" model="ir.rule">
+        <field name="name">Quality Inspection: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_quality_inspection"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_ncr_user" model="ir.rule">
+        <field name="name">NCR: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_ncr"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_ncr_all" model="ir.rule">
+        <field name="name">NCR: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_ncr"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_snag_user" model="ir.rule">
+        <field name="name">Snag: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_snag"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_snag_all" model="ir.rule">
+        <field name="name">Snag: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_snag"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_hse_toolbox_user" model="ir.rule">
+        <field name="name">HSE Toolbox Talk: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_hse_toolbox"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_hse_toolbox_all" model="ir.rule">
+        <field name="name">HSE Toolbox Talk: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_hse_toolbox"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_hse_inspection_user" model="ir.rule">
+        <field name="name">HSE Inspection: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_hse_inspection"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_hse_inspection_all" model="ir.rule">
+        <field name="name">HSE Inspection: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_hse_inspection"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_hse_incident_user" model="ir.rule">
+        <field name="name">HSE Incident: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_hse_incident"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_hse_incident_all" model="ir.rule">
+        <field name="name">HSE Incident: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_hse_incident"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_equipment_log_user" model="ir.rule">
+        <field name="name">Equipment Log: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_equipment_log"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_equipment_log_all" model="ir.rule">
+        <field name="name">Equipment Log: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_equipment_log"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_document_user" model="ir.rule">
+        <field name="name">Document: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_document"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_document_all" model="ir.rule">
+        <field name="name">Document: all projects (manager+)</field>
+        <field name="model_id" ref="model_construction_document"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_manager')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_wip_period_user" model="ir.rule">
+        <field name="name">WIP Period: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_wip_period"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_wip_period_all" model="ir.rule">
+        <field name="name">WIP Period: all projects (finance tier only)</field>
+        <field name="model_id" ref="model_construction_wip_period"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_finance')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <record id="rule_construction_progress_certificate_user" model="ir.rule">
+        <field name="name">Progress Certificate: own projects only (base tier)</field>
+        <field name="model_id" ref="model_construction_progress_certificate"/>
+        <field name="domain_force">['|', ('project_id.user_id', '=', user.id), ('project_id.construction_team_id.member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('group_construction_user'))]"/>
+    </record>
+    <record id="rule_construction_progress_certificate_all" model="ir.rule">
+        <field name="name">Progress Certificate: all projects (finance tier only)</field>
+        <field name="model_id" ref="model_construction_progress_certificate"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_finance')), (4, ref('group_construction_auditor'))]"/>
+    </record>
+
+    <!--
+        Further transactional models get the same pattern added alongside their model definitions
+        in later stages.
+    -->
+</odoo>

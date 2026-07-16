@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_construction_document_list" model="ir.ui.view">
+        <field name="name">construction.document.list</field>
+        <field name="model">construction.document</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'approved'" decoration-danger="state == 'rejected'" decoration-muted="state == 'superseded'">
+                <field name="name"/>
+                <field name="document_type_id"/>
+                <field name="project_id"/>
+                <field name="revision"/>
+                <field name="responsible_id"/>
+                <field name="date_issued"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_document_form" model="ir.ui.view">
+        <field name="name">construction.document.form</field>
+        <field name="model">construction.document</field>
+        <field name="arch" type="xml">
+            <form class="o_construction_management">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_approve" string="Approve" type="object" invisible="state != 'submitted'" class="btn-primary"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="state != 'submitted'" class="btn-secondary"/>
+                    <button name="action_create_revision" string="Create Revision" type="object" invisible="state not in ('approved','rejected','superseded')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Superseded" bg_color="text-bg-danger" invisible="not is_superseded"/>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="document_type_id"/>
+                            <field name="project_id"/>
+                            <field name="wbs_id"/>
+                            <field name="boq_line_id"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="responsible_id"/>
+                            <field name="revision"/>
+                            <field name="previous_revision_id" readonly="1"/>
+                            <field name="is_superseded" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Dates">
+                        <group>
+                            <field name="date_issued"/>
+                            <field name="date_response_due"/>
+                        </group>
+                        <group>
+                            <field name="date_effective"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_document" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="res_model">construction.document</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

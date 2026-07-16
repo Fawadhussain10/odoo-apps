@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_project_form_construction" model="ir.ui.view">
+        <field name="name">project.project.form.construction</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="construction_state" widget="statusbar"
+                       statusbar_visible="draft,tender,mobilization,in_progress,practical_completion,defect_liability,closed"
+                       invisible="not is_construction"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object" name="action_view_wbs" icon="fa-sitemap" invisible="not is_construction">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value"><field name="wbs_count"/></span>
+                        <span class="o_stat_text">WBS / Phases</span>
+                    </div>
+                </button>
+                <button class="oe_stat_button" type="action" name="%(action_construction_subcontract)d" icon="fa-handshake-o"
+                        invisible="not is_construction" context="{'search_default_project_id': id, 'default_project_id': id}">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value"><field name="subcontract_count"/></span>
+                        <span class="o_stat_text">Subcontracts</span>
+                    </div>
+                </button>
+                <button class="oe_stat_button" type="action" name="%(action_construction_work_order)d" icon="fa-wrench"
+                        invisible="not is_construction" context="{'search_default_project_id': id, 'default_project_id': id}">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value"><field name="work_order_count"/></span>
+                        <span class="o_stat_text">Work Orders</span>
+                    </div>
+                </button>
+                <button class="oe_stat_button" type="action" name="%(action_construction_daily_report)d" icon="fa-calendar-check-o"
+                        invisible="not is_construction" context="{'search_default_project_id': id, 'default_project_id': id}">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value"><field name="daily_report_count"/></span>
+                        <span class="o_stat_text">Daily Reports</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
+                <widget name="web_ribbon" title="Construction Project" bg_color="text-bg-warning" invisible="not is_construction"/>
+            </xpath>
+            <xpath expr="//group[1]/group[1]" position="before">
+                <field name="is_construction"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="construction" string="Construction" invisible="not is_construction">
+                    <group>
+                        <group string="Classification">
+                            <field name="construction_category_id"/>
+                            <field name="construction_subcategory_id"/>
+                            <field name="construction_team_id"/>
+                            <field name="contract_type"/>
+                            <field name="billing_policy"/>
+                        </group>
+                        <group string="Organization">
+                            <field name="quantity_surveyor_id"/>
+                            <field name="site_engineer_id"/>
+                            <field name="procurement_officer_id"/>
+                            <field name="storekeeper_id"/>
+                            <field name="finance_controller_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Dates">
+                            <field name="date_tender"/>
+                            <field name="date_award"/>
+                            <field name="date_commencement"/>
+                            <field name="date_contractual_completion"/>
+                            <field name="date_revised_completion"/>
+                            <field name="date_defect_liability_end"/>
+                        </group>
+                        <group string="Commercial">
+                            <field name="original_contract_value"/>
+                            <field name="advance_amount"/>
+                            <field name="retention_pct"/>
+                            <field name="guarantee_amount"/>
+                            <field name="penalty_amount"/>
+                        </group>
+                    </group>
+                    <group string="Compliance">
+                        <field name="permit_reference"/>
+                        <field name="insurance_reference"/>
+                    </group>
+                    <div class="mt-3" invisible="not is_construction">
+                        <button name="action_generate_wbs_from_category" string="Generate WBS from Category" type="object" class="btn-secondary"/>
+                        <button name="action_setup_stock_locations" string="Setup Site Inventory Locations" type="object" class="btn-secondary" invisible="accepted_location_id"/>
+                        <button name="action_construction_set_tender" string="Set Tender/Awarded" type="object" invisible="construction_state != 'draft'" class="btn-secondary"/>
+                        <button name="action_construction_set_mobilization" string="Set Mobilization" type="object" invisible="construction_state != 'tender'" class="btn-secondary"/>
+                        <button name="action_construction_set_in_progress" string="Set In Progress" type="object" invisible="construction_state not in ('mobilization','on_hold')" class="btn-secondary"/>
+                        <button name="action_construction_set_on_hold" string="Put On Hold" type="object" invisible="construction_state != 'in_progress'" class="btn-secondary"/>
+                        <button name="action_construction_set_practical_completion" string="Set Practical Completion" type="object" invisible="construction_state != 'in_progress'" class="btn-secondary"/>
+                        <button name="action_construction_set_defect_liability" string="Start Defect Liability" type="object" invisible="construction_state != 'practical_completion'" class="btn-secondary"/>
+                        <button name="action_construction_set_closed" string="Close Project" type="object" invisible="construction_state not in ('practical_completion','defect_liability')" class="btn-secondary"/>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_project_project_list_construction" model="ir.ui.view">
+        <field name="name">project.project.list.construction</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="is_construction" optional="hide"/>
+                <field name="construction_category_id" optional="show"/>
+                <field name="construction_state" optional="show" widget="badge"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_construction_project" model="ir.actions.act_window">
+        <field name="name">Construction Projects</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('is_construction', '=', True)]</field>
+        <field name="context">{'default_is_construction': 1, 'search_default_is_construction': 1}</field>
+    </record>
+</odoo>

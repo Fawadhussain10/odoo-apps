@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_construction_wbs_list" model="ir.ui.view">
+        <field name="name">construction.wbs.list</field>
+        <field name="model">construction.wbs</field>
+        <field name="arch" type="xml">
+            <list default_order="sequence" decoration-muted="not active">
+                <field name="sequence" widget="handle"/>
+                <field name="complete_name" string="WBS / Phase"/>
+                <field name="project_id"/>
+                <field name="owner_id" widget="many2one_avatar_user"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="progress_physical" widget="progressbar"/>
+                <field name="progress_schedule" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_wbs_form" model="ir.ui.view">
+        <field name="name">construction.wbs.form</field>
+        <field name="model">construction.wbs</field>
+        <field name="arch" type="xml">
+            <form class="o_construction_management">
+                <header/>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Foundation, PCC, RCC Footing &amp; Plinth"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="parent_id" domain="[('project_id', '=', project_id)]"/>
+                            <field name="stage_template_id"/>
+                            <field name="owner_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="predecessor_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <group string="Progress">
+                        <group>
+                            <field name="progress_physical" widget="progressbar"/>
+                            <field name="progress_schedule" widget="progressbar"/>
+                        </group>
+                        <group>
+                            <field name="progress_procurement" widget="progressbar"/>
+                            <field name="progress_billing" widget="progressbar"/>
+                            <field name="progress_financial" widget="progressbar"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="BOQ Lines">
+                            <field name="boq_line_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="uom_id"/>
+                                    <field name="net_qty"/>
+                                    <field name="rate"/>
+                                    <field name="amount"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Tasks">
+                            <field name="task_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="user_ids" widget="many2many_tags"/>
+                                    <field name="stage_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Sub WBS">
+                            <field name="child_ids">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="progress_physical" widget="progressbar"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_wbs_kanban" model="ir.ui.view">
+        <field name="name">construction.wbs.kanban</field>
+        <field name="model">construction.wbs</field>
+        <field name="arch" type="xml">
+            <kanban class="o_construction_management o_kanban_small_column">
+                <field name="progress_physical"/>
+                <field name="progress_schedule"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click construction-wbs-card">
+                            <div class="construction-wbs-card-title">
+                                <field name="complete_name"/>
+                            </div>
+                            <div class="construction-wbs-card-meta text-muted">
+                                <field name="owner_id"/>
+                            </div>
+                            <div class="construction-progress-row">
+                                <span>Physical</span>
+                                <div class="construction-progress-track">
+                                    <div class="construction-progress-fill" t-attf-style="width: #{record.progress_physical.raw_value}%"/>
+                                </div>
+                                <span><field name="progress_physical"/>%</span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_construction_wbs_gantt" model="ir.ui.view">
+        <field name="name">construction.wbs.gantt</field>
+        <field name="model">construction.wbs</field>
+        <field name="arch" type="xml">
+            <gantt date_start="date_start" date_stop="date_end" string="WBS Schedule"
+                   default_scale="month" scales="week,month,quarter,year"
+                   default_group_by="project_id" total_row="True" precision="{'week': 'day:full', 'month': 'day:full'}">
+                <field name="project_id"/>
+                <field name="owner_id"/>
+                <field name="progress_physical"/>
+            </gantt>
+        </field>
+    </record>
+
+    <record id="action_construction_wbs" model="ir.actions.act_window">
+        <field name="name">WBS / Phases</field>
+        <field name="res_model">construction.wbs</field>
+        <field name="view_mode">gantt,list,kanban,form</field>
+    </record>
+</odoo>

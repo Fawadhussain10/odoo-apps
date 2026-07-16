@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Work Order -->
+    <record id="view_construction_work_order_list" model="ir.ui.view">
+        <field name="name">construction.work.order.list</field>
+        <field name="model">construction.work.order</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'closed'" decoration-danger="state == 'cancelled'" decoration-info="state == 'in_progress'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="wbs_id"/>
+                <field name="responsible_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_construction_work_order_form" model="ir.ui.view">
+        <field name="name">construction.work.order.form</field>
+        <field name="model">construction.work.order</field>
+        <field name="arch" type="xml">
+            <form class="o_construction_management">
+                <header>
+                    <button name="action_start" string="Start" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_send_inspection" string="Send for Inspection" type="object" invisible="state != 'in_progress'" class="btn-primary"/>
+                    <button name="action_close" string="Close" type="object" invisible="state != 'inspection'" class="btn-primary"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('closed','cancelled')"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft" type="object" invisible="state in ('draft','closed')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,inspection,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_construction_material_issue)d" type="action" class="oe_stat_button" icon="fa-truck"
+                                context="{'search_default_work_order_id': id, 'default_work_order_id': id, 'default_project_id': project_id}">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="material_issue_count"/></span>
+                                <span class="o_stat_text">Material Issues</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="wbs_id"/>
+                            <field name="responsible_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <field name="boq_line_ids" widget="many2many_tags"/>
+                    <notebook>
+                        <page string="Material" name="material">
+                            <field name="material_line_ids">
+                                <list editable="bottom">
+                                    <field name="boq_line_id"/>
+                                    <field name="product_id"/>
+                                    <field name="uom_id"/>
+                                    <field name="planned_qty"/>
+                                    <field name="actual_qty"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Labour" name="labour">
+                            <field name="labour_line_ids">
+                                <list editable="bottom">
+                                    <field name="employee_id"/>
+                                    <field name="planned_hours" sum="Total"/>
+                                    <field name="actual_hours" sum="Total"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Equipment" name="equipment">
+                            <field name="equipment_line_ids">
+                                <list editable="bottom">
+                                    <field name="equipment_name"/>
+                                    <field name="planned_hours" sum="Total"/>
+                                    <field name="actual_hours" sum="Total"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_construction_work_order_gantt" model="ir.ui.view">
+        <field name="name">construction.work.order.gantt</field>
+        <field name="model">construction.work.order</field>
+        <field name="arch" type="xml">
+            <gantt date_start="date_start" date_stop="date_end" string="Work Order Schedule"
+                   default_scale="month" scales="week,month,quarter" default_group_by="project_id" total_row="True"
+                   precision="{'week': 'day:full', 'month': 'day:full'}">
+                <field name="project_id"/>
+                <field name="wbs_id"/>
+                <field name="responsible_id"/>
+                <field name="state"/>
+            </gantt>
+        </field>
+    </record>
+
+    <record id="view_construction_work_order_calendar" model="ir.ui.view">
+        <field name="name">construction.work.order.calendar</field>
+        <field name="model">construction.work.order</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_end" string="Work Orders" color="project_id" mode="month">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="responsible_id" avatar_field="avatar_128"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_construction_work_order_pivot" model="ir.ui.view">
+        <field name="name">construction.work.order.pivot</field>
+        <field name="model">construction.work.order</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="project_id" type="row"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_construction_work_order" model="ir.actions.act_window">
+        <field name="name">Work Orders</field>
+        <field name="res_model">construction.work.order</field>
+        <field name="view_mode">gantt,list,form,calendar,pivot</field>
+    </record>
+</odoo>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_construction_boq_import_wizard_form" model="ir.ui.view">
+        <field name="name">construction.boq.import.wizard.form</field>
+        <field name="model">construction.boq.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import BOQ from Excel">
+                <group>
+                    <field name="target" widget="radio"/>
+                    <field name="template_id" invisible="target != 'template'" required="target == 'template'"/>
+                    <field name="boq_id" invisible="target != 'project_boq'" required="target == 'project_boq'"/>
+                    <field name="file_name" invisible="1"/>
+                    <field name="file_data" filename="file_name" required="1"/>
+                </group>
+                <p class="text-muted">
+                    The workbook's first sheet must contain a header row (within the first 10 rows)
+                    with columns such as "S#", "Category", "Stage / Work Head", "Item / Material",
+                    "Technical Quantity Basis", "Unit", "Gross Qty", "Waste %", "Net Qty", a rate
+                    column ("B-Category Rate" or "Rate"), "Amount", "Trade Type" and
+                    "Source / Remarks". Rows with Trade Type = "Subtotal" are imported as section
+                    subtotal rows.
+                </p>
+                <footer>
+                    <button name="action_import" type="object" string="Import" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Exposed via the gear/Action menu on BOQ Templates and Project BOQs (binding_type="action")
+         so no changes to boq_template_views.xml / boq_views.xml are needed to trigger it. -->
+    <record id="action_construction_boq_import_wizard_template" model="ir.actions.act_window">
+        <field name="name">Import Lines from Excel</field>
+        <field name="res_model">construction.boq.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_construction_boq_template"/>
+        <field name="binding_type">action</field>
+        <field name="context">{'default_target': 'template', 'default_template_id': active_id}</field>
+    </record>
+
+    <record id="action_construction_boq_import_wizard_boq" model="ir.actions.act_window">
+        <field name="name">Import Lines from Excel</field>
+        <field name="res_model">construction.boq.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_construction_boq"/>
+        <field name="binding_type">action</field>
+        <field name="context">{'default_target': 'project_boq', 'default_boq_id': active_id}</field>
+    </record>
+
+    <!-- Export counterpart: runs construction.boq.template.action_export_xlsx() directly from the
+         gear/Action menu on a BOQ Template, no wizard needed. -->
+    <record id="action_construction_boq_template_export_xlsx" model="ir.actions.server">
+        <field name="name">Export to Excel</field>
+        <field name="model_id" ref="model_construction_boq_template"/>
+        <field name="binding_model_id" ref="model_construction_boq_template"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_export_xlsx()</field>
+    </record>
+</odoo>

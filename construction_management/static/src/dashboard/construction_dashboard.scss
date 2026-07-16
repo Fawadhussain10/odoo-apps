@@ -1,0 +1,467 @@
+// =============================================================================
+// Construction Management — dashboard (fully custom OWL client action, not a
+// restyled Odoo form/list). This is the one screen in the module built without
+// any Odoo view-engine constraints, so it gets a dedicated, denser visual
+// language than the rest of the module - reusing the exact same palette as
+// construction_theme.scss for consistency, but with its own layout primitives
+// (KPI cards, chart grid, dashboard tables) since Odoo has no native widgets
+// for those. Scoped under .o_construction_dashboard; never write a bare/global
+// selector here (see construction_theme.scss's scoping rule, same policy).
+//
+// Dark premium theme by request: navy-black surface, glassy dark cards, bright
+// accent charts/badges that pop harder against dark than they did on white.
+// =============================================================================
+
+$c-blue:         #5b9ce8;
+$c-green:        #22c55e;
+$c-magenta:      #f472b6;
+$c-yellow:       #eda100;
+$c-aqua:         #2dd4bf;
+$c-orange:       #fb923c;
+$c-violet:       #a78bfa;
+$c-red:          #f87171;
+
+$status-good:     #22c55e;
+$status-warning:  #fbbf24;
+$status-serious:  #fb923c;
+$status-critical: #f87171;
+
+// brand accents (match global_backend_theme.scss's navy/amber palette so this screen and the
+// rest of the module read as one brand, not two different colour systems)
+$amber:  #f59e0b;
+$navy:   #0f172a;
+
+$bg-deep:      #0b1220;
+$card-bg:      #141b2d;
+$card-bg-alt:  #101728;
+$ink:          #f3ead9;
+$ink-muted:    #93a1b7;
+$card-radius: 18px;
+$card-border: rgba(255, 255, 255, .07);
+$card-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 30px rgba(0, 0, 0, .35);
+$card-shadow-hover: 0 4px 14px rgba(0, 0, 0, .35), 0 20px 46px rgba(245, 158, 11, .16);
+$font-stack: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+             "Helvetica Neue", Ubuntu, "Noto Sans", Arial, sans-serif;
+
+// shared top accent stripe used by every premium card on this dashboard
+@mixin cm-card-accent {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, $amber, $c-violet 55%, $c-aqua);
+    border-radius: $card-radius $card-radius 0 0;
+}
+
+// premium "light sweep" on hover, plus a soft outer glow ring - the card itself must have
+// position:relative + overflow:hidden (all three card types below already do)
+@mixin cm-card-shine {
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -75%;
+        width: 45%;
+        height: 100%;
+        background: linear-gradient(115deg, transparent, rgba(255, 255, 255, .07), transparent);
+        transform: skewX(-18deg);
+        transition: left .65s cubic-bezier(.22, 1, .36, 1);
+        pointer-events: none;
+        z-index: 2;
+    }
+    &:hover::after { left: 130%; }
+}
+
+.o_construction_dashboard {
+    font-family: $font-stack;
+    background:
+        radial-gradient(1100px 420px at 10% -10%, rgba(245, 158, 11, .12), transparent 60%),
+        radial-gradient(900px 500px at 105% 0%, rgba(167, 139, 250, .12), transparent 55%),
+        radial-gradient(700px 400px at 50% 120%, rgba(45, 212, 191, .07), transparent 60%),
+        linear-gradient(180deg, $bg-deep 0%, #0d1526 100%);
+    padding: 24px 28px 40px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+
+    &::-webkit-scrollbar { width: 8px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: rgba($amber, .3); border-radius: 10px; &:hover { background: rgba($amber, .5); } }
+
+    .construction-dashboard-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 120px 0;
+        color: $ink-muted;
+    }
+
+    .construction-dashboard-header {
+        margin-bottom: 22px;
+
+        h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 2px;
+            background: linear-gradient(100deg, $ink 0%, $amber 55%, $c-aqua 130%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        p.text-muted {
+            font-size: .85rem;
+            font-weight: 500;
+            color: $ink-muted !important;
+        }
+    }
+
+    // -- KPI cards ------------------------------------------------------------
+    .construction-dashboard-kpi-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+        margin-bottom: 24px;
+    }
+
+    .construction-dashboard-kpi-card {
+        position: relative;
+        background: linear-gradient(165deg, $card-bg 0%, $card-bg-alt 100%);
+        border: 1px solid $card-border;
+        border-radius: $card-radius;
+        box-shadow: $card-shadow;
+        padding: 18px 20px;
+        transition: transform 0.2s cubic-bezier(.22, 1, .36, 1), box-shadow 0.2s ease,
+                    border-color .2s ease, filter .2s ease;
+        overflow: hidden;
+        opacity: 0;
+        animation: cm-kpi-in 0.4s ease forwards;
+        @include cm-card-shine;
+
+        &::before {
+            @include cm-card-accent;
+            background: linear-gradient(90deg, $c-blue, #93c5fd);
+        }
+
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: $card-shadow-hover;
+            border-color: rgba(245, 158, 11, .3);
+            filter: brightness(1.08);
+
+            .construction-dashboard-kpi-icon { transform: scale(1.14) rotate(-4deg); }
+        }
+
+        &.is-good::before { background: linear-gradient(90deg, $status-good, $c-aqua); }
+        &.is-warning::before { background: linear-gradient(90deg, $status-warning, $c-orange); }
+        &.is-critical::before { background: linear-gradient(90deg, $status-critical, #b91c1c); }
+    }
+
+    // circular colour-tile icon badge (Stripe/Linear-style KPI card icon) instead of a
+    // faint watermark glyph - vivid tinted glass tile, pops well on the dark card
+    .construction-dashboard-kpi-icon {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 11px;
+        font-size: 1rem;
+        color: $c-blue;
+        background: rgba($c-blue, .16);
+        transition: transform 0.25s cubic-bezier(.22, 1, .36, 1);
+    }
+    .is-good .construction-dashboard-kpi-icon { color: $status-good; background: rgba($status-good, .16); }
+    .is-warning .construction-dashboard-kpi-icon { color: $status-warning; background: rgba($status-warning, .2); }
+    .is-critical .construction-dashboard-kpi-icon { color: $status-critical; background: rgba($status-critical, .18); }
+
+    @keyframes cm-kpi-in {
+        from { opacity: 0; transform: translateY(10px) scale(.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .construction-dashboard-kpi-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: $ink-muted;
+        margin-bottom: 8px;
+        font-weight: 700;
+        max-width: 75%;
+    }
+
+    .construction-dashboard-kpi-value {
+        font-size: 1.65rem;
+        font-weight: 800;
+        letter-spacing: -0.015em;
+        color: $ink;
+        line-height: 1.1;
+    }
+
+    // -- Chart grid -------------------------------------------------------------
+    .construction-dashboard-chart-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .construction-dashboard-chart-card {
+        position: relative;
+        background: linear-gradient(165deg, $card-bg 0%, $card-bg-alt 100%);
+        border: 1px solid $card-border;
+        border-radius: $card-radius;
+        box-shadow: $card-shadow;
+        padding: 20px 22px;
+        transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease, filter .2s ease;
+        overflow: hidden;
+        @include cm-card-shine;
+
+        &::before { @include cm-card-accent; }
+
+        &:hover {
+            box-shadow: $card-shadow-hover;
+            transform: translateY(-2px);
+            border-color: rgba(245, 158, 11, .22);
+            filter: brightness(1.06);
+        }
+    }
+
+    .construction-dashboard-chart-wide {
+        grid-column: span 2;
+    }
+
+    .construction-dashboard-chart-title {
+        font-size: 0.95rem;
+        font-weight: 750;
+        letter-spacing: -.005em;
+        color: $ink;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+
+        .fa { color: $amber; margin-right: 8px; font-size: .85rem; }
+    }
+
+    .construction-dashboard-chart-canvas-wrap {
+        position: relative;
+        height: 220px;
+    }
+
+    .construction-dashboard-chart-tall {
+        height: 300px;
+    }
+
+    // -- Tables -------------------------------------------------------------
+    .construction-dashboard-table-card {
+        position: relative;
+        background: linear-gradient(165deg, $card-bg 0%, $card-bg-alt 100%);
+        border: 1px solid $card-border;
+        border-radius: $card-radius;
+        box-shadow: $card-shadow;
+        padding: 20px 22px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        transition: box-shadow .2s ease, border-color .2s ease;
+        @include cm-card-shine;
+
+        &::before { @include cm-card-accent; }
+
+        &:hover { box-shadow: $card-shadow-hover; border-color: rgba(245, 158, 11, .2); }
+    }
+
+    // long tables (top overruns, material pipeline, etc.) get their own scroll
+    // area instead of stretching the whole page - both axes, with a slim
+    // themed scrollbar so it doesn't feel like a bare browser default.
+    .construction-dashboard-table-scroll {
+        overflow: auto;
+        max-height: 380px;
+
+        &::-webkit-scrollbar { width: 7px; height: 7px; }
+        &::-webkit-scrollbar-track { background: transparent; }
+        &::-webkit-scrollbar-thumb {
+            background: rgba($amber, .35);
+            border-radius: 10px;
+            &:hover { background: rgba($amber, .55); }
+        }
+
+        // keep the header row visible while scrolling a tall table
+        thead th {
+            position: sticky;
+            top: 0;
+            background: $card-bg;
+            z-index: 1;
+        }
+    }
+
+    .construction-dashboard-table {
+        width: 100%;
+        min-width: 640px;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+
+        th {
+            text-align: left;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: $ink-muted;
+            font-weight: 700;
+            padding: 8px 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, .08);
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, .05);
+            vertical-align: middle;
+            color: $ink;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+    }
+
+    .construction-dashboard-table-row {
+        cursor: pointer;
+        transition: background-color 0.12s ease;
+
+        &:hover {
+            background-color: rgba(245, 158, 11, .08);
+        }
+    }
+
+    // -- Reuse the same hand-built progress bar look as the kanban cards, but
+    //    scoped here since this dashboard isn't a kanban view -----------------
+    .construction-progress-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 120px;
+
+        > span {
+            flex: 0 0 auto;
+            min-width: 32px;
+            text-align: right;
+            font-weight: 600;
+            font-size: 0.78rem;
+            color: $ink;
+        }
+    }
+
+    .construction-progress-track {
+        flex: 1 1 auto;
+        height: 7px;
+        border-radius: 999px;
+        background-color: rgba(255, 255, 255, .08);
+        overflow: hidden;
+    }
+
+    .construction-progress-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #{$c-blue}, #{$c-aqua});
+        transition: width 0.3s ease;
+
+        &.construction-progress-fill-alt {
+            background: linear-gradient(90deg, #{$c-violet}, #{$c-magenta});
+        }
+    }
+
+    // -- Project status badge (mirrors construction_theme.scss's badge recolor,
+    //    but this dashboard renders its own <span> rather than Odoo's badge
+    //    widget, so it needs its own rule) -------------------------------------
+    .construction-dashboard-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 650;
+        background-color: rgba($ink-muted, 0.16);
+        color: $ink-muted;
+
+        &.construction-dashboard-badge-in_progress { background-color: rgba($c-blue, 0.18); color: $c-blue; }
+        &.construction-dashboard-badge-tender { background-color: rgba($c-violet, 0.18); color: $c-violet; }
+        &.construction-dashboard-badge-mobilization { background-color: rgba($c-yellow, 0.2); color: lighten($c-yellow, 12%); }
+        &.construction-dashboard-badge-on_hold { background-color: rgba($status-warning, 0.2); color: $status-warning; }
+        &.construction-dashboard-badge-practical_completion { background-color: rgba($c-aqua, 0.2); color: $c-aqua; }
+        &.construction-dashboard-badge-defect_liability { background-color: rgba($c-orange, 0.2); color: $c-orange; }
+        &.construction-dashboard-badge-closed { background-color: rgba($status-good, 0.18); color: $status-good; }
+        &.construction-dashboard-badge-cancelled { background-color: rgba($status-critical, 0.18); color: $status-critical; }
+    }
+
+    // -- CPI/SPI performance index pill ---------------------------------------
+    .construction-dashboard-index-pill {
+        display: inline-block;
+        min-width: 40px;
+        padding: 2px 8px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.78rem;
+        background-color: rgba($ink-muted, 0.16);
+        color: $ink-muted;
+
+        &.index-green { background-color: rgba($status-good, 0.2); color: $status-good; }
+        &.index-amber { background-color: rgba($status-warning, 0.24); color: $status-warning; }
+        &.index-red { background-color: rgba($status-critical, 0.2); color: $status-critical; }
+    }
+
+    // -- Bottom row: overruns table + commercial/procurement summary stack ---
+    .construction-dashboard-bottom-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+    }
+
+    .construction-dashboard-summary-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+
+        .construction-dashboard-kpi-card::before {
+            background: linear-gradient(90deg, $c-aqua, #5eead4);
+        }
+    }
+
+    @media (max-width: 1100px) {
+        .construction-dashboard-chart-grid { grid-template-columns: 1fr; }
+        .construction-dashboard-chart-wide { grid-column: span 1; }
+        .construction-dashboard-bottom-grid { grid-template-columns: 1fr; }
+    }
+}
+
+// -----------------------------------------------------------------------------------------
+// Control panel (the breadcrumb bar showing "Construction Dashboard" + the search/filter
+// row) is rendered by web.Layout as a SIBLING of .o_content, not a descendant of
+// .o_construction_dashboard - so none of the scoped rules above can ever reach it, and
+// without this it stays the normal light control panel sitting awkwardly on top of our dark
+// dashboard. This is the one deliberate exception in this file (documented, same policy as
+// global_backend_theme.scss's navbar exception): :has() scopes it back to ONLY the action
+// that actually contains our dashboard, so every other page in Odoo keeps its normal light
+// control panel untouched.
+// -----------------------------------------------------------------------------------------
+.o_action_manager:has(.o_construction_dashboard) .o_control_panel {
+    background: $bg-deep !important;
+    border-bottom: 1px solid rgba(255, 255, 255, .08) !important;
+    font-family: $font-stack;
+
+    .o_breadcrumb .active, .breadcrumb-item.active {
+        color: $ink !important;
+        font-weight: 700;
+    }
+    .o_breadcrumb a, .o_breadcrumb .breadcrumb-item:not(.active) {
+        color: $ink-muted !important;
+        &:hover { color: $amber !important; }
+    }
+    .o_breadcrumb .o_breadcrumb_sep, .o_breadcrumb_sep { color: $ink-muted !important; }
+
+    .o_cp_bottom, .o_cp_top { border-color: rgba(255, 255, 255, .08) !important; }
+}
