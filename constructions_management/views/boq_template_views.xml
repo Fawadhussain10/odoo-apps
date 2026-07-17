@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_construction_boq_template_list" model="ir.ui.view">
+        <field name="name">construction.boq.template.list</field>
+        <field name="model">construction.boq.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="subcategory_id"/>
+                <field name="covered_area"/>
+                <field name="total_amount" sum="Total"/>
+                <field name="use_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_boq_template_form" model="ir.ui.view">
+        <field name="name">construction.boq.template.form</field>
+        <field name="model">construction.boq.template</field>
+        <field name="arch" type="xml">
+            <form class="o_constructions_management">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_construction_boq)d" type="action" class="oe_stat_button" icon="fa-file-text-o"
+                                context="{'search_default_template_id': id}">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="use_count"/></span>
+                                <span class="o_stat_text">BOQs Using This</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder='e.g. "3.5 Marla House - B Category"'/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" readonly="1"/>
+                            <field name="category_id"/>
+                            <field name="subcategory_id"/>
+                            <field name="grade"/>
+                        </group>
+                        <group>
+                            <field name="plot_area"/>
+                            <field name="covered_area"/>
+                            <field name="total_amount"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Notes about this template..."/>
+                    <notebook>
+                        <page string="Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="display_type" column_invisible="1"/>
+                                    <field name="stage_template_id"/>
+                                    <field name="work_type_id"/>
+                                    <field name="name"/>
+                                    <field name="formula_type"/>
+                                    <field name="uom_id"/>
+                                    <field name="number"/>
+                                    <field name="length" optional="hide"/>
+                                    <field name="width" optional="hide"/>
+                                    <field name="height" optional="hide"/>
+                                    <field name="gross_qty"/>
+                                    <field name="waste_pct"/>
+                                    <field name="net_qty"/>
+                                    <field name="rate"/>
+                                    <field name="amount" sum="Total"/>
+                                    <field name="cost_code_id" optional="hide"/>
+                                    <field name="source_remarks" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_boq_template_kanban" model="ir.ui.view">
+        <field name="name">construction.boq.template.kanban</field>
+        <field name="model">construction.boq.template</field>
+        <field name="arch" type="xml">
+            <kanban class="o_constructions_management o_kanban_small_column">
+                <field name="category_id"/>
+                <field name="subcategory_id"/>
+                <field name="covered_area"/>
+                <field name="total_amount"/>
+                <field name="use_count"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click construction-kanban-card">
+                            <div class="construction-kanban-card-title">
+                                <field name="name"/>
+                            </div>
+                            <div class="construction-kanban-card-meta text-muted">
+                                <field name="category_id"/>
+                                <t t-if="record.subcategory_id.value"> · <field name="subcategory_id"/></t>
+                            </div>
+                            <div class="construction-kanban-card-footer">
+                                <span><field name="covered_area"/> sqft · <field name="use_count"/> BOQs</span>
+                                <span class="construction-kanban-card-amount"><field name="total_amount"/></span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_construction_boq_template" model="ir.actions.act_window">
+        <field name="name">BOQ Templates</field>
+        <field name="res_model">construction.boq.template</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first reusable BOQ template</p>
+            <p>Build a predefined Bill of Quantities once (e.g. "3.5 Marla House", "10 Marla House", "1 Kanal House")
+               and reuse it on any number of projects, then adjust quantities/rates per project.</p>
+        </field>
+    </record>
+</odoo>

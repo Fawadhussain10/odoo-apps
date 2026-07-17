@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_ra_certificate_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                <h2>
+                    RA Certificate
+                    <span t-field="o.name"/>
+                </h2>
+                <div id="informations" class="row mb-4">
+                    <div class="col" name="ra_subcontractor">
+                        <strong>Subcontractor</strong>
+                        <div t-field="o.subcontract_id.subcontractor_id.name"/>
+                    </div>
+                    <div class="col" name="ra_subcontract">
+                        <strong>Subcontract</strong>
+                        <div t-field="o.subcontract_id.name"/>
+                    </div>
+                    <div class="col" name="ra_project">
+                        <strong>Project</strong>
+                        <div t-field="o.project_id.name"/>
+                    </div>
+                    <div class="col" name="ra_date">
+                        <strong>Certificate Date</strong>
+                        <div t-field="o.certificate_date"/>
+                    </div>
+                    <div class="col" name="ra_state">
+                        <strong>Status</strong>
+                        <div t-field="o.state"/>
+                    </div>
+                </div>
+
+                <table class="table table-sm o_main_table">
+                    <tbody>
+                        <tr>
+                            <td>Gross Work Done (This Certificate)</td>
+                            <td class="text-end"><span t-field="o.gross_work" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                        </tr>
+                        <tr>
+                            <td>Cumulative Work Done (To Date)</td>
+                            <td class="text-end"><span t-field="o.cumulative_work" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                        </tr>
+                        <tr>
+                            <td>Less: Retention</td>
+                            <td class="text-end">(<span t-field="o.retention_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>)</td>
+                        </tr>
+                        <tr>
+                            <td>Less: Advance Recovery</td>
+                            <td class="text-end">(<span t-field="o.advance_recovery_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>)</td>
+                        </tr>
+                        <tr>
+                            <td>Less: Material Recovery</td>
+                            <td class="text-end">(<span t-field="o.material_recovery_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>)</td>
+                        </tr>
+                        <tr>
+                            <td>Less: Penalty</td>
+                            <td class="text-end">(<span t-field="o.penalty_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>)</td>
+                        </tr>
+                        <tr class="fw-bold border-top">
+                            <td>Net Payable</td>
+                            <td class="text-end"><span t-field="o.net_payable" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row mt-5">
+                    <div class="col-4 text-center">
+                        <div class="border-top pt-1">Prepared By</div>
+                    </div>
+                    <div class="col-4 text-center">
+                        <div class="border-top pt-1">Verified By</div>
+                    </div>
+                    <div class="col-4 text-center">
+                        <div class="border-top pt-1">Approved By</div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_ra_certificate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="constructions_management.report_ra_certificate_document"/>
+            </t>
+        </t>
+    </template>
+</odoo>

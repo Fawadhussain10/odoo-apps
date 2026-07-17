@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="constructions_management.Dashboard">
+    <Layout display="display">
+        <div class="o_constructions_management o_construction_dashboard">
+            <t t-if="state.loading">
+                <div class="construction-dashboard-loading">
+                    <i class="fa fa-spinner fa-spin fa-2x"/>
+                    <div class="mt-2">Loading dashboard…</div>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="construction-dashboard-header">
+                    <h1>Construction Overview</h1>
+                    <p class="text-muted">
+                        <t t-esc="state.data.kpis.active_projects"/>
+                        active projects ·
+                        <t t-esc="state.data.kpis.total_projects"/>
+                        total
+                    </p>
+                </div>
+
+                <!-- KPI cards -->
+                <div class="construction-dashboard-kpi-row">
+                    <div class="construction-dashboard-kpi-card" style="animation-delay: 0ms">
+                        <i class="fa fa-money construction-dashboard-kpi-icon"/>
+                        <div class="construction-dashboard-kpi-label">Revised Budget</div>
+                        <div class="construction-dashboard-kpi-value"><t t-esc="fmt(state.data.kpis.revised_budget)"/></div>
+                    </div>
+                    <div class="construction-dashboard-kpi-card" style="animation-delay: 30ms">
+                        <i class="fa fa-credit-card construction-dashboard-kpi-icon"/>
+                        <div class="construction-dashboard-kpi-label">Actual Cost</div>
+                        <div class="construction-dashboard-kpi-value"><t t-esc="fmt(state.data.kpis.actual_cost)"/></div>
+                    </div>
+                    <div class="construction-dashboard-kpi-card" style="animation-delay: 60ms">
+                        <i class="fa fa-file-text construction-dashboard-kpi-icon"/>
+                        <div class="construction-dashboard-kpi-label">Committed (Open PO)</div>
+                        <div class="construction-dashboard-kpi-value"><t t-esc="fmt(state.data.kpis.committed_amount)"/></div>
+                    </div>
+                    <div class="construction-dashboard-kpi-card" style="animation-delay: 90ms">
+                        <i class="fa fa-bullseye construction-dashboard-kpi-icon"/>
+                        <div class="construction-dashboard-kpi-label">EAC</div>
+                        <div class="construction-dashboard-kpi-value"><t t-esc="fmt(state.data.kpis.eac)"/></div>
+                    </div>
+                    <div t-attf-class="construction-dashboard-kpi-card {{ state.data.kpis.variance_pct &lt; -0.05 ? 'is-critical' : (state.data.kpis.variance_pct &lt; 0 ? 'is-warning' : 'is-good') }}" style="animation-delay: 120ms">
+                        <i class="fa fa-line-chart construction-dashboard-kpi-icon"/>
+                        <div class="construction-dashboard-kpi-label">Variance at Completion</div>
+                        <div class="construction-dashboard-kpi-value"><t t-esc="fmtPct(state.data.kpis.variance_pct)"/></div>
+                    </div>
+                    <div class="construction-dashboard-kpi-card" style="animation-delay: 150ms">
+                        <i class="fa fa-truck construction-dashboard-kpi-icon"/>
+                        <div class="construction-dashboard-kpi-label">Open Material Requests</div>
+                        <div class="construction-dashboard-kpi-value"><t t-esc="state.data.kpis.open_material_requests"/></div>
+                    </div>
+                    <div class="construction-dashboard-kpi-card" style="animation-delay: 180ms">
+                        <i class="fa fa-handshake-o construction-dashboard-kpi-icon"/>
+                        <div class="construction-dashboard-kpi-label">Pending RA Certificates</div>
+                        <div class="construction-dashboard-kpi-value"><t t-esc="state.data.kpis.pending_ra_certificates"/></div>
+                    </div>
+                    <div t-attf-class="construction-dashboard-kpi-card {{ state.data.kpis.open_ncrs ? 'is-warning' : 'is-good' }}" style="animation-delay: 210ms">
+                        <i class="fa fa-shield construction-dashboard-kpi-icon"/>
+                        <div class="construction-dashboard-kpi-label">Open NCRs</div>
+                        <div class="construction-dashboard-kpi-value"><t t-esc="state.data.kpis.open_ncrs"/></div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="construction-dashboard-chart-grid">
+                    <div class="construction-dashboard-chart-card construction-dashboard-chart-wide">
+                        <div class="construction-dashboard-chart-title"><i class="fa fa-bar-chart"/> Budget vs Actual vs EAC by Project</div>
+                        <div class="construction-dashboard-chart-canvas-wrap construction-dashboard-chart-tall">
+                            <canvas t-ref="budgetChart"/>
+                        </div>
+                    </div>
+                    <div class="construction-dashboard-chart-card">
+                        <div class="construction-dashboard-chart-title"><i class="fa fa-pie-chart"/> Project Status</div>
+                        <div class="construction-dashboard-chart-canvas-wrap">
+                            <canvas t-ref="statusChart"/>
+                        </div>
+                    </div>
+                    <div class="construction-dashboard-chart-card">
+                        <div class="construction-dashboard-chart-title"><i class="fa fa-tachometer"/> Schedule / Cost Performance</div>
+                        <div class="construction-dashboard-chart-canvas-wrap">
+                            <canvas t-ref="ragChart"/>
+                        </div>
+                    </div>
+                    <div class="construction-dashboard-chart-card">
+                        <div class="construction-dashboard-chart-title"><i class="fa fa-truck"/> Material Request Pipeline</div>
+                        <div class="construction-dashboard-chart-canvas-wrap">
+                            <canvas t-ref="mrChart"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects table -->
+                <div class="construction-dashboard-table-card">
+                    <div class="construction-dashboard-chart-title">Projects</div>
+                    <div class="construction-dashboard-table-scroll">
+                    <table class="construction-dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Status</th>
+                                <th class="text-end">Revised Budget</th>
+                                <th class="text-end">EAC</th>
+                                <th class="text-end">Variance</th>
+                                <th>Physical Progress</th>
+                                <th>Schedule Progress</th>
+                                <th class="text-center">CPI</th>
+                                <th class="text-center">SPI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="state.data.projects" t-as="p" t-key="p.id"
+                                class="construction-dashboard-table-row" t-on-click="() => this.openProject(p.id)">
+                                <td class="fw-bold"><t t-esc="p.name"/></td>
+                                <td><span t-attf-class="construction-dashboard-badge construction-dashboard-badge-{{p.state}}"><t t-esc="p.state_label"/></span></td>
+                                <td class="text-end"><t t-esc="fmt(p.revised_budget)"/></td>
+                                <td class="text-end"><t t-esc="fmt(p.eac)"/></td>
+                                <td t-attf-class="text-end {{ p.variance_pct &lt; 0 ? 'text-danger' : 'text-success' }}"><t t-esc="fmtPct(p.variance_pct)"/></td>
+                                <td>
+                                    <div class="construction-progress-row">
+                                        <div class="construction-progress-track"><div class="construction-progress-fill" t-attf-style="width: {{p.physical_progress}}%"/></div>
+                                        <span><t t-esc="Math.round(p.physical_progress)"/>%</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="construction-progress-row">
+                                        <div class="construction-progress-track"><div class="construction-progress-fill construction-progress-fill-alt" t-attf-style="width: {{p.schedule_progress}}%"/></div>
+                                        <span><t t-esc="Math.round(p.schedule_progress)"/>%</span>
+                                    </div>
+                                </td>
+                                <td class="text-center"><span t-attf-class="construction-dashboard-index-pill index-{{p.rag_status}}"><t t-esc="p.cpi.toFixed(2)"/></span></td>
+                                <td class="text-center"><span t-attf-class="construction-dashboard-index-pill index-{{p.rag_status}}"><t t-esc="p.spi.toFixed(2)"/></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+
+                <!-- Overruns + commercial/procurement summary -->
+                <div class="construction-dashboard-bottom-grid">
+                    <div class="construction-dashboard-table-card">
+                        <div class="construction-dashboard-chart-title">Top Cost Overruns (WBS)</div>
+                        <div class="construction-dashboard-table-scroll">
+                        <table class="construction-dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th>WBS / Phase</th>
+                                    <th>Project</th>
+                                    <th class="text-end">Revised Budget</th>
+                                    <th class="text-end">EAC</th>
+                                    <th class="text-end">Variance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="state.data.top_overruns" t-as="o" t-key="o.name">
+                                    <td><t t-esc="o.name"/></td>
+                                    <td class="text-muted"><t t-esc="o.project"/></td>
+                                    <td class="text-end"><t t-esc="fmt(o.revised_budget)"/></td>
+                                    <td class="text-end"><t t-esc="fmt(o.eac)"/></td>
+                                    <td t-attf-class="text-end fw-bold {{ o.variance_at_completion &lt; 0 ? 'text-danger' : 'text-success' }}"><t t-esc="fmtPct(o.variance_pct)"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    <div class="construction-dashboard-summary-stack">
+                        <div class="construction-dashboard-kpi-card">
+                            <div class="construction-dashboard-kpi-label">Subcontract Value (Contracted)</div>
+                            <div class="construction-dashboard-kpi-value"><t t-esc="fmt(state.data.commercial.contract_value)"/></div>
+                        </div>
+                        <div class="construction-dashboard-kpi-card">
+                            <div class="construction-dashboard-kpi-label">Subcontract Certified</div>
+                            <div class="construction-dashboard-kpi-value"><t t-esc="fmt(state.data.commercial.certified_value)"/></div>
+                        </div>
+                        <div class="construction-dashboard-kpi-card">
+                            <div class="construction-dashboard-kpi-label">Retention Held</div>
+                            <div class="construction-dashboard-kpi-value"><t t-esc="fmt(state.data.commercial.retention_held)"/></div>
+                        </div>
+                        <div class="construction-dashboard-kpi-card">
+                            <div class="construction-dashboard-kpi-label">Open PO Value</div>
+                            <div class="construction-dashboard-kpi-value"><t t-esc="fmt(state.data.procurement.open_po_value)"/></div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </Layout>
+</t>
+
+</templates>

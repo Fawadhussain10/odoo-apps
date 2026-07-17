@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_cost_sheet_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                <h2>
+                    Cost Sheet
+                    <span t-field="o.name"/>
+                </h2>
+                <div id="informations" class="row mb-4">
+                    <div class="col" name="cs_project">
+                        <strong>Project</strong>
+                        <div t-field="o.project_id.name"/>
+                    </div>
+                    <div class="col" name="cs_wbs">
+                        <strong>WBS / Phase</strong>
+                        <div t-field="o.wbs_id.complete_name"/>
+                    </div>
+                    <div class="col" name="cs_date">
+                        <strong>Date</strong>
+                        <div t-field="o.date"/>
+                    </div>
+                    <div class="col" name="cs_state">
+                        <strong>Status</strong>
+                        <div t-field="o.state"/>
+                    </div>
+                </div>
+
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th class="text-start">BOQ Line</th>
+                            <th class="text-end">Budget Qty</th>
+                            <th class="text-end">Budget Amount</th>
+                            <th class="text-end">Actual Qty</th>
+                            <th class="text-end">Actual Amount</th>
+                            <th class="text-end">Variance Qty</th>
+                            <th class="text-end">Variance Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="o.line_ids" t-as="line">
+                            <tr>
+                                <td><span t-field="line.boq_line_id.name"/></td>
+                                <td class="text-end"><span t-field="line.budget_qty"/></td>
+                                <td class="text-end"><span t-field="line.budget_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                <td class="text-end"><span t-field="line.actual_qty"/></td>
+                                <td class="text-end"><span t-field="line.actual_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                <td t-attf-class="text-end {{ 'text-danger' if line.variance_qty &lt; 0 else 'text-success' }}">
+                                    <span t-field="line.variance_qty"/>
+                                </td>
+                                <td t-attf-class="text-end {{ 'text-danger' if line.variance_amount &lt; 0 else 'text-success' }}">
+                                    <span t-field="line.variance_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                    <tfoot>
+                        <tr class="fw-bold border-top">
+                            <td>Total</td>
+                            <td/>
+                            <td class="text-end"><span t-field="o.total_budget_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                            <td/>
+                            <td class="text-end"><span t-field="o.total_actual_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                            <td/>
+                            <td t-attf-class="text-end {{ 'text-danger' if o.total_variance_amount &lt; 0 else 'text-success' }}">
+                                <span t-field="o.total_variance_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_cost_sheet">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="constructions_management.report_cost_sheet_document"/>
+            </t>
+        </t>
+    </template>
+</odoo>

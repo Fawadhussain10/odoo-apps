@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ================= Equipment Master ================= -->
+    <record id="view_construction_equipment_list" model="ir.ui.view">
+        <field name="name">construction.equipment.list</field>
+        <field name="model">construction.equipment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="equipment_type"/>
+                <field name="ownership"/>
+                <field name="internal_rate"/>
+                <field name="rental_cost"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_construction_equipment_log" model="ir.actions.act_window">
+        <field name="name">Equipment Usage Logs</field>
+        <field name="res_model">construction.equipment.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_construction_equipment_form" model="ir.ui.view">
+        <field name="name">construction.equipment.form</field>
+        <field name="model">construction.equipment</field>
+        <field name="arch" type="xml">
+            <form class="o_constructions_management">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_construction_equipment_log)d" type="action" class="oe_stat_button" icon="fa-clock-o"
+                                context="{'search_default_equipment_id': id, 'default_equipment_id': id}">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="log_count"/></span>
+                                <span class="o_stat_text">Usage Logs</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Equipment Name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="equipment_type"/>
+                            <field name="ownership"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="internal_rate" invisible="ownership != 'owned'"/>
+                            <field name="rental_cost" invisible="ownership != 'rented'"/>
+                            <field name="rental_uom" invisible="ownership != 'rented'"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_equipment" model="ir.actions.act_window">
+        <field name="name">Equipment</field>
+        <field name="res_model">construction.equipment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= Equipment Usage Log ================= -->
+    <record id="view_construction_equipment_log_list" model="ir.ui.view">
+        <field name="name">construction.equipment.log.list</field>
+        <field name="model">construction.equipment.log</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'approved'" editable="bottom">
+                <field name="equipment_id"/>
+                <field name="project_id"/>
+                <field name="wbs_id"/>
+                <field name="operator_id"/>
+                <field name="date"/>
+                <field name="productive_hours"/>
+                <field name="idle_hours"/>
+                <field name="total_cost" sum="Total"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_equipment_log_form" model="ir.ui.view">
+        <field name="name">construction.equipment.log.form</field>
+        <field name="model">construction.equipment.log</field>
+        <field name="arch" type="xml">
+            <form class="o_constructions_management">
+                <header>
+                    <button name="action_approve" string="Approve" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="equipment_id"/>
+                            <field name="ownership" invisible="1"/>
+                            <field name="project_id"/>
+                            <field name="wbs_id"/>
+                            <field name="operator_id"/>
+                            <field name="date"/>
+                            <field name="mobilization"/>
+                        </group>
+                        <group>
+                            <field name="productive_hours"/>
+                            <field name="idle_hours"/>
+                            <field name="fuel_consumed"/>
+                            <field name="meter_reading"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="total_cost"/>
+                            <field name="analytic_line_id" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

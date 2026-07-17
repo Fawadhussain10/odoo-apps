@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_construction_boq" model="ir.actions.report">
+            <field name="name">Bill of Quantities</field>
+            <field name="model">construction.boq</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">constructions_management.report_boq</field>
+            <field name="report_file">constructions_management.report_boq</field>
+            <field name="print_report_name">'BOQ - %s - Rev %s' % (object.name, object.revision_no)</field>
+            <field name="binding_model_id" ref="model_construction_boq"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_construction_boq_template" model="ir.actions.report">
+            <field name="name">BOQ Template</field>
+            <field name="model">construction.boq.template</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">constructions_management.report_boq_template</field>
+            <field name="report_file">constructions_management.report_boq_template</field>
+            <field name="print_report_name">'BOQ Template - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_construction_boq_template"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_construction_ra_certificate" model="ir.actions.report">
+            <field name="name">RA Certificate</field>
+            <field name="model">construction.ra.certificate</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">constructions_management.report_ra_certificate</field>
+            <field name="report_file">constructions_management.report_ra_certificate</field>
+            <field name="print_report_name">'RA Certificate - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_construction_ra_certificate"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- construction.progress.certificate is built in parallel by another agent; this binding
+             resolves fine once that model exists in the registry (model registration happens
+             before any data file executes), regardless of this report file's position in the
+             manifest's data list. -->
+        <record id="action_report_construction_progress_certificate" model="ir.actions.report">
+            <field name="name">Progress Certificate</field>
+            <field name="model">construction.progress.certificate</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">constructions_management.report_progress_certificate</field>
+            <field name="report_file">constructions_management.report_progress_certificate</field>
+            <field name="print_report_name">'Progress Certificate - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_construction_progress_certificate"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- construction.cost.sheet already exists (models/execution/cost_sheet.py). -->
+        <record id="action_report_construction_cost_sheet" model="ir.actions.report">
+            <field name="name">Cost Sheet</field>
+            <field name="model">construction.cost.sheet</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">constructions_management.report_cost_sheet</field>
+            <field name="report_file">constructions_management.report_cost_sheet</field>
+            <field name="print_report_name">'Cost Sheet - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_construction_cost_sheet"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

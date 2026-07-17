@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_construction_subcontract_release_wizard_form" model="ir.ui.view">
+        <field name="name">construction.subcontract.release.wizard.form</field>
+        <field name="model">construction.subcontract.release.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="subcontract_line_id" invisible="1"/>
+                    <field name="vendor_id"/>
+                    <field name="release_qty"/>
+                </group>
+                <footer>
+                    <button string="Create Purchase Order" type="object" name="action_release" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_subcontract_list" model="ir.ui.view">
+        <field name="name">construction.subcontract.list</field>
+        <field name="model">construction.subcontract</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'confirmed'" decoration-muted="state in ('closed','cancelled')">
+                <field name="code"/>
+                <field name="project_id"/>
+                <field name="subcontractor_id"/>
+                <field name="contract_value" sum="Total"/>
+                <field name="certified_value" sum="Certified"/>
+                <field name="state" widget="badge" decoration-success="state == 'confirmed'"
+                       decoration-muted="state in ('closed','cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_subcontract_form" model="ir.ui.view">
+        <field name="name">construction.subcontract.form</field>
+        <field name="model">construction.subcontract</field>
+        <field name="arch" type="xml">
+            <form class="o_constructions_management">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_close" string="Close" type="object" invisible="state != 'confirmed'" class="btn-secondary"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('closed','cancelled')"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft" type="object" invisible="state != 'confirmed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_construction_measurement)d" type="action" class="oe_stat_button" icon="fa-ruler"
+                                context="{'search_default_subcontract_id': id, 'default_subcontract_id': id}">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="measurement_count"/></span>
+                                <span class="o_stat_text">Measurements</span>
+                            </div>
+                        </button>
+                        <button name="%(action_construction_ra_certificate)d" type="action" class="oe_stat_button" icon="fa-file-text-o"
+                                context="{'search_default_subcontract_id': id}">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="ra_certificate_count"/></span>
+                                <span class="o_stat_text">RA Certificates</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="wbs_id"/>
+                            <field name="subcontractor_id"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                        <group>
+                            <field name="contract_value"/>
+                            <field name="certified_value"/>
+                            <field name="advance_recovered"/>
+                            <field name="retention_held"/>
+                        </group>
+                    </group>
+                    <group string="Commercial Terms">
+                        <group>
+                            <field name="retention_pct"/>
+                            <field name="advance_amount"/>
+                            <field name="advance_recovery_pct"/>
+                        </group>
+                        <group>
+                            <field name="guarantee_amount"/>
+                            <field name="company_supplied_material"/>
+                        </group>
+                    </group>
+                    <field name="scope" placeholder="Scope of work..."/>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="boq_line_id"/>
+                            <field name="product_id"/>
+                            <field name="description"/>
+                            <field name="uom_id"/>
+                            <field name="agreement_qty"/>
+                            <field name="rate"/>
+                            <field name="value" sum="Total"/>
+                            <field name="released_qty"/>
+                            <field name="available_qty"/>
+                            <field name="cumulative_certified_qty"/>
+                            <button name="action_release_po" string="Release PO" type="object" class="btn-link" icon="fa-shopping-cart"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_subcontract_kanban" model="ir.ui.view">
+        <field name="name">construction.subcontract.kanban</field>
+        <field name="model">construction.subcontract</field>
+        <field name="arch" type="xml">
+            <kanban class="o_constructions_management o_kanban_small_column">
+                <field name="project_id"/>
+                <field name="subcontractor_id"/>
+                <field name="contract_value"/>
+                <field name="certified_value"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click construction-kanban-card">
+                            <div class="construction-kanban-card-title">
+                                <field name="name"/>
+                            </div>
+                            <div class="construction-kanban-card-meta text-muted">
+                                <field name="project_id"/> · <field name="subcontractor_id"/>
+                            </div>
+                            <div class="construction-kanban-card-footer">
+                                <field name="state" widget="badge" decoration-success="state == 'confirmed'"
+                                       decoration-muted="state in ('closed','cancelled')"/>
+                                <span class="construction-kanban-card-amount"><field name="certified_value"/> / <field name="contract_value"/></span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_construction_subcontract" model="ir.actions.act_window">
+        <field name="name">Subcontracts</field>
+        <field name="res_model">construction.subcontract</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+</odoo>
