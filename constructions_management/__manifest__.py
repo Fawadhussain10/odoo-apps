@@ -27,6 +27,9 @@ control, and role-based dashboards.
     "currency": "EUR",
     "category": "Industries",
     "application": True,
+    "images": [
+        "static/description/banner.png",
+    ],
     "depends": [
         "base",
         "mail",
