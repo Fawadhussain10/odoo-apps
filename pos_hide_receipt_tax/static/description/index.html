@@ -1,530 +1,124 @@
-<!-- ============================================================
-     POS - Hide Tax on Receipt  |  Module description page
-     Self-contained: system fonts, inline CSS, local images only.
-     ============================================================ -->
-<section id="htr-app">
-    <style>
-        #htr-app * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<section class="oe_container" style="font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; color: #0f172a;">
 
-        #htr-app {
-            --navy: #0b1220;
-            --navy2: #0f1e34;
-            --sky: #38bdf8;
-            --emk: #10b981;
-            --em: #34d399;
-            --ink: #0f172a;
-            --muted: #64748b;
-            --line: #e6ebf2;
-            --soft: #f6f9fc;
-            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: var(--ink);
-            line-height: 1.6;
-            background: #fff;
-            max-width: 1100px;
-            margin: 0 auto;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        #htr-app img {
-            max-width: 100%;
-            display: block;
-        }
-
-        #htr-app .wrap {
-            padding: 0 26px;
-        }
-
-        #htr-app h2 {
-            font-size: 34px;
-            font-weight: 800;
-            letter-spacing: -.6px;
-            line-height: 1.15;
-        }
-
-        #htr-app h3 {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        #htr-app .lead {
-            font-size: 18px;
-            color: var(--muted);
-        }
-
-        #htr-app .accent {
-            background: linear-gradient(90deg, var(--sky), var(--em));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        /* intro band */
-        #htr-app .intro {
-            display: flex;
-            gap: 26px;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            padding: 34px 30px;
-            margin: 20px 0 12px;
-            background: linear-gradient(135deg, #f4f8fd, #eefaf4);
-            border: 1px solid var(--line);
-            border-radius: 20px;
-        }
-
-        #htr-app .intro .t {
-            flex: 1;
-            min-width: 320px;
-        }
-
-        #htr-app .intro h2 {
-            margin-bottom: 8px;
-        }
-
-        #htr-app .price {
-            flex: none;
-            text-align: center;
-            color: #04160f;
-            background: linear-gradient(135deg, var(--em), var(--emk));
-            border-radius: 20px;
-            padding: 22px 34px;
-            box-shadow: 0 16px 34px rgba(16, 185, 129, .35);
-        }
-
-        #htr-app .price .n {
-            font-size: 52px;
-            font-weight: 900;
-            line-height: 1;
-        }
-
-        #htr-app .price .l {
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            opacity: .85;
-            margin-top: 4px;
-        }
-
-        /* section heading */
-        #htr-app .sec {
-            padding: 40px 0 6px;
-        }
-
-        #htr-app .eyebrow {
-            display: inline-block;
-            font-size: 13px;
-            font-weight: 800;
-            letter-spacing: .16em;
-            text-transform: uppercase;
-            color: var(--emk);
-            background: #e9fbf3;
-            padding: 6px 14px;
-            border-radius: 100px;
-            margin-bottom: 14px;
-        }
-
-        /* feature cards */
-        #htr-app .cards {
-            display: flex;
-            gap: 18px;
-            flex-wrap: wrap;
-            margin-top: 22px;
-        }
-
-        #htr-app .card {
-            flex: 1;
-            min-width: 230px;
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 24px 22px;
-            box-shadow: 0 10px 26px rgba(15, 23, 42, .05);
-            transition: .2s;
-        }
-
-        #htr-app .card .ic {
-            width: 46px;
-            height: 46px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            margin-bottom: 14px;
-            background: linear-gradient(135deg, #e0f2fe, #dcfce7);
-        }
-
-        #htr-app .card h3 {
-            margin-bottom: 6px;
-        }
-
-        #htr-app .card p {
-            color: var(--muted);
-            font-size: 15px;
-        }
-
-        /* before/after */
-        #htr-app .ba {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 26px;
-        }
-
-        #htr-app .shot {
-            flex: 1;
-            min-width: 300px;
-            max-width: 440px;
-            border-radius: 18px;
-            overflow: hidden;
-            border: 1px solid var(--line);
-            box-shadow: 0 20px 44px rgba(15, 23, 42, .12);
-        }
-
-        #htr-app .arrow {
-            flex: none;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--sky), var(--em));
-            color: #04160f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            font-weight: 900;
-            box-shadow: 0 14px 30px rgba(56, 189, 248, .35);
-        }
-
-        /* how it works */
-        #htr-app .steps {
-            display: flex;
-            gap: 18px;
-            flex-wrap: wrap;
-            margin-top: 22px;
-        }
-
-        #htr-app .step {
-            flex: 1;
-            min-width: 220px;
-            background: var(--soft);
-            border-radius: 16px;
-            padding: 22px;
-            border: 1px solid var(--line);
-            position: relative;
-        }
-
-        #htr-app .step .num {
-            position: absolute;
-            top: -14px;
-            left: 22px;
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            background: var(--navy2);
-            color: #fff;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #htr-app .step h3 {
-            margin: 10px 0 6px;
-            font-size: 17px;
-        }
-
-        #htr-app .step p {
-            color: var(--muted);
-            font-size: 14px;
-        }
-
-        /* checklist */
-        #htr-app .check {
-            list-style: none;
-            display: grid;
-            grid-template-columns:1fr 1fr;
-            gap: 12px 26px;
-            margin-top: 22px;
-        }
-
-        #htr-app .check li {
-            position: relative;
-            padding-left: 34px;
-            font-size: 16px;
-            color: #1e293b;
-        }
-
-        #htr-app .check li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            top: 1px;
-            width: 22px;
-            height: 22px;
-            background: linear-gradient(135deg, var(--em), var(--emk));
-            color: #04160f;
-            border-radius: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 13px;
-        }
-
-        /* callout */
-        #htr-app .callout {
-            margin-top: 26px;
-            background: linear-gradient(135deg, var(--navy), var(--navy2));
-            color: #fff;
-            border-radius: 20px;
-            padding: 30px 32px;
-            display: flex;
-            gap: 18px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        #htr-app .callout .big {
-            font-size: 22px;
-            font-weight: 800;
-        }
-
-        #htr-app .callout p {
-            color: #c3d0e0;
-            margin-top: 4px;
-        }
-
-        #htr-app .callout .tick {
-            font-size: 34px;
-        }
-
-        /* support */
-        #htr-app .support {
-            margin: 44px 0 30px;
-            background: linear-gradient(135deg, #0b1220, #12324a);
-            border-radius: 22px;
-            padding: 40px 34px;
-            color: #fff;
-            text-align: center;
-        }
-
-        #htr-app .support .eyebrow {
-            background: rgba(52, 211, 153, .15);
-            color: #6ee7b7;
-        }
-
-        #htr-app .support h2 {
-            color: #fff;
-            margin-bottom: 6px;
-        }
-
-        #htr-app .support .sub {
-            color: #aebfd2;
-            margin-bottom: 26px;
-        }
-
-        #htr-app .contact {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        #htr-app .cc {
-            background: rgba(255, 255, 255, .06);
-            border: 1px solid rgba(255, 255, 255, .12);
-            border-radius: 14px;
-            padding: 18px 24px;
-            min-width: 230px;
-            text-align: left;
-            display: flex;
-            gap: 14px;
-            align-items: center;
-        }
-
-        #htr-app .cc .e {
-            width: 44px;
-            height: 44px;
-            border-radius: 11px;
-            flex: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            background: linear-gradient(135deg, var(--sky), var(--em));
-        }
-
-        #htr-app .cc .k {
-            font-size: 12px;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            color: #8fa3ba;
-        }
-
-        #htr-app .cc .v {
-            font-size: 17px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        #htr-app .person {
-            margin-top: 24px;
-            font-size: 15px;
-            color: #aebfd2;
-        }
-
-        #htr-app .person b {
-            color: #fff;
-        }
-
-        #htr-app .foot {
-            text-align: center;
-            color: var(--muted);
-            font-size: 13px;
-            padding: 10px 0 30px;
-        }
-
-        #htr-app .divider {
-            height: 1px;
-            background: var(--line);
-            margin: 8px 0;
-        }
-    </style>
-
-    <!-- ===== INTRO + PRICE ===== -->
-    <div class="wrap">
-        <div class="intro">
-            <div class="t">
-                <h2>A cleaner receipt, <span class="accent">zero accounting change</span></h2>
-                <p class="lead">Hide the untaxed <b>Subtotal</b> and the <b>Tax</b> lines from your Point of Sale
-                    receipt. Customers see only the final <b>Total</b> they pay — while every tax stays fully
-                    calculated and recorded in Odoo, exactly as before.</p>
-            </div>
-            <div class="price">
-                <div class="n">€10</div>
-                <div class="l">One-time</div>
-            </div>
-        </div>
+    <div style="margin: -16px -16px 0 -16px;">
+        <img src="banner.png" style="width: 100%; display: block;"/>
     </div>
 
-    <!-- ===== FEATURES ===== -->
-    <div class="wrap sec">
-        <span class="eyebrow">Why you'll love it</span>
-        <h2>Everything handled, nothing to configure</h2>
-        <div class="cards">
-            <div class="card">
-                <div class="ic">🧾</div>
-                <h3>Tax lines hidden</h3>
-                <p>The Subtotal (untaxed amount) and every tax-group line disappear from the printed receipt.</p>
-            </div>
-            <div class="card">
-                <div class="ic">✅</div>
-                <h3>Total stays correct</h3>
-                <p>The final Total still shows the full, tax-inclusive amount the customer actually pays.</p>
-            </div>
-            <div class="card">
-                <div class="ic">📊</div>
-                <h3>Accounting untouched</h3>
-                <p>Taxes remain computed and posted on the order and in your books — only the print changes.</p>
-            </div>
-            <div class="card">
-                <div class="ic">⚡</div>
-                <h3>Install &amp; done</h3>
-                <p>No settings, no scripts. Install the module, reopen the POS, and it just works.</p>
-            </div>
-        </div>
-    </div>
+    <!-- ============ Intro band ============ -->
+    <table style="width:100%; border-collapse: collapse; margin: 0;">
+        <tr>
+            <td style="background:#0f172a; padding: 28px 40px; text-align:center; border-radius: 0 0 10px 10px;">
+                <p style="font-size: 16px; max-width: 780px; margin: 0 auto; color: #cbd5e1;">
+                    Hide the untaxed Subtotal and Tax lines from your Point of Sale receipt &mdash;
+                    customers see only the final Total they pay, while every tax stays fully
+                    calculated and recorded in Odoo, exactly as before.<br/>
+                    <span style="color:#f59e0b; font-weight:bold;">
+                        Install &rarr; Reopen POS &rarr; Print Clean Receipts
+                    </span>
+                </p>
+            </td>
+        </tr>
+    </table>
 
-    <!-- ===== BEFORE / AFTER ===== -->
-    <div class="wrap sec">
-        <span class="eyebrow">See the difference</span>
-        <h2>Before &amp; After</h2>
-        <p class="lead">Same order, same Total — the tax breakdown simply vanishes from the customer's copy.</p>
-        <div class="ba">
-            <div class="shot"><img src="screenshot_before.png" alt="Receipt before — tax lines visible"/></div>
-            <div class="arrow">➜</div>
-            <div class="shot"><img src="screenshot_after.png" alt="Receipt after — tax lines hidden"/></div>
-        </div>
-    </div>
+    <!-- ============ Feature cards (table) ============ -->
+    <table style="width:100%; border-collapse: separate; border-spacing: 14px; margin: 28px 0 0;">
+        <tr>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #2a78d6; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#129534; Tax Lines Hidden</h3>
+                <p style="color:#475569;">The Subtotal (untaxed amount) and every tax-group line
+                    disappear from the printed receipt.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #1baf7a; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#9989; Total Stays Correct</h3>
+                <p style="color:#475569;">The final Total still shows the full, tax-inclusive amount
+                    the customer actually pays.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #4a3aa7; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#128202; Accounting Untouched</h3>
+                <p style="color:#475569;">Taxes remain computed and posted on the order and in your
+                    books &mdash; only the print changes.</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #eb6834; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#9889; Install &amp; Done</h3>
+                <p style="color:#475569;">No settings, no scripts. Install the module, reopen the
+                    POS, and it just works.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #eda100; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#128274; Upgrade-Safe</h3>
+                <p style="color:#475569;">Clean template inheritance &mdash; no core Odoo source is
+                    modified, so future upgrades stay safe.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #e87ba4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#128181; Odoo 18 Point of Sale</h3>
+                <p style="color:#475569;">Depends only on Point of Sale &mdash; no other module
+                    required.</p>
+            </td>
+        </tr>
+    </table>
 
-    <!-- ===== HOW IT WORKS ===== -->
-    <div class="wrap sec">
-        <span class="eyebrow">How it works</span>
-        <h2>Live in three steps</h2>
-        <div class="steps">
-            <div class="step">
-                <div class="num">1</div>
-                <h3>Install the module</h3>
-                <p>Add it to your Apps and install — it depends only on Point of Sale.</p></div>
-            <div class="step">
-                <div class="num">2</div>
-                <h3>Reopen your POS</h3>
-                <p>Refresh or restart the POS session so the new receipt layout loads.</p></div>
-            <div class="step">
-                <div class="num">3</div>
-                <h3>Print clean receipts</h3>
-                <p>Validate an order and the receipt prints with a single, correct Total.</p></div>
-        </div>
-    </div>
+    <!-- ============ Before / After (table) ============ -->
+    <table style="width:100%; border-collapse: collapse; margin: 36px 0 0; background:#0f172a; border-radius: 10px;">
+        <tr>
+            <td style="padding: 26px 26px 8px; text-align:center;">
+                <div style="color:#f59e0b; font-weight:bold; letter-spacing:1px; text-transform:uppercase; font-size:12px;">See The Difference</div>
+                <h2 style="color:#f3ead9; margin: 6px 0 20px;">Before &amp; After</h2>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%; border-collapse: separate; border-spacing: 14px; margin: 0 0 0; background:#0f172a; padding-bottom: 8px; border-radius: 0 0 10px 10px;">
+        <tr>
+            <td style="width:50%; vertical-align:top; padding:0; background:#141b2d; border:1px solid #2a3550; border-radius: 10px; overflow:hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.35);">
+                <div style="padding:10px 14px; color:#cbd5e1; font-size:12px; font-weight:bold; border-bottom:1px solid #2a3550;">Before &mdash; tax lines visible</div>
+                <img src="screenshot_before.png" style="width:100%; display:block;"/>
+            </td>
+            <td style="width:50%; vertical-align:top; padding:0; background:#141b2d; border:1px solid #2a3550; border-radius: 10px; overflow:hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.35);">
+                <div style="padding:10px 14px; color:#f59e0b; font-size:12px; font-weight:bold; border-bottom:1px solid #2a3550;">After &mdash; tax lines hidden</div>
+                <img src="screenshot_after.png" style="width:100%; display:block;"/>
+            </td>
+        </tr>
+    </table>
 
-    <!-- ===== CHECKLIST ===== -->
-    <div class="wrap sec">
-        <span class="eyebrow">What's inside</span>
-        <h2>Built the right way</h2>
-        <ul class="check">
-            <li>Hides the untaxed Subtotal line on the receipt</li>
-            <li>Hides all tax-group / tax amount lines</li>
-            <li>Keeps the tax-inclusive Total intact</li>
-            <li>No change to invoices, orders or accounting</li>
-            <li>Clean template inheritance — upgrade-safe</li>
-            <li>Compatible with Odoo 18 Point of Sale</li>
-        </ul>
+    <!-- ============ Contact Us (table) ============ -->
+    <table style="width:100%; border-collapse: collapse; margin: 36px 0 0;">
+        <tr>
+            <td style="padding: 0 0 8px; text-align:center;">
+                <div style="color:#92400e; font-weight:bold; letter-spacing:1px; text-transform:uppercase; font-size:12px;">Get In Touch</div>
+                <h2 style="color:#0f172a; margin: 6px 0 20px;">Contact Us</h2>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%; border-collapse: separate; border-spacing: 14px;">
+        <tr>
+            <td style="width:33%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; font-size:22px; line-height:52px;">&#128100;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">Author</div>
+                <div style="font-size:14px; color:#0f172a; font-weight:bold; margin-top:4px;">Fawad Hussain</div>
+            </td>
+            <td style="width:33%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#2a78d6,#184f95); color:#fff; font-size:22px; line-height:52px;">&#9993;&#65039;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">Email</div>
+                <div style="font-size:14px; margin-top:4px;"><a href="mailto:fawadh817@gmail.com" style="color:#92400e; font-weight:bold; text-decoration:none;">fawadh817@gmail.com</a></div>
+            </td>
+            <td style="width:33%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#1baf7a,#0c8a5c); color:#fff; font-size:22px; line-height:52px;">&#128241;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">Phone / WhatsApp</div>
+                <div style="font-size:14px; color:#0f172a; font-weight:bold; margin-top:4px;">+92 301 0400131</div>
+            </td>
+        </tr>
+    </table>
 
-        <div class="callout">
-            <div class="tick">🔒</div>
-            <div>
-                <div class="big">Your tax records stay 100% accurate</div>
-                <p>This module only affects what is <i>printed</i>. Tax reporting, invoices and the backend
-                    remain exactly as Odoo computes them.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== SUPPORT / CONTACT ===== -->
-    <div class="wrap">
-        <div class="support">
-            <span class="eyebrow">Help &amp; Support</span>
-            <h2>Questions? We're here for you</h2>
-            <p class="sub">Reach out any time for setup help, questions or custom tweaks.</p>
-            <div class="contact">
-                <div class="cc">
-                    <div class="e">📞</div>
-                    <div>
-                        <div class="k">Phone / WhatsApp</div>
-                        <div class="v">+92 301 0400131</div>
-                    </div>
-                </div>
-                <div class="cc">
-                    <div class="e">✉️</div>
-                    <div>
-                        <div class="k">Email</div>
-                        <div class="v">fawadh817@gmail.com</div>
-                    </div>
-                </div>
-            </div>
-            <div class="person">Developed &amp; supported by <b>Fawad Hussain</b></div>
-        </div>
-    </div>
-
-    <div class="divider"></div>
-    <div class="foot">POS – Hide Tax on Receipt · Odoo 18 · © Fawad Hussain</div>
+    <!-- ============ Footer ============ -->
+    <table style="width:100%; border-collapse: collapse; margin: 30px 0 0;">
+        <tr>
+            <td style="text-align:center; padding: 18px; background:#f6f1e6; border-radius: 8px;">
+                <p style="margin:0; color:#0f172a;">
+                    <strong>POS &ndash; Hide Tax on Receipt</strong> for Odoo 18 &middot; Built by
+                    Fawad Hussain
+                </p>
+            </td>
+        </tr>
+    </table>
 
 </section>
