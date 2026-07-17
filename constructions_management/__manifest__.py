@@ -28,7 +28,7 @@ control, and role-based dashboards.
     "category": "Industries",
     "application": True,
     "images": [
-        "static/description/banner.png",
+        "static/description/banner.gif",
     ],
     "depends": [
         "base",
