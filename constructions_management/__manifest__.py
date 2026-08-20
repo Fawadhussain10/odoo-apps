@@ -23,7 +23,7 @@ control, and role-based dashboards.
     "author": "Fawad Hussain",
     "website": "https://packbytes.com",
     "license": "OPL-1",
-    "price": 2100.00,
+    "price": 950.00,
     "currency": "EUR",
     "category": "Industries",
     "application": True,
