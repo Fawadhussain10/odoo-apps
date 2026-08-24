@@ -18,9 +18,11 @@
         <field name="arch" type="xml">
             <tree string="Tenders" decoration-success="state == 'accepted'"
                   decoration-danger="state == 'rejected'"
+                  decoration-warning="state == 'to_approve'"
                   decoration-muted="state == 'converted'">
                 <field name="name"/>
                 <field name="partner_id"/>
+                <field name="user_id"/>
                 <field name="purpose"/>
                 <field name="tender_number"/>
                 <field name="mode_of_instrument"/>
@@ -30,6 +32,7 @@
                        decoration-success="state == 'accepted'"
                        decoration-danger="state == 'rejected'"
                        decoration-info="state == 'draft'"
+                       decoration-warning="state == 'to_approve'"
                        decoration-muted="state == 'converted'"/>
             </tree>
         </field>
@@ -41,19 +44,21 @@
         <field name="arch" type="xml">
             <form string="Tender">
                 <header>
+                    <button name="action_submit_for_approval" string="Manager Approval"
+                            type="object" class="oe_highlight" invisible="state != 'draft'"/>
                     <button name="action_accept" string="Accept" type="object"
-                            class="oe_highlight" invisible="state != 'draft'"
+                            class="oe_highlight" invisible="state != 'to_approve'"
                             groups="sales_tender.sale_tender_group_approver"/>
                     <button name="action_reject" string="Reject" type="object"
-                            invisible="state != 'draft'"
+                            invisible="state != 'to_approve'"
                             groups="sales_tender.sale_tender_group_approver"/>
                     <button name="action_convert_to_quotation" string="Convert to Quotation"
                             type="object" class="oe_highlight"
                             invisible="state != 'accepted'"/>
                     <button name="action_reset_to_draft" string="Reset to Draft" type="object"
-                            invisible="state not in ('accepted', 'rejected')"/>
+                            invisible="state not in ('to_approve', 'accepted', 'rejected')"/>
                     <field name="state" widget="statusbar"
-                           statusbar_visible="draft,accepted,converted"/>
+                           statusbar_visible="draft,to_approve,accepted,converted"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -75,6 +80,7 @@
                                    context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}"
                                    options="{'always_reload': True}"/>
                             <field name="purpose" readonly="state != 'draft'"/>
+                            <field name="user_id" readonly="state != 'draft'"/>
                         </group>
                         <group>
                             <field name="mode_of_instrument" readonly="state != 'draft'"/>
@@ -133,13 +139,16 @@
             <search string="Tenders">
                 <field name="name"/>
                 <field name="partner_id"/>
+                <field name="user_id"/>
                 <field name="tender_number"/>
                 <filter string="Draft" name="filter_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="To Approve" name="filter_to_approve" domain="[('state', '=', 'to_approve')]"/>
                 <filter string="Accepted" name="filter_accepted" domain="[('state', '=', 'accepted')]"/>
                 <filter string="Rejected" name="filter_rejected" domain="[('state', '=', 'rejected')]"/>
                 <filter string="Converted" name="filter_converted" domain="[('state', '=', 'converted')]"/>
                 <group expand="0" string="Group By">
                     <filter string="Customer" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Salesperson" name="group_salesperson" context="{'group_by': 'user_id'}"/>
                     <filter string="Purpose" name="group_purpose" context="{'group_by': 'purpose'}"/>
                     <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
                 </group>
