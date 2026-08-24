@@ -1,0 +1,5 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_tender_user,access.sale.tender.user,model_sale_tender,sale_tender_group_user,1,1,1,0
+access_sale_tender_approver,access.sale.tender.approver,model_sale_tender,sale_tender_group_approver,1,1,1,1
+access_sale_tender_attachment_user,access.sale.tender.attachment.user,model_sale_tender_attachment,sale_tender_group_user,1,1,1,1
+access_sale_tender_line_user,access.sale.tender.line.user,model_sale_tender_line,sale_tender_group_user,1,1,1,1

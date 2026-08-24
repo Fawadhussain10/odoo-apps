@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="sale_tender_menu_root" name="Tenders" sequence="15"
+              groups="sale_tender.sale_tender_group_user"
+              web_icon="sale_tender,static/description/icon.png"/>
+    <menuitem id="sale_tender_menu_tenders" name="Tenders"
+              parent="sale_tender_menu_root" action="sale_tender_action" sequence="10"/>
+</odoo>
