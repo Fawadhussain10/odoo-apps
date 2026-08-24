@@ -14,6 +14,9 @@ class SaleTender(models.Model):
         default=lambda self: _('New'))
     partner_id = fields.Many2one(
         'res.partner', string='Customer', required=True, tracking=True)
+    user_id = fields.Many2one(
+        'res.users', string='Salesperson', tracking=True,
+        default=lambda self: self.env.user)
     purpose = fields.Selection([
         ('bid_earnest_money', 'Bid Money/Earnest Money'),
         ('performance_security', 'Performance Security'),
@@ -27,6 +30,7 @@ class SaleTender(models.Model):
         ('pay_order_cdr', 'Pay Order/CDR'),
         ('bank_guarantee', 'Bank Guarantee'),
         ('insurance_guarantee', 'Insurance Guarantee'),
+        ('online_payment', 'Online Payment'),
     ], string='Mode of Instrument', tracking=True)
     attachment_ids = fields.One2many(
         'sale.tender.attachment', 'tender_id', string='Attachments')
@@ -34,6 +38,7 @@ class SaleTender(models.Model):
         'sale.tender.line', 'tender_id', string='Order Lines')
     state = fields.Selection([
         ('draft', 'Draft'),
+        ('to_approve', 'Manager Approval'),
         ('accepted', 'Accepted'),
         ('rejected', 'Rejected'),
         ('converted', 'Converted to Quotation'),
@@ -59,7 +64,7 @@ class SaleTender(models.Model):
             tender.amount_tax = tender.amount_total - tender.amount_untaxed
 
     _EDITABLE_ONLY_IN_DRAFT = {
-        'partner_id', 'purpose', 'mode_of_instrument', 'tender_number',
+        'partner_id', 'user_id', 'purpose', 'mode_of_instrument', 'tender_number',
         'tender_date', 'order_line_ids', 'attachment_ids',
     }
 
@@ -84,18 +89,24 @@ class SaleTender(models.Model):
         if not self.env.user.has_group('sales_tender.sale_tender_group_approver'):
             raise AccessError(_('Only a Tender Approver can accept or reject tenders.'))
 
+    def action_submit_for_approval(self):
+        for tender in self:
+            if tender.state != 'draft':
+                raise UserError(_('Only draft tenders can be submitted for manager approval.'))
+        self.write({'state': 'to_approve'})
+
     def action_accept(self):
         self._check_is_approver()
         for tender in self:
-            if tender.state != 'draft':
-                raise UserError(_('Only draft tenders can be accepted.'))
+            if tender.state != 'to_approve':
+                raise UserError(_('Only tenders awaiting manager approval can be accepted.'))
         self.write({'state': 'accepted'})
 
     def action_reject(self):
         self._check_is_approver()
         for tender in self:
-            if tender.state != 'draft':
-                raise UserError(_('Only draft tenders can be rejected.'))
+            if tender.state != 'to_approve':
+                raise UserError(_('Only tenders awaiting manager approval can be rejected.'))
         self.write({'state': 'rejected'})
 
     def action_reset_to_draft(self):
@@ -121,11 +132,12 @@ class SaleTender(models.Model):
             'tax_ids': [(6, 0, line.tax_id.ids)],
         }) for line in self.order_line_ids]
 
-        order = self.env['sale.order'].create({
+        order = self.env['sale.order'].sudo().create({
             'partner_id': self.partner_id.id,
             'client_order_ref': self.tender_number,
             'origin': self.name,
             'company_id': self.company_id.id,
+            'user_id': self.user_id.id,
             'order_line': order_line_vals,
             'tender_id': self.id,
             'date_order': fields.Datetime.to_datetime(self.tender_date),
