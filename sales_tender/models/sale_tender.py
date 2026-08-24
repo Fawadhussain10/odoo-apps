@@ -81,7 +81,7 @@ class SaleTender(models.Model):
         return super().write(vals)
 
     def _check_is_approver(self):
-        if not self.env.user.has_group('sale_tender.sale_tender_group_approver'):
+        if not self.env.user.has_group('sales_tender.sale_tender_group_approver'):
             raise AccessError(_('Only a Tender Approver can accept or reject tenders.'))
 
     def action_accept(self):
