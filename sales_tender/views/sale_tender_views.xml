@@ -43,10 +43,10 @@
                 <header>
                     <button name="action_accept" string="Accept" type="object"
                             class="oe_highlight" invisible="state != 'draft'"
-                            groups="sale_tender.sale_tender_group_approver"/>
+                            groups="sales_tender.sale_tender_group_approver"/>
                     <button name="action_reject" string="Reject" type="object"
                             invisible="state != 'draft'"
-                            groups="sale_tender.sale_tender_group_approver"/>
+                            groups="sales_tender.sale_tender_group_approver"/>
                     <button name="action_convert_to_quotation" string="Convert to Quotation"
                             type="object" class="oe_highlight"
                             invisible="state != 'accepted'"/>
