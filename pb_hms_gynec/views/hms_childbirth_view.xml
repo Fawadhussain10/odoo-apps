@@ -22,7 +22,7 @@
                             <field name="birth_date"/>
                             <field name="birth_place"/>
                             <field name="birth_weight"/>
-                            <field name="gender"/>
+                            <field name="gender" readonly="state == 'done'"/>
                             <field name="blood_group"/>
                             <field name="hb"/>
                         </group>
@@ -38,7 +38,7 @@
                         <group>
                             <field name="patient_education"/>
                             <field name="age"/>
-                            <field name="delivery_type"/>
+                            <field name="delivery_type" readonly="state == 'done'"/>
                             <field name="parity"/>
                             <field name="male"/>
                             <field name="female"/>
@@ -50,7 +50,7 @@
                         </group>
                     </group>
                     <separator string="Remarks" colspan="2"/>
-                    <field name="extra_info" colspan="2" nolabel="1"/>
+                    <field name="extra_info" colspan="2" nolabel="1" readonly="state == 'done'"/>
                 </sheet>
             </form>
         </field>

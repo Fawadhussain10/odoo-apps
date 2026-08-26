@@ -43,8 +43,6 @@ class PbHmsEmergency(models.Model):
         for rec in self:
             rec.evaluation_id = rec.evaluation_ids[0].id if rec.evaluation_ids else False
 
-    READONLY_STATES = {'done': [('readonly', True)]}
-
     name = fields.Char(string='Name', copy=False, tracking=True)
     patient_id = fields.Many2one('hms.patient', ondelete='restrict',  string='Patient',
         required=True, index=True, help='Patient Name', tracking=True)
@@ -60,7 +58,7 @@ class PbHmsEmergency(models.Model):
             ('done', 'Done'),
         ], string='Status',default='draft', required=True, copy=False, tracking=True)
     date = fields.Datetime(string='Admission Date', default=fields.Datetime.now, tracking=True, copy=False)
-    discharge_date = fields.Datetime (string='Discharge date', states=READONLY_STATES, tracking=True)
+    discharge_date = fields.Datetime (string='Discharge date', tracking=True)
 
     product_id = fields.Many2one('product.product', ondelete='restrict', 
         string='Emergency Service', help="Emergency Service Charge", 
@@ -68,7 +66,7 @@ class PbHmsEmergency(models.Model):
         default=_get_service_id)
     invoice_exempt = fields.Boolean(string='Invoice Exempt')
     ward_id = fields.Many2one('hospital.ward', ondelete="restrict", string='Ward/Room')
-    bed_id = fields.Many2one ('hospital.bed', ondelete="restrict", string='Bed No.', states=READONLY_STATES)
+    bed_id = fields.Many2one ('hospital.bed', ondelete="restrict", string='Bed No.')
     responsible_id = fields.Many2one('hms.physician', "Responsible Jr. Doctor")
     notes = fields.Text(string='Notes')
     age = fields.Char(compute="get_patient_age", string='Age', store=True,

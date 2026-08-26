@@ -19,7 +19,7 @@ class PBPatient(models.Model):
         for rec in self:
             rec.invoice_count = Invoice.sudo().search_count([('partner_id','=',rec.partner_id.id)])
 
-    partner_id = fields.Many2one('res.partner', required=True, ondelete='restrict', auto_join=True,
+    partner_id = fields.Many2one('res.partner', required=True, ondelete='restrict',
         string='Related Partner', help='Partner-related data of the Patient')
     gov_code = fields.Char(string='Government Identity', copy=False, tracking=True)
     marital_status = fields.Selection([

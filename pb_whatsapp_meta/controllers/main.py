@@ -15,7 +15,7 @@ from odoo.exceptions import AccessError, MissingError, UserError
 
 class PbMetaWaba(http.Controller):
 
-    @http.route('/pb/waba/webhooks', type="json", auth="public", methods=['POST','GET'], sitemap=False, csrf=False)
+    @http.route('/pb/waba/webhooks', type="jsonrpc", auth="public", methods=['POST','GET'], sitemap=False, csrf=False)
     def pb_waba_webhooks_data(self, **kwargs):
         json_data = request.jsonrequest
         _logger.warning('waba data: %s', json_data)

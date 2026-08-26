@@ -4,6 +4,7 @@ from odoo import api, fields, models, _
 
 
 class PrescriptionOrder(models.Model):
+    _name = 'prescription.order'
     _inherit = ['prescription.order', 'pos.load.mixin']
 
     pos_order_line_ids = fields.One2many('pos.order.line', 'prescription_order_origin_id', string="Order lines Transfered to Point of Sale", readonly=True, groups="point_of_sale.group_pos_user")
@@ -73,6 +74,7 @@ class PrescriptionOrder(models.Model):
         }
 
 class PrescriptionLine(models.Model):
+    _name = 'prescription.line'
     _inherit = ['prescription.line', 'pos.load.mixin']
 
     pos_order_line_ids = fields.One2many('pos.order.line', 'prescription_order_line_id', string="Order lines Transfered to Point of Sale", readonly=True, groups="point_of_sale.group_pos_user")

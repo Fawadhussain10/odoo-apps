@@ -73,7 +73,7 @@ class HMSPortal(CustomerPortal):
         }
         return request.render("pb_consent_form.my_consent_form", values)
 
-    @http.route(['/my/consentform/<int:consent_form_id>/sign'], type='json', auth="public", website=True, sitemap=False)
+    @http.route(['/my/consentform/<int:consent_form_id>/sign'], type='jsonrpc', auth="public", website=True, sitemap=False)
     def pb_portal_document_sign(self, consent_form_id, access_token=None, name=None, signature=None):
         # get from query string if not on json param
         access_token = access_token or request.httprequest.args.get('access_token')

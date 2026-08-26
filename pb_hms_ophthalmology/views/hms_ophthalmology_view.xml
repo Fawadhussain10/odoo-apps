@@ -148,7 +148,7 @@
                             </field>
                         </page>
                     </notebook>
-                    <field name="notes"/>
+                    <field name="notes" readonly="state == 'done'"/>
                 </sheet>
                 <chatter/>
             </form>

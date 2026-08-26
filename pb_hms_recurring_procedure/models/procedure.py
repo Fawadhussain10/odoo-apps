@@ -3,7 +3,7 @@
 from odoo import api, fields, models ,_
 from odoo.exceptions import UserError
 from datetime import date, datetime, timedelta
-from odoo.osv.expression import OR
+from odoo.fields import Domain
 from .procedure_recurrence import DAYS, WEEKS
 
 class ProductTemplate(models.Model):
@@ -67,12 +67,12 @@ class PbPatientProcedure(models.Model):
         ('week', 'Weeks'),
         ('month', 'Months'),
         ('year', 'Years'),
-    ], default='week', compute='_compute_repeat', readonly=False, store=True)
+    ], default='week', compute='_compute_repeat_stored', readonly=False, store=True, compute_sudo=False)
     repeat_type = fields.Selection([
         ('forever', 'Forever'),
         ('until', 'End Date'),
         ('after', 'Number of Repetitions'),
-    ], default="forever", string="Until", compute='_compute_repeat', readonly=False, store=True)
+    ], default="forever", string="Until", compute='_compute_repeat_stored', readonly=False, store=True, compute_sudo=False)
     repeat_until = fields.Date(string="Recurrence End Date", compute='_compute_repeat', readonly=False)
     repeat_number = fields.Integer(string="Repetitions", default=1, compute='_compute_repeat', readonly=False)
 
@@ -146,9 +146,7 @@ class PbPatientProcedure(models.Model):
             procedure.repeat_show_dow = procedure.recurring_procedure and procedure.repeat_unit == 'week'
             procedure.repeat_show_month = procedure.recurring_procedure and procedure.repeat_unit == 'year'
 
-    @api.depends('recurring_procedure')
-    def _compute_repeat(self):
-        rec_fields = self._get_recurrence_fields()
+    def _compute_repeat_fields(self, rec_fields):
         defaults = self.default_get(rec_fields)
         for procedure in self:
             for f in rec_fields:
@@ -159,6 +157,15 @@ class PbPatientProcedure(models.Model):
                         procedure[f] = defaults.get(f)
                     else:
                         procedure[f] = False
+
+    @api.depends('recurring_procedure')
+    def _compute_repeat_stored(self):
+        self._compute_repeat_fields(['repeat_unit', 'repeat_type'])
+
+    @api.depends('recurring_procedure')
+    def _compute_repeat(self):
+        rec_fields = [f for f in self._get_recurrence_fields() if f not in ('repeat_unit', 'repeat_type')]
+        self._compute_repeat_fields(rec_fields)
 
     def _get_weekdays(self, n=1):
         self.ensure_one()
@@ -288,7 +295,7 @@ class PbPatientProcedure(models.Model):
             recurrence_domain = []
             if recurrence_update == 'subsequent':
                 for procedure in self:
-                    recurrence_domain = OR([recurrence_domain, ['&', ('recurrence_id', '=', procedure.recurrence_id.id), ('create_date', '>=', procedure.create_date)]])
+                    recurrence_domain = Domain.OR([recurrence_domain, ['&', ('recurrence_id', '=', procedure.recurrence_id.id), ('create_date', '>=', procedure.create_date)]])
             else:
                 recurrence_domain = [('recurrence_id', 'in', self.recurrence_id.ids)]
             procedures |= self.env['pb.patient.procedure'].search(recurrence_domain)

@@ -105,7 +105,7 @@ class HMSPortal(CustomerPortal):
         }
         return request.render("pb_hms_aesthetic.my_aesthetic_history_sign", values)
 
-    @http.route(['/my/aesthetic/<int:patient_id>/accept'], type='json', auth="public", website=True, sitemap=False)
+    @http.route(['/my/aesthetic/<int:patient_id>/accept'], type='jsonrpc', auth="public", website=True, sitemap=False)
     def portal_patient_accept(self, patient_id, access_token=None, name=None, signature=None):
         # get from query string if not on json param
         access_token = access_token or request.httprequest.args.get('access_token')

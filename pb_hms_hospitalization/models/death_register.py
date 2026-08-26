@@ -6,8 +6,6 @@ class DeathRegister(models.Model):
     _name = "patient.death.register"
     _description = "Patient Death Register"
 
-    STATES = {'done': [('readonly', True)]}
-
     name = fields.Char('Name', readonly=True, copy=False)
     date_of_death = fields.Date(string='Date of Death', required=True)
     hospitalizaion_id = fields.Many2one('pb.hospitalization', string='Hospitalization')
@@ -18,8 +16,8 @@ class DeathRegister(models.Model):
         ('draft', 'Draft'),
         ('done', 'Done')], string='Status', required=True, readonly=True, copy=False, default='draft')
     physician_id = fields.Many2one('hms.physician', ondelete='restrict', string='Physician', index=True)
-    reason = fields.Text (string='Death Reason', states=STATES, required=True)
-    extra_info = fields.Text (string='Remarks', states=STATES)
+    reason = fields.Text (string='Death Reason', required=True)
+    extra_info = fields.Text (string='Remarks')
     company_id = fields.Many2one('res.company', ondelete='restrict', 
         string='Hospital',default=lambda self: self.env.company) 
 

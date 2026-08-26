@@ -2,7 +2,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import AccessError, ValidationError, MissingError, UserError
-from odoo.osv.expression import AND, OR, FALSE_DOMAIN
+from odoo.fields import Domain
 
 
 class DocumentDirectory(models.Model):
@@ -17,7 +17,7 @@ class DocumentDirectory(models.Model):
             domain = [('directory_id','=',rec.id)]
             if rec.res_model and rec.res_model.name:
                 model_domain = [('res_model', '=', rec.res_model.model)]
-                domain = OR([domain,model_domain])
+                domain = Domain.OR([domain, model_domain])
             rec.attchement_count = AttachmentObj.search_count(domain)
 
     name = fields.Char(required=True)

@@ -68,17 +68,15 @@ class PBSurgery(models.Model):
         for rec in self:
             rec.invoice_count = len(self.invoice_ids)
 
-    STATES = {'cancel': [('readonly', True)], 'done': [('readonly', True)]}
-
     name = fields.Char(string='Surgery Number', copy=False, readonly=True)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('confirm', 'Confirmed'),
         ('cancel', 'Cancelled'),
         ('done', 'Done'),], string='Status', default='draft')
-    surgery_name= fields.Char (string='Surgery Name', states=STATES)
-    diseases_id = fields.Many2one ('hms.diseases', ondelete='restrict', 
-        string='Disease', help="Reason for the surgery.", states=STATES)
+    surgery_name= fields.Char (string='Surgery Name')
+    diseases_id = fields.Many2one ('hms.diseases', ondelete='restrict',
+        string='Disease', help="Reason for the surgery.")
     dietplan_id = fields.Many2one('hms.dietplan', ondelete='set null', 
         string='Diet Plan')
     surgery_product_id = fields.Many2one('product.product', ondelete='cascade',
@@ -96,10 +94,10 @@ class PBSurgery(models.Model):
             ('o','Optional'),
             ('r','Required'),
             ('u','Urgent')
-        ], string='Surgery Classification', index=True, states=STATES)
+        ], string='Surgery Classification', index=True)
     age = fields.Char(string='Patient age',
         help='Patient age at the moment of the surgery. Can be estimative',compute='_get_patient_age'  ,store=True)
-    extra_info = fields.Text (string='Extra Info', states=STATES)
+    extra_info = fields.Text (string='Extra Info')
     special_precautions = fields.Text(string="Special Precautions")
     consumable_line_ids = fields.One2many('hms.consumable.line', 'surgery_id', string='Consumable Line', help="List of items that are consumed during the surgery.")
     medicament_line_ids = fields.One2many('medicament.line', 'surgery_id', string='Medicament Line', help="Define the medicines to be taken after the surgery")

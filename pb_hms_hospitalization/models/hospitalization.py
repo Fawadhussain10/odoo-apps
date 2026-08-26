@@ -61,8 +61,6 @@ class Hospitalization(models.Model):
             rec.accommodation_count = len(rec.accommodation_history_ids)
             rec.evaluation_count = len(rec.evaluation_ids)
 
-    READONLY_STATES = {'cancel': [('readonly', True)], 'done': [('readonly', True)]}
-
     name = fields.Char(string='Hospitalization#', copy=False, default="Hospitalization#", tracking=True)
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -89,7 +87,7 @@ class Hospitalization(models.Model):
         domain=[('type', '=', 'contact')], string='Patient Relative Name')
     relative_number = fields.Char(string='Patient Relative Number')
     ward_id = fields.Many2one('hospital.ward', ondelete="restrict", string='Ward/Room')
-    bed_id = fields.Many2one ('hospital.bed', ondelete="restrict", string='Bed No.', states=READONLY_STATES)
+    bed_id = fields.Many2one ('hospital.bed', ondelete="restrict", string='Bed No.')
     admission_type = fields.Selection([
         ('routine','Routine'),
         ('elective','Elective'),
@@ -97,7 +95,7 @@ class Hospitalization(models.Model):
         ('emergency','Emergency')], string='Admission type', default='routine')
     diseases_ids = fields.Many2many('hms.diseases', 'diseases_hospitalization_rel', 'diseas_id', 'hospitalization_id', 
         string='Diseases')
-    discharge_date = fields.Datetime (string='Discharge date', states=READONLY_STATES, tracking=True)
+    discharge_date = fields.Datetime (string='Discharge date', tracking=True)
     invoice_exempt = fields.Boolean(string='Invoice Exempt')
     accommodation_history_ids = fields.One2many("patient.accommodation.history", "hospitalization_id", 
         string="Accommodation History")
@@ -145,10 +143,10 @@ class Hospitalization(models.Model):
     #For Basic Care Plan
     nurse_id = fields.Many2one('res.users', ondelete="cascade", string='Primary Nurse', 
         help='Anesthetist data of the patient')
-    nursing_plan = fields.Text (string='Nursing Plan', states=READONLY_STATES)
+    nursing_plan = fields.Text (string='Nursing Plan')
     physician_ward_round_ids = fields.One2many('ward.rounds', 'hospitalization_id', string='Physician Ward Rounds')
 
-    discharge_plan = fields.Text (string='Discharge Plan', states=READONLY_STATES)
+    discharge_plan = fields.Text (string='Discharge Plan')
     move_ids = fields.One2many('stock.move','hospitalization_id', string='Moves')
     invoice_ids = fields.One2many('account.move', 'hospitalization_id', 'Invoices')
 

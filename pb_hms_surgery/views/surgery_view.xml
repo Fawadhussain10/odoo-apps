@@ -31,8 +31,8 @@
                         <group>
                             <field name="patient_id" required="1"/>
                             <field name="age" invisible="1"/>
-                            <field name="diseases_id" required="1"/>
-                            <field name="surgery_name" required="1"/>
+                            <field name="diseases_id" required="1" readonly="state in ('cancel', 'done')"/>
+                            <field name="surgery_name" required="1" readonly="state in ('cancel', 'done')"/>
                         </group>
                         <group>
                             <label for="start_date" string="Date"/>
@@ -121,7 +121,7 @@
                             <group string="Special Precautions"/>
                                 <field name="special_precautions" colspan="4"/>
                             <group string="Extra Info"/>
-                            <field name="extra_info" colspan="4"/>
+                            <field name="extra_info" colspan="4" readonly="state in ('cancel', 'done')"/>
                         </page>
                         <page name="post_oprative" string="Post-Operative Orders" groups="pb_hms.group_hms_medical_officer">
                             <group string="General Instruction">

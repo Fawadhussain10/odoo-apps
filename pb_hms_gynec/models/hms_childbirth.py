@@ -6,8 +6,6 @@ class PbChildBirth(models.Model):
     _name = "pb.child.birth"
     _description = "Child Birth"
 
-    STATES = {'done': [('readonly', True)]}
-
     name = fields.Char('Name of Children', readonly=True, copy=False)
     hospitalizaion_id = fields.Many2one('pb.hospitalization', string='Hospitalization')
     patient_id = fields.Many2one('hms.patient', string="Mother Name")
@@ -29,15 +27,15 @@ class PbChildBirth(models.Model):
     delivery_type = fields.Selection ([
             ('normal', 'Normal'),
             ('cesarean', 'Cesarean'),
-            ], string='Type of Delivery', states=STATES)
+            ], string='Type of Delivery')
     gender = fields.Selection ([
             ('male','Male'),
             ('female','Female'),
-            ], string='Gender', index=True, states=STATES, required=True)
+            ], string='Gender', index=True, required=True)
     birth_date = fields.Datetime(string='Date of birth', required=True)
     birth_place = fields.Char("Birth Place")
     birth_weight = fields.Float(string='Birth Weight', required=True)
-    extra_info = fields.Text (string='Remarks', states=STATES)
+    extra_info = fields.Text (string='Remarks')
     state = fields.Selection([
         ('draft', 'Draft'),
         ('done', 'Done')],

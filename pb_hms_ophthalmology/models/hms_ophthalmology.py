@@ -24,8 +24,6 @@ class PBOphthalmologyEvaluation(models.Model):
                     age = str(delta.years) + _(" Year")
             rec.age = age
 
-    STATES = {'cancel': [('readonly', True)], 'done': [('readonly', True)]}
-
     name = fields.Char(string='Name', default='/', copy=False, tracking=True)
     patient_id = fields.Many2one('hms.patient', 'Patient', required=True, tracking=True)
     date = fields.Datetime('Date', default=fields.Datetime.now, help="Date of Consultation", tracking=True)
@@ -136,7 +134,7 @@ class PBOphthalmologyEvaluation(models.Model):
     #   NONCONTACT TONOMETRY
     #   GOLDMANN APPLANATION TONOMETRY
 
-    notes = fields.Text ('Notes', states=STATES)
+    notes = fields.Text ('Notes')
 
     #Intraocular Pressure 
     iop_method = fields.Selection([
