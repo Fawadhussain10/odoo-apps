@@ -41,7 +41,7 @@ class PbWhatsAppTemplate(models.Model):
             if rec.body_message_type:
                 data['components'].append({
                     'type': 'BODY',
-                    'format': rec.header_message_type,
+                    'format': rec.body_message_type,
                     'text': rec.body_message
                 })
             if rec.footer_message_type:
@@ -66,9 +66,15 @@ class PbWhatsAppMessage(models.Model):
 
     def pb_get_file_type(self):
         for rec in self:
-            media_type = 'document'
-            if rec.mimetype=='image/png':
+            mimetype = rec.mimetype or ''
+            if mimetype.startswith('image/'):
                 media_type = 'image'
+            elif mimetype.startswith('audio/'):
+                media_type = 'audio'
+            elif mimetype.startswith('video/'):
+                media_type = 'video'
+            else:
+                media_type = 'document'
             rec.media_type = media_type
 
     media_id = fields.Char("Meta Media ID", copy=False)
@@ -154,7 +160,7 @@ class PbWhatsAppMessage(models.Model):
                 else:
                     rec.state = 'error'
                     rec.error_message = 'This Message Type is not suppoerted.'
-                    return
+                    continue
 
                 reply = requests.post(URL, data=json.dumps(message), headers=headers)
                 if reply.status_code==200:

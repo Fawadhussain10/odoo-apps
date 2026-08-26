@@ -29,7 +29,7 @@ class AccountMove(models.Model):
             Lot = self.env['stock.lot']
             product = ProductObj.search([('barcode','=',barcode)], limit=1)
             if not product:
-                lot = ProductObj.search([('default_code','=',barcode)], limit=1)
+                product = ProductObj.search([('default_code','=',barcode)], limit=1)
             if not product:
                 lot = Lot.search([('name','=',barcode)], limit=1)
                 product = lot.product_id

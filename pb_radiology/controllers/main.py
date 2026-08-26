@@ -21,16 +21,26 @@ class PBHms(http.Controller):
 
 class HMSPortal(CustomerPortal):
 
+    def _pb_radiology_patient_domain(self):
+        """Scope portal radiology records to the logged-in user's own patient
+        plus their declared family members, instead of leaking every
+        patient's results/requests (patient_id is a real field on both
+        models here)."""
+        patient = request.env.user.pb_patient_id
+        partner_ids = (patient.partner_id | patient.pb_family_partner_ids).ids
+        return [('patient_id.partner_id', 'in', partner_ids)]
+
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
+        domain = self._pb_radiology_patient_domain()
         RadiologyTest = request.env['patient.radiology.test']
         if 'radiology_result_count' in counters:
-            values['radiology_result_count'] = RadiologyTest.search_count([]) \
+            values['radiology_result_count'] = RadiologyTest.search_count(domain) \
                 if RadiologyTest.check_access_rights('read', raise_exception=False) else 0
 
         RadiologyRequest = request.env['pb.radiology.request']
         if 'radiology_request_count' in counters:
-            values['radiology_request_count'] = RadiologyRequest.search_count([]) \
+            values['radiology_request_count'] = RadiologyRequest.search_count(domain) \
                 if RadiologyRequest.check_access_rights('read', raise_exception=False) else 0
         return values
 
@@ -48,8 +58,9 @@ class HMSPortal(CustomerPortal):
         }
 
         order = sortings.get(sortby, sortings['date'])['order']
-        count = RadiologyTest.search_count([])
- 
+        domain = self._pb_radiology_patient_domain()
+        count = RadiologyTest.search_count(domain)
+
         pager = portal_pager(
             url="/my/radiology_results",
             url_args={},
@@ -59,7 +70,7 @@ class HMSPortal(CustomerPortal):
         )
         # content according to pager and archive selected
 
-        radiology_results = RadiologyTest.search([],
+        radiology_results = RadiologyTest.search(domain,
             order=order, limit=self._items_per_page, offset=pager['offset'])
 
         values.update({
@@ -100,8 +111,9 @@ class HMSPortal(CustomerPortal):
         }
 
         order = sortings.get(sortby, sortings['date'])['order']
-        count = RadiologyReq.search_count([])
- 
+        domain = self._pb_radiology_patient_domain()
+        count = RadiologyReq.search_count(domain)
+
         pager = portal_pager(
             url="/my/radiology_requests",
             url_args={},
@@ -110,7 +122,7 @@ class HMSPortal(CustomerPortal):
             step=self._items_per_page
         )
         # content according to pager and archive selected
-        radiology_requests = RadiologyReq.search([],
+        radiology_requests = RadiologyReq.search(domain,
             order=order, limit=self._items_per_page, offset=pager['offset'])
 
         values.update({

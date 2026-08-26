@@ -58,7 +58,7 @@
                         <h1><field name="name"/></h1>
                     </div>
                     <group>
-                        <group>
+                        <group readonly="state == 'done'">
                             <field name="partner_id"/>
                             <field name="date_from"/>
                             <field name="date_to"/>
@@ -100,11 +100,11 @@
                         </page>
 
                         <page string="Invoices">
-                            <field name="move_ids" domain="[('partner_id','=',partner_id),('state','in',['draft','posted']),('move_type', '=', 'out_invoice')]" widget="many2many" options="{'not_delete': True}"/>
+                            <field name="move_ids" domain="[('partner_id','=',partner_id),('state','in',['draft','posted']),('move_type', '=', 'out_invoice')]" widget="many2many" options="{'not_delete': True}" readonly="state == 'done'"/>
                         </page>
 
                         <page string="Payments">
-                            <field name="payment_ids" domain="[('partner_id','=',partner_id),('state','in',['sent','posted','reconciled'])]" widget="many2many" options="{'not_delete': True}"/>
+                            <field name="payment_ids" domain="[('partner_id','=',partner_id),('state','in',['sent','posted','reconciled'])]" widget="many2many" options="{'not_delete': True}" readonly="state == 'done'"/>
                         </page>
                     </notebook>
                     <field name="description"/>

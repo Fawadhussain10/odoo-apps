@@ -7,6 +7,7 @@ from odoo.addons.portal.controllers.portal import CustomerPortal, pager as porta
 from odoo.exceptions import AccessError, MissingError
 from odoo.addons.website.controllers.form import WebsiteForm
 from odoo.exceptions import ValidationError
+import binascii
 import json
 
 
@@ -16,7 +17,8 @@ class HMSPortal(CustomerPortal):
         values = super()._prepare_home_portal_values(counters)
         AestheticWish = request.env['pb.aesthetic.patient.wish']
         if 'aestheticwish_count' in counters:
-            values['aestheticwish_count'] = AestheticWish.search_count([]) \
+            partner = request.env.user.partner_id.commercial_partner_id
+            values['aestheticwish_count'] = AestheticWish.search_count([('patient_id.partner_id', 'child_of', partner.id)]) \
                 if AestheticWish.check_access_rights('read', raise_exception=False) else 0
         return values
 
@@ -33,7 +35,9 @@ class HMSPortal(CustomerPortal):
         }
 
         order = sortings.get(sortby, sortings['date'])['order']
-        count = AestheticWish.search_count([('state','!=','draft')])
+        partner = request.env.user.partner_id.commercial_partner_id
+        domain = [('state', '!=', 'draft'), ('patient_id.partner_id', 'child_of', partner.id)]
+        count = AestheticWish.search_count(domain)
 
         pager = portal_pager(
             url="/my/aestheticwish",
@@ -43,7 +47,7 @@ class HMSPortal(CustomerPortal):
             step=self._items_per_page
         )
         # content according to pager and archive selected
-        aestheticwishs = AestheticWish.search([],
+        aestheticwishs = AestheticWish.search(domain,
             order=order, limit=self._items_per_page, offset=pager['offset'])
 
         values.update({
@@ -109,9 +113,11 @@ class HMSPortal(CustomerPortal):
     def portal_patient_accept(self, patient_id, access_token=None, name=None, signature=None):
         # get from query string if not on json param
         access_token = access_token or request.httprequest.args.get('access_token')
-        
+
         partner = request.env.user.partner_id.commercial_partner_id
-        order_sudo = request.env['hms.patient'].sudo().search([('partner_id','=', partner.id)], limit=1)
+        order_sudo = request.env['hms.patient'].sudo().browse(patient_id).exists()
+        if not order_sudo or order_sudo.partner_id.commercial_partner_id != partner:
+            return {'error': _('You do not have access to this record.')}
 
         if not order_sudo.ach_has_to_be_signed:
             return {'error': _('The order is not in a state requiring customer signature.')}

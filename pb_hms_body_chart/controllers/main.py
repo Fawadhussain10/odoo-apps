@@ -19,9 +19,10 @@ class PbImageEditor(http.Controller):
         }
         return request.render("pb_hms_body_chart.pb_image_editor", data)
 
-    @http.route(['/my/pb/image/<int:record>'], type="http", auth="user", methods=['post'], website=True, csrf=False, sitemap=False)
+    @http.route(['/my/pb/image/<int:record>'], type="http", auth="user", methods=['post'], website=True, sitemap=False)
     def pb_image_editor_updateimage(self, record, **kwargs):
         attachment = request.env['ir.attachment'].browse([record])
+        kwargs.pop('csrf_token', None)
         datas = list(kwargs.keys())[0]
         image_data = datas.split("base64,")[1].replace(' ','+')
         strImage = image_data + "=" * ((4 - len(image_data) % 4) % 4)

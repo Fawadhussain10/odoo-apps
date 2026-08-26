@@ -66,7 +66,7 @@ class MedicalVisit(models.Model):
         self.state = 'done'
 
     def action_cancel(self):
-        self.state = 'cancel'
+        self.state = 'cancelled'
 
     def unlink(self):
         for rec in self:

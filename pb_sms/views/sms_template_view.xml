@@ -35,15 +35,15 @@
             <form string="SMS Template">
                 <header>
                     <button name="action_approve" invisible="state not in ('draft',)" type="object" string="Approve" class="oe_highlight"/>
-                    <button name="action_draft" invisible="state not in ('approve',)" type="object" string="Set to Draft" class="oe_highlight"/>
+                    <button name="action_draft" invisible="state not in ('approved',)" type="object" string="Set to Draft" class="oe_highlight"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only"/>
-                        <h1><field name="name" required="1"/></h1>
+                        <h1><field name="name" required="1" readonly="state == 'approved'"/></h1>
                     </div>
-                    <group>
+                    <group readonly="state == 'approved'">
                         <field name="message"/>
                         <field name="templateid"/>
                         <field name="partner_ids" widget="many2many_tags"/>

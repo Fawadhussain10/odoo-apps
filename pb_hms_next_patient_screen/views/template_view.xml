@@ -1,116 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="next_patient_row" name="Patient Row">
-        <div class="media main-box" t-attf-style="color:#{pb_font_color or 'black'}">
-            <h1 class="pull-left col-xs-1 img-rounded box">
-                <span t-if="not pb_font_color" t-esc="number"/>
-                <span t-else="" t-esc="number" style="font-size:25px !important;"/>
-            </h1>
+        <div t-attf-class="pb-nps-row #{'pb-nps-row-now' if number == 'NOW' else ''}">
+            <div class="pb-nps-cell pb-nps-cell-number">
+                <span class="pb-nps-number-badge" t-esc="number"/>
+            </div>
             <t t-if="pb_ws.show_patient_name_image">
-                <div t-if="record[pb_ws.pb_patient_field_id.name].image_128" class="pull-left col-xs-2 img-circle">
-                    <span itemprop="image" t-field="record[pb_ws.pb_patient_field_id.name].image_128" t-options='{"widget": "image"}' style="height:90px !important;width:100px !important;" />
+                <div class="pb-nps-cell pb-nps-cell-avatar">
+                    <img t-if="record and record[pb_ws.pb_patient_field_id.name].image_128"
+                         t-attf-src="/web/image/#{record[pb_ws.pb_patient_field_id.name]._name}/#{record[pb_ws.pb_patient_field_id.name].id}/image_128"
+                         class="pb-nps-avatar"/>
+                    <div t-else="" class="pb-nps-avatar pb-nps-avatar-placeholder">
+                        <i class="fa fa-user"/>
+                    </div>
                 </div>
-                <div t-else="" class="pull-left col-xs-2"/>
-                <div t-if="record[pb_ws.pb_patient_field_id.name].name" class="pull-left col-xs-3 line">
-                    <span ><span t-esc="record[pb_ws.pb_patient_field_id.name].name"/></span>
+                <div class="pb-nps-cell pb-nps-cell-name">
+                    <span t-if="record and record[pb_ws.pb_patient_field_id.name].name" t-esc="record[pb_ws.pb_patient_field_id.name].name"/>
+                    <span t-else="" class="pb-nps-dash">—</span>
                 </div>
-                <div t-else="" class="pull-left col-xs-3 line big-font">
-                    <span style="">-------</span>
-                </div>
-            </t>
-            <t t-else="">
-                <div class="pull-left col-xs-2"/>
             </t>
             <t t-if="record">
-                <div class="col-xs-4">
-                    <div class="line">
-                        <strong>
-                            <span t-esc="record[pb_ws.pb_physician_field_id.name].name"/>
-                        </strong>
-                    </div>
-                    <div class="cabin-data" t-if="pb_ws.show_cabin and record[pb_ws.pb_cabin_field_id.name]">
-                        <strong>
-                            (<span t-esc="record[pb_ws.pb_cabin_field_id.name].name"/>)
-                        </strong>
+                <div class="pb-nps-cell pb-nps-cell-physician">
+                    <div class="pb-nps-physician-name" t-esc="record[pb_ws.pb_physician_field_id.name].name"/>
+                    <div class="pb-nps-cabin" t-if="pb_ws.show_cabin and record[pb_ws.pb_cabin_field_id.name]">
+                        Cabin <span t-esc="record[pb_ws.pb_cabin_field_id.name].name"/>
                     </div>
                 </div>
-                <div t-if="not pb_ws.show_patient_name_image" class="pull-left col-xs-2"/>
-                <div class="pull-left col-xs-1 line">
-                    <strong><span ><span t-esc="record.name"/></span></strong>
+                <div class="pb-nps-cell pb-nps-cell-ref">
+                    <span t-esc="record.name"/>
                 </div>
             </t>
             <t t-else="">
-                <div class="pull-left col-xs-2 line big-font">
-                    <span style="">-------</span>
+                <div class="pb-nps-cell pb-nps-cell-physician">
+                    <span class="pb-nps-dash">—</span>
+                </div>
+                <div class="pb-nps-cell pb-nps-cell-ref">
+                    <span class="pb-nps-dash">—</span>
                 </div>
             </t>
         </div>
     </template>
 
-    <template id="next_patient_view" name="Next Patient view">
-        <head>
-            <script src="/web/static/lib/jquery/jquery.js" type="text/javascript"></script>
-            <link rel="stylesheet" href="/pb_hms_next_patient_screen/static/src/css/hms_next_patient_screen.css" />
-            <link rel="stylesheet" href='/pb_hms_next_patient_screen/static/src/css/bootstrap.min.css' />
-        </head>
-        <script type="text/javascript">
-            $(document).ready(function () { 
-                var pb_refresh_time = document.getElementById('pb_refresh_time').value;
-                console.log('pb_refresh_time',pb_refresh_time);
-                setTimeout("location.reload(true);", pb_refresh_time);
-            });
-        </script>
-        <div id="wrap">
-            <input type="hidden" name="pb_refresh_time" id="pb_refresh_time" t-att-value="pb_ws.pb_refresh_time * 1000" />
-            <section>
-                <div class="container">
-                    <div class="col-xs-12 pb_header_row">
-                        <div class="pull-left col-xs-1 text-center" style="font-size: 30px;">
-                            <strong>#</strong>
-                        </div>
-                        <div t-if="pb_ws.show_patient_name_image" class="text-center col-xs-5" style="font-size: 30px;">
-                            <strong>Patient Name</strong>
-                        </div>
-                        <div t-if="not pb_ws.show_patient_name_image" class="col-xs-2"/>
-                        <div class="text-center col-xs-4" style="font-size: 30px;">
-                            <strong>Dr. Name <t t-if="pb_ws.show_cabin">(Cabin No)</t></strong>
-                        </div>
-                        
-                        <div t-if="not pb_ws.show_patient_name_image" class="col-xs-2"/>
-                        <div class="pull-left col-xs-2" style="font-size: 30px;">
-                            <strong>Number</strong>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="col-xs-12 pb_row">
-                        <t t-set="in_records" t-value="records.filtered(lambda rec: rec.state=='in_consultation')"/>
-                        <t t-set="waiting_records" t-value="records.filtered(lambda rec: rec.state!='in_consultation')"/>
-                        <t t-foreach="in_records" t-as="record">
-                            <t t-call="pb_hms_next_patient_screen.next_patient_row">
-                                <t t-set="record" t-value="record"/>
-                                <t t-set="number" t-value="'NOW'"/>
-                                <t t-set="pb_font_color" t-value="pb_ws.in_progress_color"/>
-                            </t>
-                        </t>
-                        <t t-foreach="waiting_records" t-as="record">
-                            <t t-call="pb_hms_next_patient_screen.next_patient_row">
-                                <t t-set="record" t-value="record"/>
-                                <t t-set="number" t-value="record_index + 1"/>
-                            </t>
-                        </t>
-                        <t t-set="extra_lines" t-value="(pb_ws.pb_number_of_records-len(in_records))-len(waiting_records)"/>
-                        <t t-if="extra_lines&gt;0">
-                            <t t-foreach="extra_lines" t-as="extra_line">
-                                <t t-call="pb_hms_next_patient_screen.next_patient_row">
-                                    <t t-set="record" t-value="ResModel"/>
-                                    <t t-set="number" t-value="len(waiting_records) + extra_line_index + 1"/>
-                                </t>
-                            </t>
-                        </t>
+    <template id="next_patient_rows" name="Next Patient Rows">
+        <t t-set="in_records" t-value="records.filtered(lambda rec: rec.state=='in_consultation')"/>
+        <t t-set="waiting_records" t-value="records.filtered(lambda rec: rec.state!='in_consultation')"/>
+        <t t-foreach="in_records" t-as="record">
+            <t t-call="pb_hms_next_patient_screen.next_patient_row">
+                <t t-set="record" t-value="record"/>
+                <t t-set="number" t-value="'NOW'"/>
+            </t>
+        </t>
+        <t t-foreach="waiting_records" t-as="record">
+            <t t-call="pb_hms_next_patient_screen.next_patient_row">
+                <t t-set="record" t-value="record"/>
+                <t t-set="number" t-value="record_index + 1"/>
+            </t>
+        </t>
+        <t t-set="extra_lines" t-value="(pb_ws.pb_number_of_records-len(in_records))-len(waiting_records)"/>
+        <t t-if="extra_lines&gt;0">
+            <t t-foreach="extra_lines" t-as="extra_line">
+                <t t-call="pb_hms_next_patient_screen.next_patient_row">
+                    <t t-set="record" t-value="ResModel"/>
+                    <t t-set="number" t-value="len(waiting_records) + extra_line_index + 1"/>
+                </t>
+            </t>
+        </t>
+    </template>
 
+    <template id="next_patient_view" name="Next Patient view">
+        <html>
+        <head>
+            <meta charset="utf-8"/>
+            <link rel="stylesheet" href="/pb_hms_next_patient_screen/static/src/css/hms_next_patient_screen.css"/>
+        </head>
+        <body>
+            <div class="pb-nps-screen">
+                <div class="pb-nps-header">
+                    <div class="pb-nps-header-cell pb-nps-header-number">#</div>
+                    <t t-if="pb_ws.show_patient_name_image">
+                        <div class="pb-nps-header-cell pb-nps-header-avatar"/>
+                        <div class="pb-nps-header-cell pb-nps-header-name">Patient</div>
+                    </t>
+                    <div class="pb-nps-header-cell pb-nps-header-physician">
+                        Physician <t t-if="pb_ws.show_cabin">/ Cabin</t>
                     </div>
+                    <div class="pb-nps-header-cell pb-nps-header-ref">Reference</div>
                 </div>
-            </section>
-        </div>
+                <div class="pb-nps-rows" id="pb_nps_rows">
+                    <t t-call="pb_hms_next_patient_screen.next_patient_rows"/>
+                </div>
+            </div>
+            <script type="text/javascript">
+                (function () {
+                    var refreshMs = <t t-esc="int(pb_ws.pb_refresh_time or 15) * 1000"/>;
+                    var rowsUrl = window.location.pathname.replace(/\/$/, '') + '/rows';
+                    var rowsEl = document.getElementById('pb_nps_rows');
+                    function poll() {
+                        fetch(rowsUrl, {credentials: 'same-origin'})
+                            .then(function (resp) { return resp.ok ? resp.text() : null; })
+                            .then(function (html) {
+                                if (html !== null &amp;&amp; rowsEl) {
+                                    rowsEl.innerHTML = html;
+                                }
+                            })
+                            .catch(function () {
+                                // transient network hiccup on an unattended kiosk screen:
+                                // fall back to a full reload rather than freezing silently.
+                                window.location.reload();
+                            })
+                            .finally(function () {
+                                setTimeout(poll, refreshMs);
+                            });
+                    }
+                    setTimeout(poll, refreshMs);
+                })();
+            </script>
+        </body>
+        </html>
     </template>
 </odoo>

@@ -39,10 +39,8 @@ class SplitInvoiceWizard(models.TransientModel):
     def default_get(self, fields):
         res = super(SplitInvoiceWizard, self).default_get(fields)
         active_model = self.env.context.get('active_model')
-        print ('default get-----',self)
         if active_model == 'account.move':
             active_record = self.env['account.move'].browse(self.env.context.get('active_id'))
-            print ('active_record---------',active_record)
             if active_record.state!='draft':
                 raise ValidationError(_('Invoice must be in draft state.'))
             lines = []

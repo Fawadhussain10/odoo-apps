@@ -31,7 +31,7 @@ $(document).ready(function () {
         //SEND TO SERVER
         var image_data = imageEditor.toDataURL();
         $.ajax({
-            url: '/my/pb/image/' + pb_doc_id, // upload url
+            url: '/my/pb/image/' + pb_doc_id + '?csrf_token=' + odoo.csrf_token, // upload url
             method: "POST",
             data: imageEditor.toDataURL(),
             cache : false,

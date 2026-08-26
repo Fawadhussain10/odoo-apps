@@ -15,9 +15,9 @@ class PbWebcam(http.Controller):
         }
         return request.render("pb_webcam.open_webcam", values)
 
-    @http.route(['/pb/webcam/<string:model>/<int:record_id>/updateimage'], type="http", auth="public", methods=['post'], website=True, sitemap=False)
+    @http.route(['/pb/webcam/<string:model>/<int:record_id>/updateimage'], type="http", auth="user", methods=['post'], website=True, sitemap=False)
     def pb_webcam_updateimage(self, model, record_id, **kwargs):
-        record = request.env[model].sudo().browse([record_id])
+        record = request.env[model].browse([record_id])
         image_field = 'image_1920'
         if kwargs.get('image_field'):
             image_field = kwargs.get('image_field')

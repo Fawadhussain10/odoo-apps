@@ -18,7 +18,7 @@
                             <field name="name" readonly="1"/>
                         </h1>
                     </div>
-                    <group>
+                    <group readonly="state == 'done'">
                         <group>
                             <field name="activity_name"/>
                             <field name="date_activity"/>
@@ -29,7 +29,7 @@
                             <field name="date_review"/>
                         </group>
                     </group>
-                    <field name="remark" nolabel="1" placeholder="Remark"/>
+                    <field name="remark" nolabel="1" placeholder="Remark" readonly="state == 'done'"/>
                 </sheet>
                 <chatter/>
 
@@ -106,15 +106,15 @@
                             <field name="name" readonly="1"/>
                         </h1>
                     </div>
-                    <group>
+                    <group readonly="state in ('running', 'done', 'cancel')">
                         <group>
                             <field name="facility_name"/>
                             <field name="start_date" required="1"/>
                             <field name="end_date"/>
                             <label for="recurring_interval" string="Recurring Period"/>
                             <div>
-                                <field name="recurring_interval" class="oe_inline" readonly="state == 'running'"/>
-                                <field name="recurring_type" class="oe_inline" readonly="state == 'running'"/>
+                                <field name="recurring_interval" class="oe_inline"/>
+                                <field name="recurring_type" class="oe_inline"/>
                             </div>
                         </group>
                         <group>

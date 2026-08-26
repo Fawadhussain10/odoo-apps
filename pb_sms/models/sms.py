@@ -26,8 +26,6 @@ class PbSms(models.Model):
             params = urllib.parse.urlencode(prms)
             rec.name = rec.company_id.sms_url + "?" + params + (rec.company_id.sms_extra_param or '')
 
-    READONLY_STATES = {'sent': [('readonly', True)], 'error': [('readonly', True)]}
-
     partner_id = fields.Many2one('res.partner', 'Partner', ondelete="cascade")
     name = fields.Text(string='SMS Request URl', compute="_get_url")
     msg =  fields.Text(string='SMS Text',required=True)
@@ -53,7 +51,7 @@ class PbSms(models.Model):
 
     def unlink(self):
         for rec in self:
-            if rec.state not in ('draft'):
+            if rec.state != 'draft':
                 raise UserError(_('You cannot delete an record which is not draft.'))
         return super(PbSms, self).unlink()
 
@@ -63,10 +61,10 @@ class PbSms(models.Model):
                 ssl._create_default_https_context = ssl._create_unverified_context
                 rep = urlopen(Request(rec.name, headers={'User-Agent': 'Mozilla/5.0'})).read()
                 rec.state = 'sent'
-                rec.error_msg = rep.read()
+                rec.error_msg = rep.decode('utf-8', errors='replace')
             except Exception as e:
                 rec.state = 'error'
-                rec.error_msg = Exception
+                rec.error_msg = str(e)
 
     def action_draft(self):
         self.state = 'draft'

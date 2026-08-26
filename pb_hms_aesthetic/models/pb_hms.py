@@ -6,8 +6,6 @@ from odoo.exceptions import ValidationError, UserError
 class PBAppointment(models.Model):
     _inherit = 'hms.appointment'
 
-    READONLY_STATES = {'cancel': [('readonly', True)], 'done': [('readonly', True)]}
-
     medical_questionnaire_ids = fields.One2many('pb.medical.questionnaire', 'appointment_id', 
         string='Medical Questionnaire')
     aesthetic_questionnaire_ids = fields.One2many('pb.aesthetic.questionnaire', 'appointment_id', 

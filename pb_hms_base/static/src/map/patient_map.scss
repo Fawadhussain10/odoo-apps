@@ -1,0 +1,284 @@
+// PB Patient Map — navy/amber premium system matching the rest of the suite.
+// A map wants to fill the viewport rather than scroll. Odoo core makes
+// .o_content's direct child (.o_view_controller) position:absolute +
+// height:100% - it never sizes to content - so this div has to size itself
+// against that (height:100%, not flex/min-height tricks that assume a flex
+// parent that doesn't actually exist) and let its own canvas child fill it.
+//
+// .o_pb_patient_map is shared by two different pages: the standalone
+// "Patient Map" action (pb_hms_base.action_patient_map) AND the embedded
+// Map tab on the Patients list/kanban/map/form switcher
+// (patient_map_view.js). Do not add page-specific behavior (like the
+// :has(.o_pb_patient_map) control-panel recolor below) without checking
+// both call sites - Odoo keeps a switched-away view's DOM around (hidden)
+// when flipping between List/Kanban/Map/Form tabs of the same action, so a
+// rule scoped only to "this class exists somewhere in the DOM" can leak its
+// styling onto other tabs of the Patients action too.
+
+$amber:  #f59e0b;
+$navy:   #0f172a;
+$card-bg: #141b2d;
+$card-bg-alt: #101728;
+$ink: #f3ead9;
+$ink-muted: #93a1b7;
+$card-border: rgba(255, 255, 255, .08);
+
+.o_pb_patient_map {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: linear-gradient(180deg, #0b1220 0%, #0d1526 100%);
+    font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.pb-map-header {
+    padding: 22px 28px;
+    border-bottom: 1px solid $card-border;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    background: linear-gradient(180deg, rgba(245, 158, 11, .04), transparent);
+}
+
+.pb-map-header-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    h1 {
+        margin: 0 0 2px;
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: $ink;
+    }
+    .text-muted { color: $ink-muted !important; font-size: .85rem; margin: 0; }
+}
+
+.pb-map-header-icon {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    color: $navy;
+    background: linear-gradient(135deg, $amber, #fbbf24);
+    box-shadow: 0 6px 18px rgba(245, 158, 11, .35);
+}
+
+.pb-map-header-stats {
+    display: flex;
+    gap: 14px;
+}
+
+.pb-map-stat {
+    background: linear-gradient(165deg, $card-bg 0%, $card-bg-alt 100%);
+    border: 1px solid $card-border;
+    border-radius: 12px;
+    padding: 8px 18px;
+    text-align: center;
+    min-width: 90px;
+}
+.pb-map-stat-value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: $ink;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+.pb-map-stat-label {
+    font-size: .64rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-weight: 700;
+    color: $ink-muted;
+    margin-top: 2px;
+}
+.pb-map-stat-accent {
+    border-color: rgba($amber, .35);
+    .pb-map-stat-value { color: $amber; }
+}
+
+.pb-map-canvas-wrap {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 400px;
+}
+
+// position:absolute only makes sense inside .pb-map-canvas-wrap (which is the
+// positioned ancestor it anchors to, in the full-page layout). Scoping it
+// here - rather than a bare .pb-map-canvas rule - means the compact/dashboard
+// variant below can give the same class its own normal-flow height instead
+// of being silently pulled out of flex layout by this rule leaking in.
+.pb-map-canvas-wrap .pb-map-canvas {
+    position: absolute;
+    inset: 0;
+}
+
+.pb-map-legend {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(20, 27, 45, .85);
+    backdrop-filter: blur(6px);
+    border: 1px solid $card-border;
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: .78rem;
+    font-weight: 600;
+    color: $ink-muted;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .35);
+}
+.pb-map-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $amber, #fbbf24);
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, .25);
+}
+
+// Only the standalone full-page map action gets the dark control panel - the
+// embedded Map tab (patient_map_view.js) uses a different root class
+// (.o_pb_patient_map_view, styled below) specifically so this rule can never
+// match while browsing List/Kanban/Form of the same Patients action.
+.o_action_manager:has(.o_pb_patient_map) .o_control_panel {
+    background: $navy !important;
+    border-bottom: 1px solid $card-border !important;
+
+    .o_breadcrumb .active, .breadcrumb-item.active { color: $ink !important; font-weight: 700; }
+    .o_breadcrumb a, .o_breadcrumb .breadcrumb-item:not(.active) { color: $ink-muted !important; }
+}
+
+// -- Embedded "Map" view type on hms.patient (List/Kanban/Map/Form switcher) -
+// Same visual treatment as the standalone page, minus the control-panel
+// recolor (kept default/consistent with the other tabs of the same action).
+.o_pb_patient_map_view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: linear-gradient(180deg, #0b1220 0%, #0d1526 100%);
+    font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+// -- Dashboard card (compact) mode -------------------------------------------
+.pb-map-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.pb-map-compact-stats {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: .85rem;
+    color: $ink-muted;
+}
+.pb-map-compact-count {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: $ink;
+}
+.pb-map-compact-expand {
+    margin-left: auto;
+    font-size: .78rem;
+    font-weight: 600;
+    color: #2dd4bf;
+    text-decoration: none;
+    &:hover { color: lighten(#2dd4bf, 10%); }
+}
+.pb-map-canvas-compact {
+    position: relative; // normal in-flow sizing, not the absolute/inset:0 rule above
+    height: 420px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid $card-border;
+}
+
+// -- Custom marker ------------------------------------------------------------
+.pb-map-marker {
+    background: transparent;
+    border: none;
+}
+.pb-map-marker-dot {
+    position: relative;
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $amber, #fbbf24);
+    border: 2px solid #0f172a;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, .3), 0 2px 8px rgba(0, 0, 0, .4);
+}
+.pb-map-marker-dot::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid rgba($amber, .55);
+    animation: pb-map-marker-ping 2.2s cubic-bezier(0, 0, .2, 1) infinite;
+}
+@keyframes pb-map-marker-ping {
+    0% { transform: scale(.6); opacity: .8; }
+    75%, 100% { transform: scale(1.8); opacity: 0; }
+}
+
+// -- Popup ----------------------------------------------------------------------
+.leaflet-popup-content-wrapper {
+    background: $card-bg;
+    color: $ink;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .5);
+    overflow: hidden;
+}
+.leaflet-popup-tip { background: $card-bg; }
+.leaflet-popup-content { margin: 0; min-width: 180px; }
+.leaflet-popup-close-button { color: $ink-muted !important; }
+
+.pb-map-popup {
+    position: relative;
+    padding: 14px 16px 12px;
+}
+.pb-map-popup::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: linear-gradient(180deg, $amber, #2dd4bf);
+}
+.pb-map-popup-name { font-weight: 700; font-size: .95rem; color: $ink; }
+.pb-map-popup-code {
+    display: inline-block;
+    margin-top: 3px;
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: .68rem;
+    letter-spacing: .02em;
+    color: $amber;
+    background: rgba($amber, .12);
+    border-radius: 5px;
+    padding: 1px 6px;
+}
+.pb-map-popup-address, .pb-map-popup-phone { font-size: .8rem; color: $ink-muted; margin-top: 6px; line-height: 1.4; }
+.pb-map-popup-link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 10px;
+    font-size: .78rem;
+    font-weight: 700;
+    color: #2dd4bf;
+    text-decoration: none;
+}
+.leaflet-container a.pb-map-popup-link:hover { color: lighten(#2dd4bf, 10%); }
+
+.leaflet-control-attribution {
+    background: rgba(11, 18, 32, .7) !important;
+    color: $ink-muted !important;
+    a { color: $ink-muted !important; }
+}

@@ -4,14 +4,14 @@ body.pb_header_invisible {
 
 .pb_dental_chart input[type="radio"]:checked + label {
     filter: grayscale(0);
-    border: 1px solid purple;
+    border: 1px solid #f59e0b;
 }
 
 .pb_dental_chart input[type="checkbox"]:checked + label {
     filter: grayscale(0);
-    border: 1px solid purple;
+    border: 1px solid #f59e0b;
     color: white;
-    background-color: #68465f !important;
+    background-color: #4a3aa7 !important;
 }
 
 .pb_image img {
@@ -24,7 +24,7 @@ body.pb_header_invisible {
 
 .pb_tooth_label {
     min-width: 58px;
-    min-height: 100px;   
+    min-height: 100px;
 }
 
 .pb_tooth_label:hover {
@@ -38,11 +38,11 @@ body.pb_header_invisible {
 }
 
 .pb_surface_label {
-    background-color: #137a87;
+    background-color: #0d7377;
     color: white;
     border-radius: 5px;
     padding: 5px 5px;
-    margin: 10px;  
+    margin: 10px;
 }
 
 .pb_surface, .pb_dental_procedure {
@@ -50,21 +50,22 @@ body.pb_header_invisible {
 }
 
 .pb_procedure_label {
-    background-color: #33b2a9;
+    background-color: #2a4d7a;
     color: white;
     border-radius: 5px;
     padding: 5px 5px;
-    margin: 10px;  
+    margin: 10px;
 }
 
 .pb_dental_procedure input[type="radio"]:checked + label {
-    border: 1px solid purple;
+    border: 1px solid #f59e0b;
     color: white;
-    background-color: #68465f !important;
+    background-color: #4a3aa7 !important;
 }
 
 .pb_table_header {
-    background-color: darkgray;
+    background-color: #0f172a;
+    color: white;
 }
 
 .pb_dental_procedures {
@@ -78,9 +79,9 @@ body.pb_header_invisible {
 }
 
 .pb_dental_chart_header {
-    background-color: #2d9f9d; 
-    background-image: linear-gradient(#918c8c, #2d9f9d); 
-    background: linear-gradient(106deg,#918c8c 0%,#2d9f9d 100%); 
+    background-color: #0f172a;
+    background-image: linear-gradient(#1e3a5f, #4a3aa7);
+    background: linear-gradient(106deg,#0f172a 0%,#4a3aa7 100%);
     color: white;
 }
 .pb_dental_chart_header a {
@@ -98,6 +99,11 @@ body.pb_header_invisible {
 .pb_fdi_code {
     color: gray;
 }
+
+.pb-state-scheduled { background-color: #2a78d6 !important; color: white !important; }
+.pb-state-running { background-color: #f59e0b !important; color: white !important; }
+.pb-state-done { background-color: #22c55e !important; color: white !important; }
+.pb-state-cancel { background-color: #e34948 !important; color: white !important; }
 
 //css for submit button
 .h-divider {
@@ -143,11 +149,11 @@ body.pb_header_invisible {
     left: 4px;
     right: 4px;
     border-radius: 100%;
-    border: 1px dashed #aaa;
+    border: 1px dashed #f59e0b;
     text-align: center;
     line-height: 50px;
     font-style: normal;
-    color: #999;
+    color: #4a3aa7;
 }
 
 .divide {

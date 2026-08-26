@@ -13,7 +13,7 @@
     'images': ['static/description/banner.png'],
     'website': 'https://www.packbytes.com',
     'license': 'OPL-1', 
-    "depends": ["account",'barcodes'],
+    "depends": ["account",'barcodes','stock'],
     "data": [
         "views/account_invoice_view.xml",
     ],

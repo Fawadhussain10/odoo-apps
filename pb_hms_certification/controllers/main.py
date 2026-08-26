@@ -25,7 +25,8 @@ class HMSPortal(CustomerPortal):
         values = super()._prepare_home_portal_values(counters)
         Certificate = request.env['certificate.management']
         if 'certificate_count' in counters:
-            values['certificate_count'] = Certificate.search_count([]) \
+            partner = request.env.user.partner_id.commercial_partner_id
+            values['certificate_count'] = Certificate.search_count([('partner_id', 'child_of', partner.id)]) \
                 if Certificate.check_access_rights('read', raise_exception=False) else 0
         return values
 
@@ -42,7 +43,9 @@ class HMSPortal(CustomerPortal):
             'name': {'label': _('Name'), 'order': 'name'},
         }
         order = sortings.get(sortby, sortings['date'])['order']
-        count = Certificate.search_count([])
+        partner = request.env.user.partner_id.commercial_partner_id
+        domain = [('partner_id', 'child_of', partner.id)]
+        count = Certificate.search_count(domain)
 
         pager = portal_pager(
             url="/my/certificates",
@@ -52,8 +55,7 @@ class HMSPortal(CustomerPortal):
             step=self._items_per_page
         )
         # content according to pager and archive selected
-        partner = request.env.user.partner_id.commercial_partner_id
-        certificates = request.env['certificate.management'].sudo().search([],
+        certificates = request.env['certificate.management'].sudo().search(domain,
             order=order, limit=self._items_per_page, offset=pager['offset'])
 
         values.update({

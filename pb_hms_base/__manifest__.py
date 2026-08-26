@@ -12,7 +12,7 @@
     'support': 'sales@packbytes.com',
     'website': 'https://www.packbytes.com',
     'license': 'OPL-1',
-    'depends': ['account', 'stock', 'hr', 'product_expiry'],
+    'depends': ['account', 'stock', 'hr', 'product_expiry', 'base_geolocalize'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
@@ -24,9 +24,11 @@
         'data/sequence.xml',
         'data/mail_template.xml',
         'data/company_data.xml',
+        'data/patient_map_data.xml',
 
         'views/hms_base_views.xml',
         'views/patient_view.xml',
+        'views/patient_map_view.xml',
         'views/physician_view.xml',
         'views/product_view.xml',
         'views/drug_view.xml',
@@ -42,6 +44,18 @@
             'pb_hms_base/static/src/scss/report.scss',
             'pb_hms_base/static/src/scss/sidebar.scss',
             'pb_hms_base/static/src/js/required_field_notification.js',
+            # leaflet.js/.css are deliberately NOT bundled here - patient_map.js
+            # lazy-loads them on demand (loadJS/loadCSS) only when the map is
+            # actually opened, so the ~150KB library doesn't load on every
+            # single backend page for users who never view the map.
+            'pb_hms_base/static/src/map/patient_map.scss',
+            'pb_hms_base/static/src/map/patient_map.js',
+            'pb_hms_base/static/src/map/patient_map.xml',
+            # 'map' view type for hms.patient itself (List/Kanban/Map/Form
+            # switcher on the Patients action) - reuses the same lazy Leaflet
+            # loader and .pb-map-* CSS as the standalone map above.
+            'pb_hms_base/static/src/map/patient_map_view.js',
+            'pb_hms_base/static/src/map/patient_map_view.xml',
         ],
     },
     'installable': True,

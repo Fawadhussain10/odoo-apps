@@ -23,10 +23,10 @@
         <field name="inherit_id" ref="pb_hms.view_hms_appointment_form" />
         <field name="arch" type="xml">
             <xpath expr="//button[@name='create_invoice']" position="after">
-                <button name="%(physiotherapy_wizard_action)d" invisible="state not in ('in_consultation', 'sr_dr')" type="action" groups="pb_hms.group_hms_doctor" string="Send to Physiotherapy"/>
+                <button name="%(physiotherapy_wizard_action)d" invisible="state != 'in_consultation'" type="action" groups="pb_hms.group_hms_doctor" string="Send to Physiotherapy"/>
             </xpath>
             <div name="button_box" position="inside">
-                <button name="action_view_physiotherapy" string="Physiotherapy" type="object" groups="pb_hms.group_hms_receptionist" invisible="state not in ('in_consultation', 'invoiced', 'done', 'sr_dr')" class="oe_stat_button" icon="fa-pencil-square-o"/>
+                <button name="action_view_physiotherapy" string="Physiotherapy" type="object" groups="pb_hms.group_hms_receptionist" invisible="state not in ('in_consultation', 'to_invoice', 'done')" class="oe_stat_button" icon="fa-pencil-square-o"/>
             </div>
         </field>
     </record>

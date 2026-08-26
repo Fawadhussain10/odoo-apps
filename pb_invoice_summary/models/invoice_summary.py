@@ -11,8 +11,6 @@ class PbInvoiceSummary(models.Model):
     _description = "Invoice Summary"
     _inherit = ['mail.thread']
 
-    STATES = {'done': [('readonly', True)]}
-
     def _compute_data_count(self):
         for rec in self:
             rec.move_count = len(rec.move_ids)
@@ -100,7 +98,7 @@ class PbInvoiceSummary(models.Model):
 
     def unlink(self):
         for rec in self:
-            if rec.state in ('done'):
+            if rec.state == 'done':
                 raise UserError(_('You cannot delete an record in Done State.'))
         return super(PbInvoiceSummary, self).unlink()
 

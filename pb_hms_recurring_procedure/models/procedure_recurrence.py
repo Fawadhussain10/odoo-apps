@@ -291,10 +291,21 @@ class PbProcedureRecurrence(models.Model):
         return res
 
     def pb_create_recurring_procedures(self):
+        # recurrence_left only means anything for repeat_type == 'after' (same
+        # rule the cron uses); for 'forever'/'until' it's never populated, so
+        # gating the loop on it there stopped the batch after a single
+        # occurrence. Those two modes have no natural stopping point for a
+        # synchronous button click, so cap the batch like the on-form preview
+        # already does (see _compute_recurrence_message's min(5, ...)).
+        MAX_BATCH = 5
         for rec in self:
             rec._set_next_recurrence_date()
-            while (rec.next_recurrence_date and rec.recurrence_left>=0):
-                if rec.next_recurrence_date:
-                    rec._create_next_procedure()
+            created = 0
+            while (rec.next_recurrence_date
+                   and (rec.repeat_type != 'after' or rec.recurrence_left >= 0)
+                   and created < MAX_BATCH):
+                rec._create_next_procedure()
+                if rec.repeat_type == 'after':
                     rec.with_context(avoid_next_recurrence_date_update=True).recurrence_left -= 1
-                    rec._set_next_recurrence_date(rec.next_recurrence_date)
+                rec._set_next_recurrence_date(rec.next_recurrence_date)
+                created += 1

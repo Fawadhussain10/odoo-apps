@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="pb_hms_base.PatientMapViewController">
+    <Layout display="display">
+        <div class="o_pb_patient_map_view">
+            <div class="pb-map-header">
+                <div class="pb-map-header-title">
+                    <div class="pb-map-header-icon"><i class="fa fa-map-marker"/></div>
+                    <div>
+                        <h1>Patient Map</h1>
+                        <p class="text-muted">Showing patients matching the current filters</p>
+                    </div>
+                </div>
+                <div class="pb-map-header-stats">
+                    <div class="pb-map-stat">
+                        <div class="pb-map-stat-value" t-esc="state.totalCount"/>
+                        <div class="pb-map-stat-label">Matching Patients</div>
+                    </div>
+                    <div class="pb-map-stat pb-map-stat-accent">
+                        <div class="pb-map-stat-value" t-esc="state.locatedCount"/>
+                        <div class="pb-map-stat-label">Located</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pb-map-canvas-wrap">
+                <PatientMapViewRenderer points="state.points"/>
+                <div class="pb-map-legend">
+                    <span class="pb-map-legend-dot"/> Patient location
+                </div>
+            </div>
+        </div>
+    </Layout>
+</t>
+
+<t t-name="pb_hms_base.PatientMapViewRenderer">
+    <div class="pb-map-canvas" t-ref="mapContainer"/>
+</t>
+
+</templates>

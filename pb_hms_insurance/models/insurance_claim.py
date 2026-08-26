@@ -23,12 +23,14 @@ class InsuranceClaim(models.Model):
             }))
         return vals
  
-    @api.depends('checklist_ids')
+    @api.depends('checklist_ids', 'checklist_ids.is_done')
     def _compute_checklist_ids_marked(self):
         for rec in self:
             done_checklist = rec.checklist_ids.filtered(lambda x: x.is_done)
-            if len(rec.checklist_ids)>=1:
-                rec.checklist_marked = (len(done_checklist)* 100)/len(rec.checklist_ids)
+            if len(rec.checklist_ids) >= 1:
+                rec.checklist_marked = (len(done_checklist) * 100) / len(rec.checklist_ids)
+            else:
+                rec.checklist_marked = 0.0
 
     STATES={'cancel': [('readonly', True)], 'done': [('readonly', True)]}
 
@@ -122,6 +124,8 @@ class InsuranceClaim(models.Model):
         invoices = []
         if self.claim_for=='appointment':
             invoices = self.env['account.move'].search([('appointment_id', '=', self.appointment_id.id)])
+        elif self.claim_for=='pharmacy':
+            invoices = self.env['account.move'].search([('prescription_id', '=', self.prescription_id.id)])
         return invoices
 
     def action_view_record_invoice(self):

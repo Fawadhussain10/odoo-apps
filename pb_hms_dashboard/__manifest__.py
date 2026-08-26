@@ -20,7 +20,10 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'pb_hms_dashboard/static/src/scss/pb_dashboard.scss'
+            'pb_hms_dashboard/static/src/scss/pb_dashboard.scss',
+            'pb_hms_dashboard/static/src/dashboard/hms_dashboard.scss',
+            'pb_hms_dashboard/static/src/dashboard/hms_dashboard.js',
+            'pb_hms_dashboard/static/src/dashboard/hms_dashboard.xml',
         ]
     },
     'application': False,

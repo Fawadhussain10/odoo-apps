@@ -78,7 +78,7 @@ class PbBodyEvolution(models.Model):
     right_arm = fields.Char(string="Right arm")
     left_arm = fields.Char(string="Left arm")
     high_abdomen = fields.Char(string="High abdomen")
-    middle_abdomen = fields.Char("string=Middle abdomen")
+    middle_abdomen = fields.Char(string="Middle abdomen")
     low_abdomen = fields.Char(string="Low abdomen")
     hip = fields.Char(string="Hip")
     right_thigh = fields.Char(string="Right thigh")

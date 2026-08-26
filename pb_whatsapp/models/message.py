@@ -3,6 +3,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.tools.mimetypes import guess_mimetype
 from odoo.tools import format_datetime
+from odoo.tools.safe_eval import safe_eval
 import mimetypes
 
 
@@ -22,11 +23,11 @@ class PbWhatsAppMessage(models.Model):
                 else:
                     rec.name = rec.message or 'Message'
             elif rec.message_type in ['file','file_url']:
-                name = "File"
+                rec.name = "File"
             elif rec.message_type=='link':
-                name = "Link"
+                rec.name = "Link"
             else:
-                name = rec.file_name or 'Message'
+                rec.name = rec.file_name or 'Message'
 
     name = fields.Char(string="Name", compute="_get_name", store=True)
     partner_id = fields.Many2one('res.partner', 'Contact', ondelete="cascade")
@@ -129,7 +130,7 @@ class PBwhatsappMixin(models.AbstractModel):
     def pb_eval_message(self, object, message_exp):
         message = ''
         try:
-            message = eval(message_exp, {'object': object, 
+            message = safe_eval(message_exp, {'object': object,
                 'format_datetime': lambda dt, tz=False, dt_format=False, lang_code=False: format_datetime(self.env, dt, tz, dt_format, lang_code)
             })
         except:

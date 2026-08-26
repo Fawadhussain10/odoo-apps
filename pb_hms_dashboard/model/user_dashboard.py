@@ -196,8 +196,7 @@ class ResUsers(models.Model):
     my_total_running_treatments = fields.Integer(compute="_compute_dashboard_data")
     my_total_treatments_color = fields.Char(string='My Total Treatments Color', default="#059669")
 
-    #Admin fields 
-    total_appointments = fields.Integer(compute="_compute_dashboard_data")
+    #Admin fields
     avg_wait_time = fields.Char(compute="_compute_dashboard_data")
     avg_cons_time = fields.Char(compute="_compute_dashboard_data")
     avg_time_color = fields.Char( string='Avg Time Color', default="#4F46E5")
@@ -347,7 +346,6 @@ class ResUsers(models.Model):
         return action
 
     def open_physicians(self):
-        print ("really-----")
         action = self.env["ir.actions.actions"]._for_xml_id("pb_hms_base.action_physician")
         action['domain'] = self.get_filter('create_date')
         return action

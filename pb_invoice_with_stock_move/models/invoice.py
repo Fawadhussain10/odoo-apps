@@ -60,8 +60,6 @@ class AccountMove(models.Model):
     def _get_default_picking_type(self):
         return self.env.user.sudo().pb_picking_type_id or False
 
-    STATES = {'posted': [('readonly', True)]}
-
     warehouse_id = fields.Many2one('stock.warehouse', 'Warehouse', default=_get_default_warehouse)
     create_stock_moves = fields.Boolean("Create Stock Moves?", copy=False)
     picking_id = fields.Many2one('stock.picking', 'Picking', copy=False)
@@ -69,7 +67,7 @@ class AccountMove(models.Model):
     pb_location_id = fields.Many2one('stock.location', 'Src Location', copy=False)
     pb_location_dest_id = fields.Many2one('stock.location', 'Destiantion Location', copy=False)
 
-    @api.onchange('warehouse_id','picking_type_id','move_type','create_stock_moves')
+    @api.onchange('warehouse_id','move_type')
     def onchange_warehouse(self):
         if self.warehouse_id:
             if self.move_type == 'out_invoice':

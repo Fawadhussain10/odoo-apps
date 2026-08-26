@@ -39,7 +39,7 @@
                             <field name="name" readonly="1"/>
                         </h1>
                     </div>
-                    <group>
+                    <group readonly="state in ('cancel', 'done')">
                         <group>
                             <field name="patient_id"/>
                             <field name="date"/>
@@ -50,7 +50,7 @@
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                         </group>
                     </group>
-                    <notebook>
+                    <notebook readonly="state in ('cancel', 'done')">
                         <page name="body" string="Body">
                             <group string="I want to Improve">
                                 <group>
@@ -117,7 +117,7 @@
                             </group>
                         </page>
                     </notebook>
-                    <field name="note" placehoder="Notes"/>
+                    <field name="note" placehoder="Notes" readonly="state in ('cancel', 'done')"/>
                 </sheet>
                 <chatter/>
             </form>

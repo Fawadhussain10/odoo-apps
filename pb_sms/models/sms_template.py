@@ -7,8 +7,6 @@ class PbSmsTemplate(models.Model):
     _name = 'pb.sms.template'
     _description = 'SMS Template'
 
-    READONLY_STATES = {'approved': [('readonly', True)], 'cancel': [('readonly', True)]}
-
     name = fields.Text(string='Name', required=True)
     message = fields.Text(string='Message', required=True)
     state =  fields.Selection([

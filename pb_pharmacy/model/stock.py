@@ -38,7 +38,7 @@ class StockProductionLot(models.Model):
                    ('to_remove', 'To remove'),
                    ('best_before', 'After the best before')],
         string='Expiry state')
-    locked = fields.Boolean(string='Blocked', default='_get_locked_value', readonly=True)
+    locked = fields.Boolean(string='Blocked', default=lambda self: self._get_locked_value(), readonly=True)
 
     def _get_product_locked(self, product):
         """Should create locked? (including categories and parents)

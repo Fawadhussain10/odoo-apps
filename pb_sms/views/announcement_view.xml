@@ -33,7 +33,7 @@
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
-                    <group>
+                    <group readonly="state == 'sent'">
                         <field name="message" required="1"/>
                         <group>
                             <field name="announcement_type"/>

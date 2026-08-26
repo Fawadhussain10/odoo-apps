@@ -77,7 +77,7 @@
                 </div>
             </t>
         </div>
-    </template> 
+    </template>
 
     <template id="pb_procedure_table">
         <table class="table table-sm o_main_table mt16 table-bordered">
@@ -97,7 +97,7 @@
                 <t t-foreach="lines" t-as="line">
                     <tr>
                         <td>
-                            <a t-att-href="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (line._name, line.id, line.env.ref('pb_hms_dental.action_pb_dental_procedure').id)"> 
+                            <a t-att-href="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (line._name, line.id, line.env.ref('pb_hms_dental.action_pb_dental_procedure').id)">
                                 <span t-field="line.name"/>
                             </a>
                         </td>
@@ -120,7 +120,7 @@
                             <span t-field="line.date"/>
                         </td>
                         <td>
-                            <span class="badge badge-pill badge-success"><span t-field="line.state"/></span>
+                            <span t-attf-class="badge badge-pill pb-state-#{line.state}"><span t-field="line.state"/></span>
                             <t t-if="line.attachment_ids">
                                 <a title="Images" t-attf-href="{{line.document_preview_url}}" target="_blank">
                                     <i class="fa fa-image text-success"/>
@@ -146,7 +146,7 @@
                                     <i class="fa fa-trash text-danger"/>
                                 </a>
                             </t>
-                        </td>                       
+                        </td>
                     </tr>
                 </t>
             </tbody>
@@ -161,8 +161,8 @@
                         <a t-att-href="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (patient._name, patient.id, patient.env.ref('pb_hms_base.action_patient').id)" class="ml16"><i class="fa fa-home mr-1 fa-3x"/></a>
                     </div>
                     <div class="col-8 text-center">
-                        <b>Patient:</b> 
-                        <a t-att-href="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (patient._name, patient.id, patient.env.ref('pb_hms_base.action_patient').id)"> 
+                        <b>Patient:</b>
+                        <a t-att-href="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (patient._name, patient.id, patient.env.ref('pb_hms_base.action_patient').id)">
                             <span t-field="patient.name"/>
                         </a> <br/>
                         <b>Age:</b> <span t-field="patient.age"/> <br/>

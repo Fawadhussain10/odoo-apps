@@ -22,9 +22,8 @@ class ResPartner(models.Model):
     verified_mobile_sms = fields.Boolean(string="Verified SMS", help="The mobile number is verified using the SMS message", default=False)
 
     def action_send_otp_sms(self):
-        self.generateotp_sms()
-
         for rec in self:
+            rec.generateotp_sms()
             verify_otp_msg_sms_template_id = rec.sudo().company_id.verify_otp_msg_sms_template_id or self.env.user.sudo().company_id.verify_otp_msg_sms_template_id
             if verify_otp_msg_sms_template_id:
                 if rec.phone:

@@ -43,7 +43,7 @@ class DocumentDirectory(models.Model):
         domain = [('directory_id','=',self.id)]
         if self.res_model and self.res_model.name:
             model_domain = [('res_model', '=', self.res_model.model)]
-            domain = OR([domain,model_domain])
+            domain = Domain.OR([domain, model_domain])
         attachments = self.env['ir.attachment'].search(domain)
         action = self.env["ir.actions.actions"]._for_xml_id("base.action_attachment")
         action['domain'] = [('id', 'in', attachments.ids)]
@@ -62,7 +62,9 @@ class DocumentDirectory(models.Model):
             """ Return the list [cat.name, cat.parent_id.name, ...] """
             res = []
             while directory:
-                res.append(directory.name)
+                # name reads back as False (not '') when unset - guard so
+                # " / ".join() below doesn't choke on a bool in the list.
+                res.append(directory.name or '')
                 directory = directory.parent_id
             return res
         for directory in self:

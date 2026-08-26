@@ -1,50 +1,155 @@
+/* PB HMS Next Patient Screen — waiting-room kiosk display.
+   Large-format, high-contrast, readable from across a room; same navy/amber
+   premium language used across the rest of the PackBytes HMS suite, but with
+   its own bigger type scale since this runs on a TV, not a desktop window. */
 
-img {
-    height:90px !important;
-    width:90px;
-    margin-top:22px;
-    margin-left:22px;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap');
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: radial-gradient(1400px 600px at 12% -10%, rgba(245, 158, 11, .12), transparent 60%),
+                radial-gradient(1100px 600px at 105% 10%, rgba(74, 58, 167, .16), transparent 55%),
+                linear-gradient(180deg, #0b1220 0%, #0d1526 100%);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #f3ead9;
+    overflow: hidden;
 }
-.main-box {
-    min-height:100px;
-    border-bottom:1px solid #ccc;
-    padding-bottom:10px;
+
+.pb-nps-screen {
+    height: 100vh;
+    padding: 28px 40px 20px;
+    display: flex;
+    flex-direction: column;
 }
-.box {
-    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
-    color:white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) ;
-    border-radius: 20px;border-style:double;
-    border: 2px solid white;
-    background-color:#867584;
-    text-align: center;
-    padding:15px;
-    font-size: 55px;
-    font-weight:bold;
-    margin-left:10px;
-    height:90px !important;
-    width:90px !important;
-    font-size: 33px;
-    padding-top: 27px;
+
+.pb-nps-header,
+.pb-nps-row {
+    display: grid;
+    grid-template-columns: 110px 110px 1.6fr 2.2fr 1.2fr;
+    align-items: center;
+    gap: 16px;
 }
-.line {
-    line-height:90px;
-    font-size:25px;
+
+.pb-nps-header {
+    padding: 0 24px 18px;
+    border-bottom: 2px solid rgba(255, 255, 255, .1);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #93a1b7;
 }
-.big-font {
-    font-size:40px;
+
+.pb-nps-rows {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 18px;
+    overflow: hidden;
 }
-.normal-font {
-    font-size:40px;
-}
-.cabin-data {
+
+.pb-nps-row {
+    background: linear-gradient(165deg, #141b2d 0%, #101728 100%);
+    border: 1px solid rgba(255, 255, 255, .07);
+    border-radius: 18px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 30px rgba(0, 0, 0, .3);
+    padding: 16px 24px;
+    min-height: 96px;
     position: relative;
-    margin-top: -23px;
-    font-size:25px;
+    overflow: hidden;
+    transition: transform .3s ease;
 }
-.pb_header_row {
-    margin-top:30px;
+.pb-nps-row::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: linear-gradient(180deg, #4a3aa7, #1baf7a);
 }
-.pb_row {
-    margin-top:20px;
+
+.pb-nps-row-now {
+    border-color: rgba(245, 158, 11, .55);
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, .25), 0 12px 34px rgba(245, 158, 11, .18);
+    animation: pb-nps-now-glow 2.4s ease-in-out infinite;
+}
+.pb-nps-row-now::before {
+    background: linear-gradient(180deg, #f59e0b, #fbbf24);
+    width: 6px;
+}
+@keyframes pb-nps-now-glow {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(245, 158, 11, .25), 0 12px 34px rgba(245, 158, 11, .18); }
+    50% { box-shadow: 0 0 0 4px rgba(245, 158, 11, .4), 0 16px 40px rgba(245, 158, 11, .3); }
+}
+
+.pb-nps-cell-number { text-align: center; }
+.pb-nps-number-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    background: linear-gradient(150deg, #2a78d6, #1c4f8f);
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, .35);
+}
+.pb-nps-row-now .pb-nps-number-badge {
+    background: linear-gradient(150deg, #f59e0b, #d97706);
+    font-size: 1.3rem;
+}
+
+.pb-nps-cell-avatar { display: flex; justify-content: center; }
+.pb-nps-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, .12);
+}
+.pb-nps-avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(147, 161, 183, .14);
+    color: #93a1b7;
+    font-size: 1.6rem;
+}
+
+.pb-nps-cell-name {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #f3ead9;
+}
+
+.pb-nps-cell-physician { line-height: 1.3; }
+.pb-nps-physician-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f3ead9;
+}
+.pb-nps-cabin {
+    margin-top: 2px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #2dd4bf;
+}
+
+.pb-nps-cell-ref {
+    text-align: right;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #93a1b7;
+    font-variant-numeric: tabular-nums;
+}
+
+.pb-nps-dash {
+    color: #4b5a72;
+    font-size: 1.4rem;
 }

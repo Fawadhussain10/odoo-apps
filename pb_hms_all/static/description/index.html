@@ -1,198 +1,122 @@
-<head>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@500&display=swap">
-<style>
-  .pb-page {
-    font-family: "Source Serif 4", Georgia, serif;
-    color: #1c2624;
-    background: #f6f5f1;
-    max-width: 900px;
-    margin: 0 auto;
-    line-height: 1.55;
-  }
-  .pb-page * { box-sizing: border-box; }
-  .pb-mono {
-    font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    font-size: 12px;
-  }
-  .pb-hero {
-    background: #10201e;
-    background-image:
-      radial-gradient(circle at 82% -10%, rgba(27,138,131,0.55), transparent 55%),
-      linear-gradient(180deg, #132422 0%, #0d1917 100%);
-    border-radius: 14px;
-    padding: 38px 40px 32px;
-    color: #f2efe6;
-  }
-  .pb-eyebrow {
-    color: #6fd6ce;
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
-  }
-  .pb-eyebrow span { opacity: 0.85; }
-  .pb-title {
-    font-family: "Big Shoulders Display", "Arial Narrow", sans-serif;
-    font-weight: 800;
-    font-size: 40px;
-    line-height: 1.02;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-    margin: 0 0 12px;
-    color: #fbf9f2;
-  }
-  .pb-tagline {
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: 17px;
-    color: #cdd9d4;
-    max-width: 62ch;
-    margin: 0;
-  }
-  .pb-rule {
-    height: 3px;
-    width: 56px;
-    background: #e8783a;
-    border: 0;
-    margin: 20px 0 0;
-  }
-  .pb-body {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr;
-    gap: 28px;
-    margin-top: 30px;
-  }
-  @media (max-width: 640px) {
-    .pb-body { grid-template-columns: 1fr; }
-  }
-  .pb-section-label {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #1b8a83;
-    margin: 0 0 10px;
-  }
-  .pb-desc {
-    font-size: 16.5px;
-    color: #33403d;
-    margin: 0 0 22px;
-  }
-  .pb-features {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .pb-features li {
-    position: relative;
-    padding-left: 26px;
-    margin-bottom: 11px;
-    font-size: 15px;
-    color: #1c2624;
-  }
-  .pb-features li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 6px;
-    width: 9px;
-    height: 9px;
-    border-radius: 2px;
-    background: #1b8a83;
-  }
-  .pb-card {
-    background: #fff;
-    border: 1px solid #dde3e1;
-    border-radius: 10px;
-    padding: 20px 22px;
-    height: fit-content;
-  }
-  .pb-card dl {
-    margin: 0;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 8px 14px;
-    font-size: 14px;
-  }
-  .pb-card dt {
-    font-family: "JetBrains Mono", monospace;
-    color: #6b7a79;
-    text-transform: uppercase;
-    font-size: 11px;
-    letter-spacing: 0.05em;
-    align-self: center;
-  }
-  .pb-card dd { margin: 0; color: #1c2624; align-self: center; }
-  .pb-badges {
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid #eceeec;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .pb-badge {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
-    letter-spacing: 0.03em;
-    background: #eef4f3;
-    color: #145550;
-    border-radius: 5px;
-    padding: 4px 8px;
-  }
-  .pb-footer {
-    margin-top: 30px;
-    padding-top: 16px;
-    border-top: 1px solid #e3e0d6;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-    color: #6b7a79;
-  }
-  .pb-footer a { color: #1b8a83; text-decoration: none; font-weight: 600; }
-  .pb-footer a:hover { text-decoration: underline; }
-</style>
-</head>
+<section class="oe_container" style="font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; color: #0f172a;">
 
-<section class="pb-page">
-  <div class="pb-hero">
-    <div class="pb-eyebrow pb-mono">
-      <span>Medical</span>
-      <span>pb_hms_all</span>
+    <div style="margin: -16px -16px 0 -16px;">
+        <img src="banner.png" style="width: 100%; display: block;"/>
     </div>
-    <h1 class="pb-title">Hospital Management System</h1>
-    <p class="pb-tagline">Hospital Management System having all HMS modules</p>
-    <hr class="pb-rule"/>
-  </div>
 
-  <div class="pb-body">
-    <div>
-      <p class="pb-section-label">Overview</p>
-      <p class="pb-desc">all hms modules by hms pb hms PackBytes Hospital Management System Premium. pb hms hospital management system by packbytes consulting services. hospital certificate and medical certification medical document management hospital barcode system insurance management system laboratory management system radiology and pathology management next patient screen, manage vitals signs of patient in appointment and also details of all the physical examinations of patient.</p>
-      <p class="pb-section-label">Key Features</p>
-      <ul class="pb-features">
-        <li>Hospital Management System</li>
-      </ul>
-    </div>
-    <div class="pb-card">
-      <dl>
-        <dt>Category</dt><dd>Medical</dd>
-        <dt>License</dt><dd>OPL-1</dd>
-        <dt>Version</dt><dd>19.0.1.0.0</dd>
-      </dl>
-      <div class="pb-badges">
-        <span class="pb-badge">Community</span>
-        <span class="pb-badge">Enterprise</span>
-        <span class="pb-badge">Odoo.sh</span>
-        <span class="pb-badge">On Premise</span>
-      </div>
-    </div>
-  </div>
+    <table style="width:100%; border-collapse: collapse; margin: 0;">
+        <tr>
+            <td style="background:#0f172a; padding: 28px 40px; text-align:center; border-radius: 0 0 10px 10px;">
+                <p style="font-size: 16px; max-width: 780px; margin: 0 auto; color: #cbd5e1;">
+                    One click installs the entire PackBytes HMS suite &mdash; clinical care,
+                    hospitalization, pharmacy, laboratory &amp; radiology, insurance, patient portal
+                    and communications &mdash; as a single coherent hospital platform.
+                </p>
+            </td>
+        </tr>
+    </table>
 
-  <div class="pb-footer">
-    <span>PackBytes &mdash; internal build</span>
-    <a href="https://www.packbytes.com" target="_blank">packbytes.com</a>
-  </div>
+    <table style="width:100%; border-collapse: separate; border-spacing: 14px; margin: 28px 0 0;">
+        <tr>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #2a78d6; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#129658; Clinical Core</h3>
+                <p style="color:#475569;">Patients, appointments, prescriptions, treatments,
+                    procedures and physician records &mdash; the base every other module builds on.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #1baf7a; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#127973; Hospitalization &amp; Surgery</h3>
+                <p style="color:#475569;">In-patient admission, ward/bed management, surgery,
+                    emergency care and operation-theater booking, end to end.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #4a3aa7; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#128138; Pharmacy &amp; Point of Sale</h3>
+                <p style="color:#475569;">Batch-wise pricing, expiry tracking, and a full
+                    Prescription-Order-to-POS settlement flow at the pharmacy counter.</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #eb6834; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#129514; Laboratory &amp; Radiology</h3>
+                <p style="color:#475569;">Request &rarr; test &rarr; result &rarr; invoice flows for
+                    both diagnostic domains, including hospitalization-linked variants.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #eda100; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#128737;&#65039; Insurance</h3>
+                <p style="color:#475569;">Claim tracking across hospitalization, laboratory,
+                    radiology and surgery, each grounded in its own domain's real workflow.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #e87ba4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#127760; Patient Portal &amp; Online Booking</h3>
+                <p style="color:#475569;">Self-service appointment booking, portal access to records,
+                    and next-patient waiting-room screens for the front desk.</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #008300; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#128209; Documents, Barcode &amp; Certification</h3>
+                <p style="color:#475569;">Document management, patient/appointment barcoding, and
+                    certificate issuance, all bundled in from day one.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #e34948; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#128200; Dashboard &amp; Commission</h3>
+                <p style="color:#475569;">Role-based KPI dashboards for doctors, receptionists and
+                    admins, plus referring/visiting-doctor commission on the revenue they generate.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #2a78d6; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#127973; Facility Management</h3>
+                <p style="color:#475569;">Office and premises upkeep tracked as one-off and recurring
+                    tasks, right alongside the clinical operations they support.</p>
+            </td>
+        </tr>
+    </table>
+
+    <table style="width:100%; border-collapse: collapse; margin: 36px 0 0;">
+        <tr>
+            <td style="padding: 0 0 8px; text-align:center;">
+                <div style="color:#92400e; font-weight:bold; letter-spacing:1px; text-transform:uppercase; font-size:12px;">Get In Touch</div>
+                <h2 style="color:#0f172a; margin: 6px 0 20px;">Contact Us</h2>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%; border-collapse: separate; border-spacing: 14px;">
+        <tr>
+            <td style="width:20%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; font-size:22px; line-height:52px;">&#128100;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">Author</div>
+                <div style="font-size:14px; color:#0f172a; font-weight:bold; margin-top:4px;">Fawad Hussain</div>
+            </td>
+            <td style="width:20%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#4a3aa7,#6d5bd0); color:#fff; font-size:22px; line-height:52px;">&#127760;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">Website</div>
+                <div style="font-size:14px; margin-top:4px;"><a href="https://packbytes.com" style="color:#92400e; font-weight:bold; text-decoration:none;">packbytes.com</a></div>
+            </td>
+            <td style="width:20%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#2a78d6,#184f95); color:#fff; font-size:22px; line-height:52px;">&#9993;&#65039;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">Sales</div>
+                <div style="font-size:14px; margin-top:4px;"><a href="mailto:sales@packbytes.com" style="color:#92400e; font-weight:bold; text-decoration:none;">sales@packbytes.com</a></div>
+            </td>
+            <td style="width:20%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#1baf7a,#0c8a5c); color:#fff; font-size:22px; line-height:52px;">&#128241;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">WhatsApp</div>
+                <div style="font-size:14px; color:#0f172a; font-weight:bold; margin-top:4px;">+92 325 4460867</div>
+            </td>
+            <td style="width:20%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#eb6834,#c2410c); color:#fff; font-size:22px; line-height:52px;">&#128222;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">Phone</div>
+                <div style="font-size:14px; color:#0f172a; font-weight:bold; margin-top:4px;">+92 301 0400131</div>
+            </td>
+        </tr>
+    </table>
+
+    <table style="width:100%; border-collapse: collapse; margin: 30px 0 0;">
+        <tr>
+            <td style="text-align:center; padding: 18px; background:#f6f1e6; border-radius: 8px;">
+                <p style="margin:0; color:#0f172a;">
+                    <strong>Hospital Management System</strong> for Odoo 19 &middot; Built by Fawad
+                    Hussain / <a href="https://packbytes.com" style="color:#92400e;">packbytes.com</a>
+                </p>
+            </td>
+        </tr>
+    </table>
+
 </section>

@@ -16,19 +16,27 @@ class HMSPortal(CustomerPortal):
         })
         return values
 
+    def _my_patient_domain(self):
+        """Scope portal records to the logged-in user's own patient plus their
+        declared family members, instead of leaking every patient's records."""
+        patient = request.env.user.pb_patient_id
+        partner_ids = (patient.partner_id | patient.pb_family_partner_ids).ids
+        return [('patient_id.partner_id', 'in', partner_ids)]
+
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
         Appointment = request.env['hms.appointment']
         Prescription = request.env['prescription.order']
         Evaluation = request.env['pb.patient.evaluation']
+        domain = self._my_patient_domain()
         if 'appointment_count' in counters:
-            values['appointment_count'] = Appointment.search_count([]) \
+            values['appointment_count'] = Appointment.search_count(domain) \
                 if Appointment.check_access_rights('read', raise_exception=False) else 0
         if 'prescription_count' in counters:
-            values['prescription_count'] = Prescription.search_count([]) \
+            values['prescription_count'] = Prescription.search_count(domain) \
                 if Prescription.check_access_rights('read', raise_exception=False) else 0
         if 'evaluation_count' in counters:
-            values['evaluation_count'] = Evaluation.search_count([]) \
+            values['evaluation_count'] = Evaluation.search_count(domain) \
                 if Evaluation.check_access_rights('read', raise_exception=False) else 0
         return values
 
@@ -45,8 +53,9 @@ class HMSPortal(CustomerPortal):
         }
 
         order = sortings.get(sortby, sortings['date'])['order']
-        count = Appointment.search_count([])
- 
+        domain = self._my_patient_domain()
+        count = Appointment.search_count(domain)
+
         pager = portal_pager(
             url="/my/appointments",
             url_args={},
@@ -55,8 +64,7 @@ class HMSPortal(CustomerPortal):
             step=self._items_per_page
         )
         # content according to pager and archive selected
-        partner = request.env.user.partner_id.commercial_partner_id
-        appointments = Appointment.search([],
+        appointments = Appointment.search(domain,
             order=order, limit=self._items_per_page, offset=pager['offset'])
 
         values.update({
@@ -92,8 +100,9 @@ class HMSPortal(CustomerPortal):
         }
 
         order = sortings.get(sortby, sortings['date'])['order']
-        count = Prescription.search_count([])
- 
+        domain = self._my_patient_domain()
+        count = Prescription.search_count(domain)
+
         pager = portal_pager(
             url="/my/prescriptions",
             url_args={},
@@ -102,8 +111,7 @@ class HMSPortal(CustomerPortal):
             step=self._items_per_page
         )
         # content according to pager and archive selected
-        partner = request.env.user.partner_id.commercial_partner_id
-        prescriptions = request.env['prescription.order'].search([],
+        prescriptions = request.env['prescription.order'].search(domain,
             order=order, limit=self._items_per_page, offset=pager['offset'])
 
         values.update({
@@ -129,7 +137,7 @@ class HMSPortal(CustomerPortal):
         error, error_message = super(HMSPortal, self).details_form_validate(data)
         # prevent VAT/name change if invoices | Prescription exist
         partner = request.env['res.users'].browse(request.uid).partner_id
-        has_prescription = request.env['prescription.order'].search([], limit=1)
+        has_prescription = request.env['prescription.order'].search(self._my_patient_domain(), limit=1)
         if has_prescription:
             if 'name' in data and (data['name'] or False) != (partner.name or False):
                 error['name'] = 'error'
@@ -164,8 +172,9 @@ class HMSPortal(CustomerPortal):
         }
 
         order = sortings.get(sortby, sortings['date'])['order']
-        count = Evaluation.search_count([])
- 
+        domain = self._my_patient_domain()
+        count = Evaluation.search_count(domain)
+
         pager = portal_pager(
             url="/my/evaluations",
             url_args={},
@@ -174,8 +183,7 @@ class HMSPortal(CustomerPortal):
             step=self._items_per_page
         )
         # content according to pager and archive selected
-        partner = request.env.user.partner_id.commercial_partner_id
-        evaluations = Evaluation.search([],
+        evaluations = Evaluation.search(domain,
             order=order, limit=self._items_per_page, offset=pager['offset'])
 
         values.update({
@@ -266,7 +274,12 @@ class HMSPortal(CustomerPortal):
     @http.route(['/my/family/update/<int:family_memebr_id>'], type='http', auth="user", website=True, sitemap=False)
     def family_member_update_form(self, family_memebr_id, redirect=None, **kw):
         values = self.get_default_form_data()
-        family_memebr = request.env['pb.family.member'].sudo().search([('id','=',family_memebr_id)])
+        family_memebr = request.env['pb.family.member'].sudo().search([
+            ('id', '=', family_memebr_id),
+            ('patient_id', '=', request.env.user.pb_patient_id.id),
+        ])
+        if not family_memebr:
+            return request.redirect('/my')
         patient_id = family_memebr.related_patient_id
         values.update({
             'record': patient_id,
@@ -278,12 +291,22 @@ class HMSPortal(CustomerPortal):
 
     @http.route('/pb/hms/family/update', type="http", auth="user", website=True, csrf=True, sitemap=False)
     def update_family_member(self, **kwargs):
-        patient = request.env['hms.patient'].sudo().search([('id','=',kwargs.get('patient_id'))])
+        own_patient_id = request.env.user.pb_patient_id.id
+        family_memebr = request.env['pb.family.member'].sudo().search([
+            ('id', '=', kwargs.get('family_memebr')),
+            ('patient_id', '=', own_patient_id),
+        ])
+        if not family_memebr:
+            return request.redirect('/my')
+        patient = request.env['hms.patient'].sudo().search([
+            ('id', '=', kwargs.get('patient_id')),
+            ('id', '=', family_memebr.related_patient_id.id),
+        ])
+        if not patient:
+            return request.redirect('/my')
         data = self.get_values_from_form(kwargs)
         patient.write(data)
-        family_memebr = request.env['pb.family.member'].sudo().search([('id','=',kwargs.get('family_memebr'))])
-        if family_memebr:
-            family_memebr.relation_id = int(kwargs.get('relation_id'))
+        family_memebr.relation_id = int(kwargs.get('relation_id'))
         if kwargs.get('redirect'):
             return request.redirect(kwargs.get('redirect'))
         return request.redirect('/my')

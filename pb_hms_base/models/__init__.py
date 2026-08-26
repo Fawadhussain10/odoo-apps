@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import hms_base
+from . import ir_ui_view
 from . import partner
 from . import patient
 from . import physician

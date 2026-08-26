@@ -14,8 +14,6 @@ class Announcement(models.Model):
     _description = 'SMS Announcement'
     _rec_name = 'message'
 
-    READONLY_STATES = {'sent': [('readonly', True)]}
-
     message = fields.Text(string='Announcement')
     date = fields.Date(string='Date')
     state = fields.Selection([
@@ -47,7 +45,7 @@ class Announcement(models.Model):
 
     def unlink(self):
         for rec in self:
-            if rec.state not in ('draft'):
+            if rec.state != 'draft':
                 raise UserError(_('You cannot delete an record which is not draft.'))
         return super(Announcement, self).unlink()
 

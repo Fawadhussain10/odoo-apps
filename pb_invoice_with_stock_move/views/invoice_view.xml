@@ -27,10 +27,10 @@
 
             <xpath expr="//group[@name='accounting_info_group']" position="after">
                 <group string="Picking" name="packbytes_picking_info" invisible="move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')">
-                    <field name='create_stock_moves'/>
+                    <field name='create_stock_moves' readonly="state == 'posted'"/>
                     <field name='picking_id' readonly='1' invisible="not create_stock_moves"/>
-                    <field name="warehouse_id" invisible="not create_stock_moves"/>
-                    <field name="picking_type_id"/>
+                    <field name="warehouse_id" invisible="not create_stock_moves" readonly="state == 'posted'"/>
+                    <field name="picking_type_id" readonly="state == 'posted'"/>
                     <field name="pb_location_id" readonly="1" force_save="1"/>
                     <field name="pb_location_dest_id" readonly="1" force_save="1"/>
                 </group>

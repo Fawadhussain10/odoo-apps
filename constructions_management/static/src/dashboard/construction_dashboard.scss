@@ -448,6 +448,25 @@ $font-stack: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Ro
 // that actually contains our dashboard, so every other page in Odoo keeps its normal light
 // control panel untouched.
 // -----------------------------------------------------------------------------------------
+// This client action never gets Odoo's usual .o_action wrapper class (Layout
+// only classes .o_content, and this component never forwards props.className
+// into it), so none of core's .o_action-scoped scroll CSS ever applies here -
+// .o_content ends up auto-height, matching .o_construction_dashboard exactly
+// (both content-sized, nothing to scroll). The ancestor that's actually
+// viewport-bound is .o_action_manager itself (confirmed via live computed
+// styles on the equivalent pb_hms_dashboard bug: fixed height, overflow-y:
+// hidden, clipping content with no scrollbar) - so that's the one forced to
+// scroll, not .o_construction_dashboard's own height/overflow above (which,
+// same as pb_hms_dashboard, doesn't actually do anything on its own).
+.o_action_manager:has(.o_construction_dashboard) {
+    overflow-y: auto !important;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar { width: 8px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: rgba($amber, .3); border-radius: 10px; &:hover { background: rgba($amber, .5); } }
+}
+
 .o_action_manager:has(.o_construction_dashboard) .o_control_panel {
     background: $bg-deep !important;
     border-bottom: 1px solid rgba(255, 255, 255, .08) !important;

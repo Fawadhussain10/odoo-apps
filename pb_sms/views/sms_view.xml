@@ -42,12 +42,12 @@
                     </div>
                     <div class="oe_title">
                         <label for="msg" class="oe_edit_only"/>
-                        <h1><field name="msg" required="1"/></h1>
+                        <h1><field name="msg" required="1" readonly="state in ('sent', 'error')"/></h1>
                     </div>
                     <group>
                         <group>
                             <field name="partner_id"/>
-                            <field name="mobile"/>
+                            <field name="mobile" readonly="state in ('sent', 'error')"/>
                             <field name="template_id"/>
                             <field name="error_msg" invisible="state != 'error'"/>
                             <field name="res_model" invisible="1"/>

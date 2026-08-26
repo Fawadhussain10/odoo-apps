@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="pb_hms_dashboard.Dashboard">
+    <Layout display="display">
+        <div class="o_pb_hms_dashboard">
+            <t t-if="state.loading">
+                <div class="hms-dashboard-loading">
+                    <i class="fa fa-spinner fa-spin fa-2x"/>
+                    <div class="mt-2">Loading dashboard…</div>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="hms-dashboard-header d-flex align-items-start justify-content-between flex-wrap gap-3">
+                    <div>
+                        <h1>Welcome back, <t t-esc="state.data.user_name"/></h1>
+                        <p class="text-muted">
+                            Here's what's happening across your hospital
+                            <span t-if="state.refreshing" class="hms-dashboard-live-pill">
+                                <i class="fa fa-circle"/> updating…
+                            </span>
+                        </p>
+                    </div>
+                    <div class="btn-group hms-dashboard-filters" role="group" aria-label="Filters">
+                        <button t-attf-class="btn {{ state.filter === 'today' ? 'btn-primary' : 'btn-secondary' }}" t-on-click="() => this.setFilter('today')">Today</button>
+                        <button t-attf-class="btn {{ state.filter === 'week' ? 'btn-primary' : 'btn-secondary' }}" t-on-click="() => this.setFilter('week')">This Week</button>
+                        <button t-attf-class="btn {{ state.filter === 'month' ? 'btn-primary' : 'btn-secondary' }}" t-on-click="() => this.setFilter('month')">This Month</button>
+                        <button t-attf-class="btn {{ state.filter === 'all' ? 'btn-primary' : 'btn-secondary' }}" t-on-click="() => this.setFilter('all')">Till Now</button>
+                    </div>
+                </div>
+
+                <!-- My stats (physician) -->
+                <t t-if="state.data.mine">
+                    <div class="hms-dashboard-section-label">My Overview</div>
+                    <div class="hms-dashboard-kpi-row">
+                        <div class="hms-dashboard-kpi-card" t-on-click="() => this.openAction('open_my_patients')">
+                            <i class="fa fa-wheelchair hms-dashboard-kpi-icon"/>
+                            <div class="hms-dashboard-kpi-label">My Patients</div>
+                            <div class="hms-dashboard-kpi-value"><t t-esc="state.data.mine.total_patients"/></div>
+                        </div>
+                        <div class="hms-dashboard-kpi-card" t-on-click="() => this.openAction('open_my_appointments')">
+                            <i class="fa fa-stethoscope hms-dashboard-kpi-icon"/>
+                            <div class="hms-dashboard-kpi-label">My Appointments</div>
+                            <div class="hms-dashboard-kpi-value"><t t-esc="state.data.mine.total_appointments"/></div>
+                        </div>
+                        <div class="hms-dashboard-kpi-card" t-on-click="() => this.openAction('open_my_treatments')">
+                            <i class="fa fa-user-md hms-dashboard-kpi-icon"/>
+                            <div class="hms-dashboard-kpi-label">My Treatments</div>
+                            <div class="hms-dashboard-kpi-value"><t t-esc="state.data.mine.total_treatments"/></div>
+                            <div class="hms-dashboard-kpi-sub"><t t-esc="state.data.mine.total_running_treatments"/> running</div>
+                        </div>
+                        <div class="hms-dashboard-kpi-card" t-on-click="() => this.openAction('open_my_appointments')">
+                            <i class="fa fa-clock-o hms-dashboard-kpi-icon"/>
+                            <div class="hms-dashboard-kpi-label">My Avg Times</div>
+                            <div class="hms-dashboard-kpi-value hms-dashboard-kpi-value-sm">
+                                <t t-esc="state.data.mine.avg_wait_time"/> wait / <t t-esc="state.data.mine.avg_cons_time"/> cons.
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Hospital overview (receptionist/manager) -->
+                <t t-if="state.data.overview">
+                    <div class="hms-dashboard-section-label">Hospital Overview</div>
+                    <div class="hms-dashboard-kpi-row">
+                        <div class="hms-dashboard-kpi-card" t-on-click="() => this.openAction('open_patients')">
+                            <i class="fa fa-wheelchair hms-dashboard-kpi-icon"/>
+                            <div class="hms-dashboard-kpi-label">Patients</div>
+                            <div class="hms-dashboard-kpi-value"><t t-esc="state.data.overview.total_patients"/></div>
+                        </div>
+                        <div class="hms-dashboard-kpi-card" t-on-click="() => this.openAction('open_appointments')">
+                            <i class="fa fa-calendar-check-o hms-dashboard-kpi-icon"/>
+                            <div class="hms-dashboard-kpi-label">Appointments</div>
+                            <div class="hms-dashboard-kpi-value"><t t-esc="state.data.overview.total_appointments"/></div>
+                        </div>
+                        <div class="hms-dashboard-kpi-card" t-on-click="() => this.openAction('open_treatments')">
+                            <i class="fa fa-user-md hms-dashboard-kpi-icon"/>
+                            <div class="hms-dashboard-kpi-label">Treatments</div>
+                            <div class="hms-dashboard-kpi-value"><t t-esc="state.data.overview.total_treatments"/></div>
+                            <div class="hms-dashboard-kpi-sub"><t t-esc="state.data.overview.total_running_treatments"/> running</div>
+                        </div>
+                        <div class="hms-dashboard-kpi-card" t-on-click="() => this.openAction('open_shedules')">
+                            <i class="fa fa-calendar hms-dashboard-kpi-icon"/>
+                            <div class="hms-dashboard-kpi-label">Schedules</div>
+                            <div class="hms-dashboard-kpi-value"><t t-esc="state.data.overview.total_shedules"/></div>
+                        </div>
+                        <div class="hms-dashboard-kpi-card" t-on-click="() => this.openAction('open_appointments')">
+                            <i class="fa fa-clock-o hms-dashboard-kpi-icon"/>
+                            <div class="hms-dashboard-kpi-label">Avg Times</div>
+                            <div class="hms-dashboard-kpi-value hms-dashboard-kpi-value-sm">
+                                <t t-esc="state.data.overview.avg_wait_time"/> wait / <t t-esc="state.data.overview.avg_cons_time"/> cons.
+                            </div>
+                        </div>
+                        <div class="hms-dashboard-kpi-card" t-on-click="() => this.openAction('open_birthday_patients')">
+                            <i class="fa fa-birthday-cake hms-dashboard-kpi-icon"/>
+                            <div class="hms-dashboard-kpi-label">Today's Birthdays</div>
+                            <div class="hms-dashboard-kpi-value hms-dashboard-kpi-value-sm">
+                                <t t-esc="state.data.overview.birthday_patients"/> patients / <t t-esc="state.data.overview.birthday_employee"/> staff
+                            </div>
+                        </div>
+                        <t t-if="state.data.physicians">
+                            <div class="hms-dashboard-kpi-card" t-on-click="() => this.openAction('open_physicians')">
+                                <i class="fa fa-user-md hms-dashboard-kpi-icon"/>
+                                <div class="hms-dashboard-kpi-label">Physicians</div>
+                                <div class="hms-dashboard-kpi-value"><t t-esc="state.data.physicians.total_physicians"/></div>
+                                <div class="hms-dashboard-kpi-sub"><t t-esc="state.data.physicians.total_referring_physicians"/> referring</div>
+                            </div>
+                        </t>
+                        <t t-if="state.data.invoices">
+                            <div class="hms-dashboard-kpi-card is-warning" t-on-click="() => this.openAction('open_invoices')">
+                                <i class="fa fa-file-text-o hms-dashboard-kpi-icon"/>
+                                <div class="hms-dashboard-kpi-label">Open Invoices</div>
+                                <div class="hms-dashboard-kpi-value"><t t-esc="state.data.invoices.total_open_invoice"/></div>
+                                <div class="hms-dashboard-kpi-sub"><t t-esc="fmtMoney(state.data.invoices.total_open_invoice_amount)"/></div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="hms-dashboard-chart-grid">
+                        <div class="hms-dashboard-chart-card">
+                            <div class="hms-dashboard-chart-title"><i class="fa fa-bar-chart"/> Appointment Volume</div>
+                            <div class="hms-dashboard-chart-canvas-wrap">
+                                <canvas t-ref="appointmentChart"/>
+                            </div>
+                        </div>
+                        <div class="hms-dashboard-chart-card">
+                            <div class="hms-dashboard-chart-title"><i class="fa fa-line-chart"/> New Patients (30 days)</div>
+                            <div class="hms-dashboard-chart-canvas-wrap">
+                                <canvas t-ref="patientChart"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Patient map -->
+                    <div class="hms-dashboard-chart-card hms-dashboard-map-card">
+                        <div class="hms-dashboard-chart-title"><i class="fa fa-map-marker"/> Patient Locations</div>
+                        <PbPatientMap compact="true"/>
+                    </div>
+                </t>
+
+                <!-- Appointments table -->
+                <t t-if="state.data.appointments">
+                    <div class="hms-dashboard-section-label">Today's Activity</div>
+                    <div class="hms-dashboard-table-card">
+                        <div class="hms-dashboard-chart-title d-flex align-items-center justify-content-between">
+                            <span><i class="fa fa-list"/> Appointments <span class="hms-dashboard-count-chip" t-esc="state.data.appointments.length"/></span>
+                            <a href="#" class="hms-dashboard-view-all" t-on-click.prevent="() => this.openAction('open_appointments')" title="Shows the 20 most recent only">
+                                View All <i class="fa fa-arrow-right ms-1"/>
+                            </a>
+                        </div>
+                        <t t-if="state.data.appointments.length">
+                            <div class="hms-dashboard-table-scroll">
+                                <table class="hms-dashboard-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Appointment</th>
+                                            <th>Patient</th>
+                                            <th>Date</th>
+                                            <th>Physician</th>
+                                            <th>Wait Time</th>
+                                            <th>Consultation</th>
+                                            <th>State</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="state.data.appointments" t-as="line" t-key="line.name + line.date">
+                                            <td class="fw-semibold"><t t-esc="line.name"/></td>
+                                            <td><t t-esc="line.patient"/></td>
+                                            <td class="text-muted"><t t-esc="line.date"/></td>
+                                            <td><t t-esc="line.physician"/></td>
+                                            <td><span class="hms-dashboard-time-chip"><t t-esc="line.waiting_duration"/></span></td>
+                                            <td><span class="hms-dashboard-time-chip"><t t-esc="line.appointment_duration"/></span></td>
+                                            <td><span t-attf-class="hms-dashboard-badge hms-dashboard-badge-{{ badgeClass(line.state) }}"><t t-esc="line.state"/></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="hms-dashboard-empty-state">
+                                <i class="fa fa-calendar-check-o"/>
+                                <div>No appointments to show</div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </div>
+    </Layout>
+</t>
+
+</templates>

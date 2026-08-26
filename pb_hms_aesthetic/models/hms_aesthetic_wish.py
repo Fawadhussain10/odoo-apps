@@ -12,8 +12,6 @@ class PbAestheticPatientWish(models.Model):
     _description = "Aesthetic Patient Wish"
     _order = "id desc"
 
-    STATES = {'cancel': [('readonly', True)], 'done': [('readonly', True)]}
-
     def _get_document_preview_url(self):
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
         for rec in self:

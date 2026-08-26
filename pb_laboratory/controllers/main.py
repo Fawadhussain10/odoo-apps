@@ -21,16 +21,25 @@ class PBHms(http.Controller):
 
 class HMSPortal(CustomerPortal):
 
+    def _pb_lab_patient_domain(self):
+        """Scope portal lab records to the logged-in user's own patient plus
+        their declared family members, instead of leaking every patient's
+        results/requests (patient_id is a real field on both models here)."""
+        patient = request.env.user.pb_patient_id
+        partner_ids = (patient.partner_id | patient.pb_family_partner_ids).ids
+        return [('patient_id.partner_id', 'in', partner_ids)]
+
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
+        domain = self._pb_lab_patient_domain()
         LaboratoryTest = request.env['patient.laboratory.test']
         if 'lab_result_count' in counters:
-            values['lab_result_count'] = LaboratoryTest.search_count([]) \
+            values['lab_result_count'] = LaboratoryTest.search_count(domain) \
                 if LaboratoryTest.check_access_rights('read', raise_exception=False) else 0
 
         LabRequest = request.env['pb.laboratory.request']
         if 'lab_request_count' in counters:
-            values['lab_request_count'] = LabRequest.search_count([]) \
+            values['lab_request_count'] = LabRequest.search_count(domain) \
                 if LabRequest.check_access_rights('read', raise_exception=False) else 0
         return values
 
@@ -49,8 +58,9 @@ class HMSPortal(CustomerPortal):
         }
 
         order = sortings.get(sortby, sortings['date'])['order']
-        count = LaboratoryTest.search_count([])
- 
+        domain = self._pb_lab_patient_domain()
+        count = LaboratoryTest.search_count(domain)
+
         pager = portal_pager(
             url="/my/lab_results",
             url_args={},
@@ -60,7 +70,7 @@ class HMSPortal(CustomerPortal):
         )
         # content according to pager and archive selected
 
-        lab_results = LaboratoryTest.search([],
+        lab_results = LaboratoryTest.search(domain,
             order=order, limit=self._items_per_page, offset=pager['offset'])
 
         values.update({
@@ -101,7 +111,8 @@ class HMSPortal(CustomerPortal):
         }
 
         order = sortings.get(sortby, sortings['date'])['order']
-        count = LabRequest.search_count([])
+        domain = self._pb_lab_patient_domain()
+        count = LabRequest.search_count(domain)
 
         pager = portal_pager(
             url="/my/lab_requests",
@@ -111,7 +122,7 @@ class HMSPortal(CustomerPortal):
             step=self._items_per_page
         )
         # content according to pager and archive selected
-        lab_requests = LabRequest.search([],
+        lab_requests = LabRequest.search(domain,
             order=order, limit=self._items_per_page, offset=pager['offset'])
 
         values.update({

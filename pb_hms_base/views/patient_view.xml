@@ -70,6 +70,8 @@
                 <header>
                 </header>
                 <sheet>
+                    <field name="partner_latitude" invisible="1"/>
+                    <field name="partner_longitude" invisible="1"/>
                     <div class="oe_button_box" name="button_box">
                         <button type="object" name="view_invoices" class="oe_stat_button" icon="fa-money" groups="account.group_account_invoice">
                             <div class="o_field_widget o_stat_info mr4">
@@ -83,6 +85,22 @@
                         </button>
                         <button class="oe_stat_button" type="object" name="action_view_attachments" icon="fa-files-o">
                             <field string="Documents" name="attach_count" widget="statinfo"/>
+                        </button>
+                        <button type="object" name="geo_localize" class="oe_stat_button" icon="fa-map-marker"
+                            invisible="partner_latitude != 0 or partner_longitude != 0"
+                            title="Locate this patient's address on the Patient Map">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Locate on</span>
+                                <span class="o_stat_text">Map</span>
+                            </div>
+                        </button>
+                        <button type="object" name="geo_localize" class="oe_stat_button" icon="fa-refresh"
+                            invisible="partner_latitude == 0 and partner_longitude == 0"
+                            title="Re-locate this patient's address on the Patient Map">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Located on</span>
+                                <span class="o_stat_text">Map</span>
+                            </div>
                         </button>
                     </div>
 
@@ -216,7 +234,7 @@
     <record id="action_patient" model="ir.actions.act_window">
         <field name="name">Patient</field>
         <field name="res_model">hms.patient</field>
-        <field name="view_mode">kanban,list,form</field>
+        <field name="view_mode">kanban,list,pb_map,form</field>
         <field name="search_view_id" ref="view_patient_filter"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -225,6 +243,31 @@
             <p>
                 Click to add a Patient. /&gt;
             </p>
+        </field>
+    </record>
+
+    <!-- Patient Map view: a real view type on hms.patient itself (List/Kanban/
+         Map/Form switcher), distinct from the pb_hms_base.action_patient_map
+         standalone page/dashboard-card - this one respects whatever search
+         filter is active in the Patients list, same as List/Kanban do. -->
+    <record id="patient_map_view" model="ir.ui.view">
+        <field name="name">patient.pb_map</field>
+        <field name="model">hms.patient</field>
+        <field name="type">pb_map</field>
+        <field name="arch" type="xml">
+            <pb_map>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="phone"/>
+                <field name="partner_latitude"/>
+                <field name="partner_longitude"/>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="city"/>
+                <field name="state_id"/>
+                <field name="zip"/>
+                <field name="country_id"/>
+            </pb_map>
         </field>
     </record>
 

@@ -12,8 +12,6 @@ class FacilityActivity(models.Model):
     _description = 'Facility Activity'
     _order = 'id desc'
 
-    READONLYSTATES = {'done': [('readonly', True)]}
-
     name = fields.Char(size=256, string='Sequence')
     activity_name = fields.Char('Activity Name', required=True)
     date_activity = fields.Date('Date')
@@ -48,8 +46,6 @@ class FacilityMaster(models.Model):
     _description = "Facility Master"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
-
-    READONLYSTATES = {'running': [('readonly', True)], 'done': [('readonly', True)], 'cancel': [('readonly', True)]}
 
     name = fields.Char(string='Sequence')
     facility_name = fields.Char('Name', required=True)

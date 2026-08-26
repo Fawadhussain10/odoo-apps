@@ -94,6 +94,30 @@ class PBPatient(models.Model):
                 wish_temp = patient_id.company_id.birthday_mail_template_id or user_cmp_template or wish_template_id
                 wish_temp.sudo().send_mail(patient_id.id, force_send=True)
 
+    def geo_localize(self):
+        # partner_id delegation (_inherits) proxies fields like partner_latitude/
+        # partner_longitude onto this model, but NOT methods - geo_localize()
+        # itself must be called on the underlying res.partner directly.
+        self.mapped('partner_id').geo_localize()
+
+    @api.model
+    def _cron_geo_localize_patients(self, batch_size=100):
+        """Geocode any patient whose partner has a real address but hasn't been
+        located yet (0,0 is base_geolocalize's "not yet geocoded" sentinel).
+        Batched and rate-paced (one request/sec) to stay within the free
+        OpenStreetMap Nominatim usage policy, so this is a cron, not a bulk
+        one-shot call."""
+        patients = self.search([
+            ('partner_latitude', '=', 0.0), ('partner_longitude', '=', 0.0),
+            ('street', '!=', False), ('city', '!=', False),
+        ], limit=batch_size)
+        if not patients:
+            return
+        import time
+        for patient in patients:
+            patient.partner_id.geo_localize()
+            time.sleep(1)
+
     @api.onchange('phone')
     def _onchange_mobile_warning(self):
         if not self.phone:

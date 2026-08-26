@@ -65,7 +65,7 @@ class HmsPatient(models.Model):
         for record in res:    
             if template and record.phone:
                 rendered = self.env['mail.render.mixin']._render_template(template.body_message, record._name, [record.id])
-                msg = rendered[res.id]
+                msg = rendered[record.id]
                 self.send_whatsapp(msg, record.partner_id.phone, record.partner_id, res_model='hms.patient', res_id=record.id)
         return res
 

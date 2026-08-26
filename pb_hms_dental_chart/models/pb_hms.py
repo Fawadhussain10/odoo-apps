@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
+from markupsafe import escape
 import json
 
 
@@ -12,14 +13,15 @@ class HmsPatient(models.Model):
         procedures = self.patient_procedure_ids.filtered(lambda t: t.tooth_id and t.state=='done')
         for procedure in procedures:
             tooth_is_removed = True if procedure.product_id.dental_procedure_type=='tooth_removal' else False
+            procedure_label = '<li>%s [%s]</li>' % (escape(procedure.product_id.name or ''), escape(procedure.name or ''))
             if procedure.tooth_id.id not in data:
                 data[procedure.tooth_id.id] = {
-                    'procedure_details': '<li>%s [%s]</li>' % (procedure.product_id.name, procedure.name),
+                    'procedure_details': procedure_label,
                     'tooth_is_removed': tooth_is_removed,
                     'show_procedure_image': procedure.product_id.id if procedure.product_id.show_image_in_chart else False
                 }
             else:
-                data[procedure.tooth_id.id]['procedure_details'] += '<li>%s [%s]</li>' % (procedure.product_id.name, procedure.name)
+                data[procedure.tooth_id.id]['procedure_details'] += procedure_label
                 if tooth_is_removed:
                     data[procedure.tooth_id.id]['tooth_is_removed'] = True
                 if procedure.product_id.show_image_in_chart:

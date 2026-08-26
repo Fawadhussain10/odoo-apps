@@ -6,7 +6,7 @@
         Manage Patient Vital Signs & Symptoms and Physical Examination.
     """,
     'images': ['static/description/banner.png'],
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.1.0',
     'category': 'Medical',
     'author': 'PackBytes',
     'support': 'sales@packbytes.com',
@@ -15,6 +15,8 @@
     'depends' : ['pb_hms'],
     'data' : [
         'security/security.xml',
+        'security/ir.model.access.csv',
+        'data/hms_vital_symptom_data.xml',
         'views/hms_base_view.xml',
     ],
     'application': False,

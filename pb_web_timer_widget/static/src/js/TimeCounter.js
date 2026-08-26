@@ -29,7 +29,7 @@ export class PbTimer extends Component {
         if (this.props.record.data[this.props.pb_timer_start_field]){
             timer_running = 1;
         }
-        if (this.props.record.data[this.props.pb_timer_start_field] && this.props.record.data[this.props.pb_timer_end_field]){
+        if (this.props.record.data[this.props.pb_timer_start_field] && this.props.record.data[this.props.pb_timer_stop_field]){
             timer_running = 0;
         }
 

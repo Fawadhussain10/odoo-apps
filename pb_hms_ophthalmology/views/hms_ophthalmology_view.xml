@@ -35,7 +35,7 @@
         <field name="name">pb.ophthalmology.evaluation.tree</field>
         <field name="model">pb.ophthalmology.evaluation</field>
         <field name="arch" type="xml">
-            <list string="Ophthalmology Evaluation" decoration-muted="state=='done'" decoration-info="state=='in_rogress'">
+            <list string="Ophthalmology Evaluation" decoration-muted="state=='done'" decoration-info="state=='in_progress'">
                 <field name="name"/>
                 <field name="patient_id"/>
                 <field name="age"/>
@@ -54,7 +54,7 @@
                 <header>
                     <button name="action_inprogress" invisible="state not in ('draft',)" string="Start Evaluation" type="object" class="oe_highlight"/>
                     <button name="action_done" invisible="state not in ('in_progress',)" string="Done" type="object" class="oe_highlight"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progree,done"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
                 </header>
                 <sheet>
                     <div class="oe_title">

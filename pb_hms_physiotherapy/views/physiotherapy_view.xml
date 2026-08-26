@@ -64,7 +64,6 @@
                     <button name="action_in_progress" invisible="state not in ('accepted',)" string="In Progress" class="oe_highlight" type="object"/>
                     <button name="action_done" invisible="state not in ('in_progress',)" string="Done" class="oe_highlight" type="object"/> 
                     <button name="action_cancel" invisible="state not in ('draft',)" string="Cancel" type="object"/>
-                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" invisible="state not in ('to_invoice',)" type="object" class="oe_highlight"/>
                     <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" invisible="(invoice_id or state != 'to_invoice')" type="object" class="oe_highlight"/>
                     <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" invisible="(((physiotherapy_invoice_policy != 'anytime' or invoice_id) or state == 'to_invoice') or invoice_exempt)" type="object" class="oe_highlight"/>
                     <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" invisible="(((physiotherapy_invoice_policy != 'advance' or invoice_id) or state == 'to_invoice') or invoice_exempt)" type="object" class="oe_highlight"/>

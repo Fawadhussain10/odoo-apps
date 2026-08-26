@@ -141,26 +141,25 @@ class PartnerCommission(models.Model):
     def pb_update_amount_by_rules(self):
         Rule = self.env['pb.commission.target.rule']
         for rec in self:
-            if rec.target_based_commission:
-                partner = rec.partner_id
-                if rec.commission_sheet_id:
-                    total_commission_base_amount = rec.commission_sheet_id.total_commission_base_amount
-                    matching_rule = Rule
-                    if partner.commission_target_rule_ids:
-                        target_rule_ids = partner.commission_target_rule_ids.ids
-                        matching_rule = Rule.search([('id','in',target_rule_ids),
-                            ('target_amount','<=',total_commission_base_amount)], order='sequence desc', limit=1)
-                        if not matching_rule:
-                            rec.payable_amount = 0
-
-                    elif partner.commission_role_id and partner.commission_role_id.commission_target_rule_ids:
-                        target_rule_ids = partner.commission_role_id.commission_target_rule_ids.ids
-                        matching_rule = Rule.search([('id','in', target_rule_ids),
-                            ('target_amount','<=',total_commission_base_amount)], order='sequence desc', limit=1)
-
-                    if matching_rule:
-                        rec.payable_amount = (matching_rule.percentage * rec.commission_amount)/100
-            else:
+            if not rec.target_based_commission:
                 rec.payable_amount = rec.commission_amount
+                continue
+
+            matching_rule = Rule
+            if rec.commission_sheet_id:
+                partner = rec.partner_id
+                total_commission_base_amount = rec.commission_sheet_id.total_commission_base_amount
+                if partner.commission_target_rule_ids:
+                    target_rule_ids = partner.commission_target_rule_ids.ids
+                elif partner.commission_role_id and partner.commission_role_id.commission_target_rule_ids:
+                    target_rule_ids = partner.commission_role_id.commission_target_rule_ids.ids
+                else:
+                    target_rule_ids = []
+                if target_rule_ids:
+                    matching_rule = Rule.search([('id', 'in', target_rule_ids),
+                        ('target_amount', '<=', total_commission_base_amount)], order='sequence desc', limit=1)
+
+            # no commission sheet yet, or no target rule cleared the base amount: 0, not stale data
+            rec.payable_amount = (matching_rule.percentage * rec.commission_amount) / 100 if matching_rule else 0
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

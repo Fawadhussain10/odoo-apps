@@ -78,8 +78,8 @@
                                 </group>
                                 <group>
                                     <field name="allow_bed_reservation" invisible="1"/>
-                                    <field name="ward_id" widget="selection" required="state in 'confirm'"/>
-                                    <field name="bed_id" domain="[('ward_id', '=', ward_id), ('state', '=', 'free')]" required="state in 'confirm'" widget="selection" readonly="state in ('cancel', 'done')"/>
+                                    <field name="ward_id" widget="selection" required="state == 'confirm'"/>
+                                    <field name="bed_id" domain="[('ward_id', '=', ward_id), ('state', '=', 'free')]" required="state == 'confirm'" widget="selection" readonly="state in ('cancel', 'done')"/>
                                     <field name="admission_type" required="1"/>
                                     <field name="company_id" required="1" groups="base.group_multi_company" options="{'no_create': True}"/>
                                 </group>

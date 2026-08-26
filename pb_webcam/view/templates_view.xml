@@ -9,7 +9,7 @@
             <div class="container py-5">
                 <div class="row pb-webcam">
                     <div class="row text-center" style="margin-bottom:32px;">
-                        <h1>Set Image for <spam t-esc='record_name'/>.</h1>
+                        <h1>Set Image for <span t-esc='record_name'/>.</h1>
                     </div>
                     <div class="col-md-1"/>
                     <div class="col-md-5">

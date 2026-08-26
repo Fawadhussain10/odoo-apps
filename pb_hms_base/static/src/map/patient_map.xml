@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="pb_hms_base.PatientMap">
+    <t t-if="props.compact">
+        <div class="pb-map-compact">
+            <div class="pb-map-compact-stats">
+                <span class="pb-map-compact-count" t-esc="state.locatedCount"/>
+                <span class="pb-map-compact-label">of <t t-esc="state.totalPatients"/> patients located</span>
+                <a href="#" class="pb-map-compact-expand" t-on-click.prevent="openFullMap">
+                    Full map <i class="fa fa-arrow-right ms-1"/>
+                </a>
+            </div>
+            <div class="pb-map-canvas pb-map-canvas-compact" t-ref="mapContainer"/>
+        </div>
+    </t>
+    <t t-else="">
+        <Layout display="display">
+            <div class="o_pb_patient_map">
+                <div class="pb-map-header">
+                    <div class="pb-map-header-title">
+                        <div class="pb-map-header-icon"><i class="fa fa-map-marker"/></div>
+                        <div>
+                            <h1>Patient Map</h1>
+                            <p class="text-muted">Where your patients are, at a glance</p>
+                        </div>
+                    </div>
+                    <div class="pb-map-header-stats">
+                        <div class="pb-map-stat">
+                            <div class="pb-map-stat-value" t-esc="state.totalPatients"/>
+                            <div class="pb-map-stat-label">Total Patients</div>
+                        </div>
+                        <div class="pb-map-stat pb-map-stat-accent">
+                            <div class="pb-map-stat-value" t-esc="state.locatedCount"/>
+                            <div class="pb-map-stat-label">Located</div>
+                        </div>
+                        <div class="pb-map-stat" t-if="state.totalPatients > state.locatedCount">
+                            <div class="pb-map-stat-value" t-esc="state.totalPatients - state.locatedCount"/>
+                            <div class="pb-map-stat-label">Pending Geocode</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pb-map-canvas-wrap">
+                    <div class="pb-map-canvas" t-ref="mapContainer"/>
+                    <div class="pb-map-legend">
+                        <span class="pb-map-legend-dot"/> Patient location
+                    </div>
+                </div>
+            </div>
+        </Layout>
+    </t>
+</t>
+
+</templates>
