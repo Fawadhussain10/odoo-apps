@@ -1,0 +1,109 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hms_hms_appointment_purpose_user,Appointment Purpose,model_appointment_purpose,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_hms_patient_disease_user,Systematic Examination,model_hms_patient_disease,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_hms_appointment_user,Appointment,model_hms_appointment,pb_hms_base.group_hms_user,1,0,1,0
+access_hms_hms_diseases_user,PB Diseases,model_hms_diseases,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_diseases_category_user,PB Diseases Category,model_diseases_category,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_disease_gene_user,PB Disease Gene,model_disease_gene,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_hms_patient_genetic_risk_user,PB Patient Genetic Risk,model_hms_patient_genetic_risk,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_hms_patient_family_diseases_user,PB Patient Family Diseases,model_hms_patient_family_diseases,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_medicament_dosage_user,PB Medication Dosage,model_medicament_dosage,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_pb_family_member_user,PB Family Member,model_pb_family_member,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_hms_prescription_line_user,Prescription Line,model_prescription_line,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_hms_prescription_order_user,Prescription Order,model_prescription_order,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_hms_patient_medication_user,PB Patient Medication,model_hms_patient_medication,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_pb_ethnicity_user,PB Ethnicity,model_pb_ethnicity,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_medicament_group_line_user,Medicament Group Line ,model_medicament_group_line,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_medicament_group_user,PB Medicament Group,model_medicament_group,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_treatment_user,PB Treatment,pb_hms.model_hms_treatment,pb_hms_base.group_hms_user,1,0,0,0
+access_medical_alert_user,PB Medical Alerts,model_pb_medical_alert,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_appointment_cabin_user,App Cabin User,model_appointment_cabin,pb_hms_base.group_hms_user,1,0,0,0
+access_pb_family_relation_user,Family Relation,model_pb_family_relation,pb_hms_base.group_hms_user,1,0,0,0
+access_pb_cancel_reason_user,access_pb_cancel_reason_user,model_pb_cancel_reason,pb_hms_base.group_hms_user,1,0,0,0
+access_pb_patient_evaluation_user,access_pb_patient_evaluation,model_pb_patient_evaluation,pb_hms_base.group_hms_user,1,0,0,0
+access_pb_patient_procedure_user,access_pb_patient_procedure,model_pb_patient_procedure,pb_hms_base.group_hms_user,1,0,0,0
+access_pb_product_kit_user,pb.product.kit,model_pb_product_kit,pb_hms_base.group_hms_user,1,0,0,0
+access_pb_product_kit_line_user,pb.product.kit.line,model_pb_product_kit_line,pb_hms_base.group_hms_user,1,0,0,0
+pb_hms.access_procedure_group_line,access_procedure_group_line,model_procedure_group_line,pb_hms_base.group_hms_user,1,0,0,0
+pb_hms.access_procedure_group,access_procedure_group,model_procedure_group,pb_hms_base.group_hms_user,1,0,0,0
+
+access_hms_patient_receptionist,Patient,pb_hms_base.model_hms_patient,pb_hms.group_hms_receptionist,1,1,1,0
+access_hms_hms_appointment_receptionist,Appointment,model_hms_appointment,pb_hms.group_hms_receptionist,1,1,1,0
+access_hms_hms_patient_disease_receptionist,PB Patient Disease,model_hms_patient_disease,pb_hms.group_hms_receptionist,1,1,1,0
+access_hms_disease_gene_receptionist,PB Disease Gene,model_disease_gene,pb_hms.group_hms_receptionist,1,1,1,0
+access_hms_hms_patient_genetic_risk_receptionist,PB Patient Genetic Risk,model_hms_patient_genetic_risk,pb_hms.group_hms_receptionist,1,1,1,0
+access_hms_hms_patient_family_diseases_receptionist,PB Patient Family Diseases,model_hms_patient_family_diseases,pb_hms.group_hms_receptionist,1,1,1,0
+access_hms_pb_family_member_receptionist,PB Family Member,model_pb_family_member,pb_hms.group_hms_receptionist,1,1,1,0
+access_hms_app_consumable_rec,Consumable Line Rec,pb_hms_base.model_hms_consumable_line,pb_hms.group_hms_receptionist,1,1,1,0
+access_hms_pb_ethnicity_receptionist,PB Ethnicity,model_pb_ethnicity,pb_hms.group_hms_receptionist,1,1,1,0
+access_hms_res_partner_receptionist,Partner Receptionist,base.model_res_partner,pb_hms.group_hms_receptionist,1,1,1,0
+access_hms_treatment_receptionist,PB Treatment,pb_hms.model_hms_treatment,pb_hms.group_hms_receptionist,1,1,1,0
+access_medical_alert_rec,PB Medical Alerts Rec,model_pb_medical_alert,pb_hms.group_hms_receptionist,1,1,1,1
+access_pb_cancel_reason_receptionist,access_pb_cancel_reason_receptionist,model_pb_cancel_reason,pb_hms.group_hms_receptionist,1,1,1,0
+access_pb_cancel_reason_wiz_receptionist,access_pb_cancel_reason_wiz_receptionist,model_pb_cancel_reason_wiz,pb_hms.group_hms_receptionist,1,1,1,1
+pb_hms.access_pb_reschedule_appointments,access_pb_reschedule_appointments,pb_hms.model_pb_reschedule_appointments,pb_hms.group_hms_receptionist,1,1,1,1
+access_pb_patient_evaluation_receptionist,access_pb_patient_evaluation,model_pb_patient_evaluation,pb_hms.group_hms_receptionist,1,1,1,1
+access_pb_patient_procedure_receptionist,access_pb_patient_procedure,model_pb_patient_procedure,pb_hms.group_hms_receptionist,1,1,1,1
+
+access_hms_medicament_flavour_nurse,PB Medicament Flavour,pb_hms_base.model_medicament_flavour,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_hms_diseases_nurse,PB Diseases,model_hms_diseases,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_diseases_category_nurse,PB Diseases Category,model_diseases_category,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_hms_patient_disease_nurse,PB Patient Disease,model_hms_patient_disease,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_disease_gene_nurse,PB Disease Gene,model_disease_gene,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_hms_patient_genetic_risk_nurse,PB Patient Genetic Risk,model_hms_patient_genetic_risk,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_hms_patient_family_diseases_nurse,PB Patient Family Diseases,model_hms_patient_family_diseases,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_app_consumable_nurse,Consumable Line Nurse,pb_hms_base.model_hms_consumable_line,pb_hms.group_hms_nurse,1,1,1,1
+access_hms_drug_form_nurse,PB Drug Form,pb_hms_base.model_drug_form,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_active_comp_nurse,PB Active Comp,pb_hms_base.model_active_comp,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_drug_company_nurse,PB Drug Company,pb_hms_base.model_drug_company,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_drug_route_nurse,PB Drug Route,pb_hms_base.model_drug_route,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_medicament_dosage_nurse,PB Medication Dosage,model_medicament_dosage,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_hms_prescription_line_nurse,Prescription Line,model_prescription_line,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_hms_prescription_order_nurse,Prescription Order,model_prescription_order,pb_hms.group_hms_nurse,1,1,0,0
+access_hms_hms_patient_medication_nurse,PB Patient Medication,model_hms_patient_medication,pb_hms.group_hms_nurse,1,1,0,0
+access_hms_pb_ethnicity_nurse,PB Ethnicity,model_pb_ethnicity,pb_hms.group_hms_nurse,1,1,0,0
+access_hms_medicament_group_line_nurse,Medicament Group Line ,model_medicament_group_line,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_medicament_group_nurse,PB Medicament Group,model_medicament_group,pb_hms.group_hms_nurse,1,1,1,0
+access_hms_hms_patient_nurse,PB Patient Nurse,pb_hms_base.model_hms_patient,pb_hms.group_hms_nurse,1,1,1,0
+access_medical_alert_nurse,PB Medical Alerts Nurse,model_pb_medical_alert,pb_hms.group_hms_nurse,1,1,1,1
+access_pb_patient_evaluation_nurse,access_pb_patient_evaluation_nurse,model_pb_patient_evaluation,pb_hms.group_hms_nurse,1,1,1,0
+access_pb_product_kit_nurse,pb.product.kit,model_pb_product_kit,pb_hms.group_hms_nurse,1,1,1,1
+access_pb_product_kit_line_nurse,pb.product.kit.line,model_pb_product_kit_line,pb_hms.group_hms_nurse,1,1,1,1
+
+access_hms_app_consumable_jr_dr,Consumable Line Dr,pb_hms_base.model_hms_consumable_line,pb_hms.group_hms_jr_doctor,1,1,1,1
+access_hms_pb_family_member_jr_doctor,PB Family Member,model_pb_family_member,pb_hms.group_hms_jr_doctor,1,1,1,0
+access_hms_hms_prescription_line_jr_doctor,Prescription Line,model_prescription_line,pb_hms.group_hms_jr_doctor,1,1,1,1
+access_hms_hms_prescription_order_jr_doctor,Prescription Order,model_prescription_order,pb_hms.group_hms_jr_doctor,1,1,1,0
+access_hms_hms_patient_medication_jr_doctor,PB Patient Medication,model_hms_patient_medication,pb_hms.group_hms_jr_doctor,1,1,1,0
+pb_hms.access_procedure_group_line_dr,access_procedure_group_line_dr,model_procedure_group_line,group_hms_jr_doctor,1,1,1,1
+pb_hms.access_procedure_group_dr,access_procedure_group_dr,model_procedure_group,group_hms_jr_doctor,1,1,1,1
+
+access_hms_medicament_group_line_doctor,Medicament Group Line ,model_medicament_group_line,pb_hms.group_hms_doctor,1,1,1,1
+access_hms_medicament_group_doctor,PB Medicament Group,model_medicament_group,pb_hms.group_hms_doctor,1,1,1,1
+
+access_hms_hms_appointment_manager,Appointment,model_hms_appointment,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_hms_diseases_manager,PB Diseases,model_hms_diseases,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_diseases_category_manager,PB Diseases Category,model_diseases_category,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_hms_patient_disease_manager,PB Patient Disease,model_hms_patient_disease,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_disease_gene_manager,PB Disease Gene,model_disease_gene,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_hms_patient_genetic_risk_manager,PB Patient Genetic Risk,model_hms_patient_genetic_risk,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_hms_patient_family_diseases_manager,PB Patient Family Diseases,model_hms_patient_family_diseases,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_drug_route_manager,PB Drug Route,pb_hms_base.model_drug_route,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_medicament_dosage_manager,PB Medication Dosage,model_medicament_dosage,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_pb_family_member_manager,PB Family Member,model_pb_family_member,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_hms_prescription_line_manager,Prescription Line,model_prescription_line,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_hms_prescription_order_manager,Prescription Order,model_prescription_order,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_hms_patient_medication_manager,PB Patient Medication,model_hms_patient_medication,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_pb_ethnicity_manager,PB Ethnicity,model_pb_ethnicity,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_res_partner_manager,Partner Manager,base.model_res_partner,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_treatment_manager,PB Treatment,pb_hms.model_hms_treatment,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_hms_appointment_purpose_manager,Appointment Purpose,model_appointment_purpose,pb_hms_base.group_hms_user,1,1,1,1
+access_hms_appointment_cabin_manager,App Cabin Manager,model_appointment_cabin,pb_hms_base.group_hms_manager,1,1,1,1
+access_hms_pb_physician_hms_manager,Physician,pb_hms_base.model_hms_physician,pb_hms_base.group_hms_manager,1,1,0,0
+access_hms_user_stock_move,StockMove,stock.model_stock_move,pb_hms_base.group_hms_user,1,0,0,0
+access_hms_pb_physician_erp_manager,physician,pb_hms_base.model_hms_physician,base.group_erp_manager,1,1,1,1
+access_pb_family_relation_manager,Family Relation,model_pb_family_relation,pb_hms_base.group_hms_user,1,1,1,1
+access_hms_group_pb_hms_appointment_user,Appointment User,model_hms_appointment,pb_hms_base.group_hms_user,1,1,1,0
+access_pb_cancel_reason_manager,access_pb_cancel_reason_manager,model_pb_cancel_reason,pb_hms_base.group_hms_manager,1,1,1,1
+
+pb_hms.access_pb_pain_level,access_pb_pain_level,pb_hms.model_pb_pain_level,base.group_user,1,1,1,1

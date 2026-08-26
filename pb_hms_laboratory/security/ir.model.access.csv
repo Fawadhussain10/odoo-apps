@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hms_laboratory_request_line_receptionist,PB Patient Laboratory Request line,pb_laboratory.model_laboratory_request_line,pb_hms.group_hms_receptionist,1,1,1,1
+access_hms_pb_laboratory_request_receptionist,Patient Lab Request Recep,pb_laboratory.model_pb_laboratory_request,pb_hms.group_hms_receptionist,1,1,1,0
+,,,,,,,
+access_patient_laboratory_test_jr_doctor,Patient Lab Test phy,pb_laboratory.model_patient_laboratory_test,pb_hms.group_hms_jr_doctor,1,1,1,0
+access_hms_patient_laboratory_test_jr_doctor,PB Laboratory phy,pb_laboratory.model_pb_lab_test,pb_hms.group_hms_jr_doctor,1,1,1,0
+access_hms_lab_test_critearea_jr_doctor,PB Test Criteria phy,pb_laboratory.model_lab_test_critearea,pb_hms.group_hms_jr_doctor,1,1,1,0

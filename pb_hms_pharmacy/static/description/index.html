@@ -1,0 +1,200 @@
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+  .pb-page {
+    font-family: "Source Serif 4", Georgia, serif;
+    color: #1c2624;
+    background: #f6f5f1;
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+  .pb-page * { box-sizing: border-box; }
+  .pb-mono {
+    font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+  .pb-hero {
+    background: #10201e;
+    background-image:
+      radial-gradient(circle at 82% -10%, rgba(27,138,131,0.55), transparent 55%),
+      linear-gradient(180deg, #132422 0%, #0d1917 100%);
+    border-radius: 14px;
+    padding: 38px 40px 32px;
+    color: #f2efe6;
+  }
+  .pb-eyebrow {
+    color: #6fd6ce;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .pb-eyebrow span { opacity: 0.85; }
+  .pb-title {
+    font-family: "Big Shoulders Display", "Arial Narrow", sans-serif;
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 1.02;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    margin: 0 0 12px;
+    color: #fbf9f2;
+  }
+  .pb-tagline {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 17px;
+    color: #cdd9d4;
+    max-width: 62ch;
+    margin: 0;
+  }
+  .pb-rule {
+    height: 3px;
+    width: 56px;
+    background: #e8783a;
+    border: 0;
+    margin: 20px 0 0;
+  }
+  .pb-body {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 28px;
+    margin-top: 30px;
+  }
+  @media (max-width: 640px) {
+    .pb-body { grid-template-columns: 1fr; }
+  }
+  .pb-section-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1b8a83;
+    margin: 0 0 10px;
+  }
+  .pb-desc {
+    font-size: 16.5px;
+    color: #33403d;
+    margin: 0 0 22px;
+  }
+  .pb-features {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .pb-features li {
+    position: relative;
+    padding-left: 26px;
+    margin-bottom: 11px;
+    font-size: 15px;
+    color: #1c2624;
+  }
+  .pb-features li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    background: #1b8a83;
+  }
+  .pb-card {
+    background: #fff;
+    border: 1px solid #dde3e1;
+    border-radius: 10px;
+    padding: 20px 22px;
+    height: fit-content;
+  }
+  .pb-card dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 14px;
+    font-size: 14px;
+  }
+  .pb-card dt {
+    font-family: "JetBrains Mono", monospace;
+    color: #6b7a79;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    align-self: center;
+  }
+  .pb-card dd { margin: 0; color: #1c2624; align-self: center; }
+  .pb-badges {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #eceeec;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .pb-badge {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    background: #eef4f3;
+    color: #145550;
+    border-radius: 5px;
+    padding: 4px 8px;
+  }
+  .pb-footer {
+    margin-top: 30px;
+    padding-top: 16px;
+    border-top: 1px solid #e3e0d6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #6b7a79;
+  }
+  .pb-footer a { color: #1b8a83; text-decoration: none; font-weight: 600; }
+  .pb-footer a:hover { text-decoration: underline; }
+</style>
+</head>
+
+<section class="pb-page">
+  <div class="pb-hero">
+    <div class="pb-eyebrow pb-mono">
+      <span>Medical</span>
+      <span>pb_hms_pharmacy</span>
+    </div>
+    <h1 class="pb-title">Hospital Pharmacy Management</h1>
+    <p class="pb-tagline">Hospital Pharmacy Management system. Manage pharmacy operations of sale, purchase, batch pricing and barcoding</p>
+    <hr class="pb-rule"/>
+  </div>
+
+  <div class="pb-body">
+    <div>
+      <p class="pb-section-label">Overview</p>
+      <p class="pb-desc">Hospital Pharmacy Management system. Manage pharmacy operations of sale, purchase, batch pricing and barcoding Pharmacy Menus. Barcode generation Batch Wise Pricing Product Expiry Product Manufacture Lock Lot pb hms medical healthcare health care.</p>
+      <p class="pb-section-label">Key Features</p>
+      <ul class="pb-features">
+        <li>Hospital Pharmacy Management</li>
+        <li>Batch Wise Pricing Product Expiry</li>
+        <li>Product Manufacture Lock Lot</li>
+      </ul>
+    </div>
+    <div class="pb-card">
+      <dl>
+        <dt>Category</dt><dd>Medical</dd>
+        <dt>License</dt><dd>OPL-1</dd>
+        <dt>Version</dt><dd>19.0.1.0.0</dd>
+      </dl>
+      <div class="pb-badges">
+        <span class="pb-badge">Community</span>
+        <span class="pb-badge">Enterprise</span>
+        <span class="pb-badge">Odoo.sh</span>
+        <span class="pb-badge">On Premise</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pb-footer">
+    <span>PackBytes &mdash; internal build</span>
+    <a href="https://www.packbytes.com" target="_blank">packbytes.com</a>
+  </div>
+</section>

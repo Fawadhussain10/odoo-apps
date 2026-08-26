@@ -1,0 +1,35 @@
+.pb-webcam {
+    margin-top: 64px;
+}
+
+.pb-webcam-canvas {
+    width: 480px;
+    height: 370px;
+    border:20px solid #ccc;
+    background:#eee;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+
+.pb-webcam-video {
+    width: 480px;
+    height: 370px;
+    border:20px solid #ccc;
+    background:#eee;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+
+@media (max-width: 400px) {
+    .pb-webcam-canvas {
+        width: 300px;
+        height: 232px;
+    }
+
+    .pb-webcam-video {
+        width: 300px;
+        height: 232px;
+    }
+}

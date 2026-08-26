@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Physiotherapy View-->
+    <record id="view_physiotherapy_form" model="ir.ui.view">
+        <field name="name">pb.physiotherapy.view.inherit</field>
+        <field name="model">pb.physiotherapy</field>
+        <field name="inherit_id" ref="pb_hms_physiotherapy.view_physiotherapy_form"/>
+        <field name="arch" type="xml">
+            <field name="patient_id" position="after">
+                <field name="subscription_id" domain="[('state','=','active'),('res_model_id.model','=','pb.physiotherapy'),('patient_id','=',patient_id)]"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

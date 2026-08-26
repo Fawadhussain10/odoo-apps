@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <record id="pb_invoice_summary_search_view" model="ir.ui.view">
+        <field name="name">pb.invoice.summary.search</field>
+        <field name="model">pb.invoice.summary</field>
+        <field name="arch" type="xml">
+            <search string="Invoice Summary">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="pb_invoice_summary_list_view" model="ir.ui.view">
+        <field name="name">pb.invoice.summary.list</field>
+        <field name="model">pb.invoice.summary</field>
+        <field name="arch" type="xml">
+            <list string="Invoice Summary">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pb_invoice_summary" model="ir.ui.view">
+        <field name="name">Invoice Summary</field>
+        <field name="model">pb.invoice.summary</field>
+        <field name="arch" type="xml">
+            <form string="Invoice Summary" class="oe_form_configuration">
+                <header>
+                    <button name="update_data" invisible="state not in ('draft',)" string="Refresh Data" class="btn-primary" type="object"/>
+                    <button name="action_done" invisible="state not in ('draft',)" string="Done" class="btn-primary" type="object"/>
+                    <button name="action_draft" invisible="state not in ('done',)" string="Reset to Draft" class="btn-primary" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="action_view_moves" icon="fa-th-list" type="object">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value"><field name="move_count"/></span>
+                                <span class="o_stat_text">Invoices</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" name="action_view_payments" icon="fa-th-list" type="object">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value"><field name="payment_count"/></span>
+                                <span class="o_stat_text">Payments</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title" invisible="not name">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <button name="get_data" type="object" string="Get Data" invisible="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="user_id"/>
+                            <!-- <field name="origin"/> -->
+                            <field name="print_date_range"/>
+                            <field name="print_lines"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Invoice Lines">
+                            <field name="categ_line_ids" readonly="1">
+                                <list string="Lines" editable="bottom">
+                                    <field name="display_type" invisible="1"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <!-- <field name="pb_product_category_id"/> -->
+                                    <button name="action_view_related_lines" string="View Lines" type="object" icon="fa-list" width="0.1"/>
+                                    <field name="categ_total" string="Total"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right mt32" colspan="2" name="invoice_total">
+                                <field name="amount_untaxed" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_tax" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="amount_total" />
+                                </div>
+                                <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+
+                                <field name="payment_total"/>
+
+                                <field name="payment_due" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </page>
+
+                        <page string="Invoices">
+                            <field name="move_ids" domain="[('partner_id','=',partner_id),('state','in',['draft','posted']),('move_type', '=', 'out_invoice')]" widget="many2many" options="{'not_delete': True}"/>
+                        </page>
+
+                        <page string="Payments">
+                            <field name="payment_ids" domain="[('partner_id','=',partner_id),('state','in',['sent','posted','reconciled'])]" widget="many2many" options="{'not_delete': True}"/>
+                        </page>
+                    </notebook>
+                    <field name="description"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pb_invoice_summary" model="ir.actions.act_window">
+        <field name="name">Invoice Summary</field>
+        <field name="res_model">pb.invoice.summary</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="pb_invoice_summary_line_list_view" model="ir.ui.view">
+        <field name="name">pb.invoice.summary.line.list</field>
+        <field name="model">pb.invoice.summary.line</field>
+        <field name="arch" type="xml">
+            <list string="Invoice Summary Lines" edit="false" create="false">
+                <field name="display_type" invisible="1"/>
+                <field name="sequence" widget="handle"/>
+                <field name="product_id" required="not display_type"/>
+                <field name="name" widget="section_and_note_text"/>
+                <field name="move_line_id"/>
+                <field name="quantity" string="Qty" required="not display_type"/>
+                <field name="product_uom_id" options='{"no_open": True}' required="not display_type"/>
+                <field name="product_uom_category_id" invisible="1"/>
+                <field name="price_unit"/>
+                <field name="discount"/>
+                <field name="tax_id" widget="many2many_tags"/>
+                <field name="price_subtotal"/>
+                <field name="price_tax" invisible="1"/>
+                <field name="price_total" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_pb_invoice_summary_lines" model="ir.actions.act_window">
+        <field name="name">Invoice Summary Lines</field>
+        <field name="res_model">pb.invoice.summary.line</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <menuitem action="action_pb_invoice_summary"
+        id="menu_pb_invoice_summary" name="Invoice Summary"
+        parent="account.menu_finance_receivables" sequence="1"/>
+
+</odoo>

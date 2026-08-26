@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="my_aesthetic_phototype_fields" name="Aestetic Phototype fields">
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-6">
+                <label for="skin_color">1. What is the natural color of your skin when it is not tanned?</label>
+            </div>
+            <div class="col-6">
+                <input type="radio" id="skin_color_0" name="skin_color" value="0" t-att-checked="record and record.skin_color=='0'"/>
+                <label for="0">Reddish</label><br/>
+                <input type="radio" id="skin_color_2" name="skin_color" value="2" t-att-checked="record and record.skin_color=='2'"/>
+                <label for="2">White-Beige</label><br/>
+                <input type="radio" id="skin_color_4" name="skin_color" value="4" t-att-checked="record and record.skin_color=='4'"/>
+                <label for="4">Beige</label><br/>
+                <input type="radio" id="skin_color_8" name="skin_color" value="8" t-att-checked="record and record.skin_color=='8'"/>
+                <label for="8">Light Brown</label><br/>
+                <input type="radio" id="skin_color_12" name="skin_color" value="12" t-att-checked="record and record.skin_color=='12'"/>
+                <label for="12">Brown</label><br/>
+                <input type="radio" id="skin_color_16" name="skin_color" value="16" t-att-checked="record and record.skin_color=='16'"/>
+                <label for="16">Black</label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-6">
+                <label for="hair_color">2. What natural color is your hair?</label>
+            </div>
+            <div class="col-6">
+                <input type="radio" id="hair_color_0" name="hair_color" value="0" t-att-checked="record and record.hair_color=='0'"/>
+                <label for="0">Redhead, Light Blonde</label><br/>
+                <input type="radio" id="hair_color_2" name="hair_color" value="2" t-att-checked="record and record.hair_color=='2'"/>
+                <label for="2">Blonde, Light Brown</label><br/>
+                <input type="radio" id="hair_color_4" name="hair_color" value="4" t-att-checked="record and record.hair_color=='4'"/>
+                <label for="4">Chestnut</label><br/>
+                <input type="radio" id="hair_color_8" name="hair_color" value="8" t-att-checked="record and record.hair_color=='8'"/>
+                <label for="8">Dark Chestnut</label><br/>
+                <input type="radio" id="hair_color_12" name="hair_color" value="12" t-att-checked="record and record.hair_color=='12'"/>
+                <label for="12">Dark Chestnut-Black</label><br/>
+                <input type="radio" id="hair_color_16" name="hair_color" value="16" t-att-checked="record and record.hair_color=='16'"/>
+                <label for="16">Black</label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-6">
+                <label for="eye_color">3. What color is the eyes?</label>
+            </div>
+            <div class="col-6">
+                <input type="radio" id="eye_color_0" name="eye_color" value="0" t-att-checked="record and record.eye_color=='0'"/>
+                <label for="0">Light Blue, Light Green, Gray</label><br/>
+                <input type="radio" id="eye_color_2" name="eye_color" value="2" t-att-checked="record and record.eye_color=='2'"/>
+                <label for="2">Blue, Green, Gray</label><br/>
+                <input type="radio" id="eye_color_4" name="eye_color" value="4" t-att-checked="record and record.eye_color=='4'"/>
+                <label for="4">Gray, Light Brown</label><br/>
+                <input type="radio" id="eye_color_8" name="eye_color" value="8" t-att-checked="record and record.eye_color=='8'"/>
+                <label for="8">Brown</label><br/>
+                <input type="radio" id="eye_color_12" name="eye_color" value="12" t-att-checked="record and record.eye_color=='12'"/>
+                <label for="12">Dark Brown</label><br/>
+                <input type="radio" id="eye_color_16" name="eye_color" value="16" t-att-checked="record and record.eye_color=='16'"/>
+                <label for="16">Black</label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-6">
+                <label for="freckles_number">4. How many freckles does your body naturally have when you're not tanning?</label>
+            </div>
+            <div class="col-6">
+                <input type="radio" id="freckles_number_0" name="freckles_number" value="0" t-att-checked="record and record.freckles_number=='0'"/>
+                <label for="0">Many</label><br/>
+                <input type="radio" id="freckles_number_4" name="freckles_number" value="4" t-att-checked="record and record.freckles_number=='4'"/>
+                <label for="4">Some</label><br/>
+                <input type="radio" id="freckles_number_6" name="freckles_number" value="6" t-att-checked="record and record.freckles_number=='6'"/>
+                <label for="6">A few</label><br/>
+                <input type="radio" id="freckles_number_8" name="freckles_number" value="8" t-att-checked="record and record.freckles_number=='8'"/>
+                <label for="8">None</label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom" style="page-break-inside: avoid">
+            <div class="col-6">
+                <label for="genetic_heritage">5. Which category best describes your genetic heritage?</label>
+            </div>
+            <div class="col-6">
+                <input type="radio" id="genetic_heritage_0" name="genetic_heritage" value="0" t-att-checked="record and record.genetic_heritage=='0'"/>
+                <label for="0">White breed with very white skin</label><br/>
+                <input type="radio" id="genetic_heritage_2" name="genetic_heritage" value="2" t-att-checked="record and record.genetic_heritage=='2'"/>
+                <label for="2">White Skinned Race</label><br/>
+                <input type="radio" id="genetic_heritage_4" name="genetic_heritage" value="4" t-att-checked="record and record.genetic_heritage=='4'"/>
+                <label for="4">White race brown skin (Mediterranean)</label><br/>
+                <input type="radio" id="genetic_heritage_8" name="genetic_heritage" value="8" t-att-checked="record and record.genetic_heritage=='8'"/>
+                <label for="8">Middle East, Hindu, Asian, Hispanic-American</label><br/>
+                <input type="radio" id="genetic_heritage_12" name="genetic_heritage" value="12" t-att-checked="record and record.genetic_heritage=='12'"/>
+                <label for="12">Aboriginal, African, African American</label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom" style="page-break-inside: avoid">
+            <div class="col-6">
+                <label for="burn_potential">6. Which category best describes your burn potential after one hour in the sun in the summer?</label>
+            </div>
+            <div class="col-6">
+                <input type="radio" id="burn_potential_0" name="burn_potential" value="0" t-att-checked="record and record.burn_potential=='0'"/>
+                <label for="0">Always burns and never tans</label><br/>
+                <input type="radio" id="burn_potential_2" name="burn_potential" value="2" t-att-checked="record and record.burn_potential=='2'"/>
+                <label for="2">Usually burns, but may lightly tan</label><br/>
+                <input type="radio" id="burn_potential_4" name="burn_potential" value="4" t-att-checked="record and record.burn_potential=='4'"/>
+                <label for="4">Burns occasionally, but tans moderately</label><br/>
+                <input type="radio" id="burn_potential_8" name="burn_potential" value="8" t-att-checked="record and record.burn_potential=='8'"/>
+                <label for="8">Never burns and tans easily</label><br/>
+                <input type="radio" id="burn_potential_10" name="burn_potential" value="10" t-att-checked="record and record.burn_potential=='10'"/>
+                <label for="10">Rarely burns and deeply tans</label><br/>
+                <input type="radio" id="burn_potential_12" name="burn_potential" value="12" t-att-checked="record and record.burn_potential=='12'"/>
+                <label for="12">Never burns</label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-6">
+                <label for="tanning_potential">7. Which category best describes your tanning potential?</label>
+            </div>
+            <div class="col-6">
+                <input type="radio" id="tanning_potential_0" name="tanning_potential" value="0" t-att-checked="record and record.tanning_potential=='0'"/>
+                <label for="0">Never tans</label><br/>
+                <input type="radio" id="tanning_potential_2" name="tanning_potential" value="2" t-att-checked="record and record.tanning_potential=='2'"/>
+                <label for="2">Can be lightly tanned</label><br/>
+                <input type="radio" id="tanning_potential_4" name="tanning_potential" value="4" t-att-checked="record and record.tanning_potential=='4'"/>
+                <label for="4">Can be tanned moderately</label><br/>
+                <input type="radio" id="tanning_potential_8" name="tanning_potential" value="8" t-att-checked="record and record.tanning_potential=='8'"/>
+                <label for="8">Can be deeply tanned</label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom mt32" t-if="show_result" style="font-size: 18px;">
+            <div class="col-4">
+                <label for="skin_phototype">Skin Phototype</label>
+            </div>
+            <div class="col-8">
+                <input type="radio" id="phototype1" name="skin_phototype" value="phototype1" t-att-checked="record and record.skin_phototype=='phototype1'"/>
+                <label for="phototype1">Very sensitive to sunlight</label><br/>
+
+                <input type="radio" id="phototype2" name="skin_phototype" value="phototype2" t-att-checked="record and record.skin_phototype=='phototype2'"/>
+                <label for="phototype2">Sensitive to sunlight</label><br/>
+
+                <input type="radio" id="phototype3" name="skin_phototype" value="phototype3" t-att-checked="record and record.skin_phototype=='phototype3'"/>
+                <label for="phototype3">Sensitive Normal to sunlight</label><br/>
+
+                <input type="radio" id="phototype4" name="skin_phototype" value="phototype4" t-att-checked="record and record.skin_phototype=='phototype4'"/>
+                <label for="phototype4">The skin has tolerance to sunlight</label><br/>
+
+                <input type="radio" id="phototype5" name="skin_phototype" value="phototype5" t-att-checked="record and record.skin_phototype=='phototype5'"/>
+                <label for="phototype5">The skin is dark and its tolerance is high</label><br/>
+
+                <input type="radio" id="phototype6" name="skin_phototype" value="phototype6" t-att-checked="record and record.skin_phototype=='phototype6'"/>
+                <label for="phototype6">The skin is black and its tolerance is very high</label><br/>
+            </div>
+        </div>
+
+        <div class="form-row" t-if="show_result" style="font-size: 18px;">
+            <div class="col-4">
+                <label for="skin_score">Skin Score</label>
+            </div>
+            <div class="col-2">
+                <input type="text" class="form-control o_website_form_input" name="skin_score" id="skin_score" t-att-value="record and record.skin_score"/>
+            </div>
+        </div>
+
+    </template>
+
+    <template id="my_aesthetic_phototype" name="Edit Phototype History">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Phototype Skin Test</t>
+            </t>
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card p-3">
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <h2 class="heading text-center">Phototype Skin Test</h2>
+                                </div>
+                            </div>
+                
+                            <form action="/website/form/" id="form_patient_aesthetic_phototype" method="post" data-model_name="hms.patient" class="s_website_form form-card" enctype="multipart/form-data" data-success_page="/my/aesthetic/phototype/view">
+                                <input type="hidden" name="record_id" t-att-value="patient_id.id"/>
+                                <input type="hidden" name="edit_record" value="True"/>
+                                <input type="hidden" name="filled_by_patient" value="True"/>
+                                
+                                <t t-call="pb_hms_aesthetic.my_aesthetic_phototype_fields"/>
+                                <div class="form-group row text-center">
+                                    <div class="col-12">
+                                        <a href="#" class="btn btn-primary btn-lg o_website_form_send">Confirm</a>
+                                        <span id="o_website_form_result"></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="my_patient_phototype_content" name="Patient Phototype Content">
+        <div id="patient_report_content" class="col-12 col-lg mt32">
+            <div class="o_portal_html_view shadow p-3" style="background-color: white;">
+              <iframe id="aesthetic_phototype_html" width="100%" height="1024px" frameborder="1" scrolling="no" t-att-src="'/report/pdf/pb_hms_aesthetic.report_pb_aesthetic_phototype/'+str(patient.id)"/>
+            </div>
+        </div>
+    </template>
+
+    <template id="my_aesthetic_phototype_view" name="Patient Aestetic Phototype" inherit_id="portal.portal_sidebar" primary="True">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <div class="row mt16 o_portal_stock_sidebar">
+                <!-- Sidebar -->
+                <t t-call="portal.portal_record_sidebar">
+                    <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+                    <t t-set="entries">
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_download_btn" href="/my/aesthetic/phototype/view?report_type=pdf&amp;download=True" title="Download"><i class="fa fa-download"/> Download</a>
+                                    </div>
+                                    <div class="btn-group flex-grow-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" href="/my/aesthetic/phototype/view?report_type=pdf" id="print_report" title="Print" target="_blank"><i class="fa fa-print"/> Print</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </t>
+                </t>
+
+                <!-- Page content -->
+                <div id="patient_page_content" class="col-12 col-lg justify-content-end">
+                    <div class="card pb-5">
+                        <div t-call="pb_hms_aesthetic.my_patient_phototype_content"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

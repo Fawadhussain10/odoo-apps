@@ -1,0 +1,2205 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_hospitalization
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-22 13:29+0000\n"
+"PO-Revision-Date: 2021-11-22 13:29+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"Language: fr\n"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__state
+msgid " Current Status"
+msgstr " Statut actuel "
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__accommodation_count
+msgid "# Accommodation History"
+msgstr "# Histoire de l'hébergement"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__bed_count
+msgid "# Beds"
+msgstr "# Lits"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_physician__hospitalization_count
+msgid "# Hospitalization"
+msgstr "# Hospitalisation"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_patient__hospitalization_count
+msgid "# Hospitalizations"
+msgstr "#Hospitalisations"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__invoice_count
+msgid "# Invoices"
+msgstr "# Factures"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__prescription_count
+msgid "# Prescriptions"
+msgstr "# Ordonnances"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__surgery_count
+msgid "# Surgery"
+msgstr "# Chirurgie"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__bed_available_count
+msgid "#Available Beds"
+msgstr "# Lits disponibles"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__evaluation_ids
+msgid "#Evaluations"
+msgstr "# Évaluations "
+
+#. module: pb_hms_hospitalization
+#: code:addons/pb_hms_hospitalization/models/hospital_base.py:0
+#: code:addons/pb_hms_hospitalization/models/hospital_base.py:0
+#, python-format
+msgid "%s (copy)"
+msgstr "%s (copie)"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.report,print_report_name:pb_hms_hospitalization.action_report_hospitalization_discharge
+msgid "(object.name or 'Hospitalization').replace('/','_') + '_Discharge'"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.report,print_report_name:pb_hms_hospitalization.action_report_attendance_pass
+msgid "(object.name or 'Hospitalization').replace('/','_') + '_VisitingPass'"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.report,print_report_name:pb_hms_hospitalization.action_hospitalization_card
+msgid "(object.name or 'Hospitalization').replace('/','_') + '_card'"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.report,print_report_name:pb_hms_hospitalization.action_wardpatient_report
+msgid "(object.name).replace('/','_') + '_PatientList'"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.bed_kanban_view
+msgid "<b>Bed Type:</b>"
+msgstr "<b>Type du Lit:</b>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.bed_kanban_view
+msgid "<b>Patient:</b>"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.bed_kanban_view
+msgid "<b>Ward:</b>"
+msgstr "<b>Salle:</b>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.bed_kanban_view
+msgid "<span class=\"fa fa-bed fa-4x\" aria-label=\"\" title=\"Bed\"/>"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Allow Bed Reservation</span>"
+msgstr "<span class=\"o_form_label\"> Autoriser la réservation de lit </span>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Stock Location</span>"
+msgstr "<span class=\"o_form_label\">Stock Location</span>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Stock Usage Location</span>"
+msgstr "<span class=\"o_form_label\"> Emplacement de Stock d’ utilisation</span>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_ward_form
+msgid "<span class=\"o_stat_text\">Available Beds</span>"
+msgstr "<span class=\"o_stat_text\">Lits Disponibles</span>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid ""
+"<span style=\"margin-left:-15px;\" class=\"col-6\"><strong>Medical Officer:</strong></span>\n"
+"                        <span class=\"col-6\"><strong>Date:</strong></span><br/>\n"
+"                        <span/><br/>\n"
+"                        <span/><br/>"
+msgstr ""
+"<span style=\"margin-left:-15px;\" class=\"col-6\"><strong>Officier Medical:</strong></span>\n"
+"                        <span class=\"col-6\"><strong>Date:</strong></span><br/>\n"
+"                        <span/><br/>\n"
+"                        <span/><br/>"
+
+
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid ""
+"<span style=\"margin-left:-15px;\" class=\"col-6\"><strong>Primary Physician:</strong></span>\n"
+"                        <span class=\"col-6\"><strong>Date:</strong></span><br/>\n"
+"                        <span/><br/>\n"
+"                        <span/><br/>"
+msgstr ""
+"<span style=\"margin-left:-15px;\" class=\"col-6\"><strong>Docteur Principal:</strong></span>\n"
+"                        <span class=\"col-6\"><strong>Date:</strong></span><br/>\n"
+"                        <span/><br/>\n"
+"                        <span/><br/>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.HospitalizationCard
+msgid "<span>BED : </span>"
+msgstr "<span>LIT : </span>"
+
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.HospitalizationCard
+msgid "<span>DOA : </span>"
+msgstr "<span>Date d’ admission : </span>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.HospitalizationCard
+msgid "<span>Inpatient-ID: </span>"
+msgstr "<span>Hospitalisé ID: </span>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.HospitalizationCard
+msgid "<span>M.No : </span>"
+msgstr "<span> Tel. Numéro: </span>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.HospitalizationCard
+msgid "<span>PT : </span>"
+msgstr "<span>Patient : </span>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_patient_list_report_document
+msgid "<span>Ward: </span>"
+msgstr "<span>Salle: </span>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_attendance_pass
+msgid ""
+"<strong style=\"font-size: 20px;\">\n"
+"                                        <span>Visiting Pass</span>\n"
+"                                    </strong>"
+msgstr ""
+"<strong style=\"font-size: 20px;\">\n"
+"                                        <span> Laissez-passer de visite </span>\n"
+"                                    </strong>"
+
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Admission Date:</strong>"
+msgstr "<strong>Date d'admission:</strong>"
+
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Age/Gender:</strong>"
+msgstr "<strong>Age/Gendre:</strong>"
+
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_attendance_pass
+msgid "<strong>Attendee Name:</strong>"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_attendance_pass
+msgid "<strong>Attendee Phone No.:</strong>"
+msgstr "<strong>Téléphone du gardien.:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_attendance_pass
+msgid "<strong>Bed No.:</strong>"
+msgstr "<strong>Lit No.:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_patient_list_report_document
+msgid "<strong>Bed No.:</strong>"
+msgstr "<strong>Lit No.:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_patient_list_report_document
+msgid "<strong>Date:</strong>"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Discharge Date:</strong>"
+msgstr "<strong> Date de sortie:</strong>"
+
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Discharge Diagnosis: </strong><br/>"
+msgstr "<strong> Diagnostic de décharge: </strong><br/>"
+
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Discharge Summary</strong>"
+msgstr "<strong> Résumé de décharge </strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_patient_list_report_document
+msgid "<strong>Floor:</strong>"
+msgstr "<strong>Salle:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_patient_list_report_document
+msgid "<strong>Gender:</strong>"
+msgstr "<strong>Gendre:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_attendance_pass
+msgid "<strong>Hospitalization Date.:</strong>"
+msgstr "<strong>Date d’ Hospitalisation:</strong>"
+
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Hospitalization No:</strong>"
+msgstr "<strong>No d’ Hospitalization:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Instruction: </strong><br/>"
+msgstr "<strong>Instruction: </strong><br/>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Operative Note: </strong><br/>"
+msgstr "<strong>Note opératoire: </strong><br/>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Patient Address:</strong>"
+msgstr "<strong>Adresse du patient:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_attendance_pass
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Patient Name:</strong>"
+msgstr "<strong>Nom du Patient:</strong>"
+
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_patient_list_report_document
+msgid "<strong>Patient Name</strong>"
+msgstr "<strong>Nom du Patient:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Post Operative Course: </strong><br/>"
+msgstr "<strong> Cours post-opératoire: </strong><br/>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Prescribed Medicines</strong>"
+msgstr "<strong> Médicaments prescrits</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Primary Physician:</strong>"
+msgstr "<strong> Docteur principal:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Surgery:</strong>"
+msgstr "<strong>Chirurgie:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Surgery</strong>"
+msgstr "<strong>Chirurgie:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_attendance_pass
+msgid "<strong>Ward No:</strong>"
+msgstr "<strong>Salle No:</strong>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_patient_list_report_document
+msgid "<strong>Ward/Room Type:</strong>"
+msgstr "<strong> Type de service/chambre:</strong>"
+
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "<strong>Ward/Room:</strong>"
+msgstr "<strong>Salle:</strong>"
+
+#. module: pb_hms_hospitalization
+#: code:addons/pb_hms_hospitalization/models/hospitalization.py:0
+#, python-format
+msgid "Accommodation Charges"
+msgstr "Frais d'hébergement"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.act_window,name:pb_hms_hospitalization.action_accommodation_history
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__accommodation_history_ids
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__accommodation_history_ids
+msgid "Accommodation History"
+msgstr "Histoire de l'hébergement"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_accommodation_history_form
+msgid "Accommodation History Form"
+msgstr "Formulaire d'historique d'hébergement"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.accommodation_history_search
+msgid "Accommodation History Search"
+msgstr "Rechercher dans l'historique des hébergements"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_accommodation_history_list
+msgid "Accommodation History Tree"
+msgstr "Liste historique des hébergements"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_needaction
+msgid "Action Needed"
+msgstr "Action nécessaire"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__activity_ids
+msgid "Activities"
+msgstr "Activités"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Exception d'activité"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__activity_state
+msgid "Activity State"
+msgstr "État d'activité"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Icône du type d'activité"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.act_window,name:pb_hms_hospitalization.action_check_list_conf_view12
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__checklist_ids
+#: model:ir.ui.menu,name:pb_hms_hospitalization.conf_check_list12
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Admission Checklist"
+msgstr "Liste de contrôle d'admission"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__checklist_done
+msgid "Admission Checklist Done"
+msgstr "Liste de contrôle d'admission terminée"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__admission_type
+msgid "Admission type"
+msgstr "Type d’ Admission"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__adv_on_dis
+msgid "Advice on Discharge"
+msgstr "Conseils sur la décharge"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__patient_age
+msgid "Age"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__air_conditioning
+msgid "Air Conditioning"
+msgstr "Climatisation"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__allow_bed_reservation
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_res_company__allow_bed_reservation
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_res_config_settings__allow_bed_reservation
+msgid "Allow Bed Reservation"
+msgstr "Autoriser la réservation de lit"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_res_config_settings__allow_bed_reservation
+msgid "Allow bed Reservation"
+msgstr "Autoriser la réservation de lit"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.res_config_settings_view_form
+msgid "Allow bed reservation flow for patient in Hospitalization."
+msgstr "Autoriser le flux de réservation de lit pour le patient en hospitalisation"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__nurse_id
+msgid "Anesthetist data of the patient"
+msgstr "Données anesthésistes du patient"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__appointment_id
+msgid "Appointment"
+msgstr "Rendez-vous"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_attachment_count
+msgid "Attachment Count"
+msgstr "Nombre de pièces jointes"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__state__available
+msgid "Available"
+msgstr "Disponibles"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_search
+msgid "Available Rooms"
+msgstr "Salle Disponible"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_hospital_bed
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__product_template__hospital_product_type__bed
+msgid "Bed"
+msgstr "Lit"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_bed_form
+msgid "Bed Allocation"
+msgstr "Attribution des lits"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_bed_form
+msgid "Bed Form"
+msgstr "Forme de lit"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__bed_ids
+msgid "Bed Line"
+msgstr "Ligne de lit"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__bed_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__bed_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_prescription_order__bed_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__new_bed
+msgid "Bed No."
+msgstr "Lit No."
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__product_id
+msgid "Bed Product"
+msgstr "Produit de lit"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.bed_search
+msgid "Bed Search"
+msgstr "Recherche de lit"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_bed_list
+msgid "Bed Tree"
+msgstr "Liste des lits"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.act_window,name:pb_hms_hospitalization.action_bed
+#: model:ir.ui.menu,name:pb_hms_hospitalization.menuitem_action_hos_bed
+msgid "Beds"
+msgstr "Lits"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__bio_hazard
+msgid "Bio Hazard"
+msgstr "Danger biologique"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__building_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospital_ot_search
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_search
+msgid "Building"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__building
+msgid "Bulding"
+msgstr "Bâtiment"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "Calls Date by Month"
+msgstr "Appel date par mois"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_transfer_accommodation_wizard
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__state__cancel
+msgid "Cancelled"
+msgstr " Annulé"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Care Plan"
+msgstr " Plan de santé"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_care_plan_template__name
+msgid "Care Plan Name"
+msgstr " Nom du plan de soins"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.act_window,name:pb_hms_hospitalization.view_pb_care_plan_action
+#: model:ir.model,name:pb_hms_hospitalization.model_hms_care_plan_template
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__care_plan_template_id
+#: model:ir.ui.menu,name:pb_hms_hospitalization.pb_care_plan_template
+msgid "Care Plan Template"
+msgstr " Modèle de plan de soins"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.check_list_conf_tree_view12
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.check_list_conf_view12
+msgid "Check List Item"
+msgstr " Vérifier l'élément de la liste"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_hospital_ward__private
+msgid "Check this option for private room"
+msgstr "Cochez cette option pour chambre privée"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_hospital_ward__bio_hazard
+msgid "Check this option if there is biological hazard"
+msgstr "Cochez cette option en cas de danger biologique"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Checked"
+msgstr "Vérifié"
+
+#. module: pb_hms_hospitalization
+#: model:ir.ui.menu,name:pb_hms_hospitalization.checklist_configuration
+msgid "Checklists"
+msgstr "Listes de contrôle"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__bed_type__circo_electric
+msgid "Circo Electric"
+msgstr "Circoélectrique"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.actions.act_window,help:pb_hms_hospitalization.action_bed
+msgid "Click to add a Bed."
+msgstr "Cliquez pour ajouter un lit"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.actions.act_window,help:pb_hms_hospitalization.action_ward_check_list_conf_view
+msgid "Click to add a Pre-Ward Checklist."
+msgstr "Cliquez pour ajouter une liste de contrôle avant la salle."
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.actions.act_window,help:pb_hms_hospitalization.actions_ward
+msgid "Click to add a Ward/Room."
+msgstr " Cliquez pour ajouter un Salle/chambre"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.actions.act_window,help:pb_hms_hospitalization.act_open_hospital_building_view
+msgid "Click to add a new Hospital Building."
+msgstr "Cliquez pour ajouter un nouveau bâtiment hospitalier."
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.actions.act_window,help:pb_hms_hospitalization.act_open_pb_hospital_ot
+msgid "Click to add a new Hospital Operation Theater."
+msgstr "Cliquez pour ajouter une nouvelle salle d'opération de l'hôpital"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.actions.act_window,help:pb_hms_hospitalization.pb_action_form_inpatient
+msgid "Click to add a new Patient Hospitalization."
+msgstr "Cliquez pour ajouter un nouveau Patient Hospitalisation"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.actions.act_window,help:pb_hms_hospitalization.action_check_list_conf_view12
+msgid "Click to add an Admission Checklist."
+msgstr "Cliquez pour ajouter une liste de contrôle d'admission"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.actions.act_window,help:pb_hms_hospitalization.hms_action_death_register
+msgid "Click to add new record."
+msgstr "Cliquez pour ajouter un nouvel enregistrement"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__clinincal_history
+msgid "Clinical Summary"
+msgstr "Résumé clinique"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__bed_type__clinitron
+msgid "Clinitron"
+msgstr "Clinitron"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_building__code
+msgid "Code"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "Company"
+msgstr "Companie"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.ui.menu,name:pb_hms_hospitalization.menu_hospitalization_cofig
+msgid "Configuration"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__state__confirm
+msgid "Confirmed"
+msgstr "Confirmé"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__consumable_line_ids
+msgid "Consumable Line"
+msgstr "Ligne de consommables"
+
+#. module: pb_hms_hospitalization
+#: code:addons/pb_hms_hospitalization/models/hospitalization.py:0
+#, python-format
+msgid "Consumed Product Charges"
+msgstr "Frais de produits consommés"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Consumed Products/Services"
+msgstr "Produits/Services consommés"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Create Invoice"
+msgstr "Créer une facture"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_care_plan_template__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_building__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist_template__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list_template__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__create_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_care_plan_template__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_building__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist_template__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list_template__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__create_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "Creation"
+msgstr "Création"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "Creation Date"
+msgstr "Date de création"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds__date
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Date"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__date_of_death
+msgid "Date of Death"
+msgstr "Date de décès"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__invoice_policy__full
+msgid "Days (Full)"
+msgstr "Jours (complets)"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__reason
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.patient_death_register_view
+msgid "Death Reason"
+msgstr "Raison du décès"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__death_register_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_patient__death_register_id
+#: model:ir.ui.menu,name:pb_hms_hospitalization.menuitem_action_death_register
+msgid "Death Register"
+msgstr "Registre des décès"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__ward_room_type__deluxe
+msgid "Deluxe"
+msgstr "De luxe"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__department_id
+msgid "Department"
+msgstr "Département"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__diagnosis
+msgid "Diagnosis"
+msgstr "Diagnostic"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__ward_room_type__dialysis
+msgid "Dialysis"
+msgstr "Dialyse"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Discharge"
+msgstr "Décharge"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.report,name:pb_hms_hospitalization.action_report_hospitalization_discharge
+msgid "Discharge Card"
+msgstr "Carte de décharge"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__discharge_diagnosis
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Discharge Diagnosis"
+msgstr "Diagnostic de décharge"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__discharge_plan
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Discharge Plan"
+msgstr "Plan de sortie"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Discharge Summary"
+msgstr "Résumé de décharge"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__discharge_date
+msgid "Discharge date"
+msgstr "Date de sortie"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_patient__discharged
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__state__discharged
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Discharged"
+msgstr "Déchargé"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__diseas_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_care_plan_template__diseases_id
+msgid "Disease"
+msgstr "Maladie"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_care_plan_template__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_building__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist_template__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list_template__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__display_name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds__display_name
+msgid "Display Name"
+msgstr "Afficher un nom"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list__is_done
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__state__done
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__patient_death_register__state__done
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.patient_death_register_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "Done"
+msgstr "Terminé"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__state__draft
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__patient_death_register__state__draft
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__admission_type__elective
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Elective"
+msgstr " Électif "
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__bed_type__electric
+msgid "Electric"
+msgstr " Électrique "
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__admission_type__emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Emergency"
+msgstr " Urgence "
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__end_date
+msgid "End Date"
+msgstr " Date de fin "
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_account_bank_statement_line__hospitalization_id
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_account_move__hospitalization_id
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_account_payment__hospitalization_id
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_prescription_order__hospitalization_id
+msgid "Enter the patient hospitalization code"
+msgstr "Saisir le code d'hospitalisation du patient"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__evaluation_count
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Evaluations"
+msgstr "Évaluations"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__examination
+msgid "Examination"
+msgstr "Examen"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__note
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_building__extra_info
+msgid "Extra Info"
+msgstr "Info. supplémentaires"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__fir_no
+msgid "FIR No."
+msgstr "No de plainte à la police."
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_ward_form
+msgid "Facility"
+msgstr "Établissement"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__floor
+msgid "Floor Number"
+msgstr "Salle No."
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_follower_ids
+msgid "Followers"
+msgstr "Suiveurs"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Suiveurs (Partenaires)"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospital_ot__state__free
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__state__free
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospital_ot_search
+msgid "Free"
+msgstr "Disponible"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.bed_search
+msgid "Free Beds"
+msgstr "Lits Disponibles"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__state__full
+msgid "Full"
+msgstr " Plein"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_search
+msgid "Full Rooms"
+msgstr "Chambres complètes"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__bed_type__gatch
+msgid "Gatch Bed"
+msgstr "Lit Gatch"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__gender
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__patient_gender
+msgid "Gender"
+msgstr "Gendre"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__ward_room_type__general
+msgid "General"
+msgstr "Général"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "General Information"
+msgstr "Informations générales"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "Group By"
+msgstr "Grouper par"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "Group By Gender"
+msgstr "Grouper par sexe"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.bed_search
+msgid "Group By Types"
+msgstr "Grouper par types"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_search
+msgid "Group By Ward Room"
+msgstr "Grouper par salle de service"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.accommodation_history_search
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.bed_search
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospital_ot_search
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_hospital_building_search
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_search
+msgid "Group By..."
+msgstr "Groupe par..."
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__guest_sofa
+msgid "Guest sofa-bed"
+msgstr "Lit de visiteur"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__has_message
+msgid "Has Message"
+msgstr "A un message"
+
+#. module: pb_hms_hospitalization
+#: model:ir.ui.menu,name:pb_hms_hospitalization.health_center
+msgid "Health Center"
+msgstr "Centre de santé"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_res_company
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__company_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__company_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__company_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_building__company_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__company_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__company_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__company_id
+msgid "Hospital"
+msgstr "Hôpital"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_hospital_building
+#: model:ir.ui.menu,name:pb_hms_hospitalization.hos_building
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_hospital_building_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_hospital_building_search
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_hospital_building_tree
+msgid "Hospital Building"
+msgstr "Bâtiment de l'hôpital"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.act_window,name:pb_hms_hospitalization.act_open_hospital_building_view
+msgid "Hospital Bulding"
+msgstr "Bâtiment de l'hôpital"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospital_ot_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospital_ot_list
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospital_ot_search
+msgid "Hospital OT"
+msgstr "TO de l'hôpital"
+
+#. module: pb_hms_hospitalization
+#: model:ir.ui.menu,name:pb_hms_hospitalization.hos_ot
+msgid "Hospital Operation Theater"
+msgstr "Théâtre d'opération de l'hôpital"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.act_window,name:pb_hms_hospitalization.actions_ward
+msgid "Hospital Ward/Room"
+msgstr "Salle/Chambre d'hôpital"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.act_window,name:pb_hms_hospitalization.pb_action_form_inpatient
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_account_bank_statement_line__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_account_move__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_account_payment__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_patient_evaluation__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_consumable_line__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_surgery__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__hospitalizaion_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_prescription_order__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_stock_move__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__hospitalization_id
+#: model:ir.ui.menu,name:pb_hms_hospitalization.pb_conf_inpatient_add
+#: model:ir.ui.menu,name:pb_hms_hospitalization.pb_inpatient_menu
+#: model:ir.ui.menu,name:pb_hms_hospitalization.main_menu_hospitalization
+#: model:ir.ui.menu,name:pb_hms_hospitalization.menu_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.hms_patient_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_hms_appointment_hospital
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_hms_prescription_order_search
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_physician_form
+msgid "Hospitalization"
+msgstr "Hospitalisation"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Hospitalization #"
+msgstr "Hospitalisation #"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.report,name:pb_hms_hospitalization.action_hospitalization_card
+msgid "Hospitalization Card"
+msgstr " Carte d'hospitalisation"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__hospitalization_date
+msgid "Hospitalization Date"
+msgstr "Date d'hospitalisation"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.invoice_form
+msgid "Hospitalization Details"
+msgstr "Détails de l'hospitalisation"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_res_company__pb_hospitalization_stock_location_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_res_config_settings__pb_hospitalization_stock_location_id
+msgid "Hospitalization Stock Location for Consumed Products"
+msgstr "Localisation des stocks d'hospitalisation pour les produits consommés"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_res_company__pb_hospitalization_usage_location_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_res_config_settings__pb_hospitalization_usage_location_id
+msgid "Hospitalization Usage Location for Consumed Products"
+msgstr "Lieu d'utilisation d'hospitalisation pour les produits consommés"
+
+#. module: pb_hms_hospitalization
+#: model:res.groups,name:pb_hms_hospitalization.group_pb_hms_hospitalization_user
+msgid "Hospitalization User"
+msgstr "Utilisateur d'hospitalisation"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.constraint,message:pb_hms_hospitalization.constraint_pb_hospitalization_name_company_uniq
+msgid "Hospitalization name must be unique per company!"
+msgstr "Nom d’hospitalisation doit être unique par entreprise !"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__name
+msgid "Hospitalization#"
+msgstr "Hospitalisation#"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_appointment__hospitalization_ids
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_patient__hospitalization_ids
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_inpatient_calendar
+msgid "Hospitalizations"
+msgstr "Hospitalisations"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Hospitalize"
+msgstr "Hospitaliser"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_patient__hospitalized
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__state__hosp
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Hospitalized"
+msgstr "Hospitalisé"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__invoice_policy__hourly
+msgid "Hours"
+msgstr "Heures"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__ward_room_type__icu
+msgid "ICU"
+msgstr "soins intensifs (ICU)"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_care_plan_template__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_building__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist_template__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list_template__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds__id
+msgid "ID"
+msgstr "ID"
+
+#. module: pb_hms_hospitalization
+#: code:addons/pb_hms_hospitalization/models/hospitalization.py:0
+#, python-format
+msgid "IP Medicine Charges"
+msgstr "Frais de médecine hospitalière"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "IP Medicine Request"
+msgstr "Demande de médecine hospitalière"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "IPM Requests"
+msgstr "Demande de médecine hospitalière"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__activity_exception_icon
+msgid "Icon"
+msgstr "Icône"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Icône pour indiquer une activité d'exception."
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__medico_legal
+msgid "If Medico legal"
+msgstr "Juridique médical"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__message_needaction
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "Si cette case est cochée, les nouveaux messages nécessitent votre attention."
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__message_has_error
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si coché, certains messages ont une erreur de livraison"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__fir_reason
+msgid "If not reported to police give reason"
+msgstr "Si non signalé à la police, donner la raison"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_medicament_line__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds__hospitalization_id
+msgid "Inpatient"
+msgstr "Hospitalisé"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_inpatient_checklist
+msgid "Inpatient Checklist"
+msgstr "Liste de contrôle pour les patients hospitalisés"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_inpatient_checklist_template
+msgid "Inpatient Checklist Template"
+msgstr "Modèle de liste de contrôle pour les patients hospitalisés"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.pb_hospitalization_tree
+msgid "Inpatient Registration Info"
+msgstr "Info d'inscription pour les patients hospitalisés"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Inpatient Registration Information"
+msgstr "Info sur l'inscription des patients hospitalisés"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds__instruction
+msgid "Instruction"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__instructions
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Instructions"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__internet
+msgid "Internet Access"
+msgstr "Accès Internet"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__investigation
+msgid "Investigation"
+msgstr "Enquête"
+
+#. module: pb_hms_hospitalization
+#: code:addons/pb_hms_hospitalization/models/hospitalization.py:0
+#, python-format
+msgid "Invoice Created."
+msgstr "Facture créée"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__invoice_exempt
+msgid "Invoice Exempt"
+msgstr "Exemption de facture"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__invoice_policy
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__invoice_policy
+msgid "Invoice Policy"
+msgstr "Politique de facturation"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Invoices"
+msgstr "Factures"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_is_follower
+msgid "Is Follower"
+msgstr "Est suiveur"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_care_plan_template____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_building____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist_template____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list_template____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation____last_update
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_care_plan_template__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_building__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist_template__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list_template__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__write_uid
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_care_plan_template__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_building__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist_template__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list_template__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__write_date
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__legal_case
+msgid "Legal Case"
+msgstr "Cas légal"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Legal Details"
+msgstr "Détails juridiques"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Line"
+msgstr "Ligne"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_hms_consumable_line
+msgid "List of Consumables"
+msgstr "Liste des consommables"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.res_config_settings_view_form
+msgid "Location to manage consumed products in Hospitalization."
+msgstr "Emplacement pour gérer les produits consommés en Hospitalisation."
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.res_config_settings_view_form
+msgid "Location to take consumed products in Hospitalization."
+msgstr "Lieu de prélèvement des produits consommés en Hospitalisation"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__bed_type__low_air_loss
+msgid "Low Air Loss"
+msgstr "Faible perte d'air"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__bed_type__low
+msgid "Low Bed"
+msgstr "Lit bas"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Pièce jointe principale"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_medicament_line
+msgid "Medicine Lines"
+msgstr "Lignes de médecine"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__gender__men
+msgid "Men Ward"
+msgstr "Salle des hommes"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_has_error
+msgid "Message Delivery error"
+msgstr "Erreur de livraison du message"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__microwave
+msgid "Microwave"
+msgstr "Four micro onde"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "Month"
+msgstr "Mois"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__move_ids
+msgid "Moves"
+msgstr "Deplacement"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Date limite de mon activité"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_building__name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist__name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist_template__name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list__name
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list_template__name
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospital_ot_search
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_hospital_building_search
+msgid "Name"
+msgstr "Nom"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "Name and Sign"
+msgstr "Nom et signe"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospital_ot__name
+msgid "Name of the Operating Room"
+msgstr "Nom de la salle d'opération"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_hospital_building__name
+msgid "Name of the building within the institution"
+msgstr "Nom du bâtiment au sein de l'établissement"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Date limite de la prochaine activité"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__activity_summary
+msgid "Next Activity Summary"
+msgstr "Résumé de l'activité suivante"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__activity_type_id
+msgid "Next Activity Type"
+msgstr "Type d'activité suivant"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__medico_legal__no
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__reported_to_police__no
+msgid "No"
+msgstr "No"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.actions.act_window,help:pb_hms_hospitalization.action_accommodation_history
+msgid "No Accommodation History."
+msgstr "Aucun historique d'hébergement"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.actions.act_window,help:pb_hms_hospitalization.hms_action_death_register
+msgid "No Record Found"
+msgstr "Aucun Enregistrement Trouvé"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospital_ot__state__na
+msgid "Not available"
+msgstr "Indisponible"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__notes
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__notes
+msgid "Notes"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_bed_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_ward_form
+msgid "Notes..."
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Nombre d'actions"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_has_error_counter
+msgid "Number of errors"
+msgstr "Nombre d'erreurs"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Nombre de messages nécessitant une action"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Nombre de messages avec erreur de livraison"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Nombre de messages non lus"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__nursing_plan
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_care_plan_template__nursing_plan
+msgid "Nursing Plan"
+msgstr "Régime de soins infirmiers"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospital_ot__state__occupied
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__state__occupied
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospital_ot_search
+msgid "Occupied"
+msgstr "Occupé"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.bed_search
+msgid "Occupied Beds"
+msgstr "Lits occupés"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__old_bed
+msgid "Old Bed No."
+msgstr "Ancien lit n°"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__old_ward
+msgid "Old Ward/Room"
+msgstr "Ancien salle/chambre"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.act_window,name:pb_hms_hospitalization.act_open_pb_hospital_ot
+#: model:ir.model,name:pb_hms_hospitalization.model_pb_hospital_ot
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hms_surgery__hospital_ot
+msgid "Operation Theater"
+msgstr "chambre d'opération"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__op_note
+msgid "Operative Note"
+msgstr "Remarque opérationnelle"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__state__blocked
+msgid "Out of Use"
+msgstr "Hors d'usage"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__patient_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__patient_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__patient_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__patient_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__patient_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Patient"
+msgstr "Patient"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_patient_accommodation_history
+msgid "Patient Accommodation History"
+msgstr "Historique de l'hébergement du patient"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.patient_death_register_tree
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_patient_death_register_calendar
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_pivot
+msgid "Patient Death"
+msgstr "Décès du patient"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.act_window,name:pb_hms_hospitalization.hms_action_death_register
+#: model:ir.model,name:pb_hms_hospitalization.model_patient_death_register
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.patient_death_register_view
+msgid "Patient Death Register"
+msgstr "Registre des décès de patients"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_pb_patient_evaluation
+msgid "Patient Evaluation"
+msgstr "Évaluation des patients"
+
+#. module: pb_hms_hospitalization
+#: code:addons/pb_hms_hospitalization/models/hospitalization.py:0
+#, python-format
+msgid ""
+"Patient Hospitalization is already active at the moment. Please complete it "
+"before creating new."
+msgstr ""
+"L'hospitalisation des patients est déjà active pour le moment. Veuillez la compléter"
+"avant d'en créer un nouveau."
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__relative_id
+msgid "Patient Relative Name"
+msgstr "Nom du parent (gardien) du patient"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__relative_number
+msgid "Patient Relative Number"
+msgstr "Phone du parent (gardien) du patient"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_hms_physician
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__physician_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__physician_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds__physician_id
+msgid "Physician"
+msgstr "Docteur"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__ward_rounds
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Physician Ward Rounds"
+msgstr " Visites du Docteur"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__picking_type_id
+msgid "Picking Type"
+msgstr "Type de sélection"
+
+#. module: pb_hms_hospitalization
+#: code:addons/pb_hms_hospitalization/models/hospitalization.py:0
+#, python-format
+msgid ""
+"Please define a hospitalization location from where the consumables will be "
+"taken."
+msgstr ""
+"Veuillez définir un lieu d'hospitalisation d'où seront les consommables"
+"pris."
+#. module: pb_hms_hospitalization
+#: code:addons/pb_hms_hospitalization/models/hospitalization.py:0
+#, python-format
+msgid ""
+"Please define a location where the consumables will be used during the "
+"surgery in company."
+msgstr ""
+"Veuillez définir un emplacement où les consommables seront utilisés pendant la "
+"chirurgie en entreprise."
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__post_operative
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Post Operative Course"
+msgstr " Cours post-opératoire"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Pre Operative Note"
+msgstr " Note préopératoire"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_pre_ward_check_list
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Pre Ward Checklist"
+msgstr " Liste de vérification préalable"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_pre_ward_check_list_template
+msgid "Pre Ward Checklist Template"
+msgstr " Modèle de liste de contrôle préalable à la salle"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.act_window,name:pb_hms_hospitalization.action_ward_check_list_conf_view
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__pre_ward_checklist_ids
+#: model:ir.ui.menu,name:pb_hms_hospitalization.conf_ward_check_list
+msgid "Pre-Ward Checklist"
+msgstr " Liste de vérification avant le service"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__pre_ward_checklist_done
+msgid "Pre-Ward Checklist Done"
+msgstr " Liste de contrôle préalable au service terminée"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "Prescription Date:"
+msgstr " Date d'ordonnance"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "Prescription No:"
+msgstr "Ordonnance No:"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__prescription_ids
+msgid "Prescriptions"
+msgstr "Ordonnances"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__attending_physician_ids
+msgid "Primary Doctors"
+msgstr " Docteur primaire"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__nurse_id
+msgid "Primary Nurse"
+msgstr " Infirmière primaire"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__physician_id
+msgid "Primary Physician"
+msgstr " Docteur principal"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_prescription_order__print_in_discharge
+msgid "Print In Discharge"
+msgstr " Impression en décharge"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__private
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_search
+msgid "Private"
+msgstr " Privé"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__private_bathroom
+msgid "Private Bathroom"
+msgstr "Salle de bains privée"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__diseas_id
+msgid "Reason for Admission"
+msgstr "Raison de l'admission"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__ward_room_type__recovery_room
+msgid "Recovery Room"
+msgstr "Salle de réveil"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__ref_physician_id
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__ref_physician_id
+msgid "Referring Physician"
+msgstr "Médecin référent"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__refrigerator
+msgid "Refrigerator"
+msgstr "Réfrigérateur"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__fir_no
+msgid "Registration number of the police complaint."
+msgstr " Numéro d'enregistrement de la plainte à la police"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist__remark
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist_template__remark
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__extra_info
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list__remark
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pre_ward_check_list_template__remark
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_ward_rounds__remarks
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.check_list_conf_tree_view12
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.check_list_conf_view12
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.patient_death_register_view
+msgid "Remarks"
+msgstr "Remarques"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__reported_to_police
+msgid "Reported to police"
+msgstr " Signalé à la police"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Reserve"
+msgstr " Réserve"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospital_ot__state__reserved
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__state__reserved
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__state__reserved
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospital_ot_search
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Reserved"
+msgstr "Réservé"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.bed_search
+msgid "Reserved Beds"
+msgstr "Lits réservés"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__activity_user_id
+msgid "Responsible User"
+msgstr "Utilisateur responsable"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__rest_time
+msgid "Rest Time"
+msgstr "Temps de repos"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__admission_type__routine
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Routine"
+msgstr "Routine"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr " Erreur de livraison de message"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Search Hospitalizations"
+msgstr "Rechercher des hospitalisations"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "Search delivery"
+msgstr " Rechercher la livraison"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__ward_room_type__semi_spaecial
+msgid "Semi-Special"
+msgstr " Semi-spécial"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.patient_death_register_view
+msgid "Set to Draft"
+msgstr " Définir sur brouillon"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__ward_room_type__sharing
+msgid "Sharing"
+msgstr "Partage"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid ""
+"Should you have any questions or any Emergency please contact us at your convenience.<br/><br/>\n"
+"                    Best regards,<br/>"
+msgstr ""
+"Si vous avez des questions ou une urgence, veuillez nous contacter à votre convenance.<br/><br/>\n"
+"Meilleures salutations,<br/>"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__start_date
+msgid "Start Date"
+msgstr " Date de début"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__state
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__state
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__state
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_death_register__state
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Status"
+msgstr "Statut"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Statut basé sur les activités\n"
+"En retard : la date d'échéance est déjà dépassée\n"
+"Aujourd'hui : la date d'activité est aujourd'hui\n"
+"Prévu : Activités futures."
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_res_config_settings__pb_hospitalization_stock_location_id
+msgid "Stock Location for Consumed Products"
+msgstr " Lieu de stockage des produits consommés"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_stock_move
+msgid "Stock Move"
+msgstr " Mouvement de stock"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_bed__bed_type__stretcher
+msgid "Stretcher"
+msgstr " Civière"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__ward_room_type__suite
+msgid "Suite"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__ward_room_type__super_deluxe
+msgid "Super Deluxe"
+msgstr " Super luxe"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__surgery_ids
+msgid "Surgeries"
+msgstr " Chirurgies"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_hms_surgery
+#: model:ir.ui.menu,name:pb_hms_hospitalization.pb_health_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+msgid "Surgery"
+msgstr " Chirurgie"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "Surgery Date:"
+msgstr " Date de la chirurgie "
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.report_hospital_discharge_document
+msgid "Surgery No:"
+msgstr " Chirurgie No:"
+
+#. module: pb_hms_hospitalization
+#: model:ir.ui.menu,name:pb_hms_hospitalization.pb_health_surgery_template
+msgid "Surgery Template"
+msgstr " Modèle de chirurgie"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__telephone
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__telephone
+msgid "Telephone"
+msgstr " Téléphone "
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospital_ot__telephone_number
+msgid "Telephone Number"
+msgstr "Numéro de téléphone"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospital_ot__telephone_number
+msgid "Telephone number / Extension"
+msgstr "Numéro de téléphone / Poste"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__television
+msgid "Television"
+msgstr "Télévision"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "This Month"
+msgstr "Ce mois-ci"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_patient_list_report_document
+msgid ""
+"This information is as per our records, If have any questions please contact us.<br/><br/>\n"
+"                    Best regards,<br/>"
+msgstr ""
+"Ces informations sont conformes à nos archives. Si vous avez des questions, veuillez nous contacter.<br/><br/>\n"
+"Meilleures salutations,<br/>"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_transfer_accommodation_wizard
+msgid "Transfer"
+msgstr "Transfert"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_transfer_accommodation
+msgid "Transfer Accommodation"
+msgstr " Hébergement transfert "
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.act_window,name:pb_hms_hospitalization.transfer_accommodation_action
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_transfer_accommodation_wizard
+msgid "Transfer Patient Accommodation"
+msgstr " Patient hébergement transfert "
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_care_plan_tree
+msgid "Tree"
+msgstr "Arbre (list)"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__bed_type
+msgid "Type"
+msgstr "Type"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr " Type d'activité d'exception enregistrée."
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__gender__unisex
+msgid "Unisex"
+msgstr "Unisexe"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_unread
+msgid "Unread Messages"
+msgstr "Messages non lus"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Compteur de messages non lus"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__admission_type__urgent
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Urgent"
+msgstr "Urgence"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_res_config_settings__pb_hospitalization_usage_location_id
+msgid "Usage Location for Consumed Products"
+msgstr "Lieu d'utilisation des produits consommés"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.report,name:pb_hms_hospitalization.action_report_attendance_pass
+msgid "Visiting Pass"
+msgstr "Laissez-passer de visite"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.bed_search
+msgid "Ward"
+msgstr "Salle"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_hospital_ward__name
+msgid "Ward / Room Number"
+msgstr " Numéro de salle / chambre "
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_check_list_conf_tree_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_check_list_conf_view
+msgid "Ward Check List Item"
+msgstr " Élément de la liste de contrôle de salle"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_ward_form
+msgid "Ward Form"
+msgstr "Salle Formulaire"
+
+#. module: pb_hms_hospitalization
+#: model:ir.actions.report,name:pb_hms_hospitalization.action_wardpatient_report
+msgid "Ward Patient List"
+msgstr " Liste des patients du salle"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_ward_rounds
+msgid "Ward Rounds"
+msgstr "Visites du salle"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.ward_search
+msgid "Ward Search"
+msgstr "Salle Recherche"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_ward_tree
+msgid "Ward Tree"
+msgstr "Salle List(arbre)"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model,name:pb_hms_hospitalization.model_hospital_ward
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__ward_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_bed__ward_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_patient_accommodation_history__ward_id
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_transfer_accommodation__new_ward
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_pb_hospitalization_filter
+msgid "Ward/Room"
+msgstr "Salle/Chambre"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_prescription_order__ward_id
+msgid "Ward/Room No."
+msgstr "Salle/Chambre No."
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_hospital_ward__ward_room_type
+msgid "Wards/Room Type"
+msgstr "Salle/Chambre Type"
+
+#. module: pb_hms_hospitalization
+#: model:ir.ui.menu,name:pb_hms_hospitalization.menuitem_action_ward
+msgid "Wards/Rooms"
+msgstr "Salles/Chambres"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_pb_hospitalization__website_message_ids
+msgid "Website Messages"
+msgstr "Messagerie du site Web"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,help:pb_hms_hospitalization.field_pb_hospitalization__website_message_ids
+msgid "Website communication history"
+msgstr "Historique des communications du site"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__hospital_ward__gender__women
+msgid "Women Ward"
+msgstr "Salle des femmes"
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_hospitalization.field_inpatient_checklist__is_done
+msgid "Y/N"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__medico_legal__yes
+#: model:ir.model.fields.selection,name:pb_hms_hospitalization.selection__pb_hospitalization__reported_to_police__yes
+msgid "Yes"
+msgstr ""
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.accommodation_history_search
+msgid "hospitalization"
+msgstr "Hospitalisation"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_hospitalization_pivot
+msgid "hospitalizations"
+msgstr "hospitalisations"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_patient_death_register_search
+msgid "month"
+msgstr "mois"
+
+#. module: pb_hms_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_hospitalization.view_transfer_accommodation_wizard
+msgid "or"
+msgstr "ou"

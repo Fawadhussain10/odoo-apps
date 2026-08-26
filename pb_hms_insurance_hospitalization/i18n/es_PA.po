@@ -1,0 +1,81 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_insurance_hospitalization
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0-20211110\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-22 22:46+0000\n"
+"PO-Revision-Date: 2021-11-22 17:51-0500\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0\n"
+"Last-Translator: \n"
+"Language: es_PA\n"
+
+#. module: pb_hms_insurance_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_insurance_hospitalization.field_pb_hospitalization__claim_count
+msgid "# Claims"
+msgstr "# Reclamaciones"
+
+#. module: pb_hms_insurance_hospitalization
+#: model:ir.model,name:pb_hms_insurance_hospitalization.model_ir_attachment
+msgid "Attachment"
+msgstr "Adjunto"
+
+#. module: pb_hms_insurance_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_insurance_hospitalization.field_pb_hospitalization__cashless
+msgid "Cashless"
+msgstr "Sin efectivo"
+
+#. module: pb_hms_insurance_hospitalization
+#: model:ir.model,name:pb_hms_insurance_hospitalization.model_hms_insurance_claim
+msgid "Claim"
+msgstr "Reclamación"
+
+#. module: pb_hms_insurance_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_insurance_hospitalization.field_hms_insurance_claim__claim_for
+msgid "Claim Type"
+msgstr "Tipo de reclamación"
+
+#. module: pb_hms_insurance_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_insurance_hospitalization.field_pb_hospitalization__claim_ids
+#: model_terms:ir.ui.view,arch_db:pb_hms_insurance_hospitalization.view_pb_hospitalization_form
+msgid "Claims"
+msgstr "Reclamaciones"
+
+#. module: pb_hms_insurance_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_insurance_hospitalization.view_pb_hospitalization_form
+msgid "Create Package Bill/Invoice"
+msgstr "Crear factura / factura de paquete"
+
+#. module: pb_hms_insurance_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_insurance_hospitalization.field_hms_insurance_claim__hospitalization_id
+#: model:ir.model.fields,field_description:pb_hms_insurance_hospitalization.field_ir_attachment__hospitalization_id
+#: model:ir.model.fields.selection,name:pb_hms_insurance_hospitalization.selection__hms_insurance_claim__claim_for__hospitalization
+msgid "Hospitalization"
+msgstr "Hospitalización"
+
+#. module: pb_hms_insurance_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_insurance_hospitalization.field_pb_hospitalization__package_id
+msgid "Package"
+msgstr "Paquete"
+
+#. module: pb_hms_insurance_hospitalization
+#: model:ir.model.fields,field_description:pb_hms_insurance_hospitalization.field_pb_hospitalization__package_invoice_id
+msgid "Package Invoice"
+msgstr "Factura del paquete"
+
+#. module: pb_hms_insurance_hospitalization
+#: model_terms:ir.ui.view,arch_db:pb_hms_insurance_hospitalization.view_pb_hospitalization_form
+msgid "Patient Doc"
+msgstr "Doc. del paciente"
+
+#. module: pb_hms_insurance_hospitalization
+#: model:ir.model,name:pb_hms_insurance_hospitalization.model_pb_hospitalization
+msgid "Patient Hospitalization"
+msgstr "Hospitalización del paciente"

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Company Data -->
+        <record id="base.main_company" model="res.company">
+            <field name="pb_default_chart_image" type="base64" file="pb_hms_body_chart/static/description/body.jpg"/>
+            <field name="pb_default_chart_image_name">body.jpg</field>
+        </record>
+
+    </data>
+
+</odoo>

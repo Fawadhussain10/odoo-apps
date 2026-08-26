@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pb_nurse_ward_round,access_pb_nurse_ward_round,model_pb_nurse_ward_round,base.group_user,1,0,0,0
+access_pb_nurse_ward_round_nurse,access_pb_nurse_ward_round,model_pb_nurse_ward_round,pb_hms.group_hms_nurse,1,1,1,1

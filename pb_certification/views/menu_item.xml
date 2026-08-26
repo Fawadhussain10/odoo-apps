@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_certificate_management" name="Certificate" sequence="72" groups="group_certificate_manager" web_icon="pb_certification,static/description/icon.png"/>
+
+    <menuitem id="menu_certificate" name="Certificate" sequence="0" parent="menu_certificate_management" action="action_certificate_management"/>
+
+    <menuitem id="menu_certificate_configuration" name="Configuration" sequence="1" parent="menu_certificate_management"/>
+
+    <menuitem id="menu_certificate_template" name="Certificate Template" sequence="1" parent="menu_certificate_configuration" action="action_certificate_template_view"/>
+
+</odoo>

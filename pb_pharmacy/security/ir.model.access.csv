@@ -1,0 +1,22 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hms_drug_form_pharmacy,PB Drug Form,pb_hms_base.model_drug_form,pb_pharmacy.group_hms_pharmacy_user,1,1,1,0
+access_hms_active_comp_pharmacy,PB Active Comp,pb_hms_base.model_active_comp,pb_pharmacy.group_hms_pharmacy_user,1,1,1,0
+access_hms_drug_company_pharmacy,PB Drug Company,pb_hms_base.model_drug_company,pb_pharmacy.group_hms_pharmacy_user,1,1,1,0
+access_hms_drug_route_pharmacy,PB Drug Route,pb_hms_base.model_drug_route,pb_pharmacy.group_hms_pharmacy_user,1,1,1,0
+access_hms_medicament_flavour_pharmacy,PB Medicament Flavor,pb_hms_base.model_medicament_flavour,pb_pharmacy.group_hms_pharmacy_user,1,1,1,0
+access_hms_product_template_pharmacy,PB Medicament Template,product.model_product_template,pb_pharmacy.group_hms_pharmacy_user,1,1,1,0
+access_hms_product_product_pharmacy,PB Medicament,product.model_product_product,pb_pharmacy.group_hms_pharmacy_user,1,1,1,0
+
+access_hms_drug_form_pharmacy_manager,PB Drug Form,pb_hms_base.model_drug_form,pb_pharmacy.group_hms_pharmacy_manager,1,1,1,0
+access_hms_active_comp_pharmacy_manager,PB Active Comp,pb_hms_base.model_active_comp,pb_pharmacy.group_hms_pharmacy_manager,1,1,1,0
+access_hms_drug_company_pharmacy_manager,PB Drug Company,pb_hms_base.model_drug_company,pb_pharmacy.group_hms_pharmacy_manager,1,1,1,0
+access_hms_drug_route_pharmacy_manager,PB Drug Route,pb_hms_base.model_drug_route,pb_pharmacy.group_hms_pharmacy_manager,1,1,1,0
+access_hms_medicament_flavour_pharmacy_manager,PB Medicament Flavor,pb_hms_base.model_medicament_flavour,pb_pharmacy.group_hms_pharmacy_manager,1,1,1,0
+access_hms_product_template_pharmacy_manager,PB Medicament Template,product.model_product_template,pb_pharmacy.group_hms_pharmacy_manager,1,1,1,0
+access_hms_product_product_pharmacy_manager,PB Medicament,product.model_product_product,pb_pharmacy.group_hms_pharmacy_manager,1,1,1,0
+
+access_stock_picking_barcode_line,access_stock_picking_barcode_line,model_stock_picking_barcode_line,base.group_user,1,1,1,1
+access_stock_picking_barcode,access_stock_picking_barcode,model_stock_picking_barcode,base.group_user,1,1,1,1
+access_stock_production_report,access_stock_production_report,model_stock_production_report,base.group_user,1,1,1,1
+access_wiz_lock_lot,access_wiz_lock_lot,model_wiz_lock_lot,base.group_user,1,1,1,1
+access_pb_medicine_expiry,access_pb_medicine_expiry,model_pb_medicine_expiry,base.group_user,1,1,1,1

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Appointment View -->
+    <record id="pb_video_call_form" model="ir.ui.view">
+        <field name="name">hmspb.video.call.form</field>
+        <field name="model">pb.video.call</field>
+        <field name="inherit_id" ref="pb_video_call.pb_video_call_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_ids" position="before">
+                <field name="appointment_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

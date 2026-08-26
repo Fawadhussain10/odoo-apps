@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <record id="view_hms_appointment_form" model="ir.ui.view">
+        <field name="name">hms.appointment.form</field>
+        <field name="model">hms.appointment</field>
+        <field name="priority">15</field>
+        <field name="inherit_id" ref="pb_hms.view_hms_appointment_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="%(pb_whatsapp.action_pb_send_whatsapp_message)d" icon="fa-whatsapp" string="Whatsapp" class="oe_stat_button" type="action"/>
+                <button name="whatsapp_chat_history" icon="fa-whatsapp" string="Chat History" class="oe_stat_button" type="object"/>
+            </div>
+        </field>
+    </record>
+
+    <record id="view_patient_form" model="ir.ui.view">
+        <field name="name">hms.patient.form</field>
+        <field name="model">hms.patient</field>
+        <field name="inherit_id" ref="pb_hms.view_patient_form"/>
+        <field name="arch" type="xml">
+            <field name="phone" position="after">
+                <label for="pb_otp_whatsapp" string="" groups="pb_whatsapp.group_whatsapp_otp"/>
+                <div name="verified_mobile">
+                    <div name="verified_mobile_whatsapp" groups="pb_whatsapp.group_whatsapp_otp" class="oe_inline" style="display: inline;">
+                        <button name="%(pb_whatsapp.action_pb_send_whatsapp_message)d" icon="fa-whatsapp" string="Whatsapp" class="oe_link" type="action"/>
+                        <button name="whatsapp_chat_history" icon="fa-whatsapp" string="Chat History" class="oe_link" type="object"/>
+                    </div>
+                </div>
+                <label for="pb_otp_whatsapp" invisible="verified_mobile_whatsapp" groups="pb_whatsapp.group_whatsapp_otp"/>
+                <div name="whatsapp_otp">
+                    <div name="pb_otp_whatsapp" groups="pb_whatsapp.group_whatsapp_otp" class="oe_inline" style="display: inline;">
+                        <field name="pb_otp_whatsapp" invisible="verified_mobile_whatsapp" class="oe_inline"/>
+                        <button name="action_send_otp_whatsapp" string="Send OTP" type="object" class="oe_inline fa fa-arrow-up oe_link" invisible="verified_mobile_whatsapp"/>
+                        <button name="action_verify_otp_whatsapp" string="Verify OTP" type="object" class="oe_inline fa fa-mobile oe_link" invisible="verified_mobile_whatsapp"/>
+                    </div>
+                </div>
+                <field name="verified_mobile_whatsapp" readonly="1" groups="pb_whatsapp.group_whatsapp_otp" invisible="not verified_mobile_whatsapp"/>
+                <!-- <label string="Mobile" for="mobile" groups="pb_whatsapp.group_whatsapp_otp"/> -->
+                
+            </field>
+
+        </field>
+    </record>
+
+</odoo>

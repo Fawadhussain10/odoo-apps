@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_move_form" model="ir.ui.view">
+            <field name="name">account.move</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="invoice_vendor_bill_id" position="after">
+                    <field name="company_id" string="Branch" groups="pb_branch_base.group_multi_branch"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_move_line_tree" model="ir.ui.view">
+            <field name="name">account.move.line</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="company_id" string="Branch" readonly="parent_state == 'posted'" groups="pb_branch_base.group_multi_branch"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_move_line_filter" model="ir.ui.view">
+            <field name="name">account.move.line</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="inside">
+                    <filter string="Branch" name="branch" domain="[]" context="{'group_by':'company_id'}" groups="pb_branch_base.group_multi_branch"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

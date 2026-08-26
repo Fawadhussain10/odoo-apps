@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_pos_order_form_inherit_pos_prescription" model="ir.ui.view">
+        <field name="name">pos.order.form.pos.prescription</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_invoice']" position="before">
+                <button type="object"
+                    name="action_view_prescription_order"
+                    class="oe_stat_button"
+                    icon="fa-shopping-basket"
+                    groups="point_of_sale.group_pos_user"
+                    invisible="prescription_order_count == 0">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="prescription_order_count" widget="statinfo" nolabel="1" class="mr4" /> Transfered<br/>
+                            from Prescription
+                        </span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

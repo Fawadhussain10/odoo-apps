@@ -1,0 +1,580 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_commission
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-02 10:11+0000\n"
+"PO-Revision-Date: 2019-11-02 10:11+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Commission Product</span>"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_needaction
+msgid "Action Needed"
+msgstr "إجراء مطلوب"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_commission_invoice__print_commission
+msgid "Add Commision no in Description"
+msgstr "أضف العمولة في الوصف"
+
+#. module: pb_commission
+#: model:ir.model,name:pb_commission.model_hms_appointment
+msgid "Appointment"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_attachment_count
+msgid "Attachment Count"
+msgstr "عدد المرفقات"
+
+#. module: pb_commission
+#: model:ir.actions.act_window,name:pb_commission.pb_commission_action
+#: model:ir.model.fields,field_description:pb_commission.field_hms_patient__commission_ids
+#: model:ir.model.fields,field_description:pb_commission.field_hms_physician__commission_ids
+#: model:ir.model.fields,field_description:pb_commission.field_res_partner__commission_ids
+#: model:ir.model.fields,field_description:pb_commission.field_res_users__commission_ids
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+msgid "Business Commission"
+msgstr "عمولة الأعمال"
+
+#. module: pb_commission
+#: model:ir.ui.menu,name:pb_commission.menu_pb_commission
+#: model:ir.ui.menu,name:pb_commission.menu_invoice_pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_list_view
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_move_form
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_partner_form
+msgid "Business Commissions"
+msgstr "عمولات الأعمال"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_form_view
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_commission_invoice
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__payment_status__cancel
+msgid "Canceled"
+msgstr "ملغي"
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__state__cancel
+msgid "Cancelled"
+msgstr "ملغي"
+
+#. module: pb_commission
+#: model_terms:ir.actions.act_window,help:pb_commission.pb_commission_action
+msgid "Click to add new Business Commission."
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.res_config_settings_view_form
+#: model:product.product,name:pb_commission.hms_commission_product
+#: model:product.template,name:pb_commission.hms_commission_product_product_template
+msgid "Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__commission_amount
+msgid "Commission Amount"
+msgstr "قيمة العمولة"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_created
+msgid "Commission Created"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_on
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__commission_on
+msgid "Commission On"
+msgstr "عموله في"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__commission_percentage
+#: model:ir.model.fields,field_description:pb_commission.field_hms_patient__commission_percentage
+#: model:ir.model.fields,field_description:pb_commission.field_hms_physician__commission_percentage
+#: model:ir.model.fields,field_description:pb_commission.field_res_partner__commission_percentage
+#: model:ir.model.fields,field_description:pb_commission.field_res_users__commission_percentage
+msgid "Commission Percentage"
+msgstr "نسبة العموله"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_res_company__commission_product_id
+#: model:ir.model.fields,field_description:pb_commission.field_res_config_settings__commission_product_id
+msgid "Commission Product"
+msgstr "منتج العموله"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_form_view
+msgid "Commission Title"
+msgstr "موضوع العموله"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_res_company__commission_on_invoice_amount
+#: model:ir.model.fields,field_description:pb_commission.field_res_config_settings__commission_on_invoice_amount
+msgid "Commission on Invoice Amount"
+msgstr "عموله على قيمة الفاتورة"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_partner_form
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_physician_form
+msgid "Commissions"
+msgstr "العمولات"
+
+#. module: pb_commission
+#: model:ir.model,name:pb_commission.model_res_config_settings
+msgid "Config Settings"
+msgstr "ضبط الإعدادات"
+
+#. module: pb_commission
+#: model:ir.model,name:pb_commission.model_res_partner
+msgid "Contact"
+msgstr "جهة الاتصال"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_move_form
+msgid "Create Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_commission_invoice
+msgid "Create Invoices"
+msgstr "إنشاء فاتورة"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_commission_invoice
+msgid "Create and View Invoices"
+msgstr "إنشاء و عرض الفواتير"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.res_config_settings_view_form
+msgid "Create commission based on invoice amount by default."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__create_uid
+#: model:ir.model.fields,field_description:pb_commission.field_commission_invoice__create_uid
+msgid "Created by"
+msgstr "أنشئ بواسطة"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__create_date
+#: model:ir.model.fields,field_description:pb_commission.field_commission_invoice__create_date
+msgid "Created on"
+msgstr "أنشئ في"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+msgid "Customer"
+msgstr "العميل"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.res_config_settings_view_form
+msgid "Default product to manage commission"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__display_name
+#: model:ir.model.fields,field_description:pb_commission.field_commission_invoice__display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_form_view
+msgid "Done"
+msgstr "المنتهية"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_partner1_id
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_move_form
+msgid "Dr. Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_amount1
+msgid "Dr. Commission Amount"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_percentage1
+msgid "Dr. Commission Percentage"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__state__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__payment_status__draft
+msgid "Draft Invoice"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_follower_ids
+msgid "Followers"
+msgstr "المتابعون"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "المتابعون (القنوات)"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "المتابعون (الشركاء)"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_hms_patient__provide_commission
+#: model:ir.model.fields,field_description:pb_commission.field_hms_physician__provide_commission
+#: model:ir.model.fields,field_description:pb_commission.field_res_partner__provide_commission
+#: model:ir.model.fields,field_description:pb_commission.field_res_users__provide_commission
+msgid "Give Commission"
+msgstr "سدد العمولة"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+msgid "Group By"
+msgstr "تجميع حسب"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_commission_invoice__groupby_partner
+msgid "Groupby Partner"
+msgstr "مجموعة حسب شريك"
+
+#. module: pb_commission
+#: model:ir.model,name:pb_commission.model_pb_commission
+msgid "HMS Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model,name:pb_commission.model_res_company
+msgid "Hospital"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__id
+#: model:ir.model.fields,field_description:pb_commission.field_commission_invoice__id
+msgid "ID"
+msgstr "المُعرف"
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_needaction
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "إذا كان محددًا، فهناك رسائل جديدة تحتاج لرؤيتها."
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_has_error
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "إذا كان محددًا، فقد حدث خطأ في تسليم بعض الرسائل."
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__invoice_id
+msgid "Invoice"
+msgstr "فاتورة"
+
+#. module: pb_commission
+#: model:ir.actions.act_window,name:pb_commission.action_view_commission_invoice
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_commission_invoice
+msgid "Invoice Commission"
+msgstr "عمولة على الفاتورة"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__payment_status
+msgid "Invoice Status"
+msgstr "حالة الفاتورة"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_commission_invoice
+msgid ""
+"Invoices will be created in draft so that you can review\n"
+"                    them before validation."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_is_follower
+msgid "Is Follower"
+msgstr "متابع"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_commission_invoice__journal_id
+msgid "Journal"
+msgstr "دفتر اليومية"
+
+#. module: pb_commission
+#: model:ir.model,name:pb_commission.model_account_move
+msgid "Journal Entries"
+msgstr "القيود اليومية"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission____last_update
+#: model:ir.model.fields,field_description:pb_commission.field_commission_invoice____last_update
+msgid "Last Modified on"
+msgstr "آخر تعديل في"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__write_uid
+#: model:ir.model.fields,field_description:pb_commission.field_commission_invoice__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__write_date
+#: model:ir.model.fields,field_description:pb_commission.field_commission_invoice__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "المرفق الرئيسي"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ في تسليم الرسائل"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_ids
+msgid "Messages"
+msgstr "الرسائل"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: pb_commission
+#: model_terms:ir.actions.act_window,help:pb_commission.pb_commission_action
+msgid "No Record Found"
+msgstr "لا يوجد سجل"
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__payment_status__not_inv
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+msgid "Not Invoiced"
+msgstr "غير مفوترة"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__note
+msgid "Note"
+msgstr "الملاحظات"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الإجراءات"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الاخطاء"
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "عدد الرسائل التي تتطلب إجراء"
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد الرسائل الحادث بها خطأ في التسليم"
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_unread_counter
+msgid "Number of unread messages"
+msgstr "عدد الرسائل الجديدة"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.res_config_settings_view_form
+msgid "Online Payment"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__payment_status__open
+msgid "Open"
+msgstr "فتح"
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__payment_status__paid
+msgid "Paid"
+msgstr "مدفوع"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__partner_id
+msgid "Partner"
+msgstr "الشريك"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__payment_invoice_id
+msgid "Payment Invoice"
+msgstr "فاتورة الدفع"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__invoice_line_id
+msgid "Payment Invoice Line"
+msgstr "خط فاتورة الدفع"
+
+#. module: pb_commission
+#: model:ir.model,name:pb_commission.model_hms_physician
+msgid "Physician"
+msgstr "الطبيب"
+
+#. module: pb_commission
+#: code:addons/pb_commission/wizard/commission_make_invoice.py:0
+#, python-format
+msgid ""
+"Please check there is nothing to invoice in selected Commission may be you "
+"are missing partner or trying to invoice already invoiced Commissions."
+msgstr ""
+
+#. module: pb_commission
+#: code:addons/pb_commission/wizard/commission_make_invoice.py:0
+#, python-format
+msgid "Please set Commission Product in company first."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_partner2_id
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_move_form
+msgid "Ref. Dr. Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_amount2
+msgid "Ref. Dr. Commission Amount"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_percentage2
+msgid "Ref. Dr. Commission Percentage"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ في تسليم الرسائل القصيرة"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_ids
+msgid "Sales Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_form_view
+msgid "Set to Draft"
+msgstr "تعيين كمسودة"
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_commission_invoice__print_commission
+msgid "Set true if want to append SO in invoice line Description"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_commission_invoice__groupby_partner
+msgid "Set true if want to create single invoice for project"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+msgid "State"
+msgstr "المحافظة"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__state
+msgid "Status"
+msgstr "الحالة"
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__payment_invoice_id
+msgid "The move of this entry line."
+msgstr "حركة بند القيد هذا."
+
+#. module: pb_commission
+#: code:addons/pb_commission/wizard/commission_make_invoice.py:0
+#, python-format
+msgid ""
+"There is no income account defined for this product: \"%s\". You may have to"
+" install a chart of account from Accounting app, settings menu."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_partner3_id
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_move_form
+msgid "Third Party Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_percentage3
+msgid "Third Party Commission Percentage"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_amount3
+msgid "Third PartyCommission Amount"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model,name:pb_commission.model_commission_invoice
+msgid "Timesheet Invoice"
+msgstr "فاتورة ساعات العمل"
+
+#. module: pb_commission
+#: model:product.product,uom_name:pb_commission.hms_commission_product
+#: model:product.template,uom_name:pb_commission.hms_commission_product_product_template
+msgid "Units"
+msgstr "الوحدات"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_unread
+msgid "Unread Messages"
+msgstr "الرسائل الجديدة"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "عدد الرسائل الجديدة"
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__website_message_ids
+msgid "Website Messages"
+msgstr "رسائل الموقع"
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__website_message_ids
+msgid "Website communication history"
+msgstr "سجل تواصل الموقع"
+
+#. module: pb_commission
+#: code:addons/pb_commission/models/commission.py:0
+#, python-format
+msgid "You cannot delete an record which is not draft or cancelled."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__state__done
+msgid "done"
+msgstr "تم"
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_form_view
+msgid "e.g. Business Commission"
+msgstr ""

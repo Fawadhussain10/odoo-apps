@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Patient View with gynec features-->
+     <record model="ir.ui.view" id="view_hms_patient_form_gynec">
+        <field name="name">hms.patient.view.inherit.gynec</field>
+        <field name="model">hms.patient</field>
+        <field name="inherit_id" ref="pb_hms.view_patient_form" />
+        <field name="arch" type="xml">
+            <button name='view_invoices' position="after">
+                <button name="action_view_patient_delivery" groups="pb_hms_gynec.group_hms_user_gynec" type="object" class="oe_stat_button" icon="fa-id-card-o" title="Deliveries" invisible="gender != 'female'">
+                    <field string="Deliveries" name="child_birth_count" widget="statinfo"/>
+                </button>
+            </button>
+            <page name="clinical_ass" position="after">
+                <page string="Gyneco / Obs" invisible="gender != 'female'" groups="pb_hms_gynec.group_hms_user_gynec">
+                    <group>
+                        <field name="hb"/>
+                        <field name="screatinine"/>
+                        <field name="urine"/>
+                        <field name="hiv"/>
+                        <field name="rbs"/>
+                        <field name="hbsag"/>
+                    </group>
+                    <notebook>
+                        <page string="Gyneco" >
+                            <group string="General" >
+                                <field name="currently_pregnant"/>
+                                <field name="menopause"/>
+                                <field name="urinary_problem"/>
+                                <field name="menarche"/>
+                                <field name="contraception_method"/>
+                                <field name="contraception_product"/>
+                                <field name="dispareunia"/>
+
+                                <!-- <field name="tl_done"/>
+                                <field name="fertile"/>
+                                <field name="aml"/>
+                                <field name="menorrhagia"/>
+                                <field name="oligomenorrhea"/>
+                                <field name="dymenorreha"/>
+                                <field name="amenorrhea"/>
+                                <field name="leucorrhoea"/>
+                                <field name="other"/> -->
+                            </group>
+                            <group string="Mestrual History">
+                                <field name="menstrual_history_ids" nolabel="1" colspan="2"/>
+                            </group>
+                        </page>
+                        <page string="Obstetrics">
+                            <group>
+                                <group name="gravida_details">
+                                    <field name="gravida"/>
+                                    <field name="premature"/>
+                                    <field name="vaginal_birth"/>
+                                    <field name="cesarean_birth"/>
+                                </group>
+                                <group>
+                                    <field name="abortions"/>
+                                    <field name="stillbirths"/>
+                                    <field name="ectopic"/>
+                                </group>
+                            </group>
+                            <group string="Pregnancy History" name="pregnancy_history">
+                                <field name="pregnancy_history_ids" nolabel="1" colspan="2"/>
+                            </group>
+                        </page>
+                        <page string="Sonography">
+                            <separator string="Sonography Pelvis Reports" colspan="2"/>
+                            <field name="sonography_pelvis_ids" nolabel="1"/>
+                            <separator string="Follicular Study Reports" colspan="2"/>
+                            <field name="sonography_follical_ids" nolabel="1"/>
+                            <separator string="Sonography Obstetric Reports" colspan="2"/>
+                            <field name="sonography_obstetric_ids" nolabel="1"/>
+                        </page>
+                        <page string="Systemic Examinations" name="gynec_systemic_examinations">
+                            <separator string="Systemic Examinations" colspan="2" name="gynec_systemic_examinations_lable"/>
+                            <field name="examination_ids" nolabel="1"/>
+                            <separator string="Mamography Tests" colspan="2"/>
+                            <group>
+                                <p colspan="2">
+                                    A mammography, or mammogram, is an X-ray of the breast. It’s a screening tool used to detect and diagnose breast cancer.
+                                </p>
+                            </group>
+                            <field name="mammography_history_ids" nolabel="1">
+                                <list string="Mamography Tests" editable="bottom">
+                                    <field name="date"/>
+                                    <field name="result"/>
+                                    <field name="comments"/>
+                                </list>
+                            </field>
+                            <separator string="Pap Details" colspan="2"/>
+                            <group>
+                                <p colspan="2">
+                                    A Pap test is a test your doctor or nurse does to check your cervix for any cells that are not normal. The cervix is the lower part of the uterus (womb), which opens into the vagina. Abnormal cervical cells, if not found and treated, can lead to cervical cancer.
+                                </p>
+                            </group>
+                            <field name="pap_history_ids" nolabel="1">
+                                <list string="Pap Tests" editable="bottom">
+                                    <field name="date"/>
+                                    <field name="result"/>
+                                    <field name="comments"/>
+                                </list>
+                            </field>
+                            <separator string="Colposcopy Details" colspan="2"/>
+                            <group>
+                                <p colspan="2">
+                                    Procedure to closely examine your cervix, vagina and vulva for signs of disease.
+                                </p>
+                            </group>
+                            <field name="colposcopy_history_ids" nolabel="1">
+                                <list string="Colposcopy Tests" editable="bottom">
+                                    <field name="date"/>
+                                    <field name="result"/>
+                                    <field name="comments"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record id="hms_action_female_patient" model="ir.actions.act_window">
+        <field name="name">Patient</field>
+        <field name="res_model">hms.patient</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain" eval="[('gender','=','female')]"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <!-- Emergency -->
+    <record id="view_hms_emergency_tree" model="ir.ui.view">
+        <field name="name">pb.hms.emergency.tree</field>
+        <field name="model">pb.hms.emergency</field>
+        <field name="arch" type="xml">
+            <list decoration-info="state=='draft'" name="appointment_tree">
+                <field name="name" string="Emergency"/>
+                <field name="patient_id"/>
+                <field name="date"/>
+                <field name="department_id" groups="pb_hms.group_allow_multi_department" optional="hide"/>
+                <field name="physician_id"/>
+                <field name="invoice_exempt" string="Invoice Exempt" optional="hide"/>
+                <field name="state" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hms_emergency_kanban" model="ir.ui.view">
+        <field name="name">pb.hms.emergency</field>
+        <field name="model">pb.hms.emergency</field>
+        <field name="type">kanban</field>
+        <field name="arch" type="xml">
+            <kanban> 
+                <field name="patient_id"/>
+                <field name="image_128"/>
+                <field name="bed_id"/>
+                <field name="ward_id"/>
+                <field name="display_name"/>
+                <field name="physician_id"/>
+                <field name="diseases_ids"/>
+                <field name="age"/>
+                <field name="pain_level"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                            <t t-set="placeholder" t-value="'/base/static/img/avatar_grey.png'"/>
+                            <div class="o_kanban_image_fill_left o_kanban_image_full" t-attf-style="background-image: url(/web/image/hms.patient/#{record.patient_id.raw_value}/image_128)" role="img"/>
+                            <div class="oe_kanban_details">
+                                <strong class="oe_partner_heading"><field name="display_name"/> [<field name="patient_id"/>]</strong>
+                                <ul>
+                                    <li t-if="record.age.raw_value"><b>Age:</b> <field name="age"/></li>
+                                    <li t-if="record.physician_id.raw_value"><b>Physician:</b> <field name="physician_id"/></li>
+                                    <li t-if="record.diseases_ids.raw_value"><b>Diseas:</b> <field name="diseases_ids" widget="many2many_tags"/></li>
+                                </ul>
+                                <div class="o_row">
+                                    <span class="badge badge-pill" t-if="record.ward_id.raw_value or record.bed_id.raw_value">
+                                        <i class="fa fa-bed" aria-label="Ward/Bed" role="img" title="Ward/Bed"/>
+                                        <t t-esc="record.ward_id.value"/><t t-if="record.ward_id.raw_value and record.bed_id.raw_value">/</t><t t-esc="record.bed_id.value"/>
+                                    </span>
+                                    <span class="badge badge-pill" t-if="record.pain_level.raw_value">
+                                        😨 <t t-esc="record.pain_level.value"/>
+                                    </span>
+                                    <span class="float-right">
+                                        <field name="state" widget="label_selection" options="{'classes': {'draft': 'default', 'hosp': 'success'}}"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_hms_emergency_form" model="ir.ui.view">
+        <field name="name">pb.hms.emergency.form</field>
+        <field name="model">pb.hms.emergency</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="under_care" invisible="state not in ('draft',)" type="object" groups="pb_hms.group_hms_receptionist" string="Under Care" class="oe_highlight"/>
+                    <button name="action_discharge" type="object" string="Discharge" class="oe_highlight" invisible="state not in ('under_care',)" groups="pb_hms.group_hms_receptionist"/>
+                    <button name="create_invoice" string="Create Invoice" groups="account.group_account_invoice" invisible="state not in ('to_invoice',)" type="object" class="oe_highlight"/>
+                    <button name="button_pres_req" string="Create Prescription" groups="pb_hms.group_hms_jr_doctor" type="object" invisible="state not in ('under_care',)" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,under_care,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box" groups="pb_hms.group_hms_receptionist">
+                        <!-- <button name="action_refer_doctor" string="Refer. To" type="object" invisible="state not in ('under_care',)" class="oe_stat_button" icon="fa-pencil-square-o"/> -->
+                        <button name="action_prescription" string="Prescription" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="(state == 'done' and not prescription_ids)"/>
+                        <button class="oe_stat_button" type="object" name="view_invoice" icon="fa-pencil-square-o" invisible="invoice_count == 0" groups="account.group_account_invoice">
+                            <field string="Invoices" name="invoice_count" widget="statinfo"/>
+                        </button>
+                        <field name="prescription_ids" invisible="1"/>
+                        <button name="action_hospitalization" string="Hospitalization" type="object" class="oe_stat_button" icon="fa-bed" title="Hospitalization" invisible="state == 'draft'" groups="pb_hms_hospitalization.group_pb_hms_hospitalization_user"/>
+                    </div>
+                    <field name="image_128" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="age"/>
+                            <field name="physician_id" required="1"/>
+                            <field name="department_id" groups="pb_hms.group_allow_multi_department" domain="[('department_type','=','emergency_department')]"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="discharge_date"/>
+                            <field name="ward_id" widget="selection" required="1" domain="[('department_id.department_type','=','emergency_department')]"/>
+                            <field name="bed_id" domain="[('ward_id', '=', ward_id), ('state', '=', 'free')]" required="1" widget="selection"/>
+                            <!-- Invisible Fields -->
+                            <field name="department_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="info" string="General Information">
+                            <group>
+                                <group>
+                                    <field name="diseases_ids" widget="many2many_tags" groups="pb_hms.group_hms_nurse"/>
+                                </group>
+                                <group>
+                                    <field name="responsible_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="clinical_ass" string="Clinical Assesment" groups="pb_hms.group_hms_nurse">
+                            <div>NOTE: Details are shown based on Patient Evaluation. 
+                                <t invisible="not evaluation_id">Last Evaluation: <field name="evaluation_id" nolabel="1" class="oe_link"/></t>
+                                <t invisible="evaluation_id"><button name="action_create_evaluation" type="object" string="Create Evaluation" class=" oe_link"/></t>
+                            </div>
+                            <group>
+                                <group>
+                                    <label for="weight"/>
+                                    <div class="o_row">
+                                        <field name="weight"/>
+                                        <span><field name="pb_weight_name"/></span>
+                                    </div>
+                                    <label for="height"/>
+                                    <div class="o_row">
+                                        <field name="height"/>
+                                        <span><field name="pb_height_name"/></span>
+                                    </div>
+                                    <label for="temp"/>
+                                    <div class="o_row">
+                                        <field name="temp"/>
+                                        <span><field name="pb_temp_name"/></span>
+                                    </div>
+                                    <field name="hr"/>
+                                </group>
+                                <group>
+                                    <field name="rr"/>
+                                    <label string="Systolic/Diastolic BP" for="systolic_bp"/>
+                                    <div name="systolic_bp">
+                                        <div class="oe_inline" style="display: inline;">
+                                            <field name="systolic_bp" class="oe_inline"/>/<field name="diastolic_bp" class="oe_inline"/>
+                                        </div>
+                                    </div>
+                                    <label for="spo2"/>
+                                    <div class="o_row">
+                                        <field name="spo2"/>
+                                        <span><field name="pb_spo2_name"/></span>
+                                    </div>
+                                    <label for="rbs"/>
+                                    <div class="o_row">
+                                        <field name="rbs"/>
+                                        <span><field name="pb_rbs_name"/></span>
+                                    </div>
+                                </group>
+                                <group>
+                                    <field name="bmi"/>
+                                </group>
+                                <group>
+                                    <field name="bmi_state"/>
+                                </group>
+                                <separator string="Pain Level"/>
+                                <group>
+                                    <group>
+                                        <label for="pain_level"/>
+                                        <div class="o_row">
+                                            <field name="pain_level"/>
+                                            <span><button name="%(pb_hms.action_pb_pain_level)d" type="action" icon="fa-question-circle" title="Pain Level"/></span>
+                                        </div>
+                                        <field name="pain" colspan="2" nolabel="1"/>
+                                    </group>
+                                </group>
+                            </group>
+                            <separator string="Laboratory"/>
+                            <field name="lab_report" placeholder="Laboratory Report..."/>
+                            <separator string="Radiological"/>
+                            <field name="radiological_report" placeholder="Radiological Report..."/>
+                        </page>
+                        <page name="advice" string="D/D &amp; Advice" groups="pb_hms.group_hms_jr_doctor,pb_hms.group_pb_hms_appointment_user">
+                            <separator string="Differential Diagnosis"/>
+                            <field name="differencial_diagnosis" placeholder="Differential Diagnosis..."/>
+                            <separator string="Medical Advice"/>
+                            <field name="medical_advice" placeholder="Medical Advice..."/>
+                        </page>
+                        <page name="diseases" string="Disease History" groups="pb_hms.group_hms_jr_doctor">
+                            <separator string="Past Medical History"/>
+                            <field name="medical_history"/>
+                            <separator string="Diseases History"/>
+                            <field name="patient_diseases_ids"/>
+                        </page>
+                        <page name="consumed_products" string="Consumed Products/Services" groups="pb_hms.group_hms_jr_doctor,pb_hms.group_pb_hms_appointment_user">
+                            <label for="pb_kit_id" invisible="state in ('done', 'cancel')"/>
+                            <div name="pb_kit_id" invisible="state in ('done', 'cancel')">
+                                <field name="pb_kit_id" nolabel="1" options="{'no_create': True}"/>
+                                <field name="pb_kit_qty" class="oe_inline" nolabel="1" invisible="not pb_kit_id"/>
+                                <button name="get_pb_kit_lines" string="Add Kit Products" type="object" class="oe_inline fa fa-arrow-right oe_link" invisible="not pb_kit_id"/>
+                            </div>
+                            <field name="consumable_line_ids" nolabel="1" colspan="4" context="{'default_patient_id': patient_id, 'default_department_id': department_id, 'default_physician_id': physician_id}">
+                                <list string="Line" editable="top">
+                                    <field name="product_id" expand="1" required="1"/>
+                                    <field name="product_uom_id" groups="uom.group_uom"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="qty" required="1"/>
+                                    <field name="tracking" invisible="1"/>
+                                    <field name="lot_id" context="{'pb_product_id': product_id}" options="{'no_create': True}" readonly="tracking == 'none'" required="tracking != 'none'"/>
+                                    <field name="price_unit" readonly="1"/>
+                                    <field name="subtotal" readonly="1" sum="Total" optional="show"/>
+                                    <field name="date" required="1"/>
+                                    <field name="note"/>
+                                    <field name="move_id" invisible="1"/>
+                                    <field name="physician_id" optional="show"/>
+                                    <field name="department_id" invisible="1"/>
+                                    <field name="patient_id" invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="other_info" string="Other Information" groups="pb_hms.group_hms_receptionist">
+                            <group name="extra_info">
+                                <group>
+                                    <field name="ref_physician_id"/>
+                                    <label for="invoice_exempt"/>
+                                    <div name="invoice_exemption">
+                                        <field name="invoice_exempt" class="oe_inline" nolabel="1"/>
+                                        <button name="pb_apply_invoice_exemption" string="Apply/Remove" type="object" class="oe_inline fa fa-arrow-right oe_link" invisible="state == 'done'" groups="pb_hms_base.group_pb_invoice_exemption"/>
+                                    </div>
+                                </group>
+                                <group>
+                                    <field name="product_id" required="1" context="{'default_type':'service','default_hospital_product_type':'consultation'}"/>
+                                    <field name="pricelist_id" groups="product.group_product_pricelist" options="{'no_open':True,'no_create': True}"/>
+                                    <field name="user_id" widget="many2one_avatar_user"/>
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                </group>                           
+                            </group>
+                        </page>
+                    </notebook>
+                    <separator string="Notes"/>
+                    <field name="notes" placeholder="Notes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hms_emergency_search" model="ir.ui.view">
+        <field name="name">Emergency Search</field>
+        <field name="model">pb.hms.emergency</field>
+        <field name="arch" type="xml">
+            <search string="Search Emergency">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="physician_id"/>
+                <field name="department_id" groups="pb_hms.group_allow_multi_department"/>
+                <field name="ref_physician_id"/>
+                <separator/>
+                <filter name="inprogress" string="In Progress" domain="[('state','!=','done')]"/>
+                <group>
+                     <filter string="Patient" name="patient_groupby" domain="[]" context="{'group_by':'patient_id'}"/>
+                    <filter string="Physician" name="physician_groupby" domain="[]" context="{'group_by':'physician_id'}"/>
+                    <filter string="Date" name="date_groupby" domain="[]" context="{'group_by':'date'}"/>
+                    <filter string="State" name="state_groupby" domain="[]" context="{'group_by':'state'}"/>
+                    <filter string="Department" name="department_groupby" domain="[]" context="{'group_by':'department_id'}"/>
+                    <filter string="Referring physician" name="ref_physician_groupby" domain="[]" context="{'group_by':'ref_physician_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hms_emergency" model="ir.actions.act_window">
+        <field name="name">Emergency</field>
+        <field name="res_model">pb.hms.emergency</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_inprogress': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+            <p>
+                Click to add an Emergency.
+            </p>
+        </field>
+    </record>
+
+</odoo>

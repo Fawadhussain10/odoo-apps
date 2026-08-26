@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hms_appointment_form" model="ir.ui.view"> 
+        <field name="name">hms.appointment.form</field>
+        <field name="model">hms.appointment</field>
+        <field name="inherit_id" ref="pb_hms.view_hms_appointment_form"/>
+        <field name="arch" type="xml">
+
+            <page name="clinical_ass" position="after">
+                <page name="vital_signs" string="Vital Signs &amp; Symptoms" groups="pb_hms_vital_examination.group_hms_vital_examination">
+                    <notebook>
+                        <page name="head_and_neck" string="Head and Neck">
+                            <group col="3">
+                                <group>
+                                    <field name="vs_headaches"/>
+                                    <field name="vs_migraine"/>
+                                    <field name="vs_neck_pain"/>
+                                    <field name="vs_limited_neck_movements"/>
+                                </group>
+                                <group>
+                                    <field name="vs_head_trauma"/>
+                                    <field name="vs_dizziness"/>
+                                    <field name="vs_drowsiness"/>
+                                </group>
+                                <group>
+                                    <field name="vs_headedness"/>
+                                    <field name="vs_enlarged_cervical_ln"/>
+                                    <field name="vs_painful_cervical_ln"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page name="ent" string="ENT">
+                            <group col="3">
+                                <group>
+                                    <field name="vs_earache"/>
+                                    <field name="vs_tinnitus"/>
+                                    <field name="vs_low_hearing_equity"/>
+                                    <field name="vs_clogged_ears"/>
+                                    <field name="vs_lot_of_ear_wax"/>
+                                    <field name="vs_runny_nose"/>
+                                    <field name="vs_blocked_nose"/>
+                                    <field name="vs_stuffy_nose"/>
+                                </group>
+                                <group>
+                                    <field name="vs_epistaxis"/>
+                                    <field name="vs_sneezing"/>
+                                    <field name="vs_sore_throat"/>
+                                    <field name="vs_itching_dry_throat"/>
+                                    <field name="vs_swallowing_pain"/>
+                                    <field name="vs_pharyngitis"/>
+                                    <field name="vs_tonsillitis"/>
+                                    <field name="vs_rhinitis"/>
+                                </group>
+                                <group>
+                                    <field name="vs_sinusitis"/>
+                                    <field name="vs_ear_drum_redness"/>
+                                    <field name="vs_painful_ear_auricle"/>
+                                    <field name="vs_swollen_ear_lobule"/>
+                                    <field name="vs_ear_rash"/>
+                                    <field name="vs_post_nasal_drip"/>
+                                    <field name="vs_vertigo"/>
+                                    <field name="vs_hearing_loss"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page name="eye" string="Eye">
+                            <group col="3">
+                                <group>
+                                    <field name="vs_eye_redness"/>
+                                    <field name="vs_conjunctivitis"/>
+                                    <field name="vs_red_eye_lid"/>
+                                    <field name="vs_swollen_eye_lid"/>
+                                    <field name="vs_eye_lid_pimple"/>
+                                </group>
+                                <group>
+                                    <field name="vs_squint"/>
+                                    <field name="vs_low_visual_equity"/>
+                                    <field name="vs_lacrimation"/>
+                                    <field name="vs_dry_eye"/>
+                                    <field name="vs_itching_eye"/>
+                                </group>
+                                <group>
+                                    <field name="vs_painful_eye"/>
+                                    <field name="vs_eye_secretions"/>
+                                    <field name="vs_swollen_eye"/>
+                                    <field name="vs_eye_skin_color_change"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page name="chest_heart" string="Chest &amp; Heart">
+                            <group col="3">
+                                <group>
+                                   <!--  <field name="vs_chest_pain"/> -->
+                                    <field name="vs_chest_tightness"/>
+                                    <field name="vs_chest_compression"/>
+                                    <field name="vs_shortness_of_breath"/>
+                                    <field name="vs_dyspnea"/>
+                                    <field name="vs_dry_cough"/>
+                                </group>
+                                <group>
+                                    <field name="vs_wet_cough"/>
+                                    <field name="vs_yellow_green_phlegm"/>
+                                    <field name="vs_hemoptysis"/>
+                                    <field name="vs_wheezy_chest"/>
+                                    <field name="vs_chest_crepitation"/>
+                                    <field name="vs_chest_crackles"/>
+                                </group>
+                                <group>
+                                    <field name="vs_chest_deformity"/>
+                                    <field name="vs_palpitations" string="Palpitations"/>
+                                    <field name="vs_heart_murmurs"/>
+                                    <field name="vs_orthopnea"/>
+                                    <field name="vs_cardio_thoracic_scar"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page name="git" string="GIT">
+                            <group col="3">
+                                <group>
+                                    <field name="vs_abdominal_pain"/>
+                                    <field name="vs_epigastric_pain"/>
+                                    <field name="vs_heartburn"/>
+                                    <field name="vs_gastric_regurgitation"/>
+                                    <field name="vs_right_upper_quadrant_pain"/>
+                                    <field name="vs_left_upper_quadrant_pain"/>
+                                </group>
+                                <group>
+                                    <field name="vs_right_lower_quadrant_pain"/>
+                                    <field name="vs_left_lower_quadrant_pain"/>
+                                    <field name="vs_para_umbilical_pain"/>
+                                    <field name="vs_distention"/>
+                                    <field name="vs_nausea"/>
+                                    <field name="vs_vomiting"/>
+                                </group>
+                                <group>
+                                    <field name="vs_diarrhea"/>
+                                    <field name="vs_constipation"/>
+                                    <field name="vs_abdominal_gases"/>
+                                    <field name="vs_abdominal_scar"/>
+                                    <field name="vs_blood_in_stool"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page name="surgery" string="Surgery">
+                            <group col="3">
+                                <group>
+                                    <field name="vs_hemorrhoids"/>
+                                    <field name="vs_anal_fissures"/>
+                                    <field name="vs_gluteal_pimple"/>
+                                    <field name="vs_abscess"/>
+                                </group>
+                                <group>
+                                    <field name="vs_pimples"/>
+                                    <field name="vs_cut_wound"/>
+                                    <field name="vs_surgical_wound"/>
+                                    <field name="vs_bedsores"/>
+                                </group>
+                                <group>
+                                    <field name="vs_diabetic_foot"/>
+                                    <field name="vs_varicose_veins"/>
+                                    <field name="vs_cesarean_section"/>
+                                    <field name="vs_furuncles"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page name="urinary_gynecology" string="Urinary &amp; Gynecology">
+                            <group col="3">
+                                <group>
+                                    <field name="vs_renal_colic"/>
+                                    <field name="vs_loin_pain"/>
+                                    <field name="vs_dysuria"/>
+                                    <field name="vs_frequency"/>
+                                    <field name="vs_urgency"/>
+                                </group>
+                                <group>
+                                    <field name="vs_lower_middle_abdominal_pain"/>
+                                    <field name="vs_dark_urine"/>
+                                    <field name="vs_cutting_urination"/>
+                                    <field name="vs_bloody_urine"/>
+                                </group>
+                                <group>
+                                    <field name="vs_dysmenorrhea"/>
+                                    <field name="vs_hemorrhagia"/>
+                                    <field name="vs_missed_pills"/>
+                                    <field name="vs_irregular_menstruation"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page name="orthopedic_neuro" string="Orthopedic &amp; Neuro">
+                            <group col="3">
+                                <group>
+                                    <field name="vs_fatigue"/>
+                                    <field name="vs_general_weakness"/>
+                                    <field name="vs_low_energy"/>
+                                    <field name="vs_general_body_aches"/>
+                                    <field name="vs_muscle_pain"/>
+                                    <field name="vs_low_back_pain"/>
+                                    <field name="vs_upper_back_pain"/>
+                                    <field name="vs_shoulder_pain"/>
+                                    <field name="vs_lower_limb_pain"/>
+                                    <field name="vs_hip_joint_pain"/>
+                                </group>
+                                <group>
+                                    <field name="vs_knee_joint_pain"/>
+                                    <field name="vs_elbow_joint_pain"/>
+                                    <field name="vs_ankle_joint_pain"/>
+                                    <field name="vs_ankle_twist"/>
+                                    <field name="vs_joint_swelling"/>
+                                    <field name="vs_foot_oedema"/>
+                                    <field name="vs_lowe_limb_oedema"/>
+                                    <field name="vs_numbness"/>
+                                    <field name="vs_tingling"/>
+                                    <field name="vs_paresthesia"/>
+                                </group>
+                                <group>
+                                    <field name="vs_neuropathic_pain"/>
+                                    <field name="vs_weak_reflexes"/>
+                                    <field name="vs_limitation_of_movements"/>
+                                    <field name="vs_psychic_trauma"/>
+                                    <field name="vs_general_anxiety"/>
+                                    <field name="vs_hemiplegia"/>
+                                    <field name="vs_paraplegia"/>
+                                    <field name="vs_quadriplegia"/>
+                                    <field name="vs_depression_red_flag"/>
+                                    <field name="vs_autistic_red_flag"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page name="mouth" string="Mouth">
+                            <group col="3">
+                                <group>
+                                    <field name="vs_mouth_sores"/>
+                                    <field name="vs_tongue_sores"/>
+                                    <field name="vs_oral_blisters"/>
+                                    <field name="vs_white_colored_tongue"/>
+                                    <field name="vs_strawberry_tongue"/>
+                                </group>
+                                <group>
+                                    <field name="vs_geographic_tongue"/>
+                                    <field name="vs_oral_white_patches"/>
+                                    <field name="vs_teething"/>
+                                    <field name="vs_dental_pain"/>
+                                </group>
+                                <group>
+                                    <field name="vs_toothache"/>
+                                    <field name="vs_dental_cares"/>
+                                    <field name="vs_oral_bad_odor"/>
+                                    <field name="vs_mouth_angles_fissures"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page name="skin" string="Skin">
+                            <group col="3">
+                                <group>
+                                    <field name="vs_skin_rash"/>
+                                    <field name="vs_blisters"/>
+                                    <field name="vs_red_patches"/>
+                                    <field name="vs_dry_skin"/>
+                                    <field name="vs_fissured_skin"/>
+                                    <field name="vs_redness"/>
+                                </group>
+                                <group>
+                                    <field name="vs_itching"/>
+                                    <field name="vs_burns"/>
+                                    <field name="vs_scars"/>
+                                    <field name="vs_hair_loss"/>
+                                    <field name="vs_hair_cracking"/>
+                                    <field name="vs_nails_cracking"/>
+                                </group>
+                                <group>
+                                    <field name="vs_nails_fungal_infection"/>
+                                    <field name="vs_over_sweating"/>
+                                    <field name="vs_skin_crackles"/>
+                                    <field name="vs_lips_fissures"/>
+                                    <field name="vs_swollen_lips"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page name="miscellaneous" string="Miscellaneous">
+                            <group col="3">
+                                <group>
+                                    <field name="vs_general_checkup"/>
+                                    <field name="vs_new_born_baby_checkup"/>
+                                    <field name="vs_preschool_checkup"/>
+                                    <field name="vs_laboratory_checkup"/>
+                                </group>
+                                <group>
+                                    <field name="vs_teleconsultation"/>
+                                    <field name="vs_second_opinion_consultation"/>
+                                    <field name="vs_referral_request"/>
+                                </group>
+                                <group>
+                                    <field name="vs_sick_leave_request"/>
+                                    <field name="vs_medical_certificate_request"/>
+                                    <field name="vs_medical_advice_request"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page name="mental_status" string="Mental Status">
+                            <group string="Glasgow Coma Scale">
+                                <group>
+                                    <field name="loc"/>
+                                    <field name="loc_verbal"/>
+                                </group>
+                                <group>
+                                    <field name="loc_eyes"/>
+                                    <field name="loc_motor"/>
+                                </group>
+                            </group>
+                            <group string="Mental Assessment and Impairments">
+                                <group>
+                                    <field name="mood"/>
+                                    <field name="orientation"/>
+                                    <field name="knowledge_current_events"/>
+                                    <field name="abstraction"/>
+                                    <field name="calculation_ability"/>
+                                    <field name="praxis"/>
+                                </group>
+                                <group>
+                                    <field name="violent"/>
+                                    <field name="memory"/>
+                                    <field name="judgment"/>
+                                    <field name="vocabulary"/>
+                                    <field name="object_recognition"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </page>
+
+                <page string="Physical Examination" groups="pb_hms_vital_examination.group_hms_vital_examination" invisible="state == 'draft'">
+                    <group string="Head and Neck">
+                        <group string="Head">
+                            <field name="pe_head_sign_symptoms_of_infection" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_head_symmetry" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Eyes">
+                            <field name="pe_eyes_equal" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_eyes_rlarge" invisible="pe_eyes_equal in ('no', 'na')"/>
+                            <field name="pe_eyes_llarge" invisible="pe_eyes_equal in ('no', 'na')"/>
+
+                            <field name="pe_eyes_reactive_to_light" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_eyes_round" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_eyes_rabnormal" invisible="pe_eyes_round in ('no', 'na')"/>
+                            <field name="pe_eyes_labnormal" invisible="pe_eyes_round in ('no', 'na')"/>
+
+                            <field name="pe_eyes_reaction" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_eyes_rnoreaction" invisible="pe_eyes_reaction in ('na',)"/>
+                            <field name="pe_eyes_lnoreaction" invisible="pe_eyes_reaction in ('na',)"/>
+
+                            <field name="pe_eyes_accomodation" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <group string="Ears">
+                            <field name="pe_ears_symmetry" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_ears_lesion" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_ears_lesion_comment" invisible="pe_ears_lesion in ('na',)"/>
+                            <field name="pe_ears_gross_hearing" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <group string="Nose">
+                            <field name="pe_nose_congestion" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_drainage" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_drainage_comment" invisible="pe_nose_drainage in ('na',)"/>
+                            <field name="pe_nose_smell" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <group string="Mouth/Throat">
+                            <field name="pe_mouth_visual" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_mouth_lesion" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_mouth_lesion_comment" invisible="pe_mouth_lesion in ('na',)"/>
+                            <field name="pe_mouth_missing_teeth" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_odor" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_swallow" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_tracheal_alignment" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_lymp_nodes" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <group string="Skin">
+                            <field name="pe_skin_color" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_skin_temperature" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_skin_lesions" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_skin_lesions_comment" invisible="pe_skin_lesions in ('na',)"/>
+                        </group>
+
+                        <group string="Neck">
+                            <field name="pe_neck_veins" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_neck_visual" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_neck_palpitation" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+
+                    <group string="Chest">
+                        <group>
+                            <field name="pe_chest_movements" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_chest_auscultation" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_chest_breathing_sounds" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+
+                    <group string="CARDIOVASCULAR">
+                        <group string="Skin/Mucous Membrane" colspan="4">
+                            <field name="pe_cardio_membrane" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Pulse">
+                            <field name="pe_pulse_radial" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_pulse_pedal" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_pulse_apical_radial" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_pulse_carotid" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Capillary Refill">
+                            <field name="pe_capillary_refill" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Jugular Vein">
+                            <field name="pe_jugular_vein_visual" string="Visual" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Edema">
+                            <field name="pe_edema_present" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Hearth Rythmn">
+                            <field name="pe_hr_auscultation" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Device">
+                            <field name="pe_device_pacemaker" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_device_pacemaker_comment" invisible="pe_device_pacemaker in ('na',)"/>
+                        </group>
+                    </group>
+
+                    <group string="GIT">
+                        <group string="Abdomen">
+                            <field name="pe_git_shape" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="4-Quadrant">
+                            <field name="pe_git_luq" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="(Auscultation)">
+                            <field name="pe_git_ruq" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_git_llq" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_git_rlq" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Umbilicus">
+                            <field name="pe_git_visual" string="Visual" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Anus">
+                            <field name="pe_git_palpitation" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Bowel">
+                            <field name="pe_git_movements" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+
+                    <group string="NEUROLOGICAL">
+                        <group string="LOC" colspan="4">
+                            <field name="pe_nuerological_alertness" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nuerological_orientation_level" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Cranial Nerve">
+                            <field name="pe_nuerological_sensory" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Pain level">
+                            <field name="pe_nuerological_pain_level" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+
+                    <group string="GENITO URINARY">
+                        <field name="pe_urinary_symptomps" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_urinary_symptomps_comment" invisible="pe_urinary_symptomps in ('na',)"/>
+                        <field name="pe_urinary_discharge" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_urinary_discharge_comment" invisible="pe_urinary_discharge in ('na',)"/>
+                        <field name="pe_urinary_genitalia_male" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_urinary_genitalia_female" string="Genitalia Female" widget="radio" options="{'horizontal': true}"/>
+                    </group>
+
+                    <group string="EXTREMITIES">
+                        <field name="pe_extremities_arms" string="Genitalia Female" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_palmar_creases" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_fingers" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_hips" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_legs" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_feet_position" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_toes" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_back" widget="radio" options="{'horizontal': true}"/>
+                    </group>
+                </page>
+            </page>
+
+        </field>
+    </record>
+
+</odoo>

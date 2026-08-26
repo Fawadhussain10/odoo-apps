@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="report_pb_radiology_test_document_details" inherit_id="pb_radiology.report_pb_radiology_test_document_details">
+        <xpath expr="//div[@id='informations2']" position="inside">
+            <div t-if="doc.hospitalization_id" class="col-auto col-3 mw-100 mb-2">
+                <strong>Hospitalization:</strong>
+                <p class="m-0" t-field="doc.hospitalization_id"/>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

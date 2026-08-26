@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_pb_report_pb_ophthalmology_document">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc.with_context({'lang':doc.patient_id.lang})"/>
+            <div class="page">
+                <div class="text-center" style="margin-top:-50px !important;">
+                    <h3>
+                        <strong>Ophthalmology Report</strong>
+                    </h3>
+                </div>
+
+                <div class="row" style="margin-top:30px !important">
+                    <div class="col-6">
+                        <strong>Patient: </strong>
+                        <span t-field="doc.patient_id.name"/>
+                        <br/>
+                        <strong>Age: </strong>
+                        <span t-field="doc.patient_id.age"/>
+                    </div>
+                    <div class="col-6">
+                        <strong>Doctor: </strong>
+                        <span t-field="doc.physician_id"/>
+                        <br/>
+                        <strong>Disease: </strong>
+                        <t t-foreach="doc.diseases_ids" t-as="diseas">
+                            <span t-esc="diseas_index + 1"/>. <span t-esc="diseas.name"/>
+                        </t>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:20px !important;margin-bottom:8px !important;">
+                    <div class="col-12 text-left">
+                        <h4><u><strong>Refraction</strong></u></h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <para><u><strong>Right Eye</strong></u></para><br/>
+                        <strong>RDVA : </strong><span t-field="doc.rdva"/><br/>
+                        <strong>RDVA Using Pin Hole : </strong><span t-field="doc.rdva_pinhole"/><br/>
+                        <strong>RDVA AID : </strong><span t-field="doc.rdva_aid"/><br/>
+                        <strong>RNV : </strong><span t-field="doc.rnv"/><br/>
+                    </div>
+                    <div class="col-6">
+                        <para><u><strong>Left Eye</strong></u></para><br/>
+                        <strong>RDVA : </strong><span t-field="doc.ldva"/><br/>
+                        <strong>RDVA Using Pin Hole : </strong><span t-field="doc.ldva_pinhole"/><br/>
+                        <strong>RDVA AID : </strong><span t-field="doc.ldva_aid"/><br/>
+                        <strong>RNV : </strong><span t-field="doc.lnv"/><br/>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px !important">
+                    <div class="col-6">
+                        <strong>RSPH : </strong><span t-field="doc.rspherical"/><br/>
+                        <strong>R-CYL : </strong><span t-field="doc.rcylinder"/><br/>
+                        <strong>R-Axis : </strong><span t-field="doc.raxis"/><br/>
+                        <strong>R-NV Add : </strong><span t-field="doc.rnv_add"/><br/>
+                    </div>
+                    <div class="col-6">
+                        <strong>LSPH : </strong><span t-field="doc.lspherical"/><br/>
+                        <strong>L-CYL : </strong><span t-field="doc.lcylinder"/><br/>
+                        <strong>L-Axis : </strong><span t-field="doc.laxis"/><br/>
+                        <strong>L-NV Add : </strong><span t-field="doc.lnv_add"/><br/>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:20px !important;margin-bottom:8px !important;">
+                    <div class="col-12 text-left">
+                        <h4><u><strong>Best Corrected Visual Acuity</strong></u></h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <para><u><strong>Right Eye</strong></u></para><br/>
+                        <strong>R-Corrected SPH : </strong><span t-field="doc.rbcva_spherical"/><br/>
+                        <strong>R-Corrected CYL : </strong><span t-field="doc.rbcva_cylinder"/><br/>
+                        <strong>R-Corrected Axis : </strong><span t-field="doc.rbcva_axis"/><br/>
+                        <strong>RBCVA : </strong><span t-field="doc.rbcva"/><br/>
+                        <strong>R-BCVA - Add : </strong><span t-field="doc.rbcva_nv_add"/><br/>
+                        <strong>RBCVANV : </strong><span t-field="doc.rbcva_nv"/><br/>
+                    </div>
+                    <div class="col-6">
+                        <para><u><strong>Left Eye</strong></u></para><br/>
+                        <strong>L-Corrected SPH : </strong><span t-field="doc.lbcva_spherical"/><br/>
+                        <strong>L-Corrected CYL : </strong><span t-field="doc.lbcva_cylinder"/><br/>
+                        <strong>L-Corrected Axis : </strong><span t-field="doc.lbcva_axis"/><br/>
+                        <strong>LBCVA : </strong><span t-field="doc.lbcva"/><br/>
+                        <strong>L-BCVA - Add : </strong><span t-field="doc.lbcva_nv_add"/><br/>
+                        <strong>LBCVANV : </strong><span t-field="doc.lbcva_nv"/><br/>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:20px !important;margin-bottom:8px !important;">
+                    <div class="col-12 text-left">
+                        <h4><u><strong>Tonometry</strong></u></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <strong>Method : </strong><span t-field="doc.iop_method"/><br/>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px !important">
+                    <div class="col-6">
+                        <strong>RIOP : </strong><span t-field="doc.riop"/><br/>
+                    </div>
+                    <div class="col-6">
+                        <strong>LIOP : </strong><span t-field="doc.liop"/><br/>
+                    </div>
+                </div>
+
+                <br/><br/>
+                <div class="row mt32">
+                    <div class="col-12">
+                        <span>
+                            <u><b>Doctor's Stamp/Signature</b></u>
+                            <br/>
+                            <t t-if="doc.physician_id and doc.physician_id.signature">
+                                <span t-field="doc.physician_id.signature" t-options="{'widget': 'image', 'class': 'img-rounded', 'style':'max-height: 100px !important'}"/>
+                            </t>
+                        </span>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_pb_ophthalmology">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="pb_hms_ophthalmology.report_pb_report_pb_ophthalmology_document" t-lang="doc.patient_id.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="report_pb_medical_advice_id" model="ir.actions.report">
+        <field name="name">Ophthalmology Report</field>
+        <field name="model">pb.ophthalmology.evaluation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pb_hms_ophthalmology.report_pb_ophthalmology</field>
+        <field name="report_file">pb_hms_ophthalmology.report_pb_ophthalmology</field>
+        <field name="print_report_name">(object.name or 'Ophthalmology').replace('/','_')</field>
+        <field name="binding_model_id" ref="model_pb_ophthalmology_evaluation"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

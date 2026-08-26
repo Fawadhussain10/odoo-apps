@@ -1,0 +1,3793 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_vital_examination
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-14 06:05+0000\n"
+"PO-Revision-Date: 2022-03-14 06:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_nose_lymp_nodes
+msgid ""
+" A small bean-shaped structure that is part of the body's immune system."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_varicose_veins
+msgid ""
+" A vein that has enlarged and twisted, often appearing as a bulging, blue "
+"blood vessel that is clearly visible through the skin."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_urinary_discharge
+msgid ""
+" Discharge can be normal or a sign of disease. Discharge also means release "
+"of a patient from care."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_eyes_accomodation
+msgid ""
+" In medicine, the ability of the eye to change its focus from distant to "
+"near objects."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_nose_drainage
+msgid ""
+" In medicine, to remove fluid as it collects; or, a tube or wick-like device"
+" used to remove fluid from a body cavity, wound, or infected area."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_hair_loss
+msgid ""
+" Loss of hair as a result of illness, functional disorder, or hereditary "
+"disposition."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_general_checkup
+msgid " a medical examination to test your general state of health"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_head_symmetry
+msgid ""
+" correspondence in size, shape, and relative position of parts on opposite "
+"sides of a dividing line or median plane or about a center or axis — see "
+"bilateral symmetry, radial symmetry."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_capillary_refill
+msgid "(<3 Sec)"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "(Auscultation)"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "4-Quadrant"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_neck_veins
+msgid ""
+"A blood vessel that carries blood that is low in oxygen content from the "
+"body back to the heart."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_chest_deformity
+msgid ""
+"A chest wall deformity is a structural abnormality of the chest that can "
+"range from mild to severe."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_blisters
+msgid "A collection of fluid underneath the top layer of skin (epidermis)."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_missed_pills
+msgid ""
+"A combination pill is “missed” if you do not take it for 24 or more hours "
+"after you were supposed to. In other words, you've only technically missed a"
+" pill, if it's been more than 48 hours since your last active pill."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_extremities_palmar_creases
+msgid "A crease or line on the palm. Supplement."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_cut_wound
+msgid ""
+"A cut is a break or opening in the skin. It is also called a laceration. A "
+"cut may be deep, smooth, or jagged. It may be near the surface of the skin, "
+"or deeper."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_extremities_fingers
+msgid ""
+"A finger is a limb of the human body and a type of digit, an organ of "
+"manipulation and sensation found in the hands of humans and other primates."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_abscess
+msgid "A local accumulation of pus anywhere in the body."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_medical_certificate_request
+msgid ""
+"A medical certificate or doctor's certificate is a written statement from a "
+"physician or another medically qualified health care provider which attests "
+"to the result of a medical examination of a patient."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_laboratory_checkup
+msgid ""
+"A medical procedure that involves testing a sample of blood, urine, or other"
+" substance from the body."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_migraine
+msgid ""
+"A migraine is a headache that can cause severe throbbing pain or a pulsing "
+"sensation, usually on one side of the head. It is often accompanied by "
+"nausea, vomiting, and extreme sensitivity to light and sound."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_dry_cough
+msgid ""
+"A nonproductive cough, also known as a dry cough, doesn't produce phlegm or "
+"mucus."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_device_pacemaker_comment
+msgid ""
+"A pacemaker is a small device that's placed (implanted) in your chest to "
+"help control your heartbeat."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_headaches
+msgid ""
+"A painful sensation in any part of the head, ranging from sharp to dull, "
+"that may occur with other symptoms."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_palpitations
+msgid ""
+"A sensation that the heart is racing, pounding, fluttering or skipping a "
+"beat, often bothersome, but hardly ever a sign of heart disease."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_skin_lesions
+msgid ""
+"A skin lesion is a part of the skin that has an abnormal growth or "
+"appearance compared to the skin around it."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_nails_cracking
+msgid ""
+"A split nail is usually caused by physical stress, nutrient deficiency, or "
+"wear and tear. Split nails can be a problem, especially if you work with "
+"your hands."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_squint
+msgid ""
+"A squint, also called strabismus, is where the eyes point in different "
+"directions."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_sneezing
+msgid "A sudden blast of air or mucus expelled from the mouth and nose."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_vertigo
+msgid ""
+"A sudden internal or external spinning sensation, often triggered by moving "
+"your head too quickly."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_urinary_symptomps_comment
+msgid ""
+"A symptom is a manifestation of disease apparent to the patient himself, "
+"while a sign is a manifestation of disease that the physician perceives."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_head_sign_symptoms_of_infection
+msgid ""
+"A symptom is a manifestation of disease apparent to the patient himself, "
+"while a sign is a manifestation of disease that the physician perceives. The"
+" sign is objective evidence of disease; a symptom, subjective."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_wet_cough
+msgid ""
+"A wet cough, also known as a productive cough, is any cough that produces "
+"mucus (phlegm). It may feel like you have something stuck in your chest or "
+"the back of your throat."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_referral_request
+msgid ""
+"A written order from your primary care doctor for you to see a specialist or"
+" get certain medical services."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Abdomen"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_abdominal_gases
+msgid "Abdominal Gases"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_abdominal_pain
+msgid "Abdominal Pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_abdominal_scar
+msgid ""
+"Abdominal adhesions are scar tissue that forms between abdominal tissues and"
+" organs that causes your tissues and organs to stick together."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_abdominal_pain
+msgid ""
+"Abdominal pain can be referred to as visceral pain or peritoneal pain. The "
+"contents of the abdomen can be divided into the foregut, midgut, and "
+"hindgut."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_abdominal_scar
+msgid "Abdominal scar"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_ears_gross_hearing__abnormal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_ears_symmetry__abnormal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_head_symmetry__abnormal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_odor__abnormal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_smell__abnormal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_swallow__abnormal
+msgid "Abnormal"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_motor__3
+msgid "Abnormal flexion to painful stimuli decerebrate response"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_abscess
+msgid "Abscess"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_llq__absent
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_luq__absent
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_rlq__absent
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_ruq__absent
+msgid "Absent"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__abstraction
+msgid "Abstraction"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_eyes_accomodation
+msgid "Accomodation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_depression_red_flag
+msgid ""
+"Aches and pains – Experiencing headaches, muscle pain or stomach aches for "
+"no reason."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_llq__active
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_luq__active
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_rlq__active
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_ruq__active
+msgid "Active"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_alertness__alert
+msgid "Alert"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nuerological_alertness
+msgid "Alertness"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_nuerological_alertness
+msgid ""
+"Alertness is the state of active attention by high sensory awareness such as"
+" being watchful and prompt to meet danger or emergency, or being quick to "
+"perceive and act."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_red_eye_lid
+msgid ""
+"Allergies, infections, and even crying can cause your eyelids to redden."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_dizziness
+msgid ""
+"Altered sense of balance and place, possibly described as lightheaded, "
+"feeling faint or as if head is spinning."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_genitalia_female__ambiguous
+msgid "Ambiguous"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_nose_congestion
+msgid ""
+"An abnormal or excessive accumulation of a body fluid. The term is used "
+"broadly in medicine."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_anal_fissures
+msgid ""
+"An anal fissure is a small tear in the thin, moist tissue (mucosa) that "
+"lines the anus."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_surgical_wound
+msgid ""
+"An incision is a cut through the skin that is made during surgery. It is "
+"also called a surgical wound."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_ankle_twist
+msgid ""
+"An injury that occurs when the ankle rolls, twists or turns in an awkward "
+"way."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_anal_fissures
+msgid "Anal fissures"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_mouth_angles_fissures
+msgid ""
+"Angular cheilitis is a condition that causes red, swollen patches in the "
+"corners of your mouth where your lips meet and make an angle.Other names for"
+" it are perleche and angular stomatitis."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_ankle_joint_pain
+msgid "Ankle joint pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_ankle_joint_pain
+msgid ""
+"Ankle pain can have causes that aren't due to underlying disease. Examples "
+"include poorly fitting footwear such as ski boots, high heels, sprains, "
+"strains, overuse, lack of use or trauma."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_ankle_twist
+msgid "Ankle twist"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Anus"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_git_palpitation
+msgid "Anus Palpitation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_pulse_apical_radial
+msgid "Apical-Radial"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_general_weakness
+msgid ""
+"Asthenia, also known as weakness, is the feeling of body fatigue or "
+"tiredness. A person experiencing weakness may not be able to move a certain "
+"part of their body properly."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_movements__asymmetrical
+msgid "Asymmetrical"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_hr_auscultation
+msgid ""
+"Auscultation is listening to the sounds of the body during a physical "
+"examination."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_autistic_red_flag
+msgid "Autistic red flag"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_alertness__awake
+msgid "Awake"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_extremities_back
+msgid "Back"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_bedsores
+msgid "Bedsores"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_bedsores
+msgid ""
+"Bedsores are ulcers that happen on areas of the skin that are under pressure"
+" from lying in bed, sitting in a wheelchair, or wearing a cast for a "
+"prolonged time."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_chest_crepitation
+msgid ""
+"Bibasilar crackles are a bubbling or crackling sound originating from the "
+"base of the lungs. They may occur when the lungs inflate or deflate."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_chest_crackles
+msgid "Bibasilar crackles are abnormal sounds from the base of the lungs."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_visual__bleeding
+msgid "Bleeding"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_epistaxis
+msgid ""
+"Bleeding from the nose, either spontaneous or induced by nose picking or "
+"trauma."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_blisters
+msgid "Blisters"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_blocked_nose
+msgid "Blocked Nose"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_blood_in_stool
+msgid "Blood in stool"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_bloody_urine
+msgid ""
+"Blood in the urine may range from very obvious to microscopic and not "
+"visible at all."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_bloody_urine
+msgid "Bloody urine"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Bowel"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_git_movements
+msgid "Bowel Movements"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_head_trauma
+msgid ""
+"Brain dysfunction caused by an outside force, usually a violent blow to the "
+"head."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_chest_breathing_sounds
+msgid "Breathing Sounds"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_reaction__brisk
+msgid "Brisk"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_carotid__bruit
+msgid "Bruit"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_burns
+msgid "Burns"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_burns
+msgid ""
+"Burns are tissue damage that results from heat, overexposure to the sun or "
+"other radiation, or chemical or electrical contact."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "CARDIOVASCULAR"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__calculation_ability
+msgid "Calculation Ability"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Capillary Refill"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_cardio_thoracic_scar
+msgid "Cardio-thoracic scar"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_pulse_carotid
+msgid "Carotid"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_cesarean_section
+msgid ""
+"Cesarean delivery (C-section) is a surgical procedure used to deliver a baby"
+" through incisions in the abdomen and uterus."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_cesarean_section
+msgid "Cesarean section"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Chest"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Chest & Heart"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_palpitations
+msgid "Chest & Heart Palpitations"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_chest_auscultation
+msgid "Chest Auscultation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_chest_movements
+msgid "Chest Movements"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_chest_compression
+msgid "Chest compression"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_chest_compression
+msgid ""
+"Chest compression is the act of applying pressure to someone's chest in "
+"order to help blood flow through the heart in an emergency situation. Give "
+"one breath of mouth-to-mouth resuscitation, followed by five chest "
+"compressions."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_chest_crackles
+msgid "Chest crackles"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_chest_crepitation
+msgid "Chest crepitation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_chest_deformity
+msgid "Chest deformity"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_chest_movements
+msgid ""
+"Chest expansion on inspiration should be the same or similar on each breath."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_chest_tightness
+msgid "Chest tightness"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_chest_tightness
+msgid ""
+"Chest tightness describes any discomfort that occurs between your lower neck"
+" and upper belly area. Tightness in the chest may be felt all over the chest"
+" area or located in one spot or several spots in the chest. Chest tightness "
+"can occur in any age group."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_constipation
+msgid ""
+"Chronic constipation is infrequent bowel movements or difficult passage of "
+"stools that persists for several weeks or longer."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_clogged_ears
+msgid "Clogged Ears"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_feet_position__clubbed
+msgid "Clubbed"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_skin_temperature__cold
+msgid "Cold to Touch"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_neck_visual__cold
+msgid "Cold to touch"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_skin_color
+msgid "Color/Moisture"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_alertness__coma
+msgid "Coma"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_alertness__confused
+msgid "Confused"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_verbal__4
+msgid "Confused,disoriented"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nose_congestion
+msgid "Congestion"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_conjunctivitis
+msgid "Conjunctivitis"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_constipation
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_movements__constipation
+msgid "Constipation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_dysmenorrhea
+msgid ""
+"Cramps and pelvic pain with menstruation, with common causes such as heavy "
+"flow, passing clots, uterine fibroids or endometriosis."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Cranial Nerve"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_skin_crackles
+msgid ""
+"Crepitus is grating, crackling or popping sounds and sensations experienced "
+"under the skin and joints or a crackling sensation due to the presence of "
+"air in the subcutaneous tissue."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_auscultation__cripitation
+msgid "Cripitation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_cut_wound
+msgid "Cut wound"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_cutting_urination
+msgid "Cutting urination"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_cardio_membrane__cyanotic
+msgid "Cyanotic"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_eye_skin_color_change
+msgid ""
+"Dark eyelids occur when the skin surrounding the upper eye region darkens in"
+" color."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_dark_urine
+msgid "Dark urine"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_alertness__decerebrate
+msgid "Decerebrate"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_alertness__decorticate
+msgid "Decorticate"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_capillary_refill__delayed
+msgid "Delayed"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_dental_cares
+msgid "Dental cares"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_dental_cares
+msgid ""
+"Dental caries or cavities, more commonly known as tooth decay, are caused by"
+" a breakdown of the tooth enamel."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_dental_pain
+msgid "Dental pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_dental_pain
+msgid ""
+"Dental pain, also known as Toothache, is pain in the teeth or their "
+"supporting structures, caused by dental diseases or pain referred to the "
+"teeth by non-dental diseases."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_depression_red_flag
+msgid "Depression red flag"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_breathing_sounds__depth
+msgid "Depth"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Device"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_diabetic_foot
+msgid "Diabetic foot"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_diabetic_foot
+msgid ""
+"Diabetic foot is a condition in which foot ulcers form on patients with "
+"diabetes. People with diabetic foot ulcers (DFUs) have a decreased quality "
+"of life and an 8% higher incidence of needing a lower extremity amputation "
+"(LEA) in the future."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_cardio_membrane__diaphoretic
+msgid "Diaphoretic"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_diarrhea
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_movements__diarrhea
+msgid "Diarrhea"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_ear_rash
+msgid ""
+"Different skin conditions, such as contact dermatitis and psoriasis, can "
+"cause rashes to appear behind the ears."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_shortness_of_breath
+msgid "Difficult or laboured breathing."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_urinary_discharge
+msgid "Discharge"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_urinary_discharge_comment
+msgid "Discharge Describe"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__mood__d
+msgid "Disgust"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_hips__dislocatable
+msgid "Dislocatable"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_hips__dislocated
+msgid "Dislocated"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_shape__distended
+msgid "Distended"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_distention
+msgid "Distention"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_dizziness
+msgid "Dizziness"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_eyes__1
+msgid "Does not Open Eyes"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nose_drainage
+msgid "Drainage"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nose_drainage_comment
+msgid "Drainage Describe"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_drowsiness
+msgid "Drowsiness"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_neck_veins__dry
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_skin_color__dry
+msgid "Dry"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_dry_cough
+msgid "Dry Cough"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_dry_eye
+msgid "Dry eye"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_dry_eye
+msgid ""
+"Dry eye that occurs when tears are not able to provide adequate moisture."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_dry_skin
+msgid "Dry skin"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_dry_skin
+msgid ""
+"Dry skin occurs when your skin loses too much water and oil. Dry skin is "
+"common and can affect anyone at any age. The medical term for dry skin is "
+"xerosis."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_itching_dry_throat
+msgid ""
+"Dry throat is a rough, scratchy, sometimes itchy feeling in the throat."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_dysmenorrhea
+msgid "Dysmenorrhea"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_dyspnea
+msgid "Dyspnea"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_dyspnea
+msgid ""
+"Dyspnea, also called shortness of breath, is a tight feeling in your chest "
+"where you may not be able to take a deep breath."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_dysuria
+msgid "Dysuria"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_dysuria
+msgid "Dysuria means you feel pain or a burning sensation when you pee."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "ENT"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "EXTREMITIES"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_ears_lesion
+msgid "Ear Lesion"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_ears_lesion_comment
+msgid "Ear Lesion Describe"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_ear_drum_redness
+msgid "Ear drum redness"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_clogged_ears
+msgid "Ear pain can have causes that are't due to underlying disease."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_ear_rash
+msgid "Ear rash"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_earache
+msgid "Earache"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Ears"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Edema"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_hr_auscultation
+msgid "Edema Auscultation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_elbow_joint_pain
+msgid "Elbow joint pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_elbow_joint_pain
+msgid ""
+"Elbow pain can have causes that aren't due to underlying disease. Examples "
+"include prolonged pressure or leaning on elbows, trying a new exercise such "
+"as tennis, local trauma, desk work, sprains or strains."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_enlarged_cervical_ln
+msgid "Enlarged Cervical LN"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_epigastric_pain
+msgid "Epigastric pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_epigastric_pain
+msgid ""
+"Epigastric pain is a name for pain or discomfort right below your ribs in "
+"the area of your upper abdomen."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_epistaxis
+msgid "Epistaxis"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_eyes_equal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_breathing_sounds__equal
+msgid "Equal"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_ears_symmetry
+msgid ""
+"Equality or correspondence in form of parts distributed around a center or "
+"an axis, at the extremities or poles, or on the opposite sides of any body."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__mood__e
+msgid "Euphoria"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_orientation_level__event
+msgid "Event"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_lower_middle_abdominal_pain
+msgid ""
+"Everyone experiences abdominal pain from time to time. Other terms used to "
+"describe abdominal pain are stomachache, tummy ache, gut ache and bellyache."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_runny_nose
+msgid ""
+"Excess drainage, ranging from a clear fluid to thick mucus, from the nose "
+"and nasal passages."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_motor__2
+msgid "Extension to painful stimuli decerebrate response"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_fingers__extra_fingers
+msgid "Extra Fingers"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_extremities_arms
+msgid "Extremities Genitalia Female"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Eye"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_eye_secretions
+msgid ""
+"Eye discharge primarily consists of thin, watery mucus produced by the "
+"conjunctiva (called mucin), and meibum — an oily substance secreted by the "
+"meibomian glands which helps keep your eyes lubricated between blinks."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_painful_eye
+msgid "Eye pain can have causes that are not due to underlying disease."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_eye_redness
+msgid "Eye redness"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_eye_redness
+msgid ""
+"Eye redness from irritated or inflamed blood vessels on the surface of the "
+"white part of the eye, commonly called bloodshot eyes."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_eye_secretions
+msgid "Eye secretions"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_eye_skin_color_change
+msgid "Eye skin color change"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_eye_lid_pimple
+msgid "Eyelid pimple"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_swollen_eye_lid
+msgid ""
+"Eyelid swelling is the enlargement of either or both the lower and upper "
+"eyelids, on one or both eyes."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Eyes"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_hr_auscultation__faint
+msgid "Faint"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_fatigue
+msgid "Fatigue"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_low_energy
+msgid "Fatigue is a feeling of weariness, tiredness, or lack of energy"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__mood__f
+msgid "Fear"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_headedness
+msgid "Feeling dizzy or about to pass out."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_fatigue
+msgid ""
+"Feeling overtired, with low energy and a strong desire to sleep that "
+"interferes with normal daily activities."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_extremities_feet_position
+msgid "Feet position"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_extremities_fingers
+msgid "Fingers"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_fissured_skin
+msgid "Fissured skin"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_visual__flare
+msgid "Flare"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_cardio_membrane__flashed
+msgid "Flashed"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__mood__fl
+msgid "Flat"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_motor__4
+msgid "Flexion/Withdrawal to painful stimuli "
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_foot_oedema
+msgid "Foot oedema"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_arms__fracture
+msgid "Fracture"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_frequency
+msgid "Frequency"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_furuncles
+msgid "Furuncles"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "GENITO URINARY"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "GIT"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_gastric_regurgitation
+msgid "Gastric regurgitation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_gastric_regurgitation
+msgid ""
+"Gastroesophageal reflux disease (GERD) occurs when stomach acid frequently "
+"flows back into the tube connecting your mouth and stomach."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_general_anxiety
+msgid "General anxiety"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_general_body_aches
+msgid "General body aches"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_general_checkup
+msgid "General checkup"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_general_weakness
+msgid "General weakness"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_general_anxiety
+msgid ""
+"Generalized anxiety is a mental disorder in which a person is often worried "
+"or anxious about many things and finds it hard to control this anxiety."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Genitalia Female"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_urinary_genitalia_male
+msgid "Genitalia Male"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_geographic_tongue
+msgid "Geographic tongue"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_geographic_tongue
+msgid ""
+"Geographic tongue results from the loss of tiny hairlike projections "
+"(papillae) on your tongue's surface."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__loc_eyes
+msgid "Glasgow - Eyes"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__loc_motor
+msgid "Glasgow - Motor"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__loc_verbal
+msgid "Glasgow - Verbal"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Glasgow Coma Scale"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_gluteal_pimple
+msgid "Gluteal pimple"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_ears_gross_hearing
+msgid "Gross Hearing"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_medical_advice_request
+msgid ""
+"Guidance or recommendations from a doctor, nurse, or other healthcare "
+"professional regarding a person's health or fitness. 'seek medical advice in"
+" the event of further symptoms'"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_hair_cracking
+msgid "Hair cracking"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_hair_loss
+msgid "Hair loss"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_oral_bad_odor
+msgid ""
+"Halitosis is an oral health problem where the main symptom is bad smelling "
+"breath."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__mood__h
+msgid "Happy"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Head"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_head_trauma
+msgid "Head Trauma"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Head and Neck"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_headaches
+msgid "Headache"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_headedness
+msgid "Headedness"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_hearing_loss
+msgid "Hearing loss"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_low_hearing_equity
+msgid ""
+"Hearing loss is common as we age but hearing aid use, the primary approach "
+"to managing hearing loss, is not. Nationally, only about 15-20% of older "
+"adults with hearing loss use hearing aids."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_heart_murmurs
+msgid "Heart murmurs"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_heartburn
+msgid "Heartburn"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_heartburn
+msgid ""
+"Heartburn is a symptom of a common medical condition (GERD) that affects up "
+"to 20% of the population."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Hearth Rythmn"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_blood_in_stool
+msgid ""
+"Hematochezia and melena both refer to having blood in your stool. While "
+"hematochezia causes bright red blood to appear in or around your stool, "
+"melena causes dark stools that often feel sticky."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_hemiplegia
+msgid "Hemiplegia"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_hemiplegia
+msgid ""
+"Hemiplegia (sometimes called hemiparesis) is a condition, caused by a brain "
+"injury, that results in a varying degree of weakness, stiffness (spasticity)"
+" and lack of control in one side of the body."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_hemoptysis
+msgid "Hemoptysis"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_hemorrhagia
+msgid "Hemorrhagia"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_hemorrhoids
+msgid "Hemorrhoids (HEM-uh-roids), also called piles."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_hemorrhoids
+msgid "Hemorrhoids(Piles)"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_low_visual_equity
+msgid ""
+"Here is one definition of low vision, related to visual acuity: Low vision "
+"is a condition caused by eye disease."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_genitalia_male__hernia
+msgid "Hernia"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_hip_joint_pain
+msgid "Hip joint pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_extremities_hips
+msgid "Hips"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_llq__hyper
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_luq__hyper
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_rlq__hyper
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_ruq__hyper
+msgid "Hyper"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_over_sweating
+msgid ""
+"Hyperhidrosis is a medical condition in which a person sweats excessively "
+"and unpredictably."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_auscultation__hyperinflation
+msgid "Hyperinflation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_genitalia_male__hypospadias
+msgid "Hypospadias"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_limited_neck_movements
+msgid ""
+"Impaired or limited neck flexion has a variety of causes and usually "
+"involves actions that require you to look down often."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_palpitation__imperforate
+msgid "Imperforate"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_second_opinion_consultation
+msgid ""
+"In medicine, the opinion of a doctor other than the patient's current "
+"doctor. ... A second opinion may confirm or question the first doctor's "
+"diagnosis and treatment plan, give more information about the patient's "
+"disease or condition, and offer other treatment options."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_verbal__2
+msgid "Incomprehensible Sounds"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_tongue_sores
+msgid "Inflammation of the tongue is medically known as glossitis."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_conjunctivitis
+msgid ""
+"Inflammation or infection of the outer membrane of the eyeball and the inner"
+" eyelid."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_mouth_visual__intact
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_sensory__intact
+msgid "Intact"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_abdominal_gases
+msgid ""
+"Intestinal gas, a buildup of air in the digestive tract, is usually not "
+"noticed until you burp or pass it rectally."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_hr_auscultation__irregular
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_lymp_nodes__irregular
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_tracheal_alignment__irregular
+msgid "Irregular"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_irregular_menstruation
+msgid "Irregular menstruation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_rhinitis
+msgid "Irritation and swelling of the mucous membrane in the nose."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_itching
+msgid "Itching"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_itching_dry_throat
+msgid "Itching Dry Throat"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_itching_eye
+msgid "Itching eye"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_itching
+msgid ""
+"Itching is medically known as pruritis; something that is itchy is pruritic."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_cardio_membrane__jaundice
+msgid "Jaundice"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_joint_swelling
+msgid "Joint swelling"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__judgment
+msgid "Jugdment"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Jugular Vein"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_jugular_vein_visual
+msgid "Jugular Vein Visual"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_knee_joint_pain
+msgid "Knee joint pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__knowledge_current_events
+msgid "Knowledge of Current Events"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_pedal__labsent
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_radial__labsent
+msgid "L Absent"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_eyes_lnoreaction
+msgid "L No Reaction"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_pedal__lpalpable
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_radial__lpalpable
+msgid "L Palpable"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_eyes_labnormal
+msgid "L abnormal shape"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_eyes_llarge
+msgid "L larger"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_git_llq
+msgid "LLQ"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_git_llq
+msgid ""
+"LLQ: Left lower quadrant (quarter). For example, the LLQ of the abdomen "
+"contains the descending portion of the colon."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "LOC"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_git_luq
+msgid "LUQ"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_laboratory_checkup
+msgid "Laboratory checkup"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_lacrimation
+msgid "Lacrimation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_accomodation__left
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_carotid__left
+msgid "Left"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_left_lower_quadrant_pain
+msgid ""
+"Left lower quadrant (RUQ) pain is a common complaint that typically "
+"stimulates a workup of the hepatobiliary system."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_left_lower_quadrant_pain
+msgid "Left lower quadrant pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_git_luq
+msgid ""
+"Left upper quadrant (LUQ) pain means pain in the left upper abdominal "
+"region."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_left_upper_quadrant_pain
+msgid ""
+"Left upper quadrant (RUQ) pain is a common complaint that typically "
+"stimulates a workup of the hepatobiliary system."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_left_upper_quadrant_pain
+msgid "Left upper quadrant pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_extremities_legs
+msgid "Legs"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_alertness__lethargic
+msgid "Lethargic"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_oral_white_patches
+msgid ""
+"Leukoplakia appears as thick, white patches on the inside surfaces of your "
+"mouth. It has a number of possible causes, including repeated injury or "
+"irritation."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__loc
+msgid "Level of Consciousness"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__loc
+msgid ""
+"Level of consciousness (LOC) is a medical term for identifying how awake, "
+"alert, and aware of their surroundings someone is."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_limitation_of_movements
+msgid "Limitation of movements"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_limited_neck_movements
+msgid "Limited Neck Movements"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_lips_fissures
+msgid "Lips fissures"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_motor__5
+msgid "Localizes painful stimuli"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_loin_pain
+msgid "Loin pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_lot_of_ear_wax
+msgid "Lot Of EarWax"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_pain_level__low
+msgid "Low"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_low_hearing_equity
+msgid "Low Hearing Equity"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_low_back_pain
+msgid "Low back pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_low_back_pain
+msgid ""
+"Low back pain (LBP) or lumbago is a common disorder involving the muscles, "
+"nerves, and bones of the back. Pain can vary from a dull constant ache to a "
+"sudden sharp feeling."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_low_energy
+msgid "Low energy"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_low_visual_equity
+msgid "Low visual equity"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_lowe_limb_oedema
+msgid ""
+"Lower limb edema is a common and challenging diagnostic problem often with a"
+" significant impact. It is defined as swelling caused by an increase in "
+"interstitial fluid that exceeds the capacity of physiologic lymphatic "
+"drainage."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_lowe_limb_oedema
+msgid "Lower limb oedema"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_lower_limb_pain
+msgid "Lower limb pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_lower_middle_abdominal_pain
+msgid "Lower middle abdominal pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nose_lymp_nodes
+msgid "Lymp Nodes"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_motor__1
+msgid "Make no movement"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_verbal__1
+msgid "Make no sounds"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_mouth_visual
+msgid ""
+"Medical Terminology Ophthalm/o = Eye Ophthalm/o = Eye Ophthalm/o = Eye Opt/o"
+" = Vision."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_medical_advice_request
+msgid "Medical advice request"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_medical_certificate_request
+msgid "Medical certificate request"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_skin_rash
+msgid "Medically, a rash is referred to as an exanthem."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__memory
+msgid "Memory"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_back__meningocele
+msgid "Meningocele"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Mental Assessment and Impairments"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Mental Status"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_migraine
+msgid "Migraine"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Miscellaneous"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_missed_pills
+msgid "Missed pills"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_irregular_menstruation
+msgid "Missed, delayed or erratic periods or abnormal bleeding patterns."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_mouth_missing_teeth
+msgid "Missing Teeth/Dentures"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_visual__moist
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_mouth_visual__moist
+msgid "Moist"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__mood
+msgid "Mood"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_eye_lid_pimple
+msgid "Most bumps on the eyelid are styes."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_lower_limb_pain
+msgid ""
+"Most leg pain results from wear and tear, overuse, or injuries in joints or "
+"bones or in muscles, ligaments, tendons or other soft tissues."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Mouth"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_mouth_lesion
+msgid "Mouth Lesion"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_mouth_lesion_comment
+msgid "Mouth Lesion Describe"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_mouth_angles_fissures
+msgid "Mouth angles fissures"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_mouth_sores
+msgid "Mouth sores"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_oral_blisters
+msgid ""
+"Mouth ulcers — also known as canker sores — are normally small, painful "
+"lesions that develop in your mouth or at the base of your gums."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Mouth/Throat"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_hr_auscultation__muffled
+msgid "Muffled"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_hr_auscultation__murmur
+msgid "Murmur"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_muscle_pain
+msgid "Muscle pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_capillary_refill__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_cardio_membrane__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_auscultation__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_breathing_sounds__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_movements__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_device_pacemaker__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_ears_gross_hearing__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_ears_lesion__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_ears_symmetry__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_edema_present__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_arms__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_back__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_feet_position__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_fingers__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_hips__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_legs__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_palmar_creases__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_toes__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_accomodation__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_equal__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_reaction__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_reactive_to_light__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_round__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_llq__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_luq__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_movements__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_palpitation__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_rlq__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_ruq__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_shape__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_visual__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_head_sign_symptoms_of_infection__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_head_symmetry__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_hr_auscultation__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_jugular_vein_visual__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_mouth_lesion__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_mouth_missing_teeth__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_mouth_visual__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_neck_palpitation__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_neck_veins__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_neck_visual__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_congestion__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_drainage__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_lymp_nodes__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_odor__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_smell__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_swallow__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_tracheal_alignment__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_alertness__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_orientation_level__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_pain_level__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_sensory__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_apical_radial__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_carotid__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_pedal__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_radial__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_skin_color__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_skin_lesions__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_skin_temperature__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_discharge__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_genitalia_female__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_genitalia_male__na
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_symptomps__na
+msgid "N/A"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "NEUROLOGICAL"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_device_pacemaker__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_ears_lesion__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_equal__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_reactive_to_light__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_round__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_head_sign_symptoms_of_infection__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_mouth_lesion__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_mouth_missing_teeth__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_neck_palpitation__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_congestion__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_drainage__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_skin_lesions__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_discharge__no
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_symptomps__no
+msgid "NO"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_nails_cracking
+msgid "Nails cracking"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_nails_fungal_infection
+msgid "Nails fungal infection"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_blocked_nose
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_stuffy_nose
+msgid ""
+"Nasal passages swollen with excess fluid and mucus, may be triggered by "
+"infection, tobacco smoke or perfume."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_nausea
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_movements__nausea
+msgid "Nausea"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Neck"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_neck_pain
+msgid "Neck Pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_neck_palpitation
+msgid "Neck Palpitation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_neck_visual
+msgid "Neck Visual"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_neuropathic_pain
+msgid "Neuropathic pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_neuropathic_pain
+msgid ""
+"Neuropathic pain can happen if your nervous system is damaged or not working"
+" correctly."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_new_born_baby_checkup
+msgid "New born baby checkup"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_sensory__non_intact
+msgid "Non-intact"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_edema_present__non_pitting
+msgid "Non-pitting"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__mood__n
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_capillary_refill__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_auscultation__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_ears_gross_hearing__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_ears_symmetry__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_arms__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_back__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_feet_position__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_fingers__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_hips__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_legs__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_palmar_creases__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_toes__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_shape__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_visual__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_head_symmetry__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_neck_veins__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_odor__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_smell__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_swallow__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_pain_level__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_apical_radial__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_skin_color__normal
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_genitalia_female__normal
+msgid "Normal"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Nose"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_arms__not_moving
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_legs__not_moving
+msgid "Not Moving"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_jugular_vein_visual__not_visible
+msgid "Not Visible"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nuerological_pain_level
+msgid "Nuerological Pain Level"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_numbness
+msgid "Numbness"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_numbness
+msgid "Numbness is a loss of feeling or sensation in an area of the body."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_motor__6
+msgid "Obeys commands"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__object_recognition
+msgid "Object Recognition"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_alertness__obtumded
+msgid "Obtumded"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nose_odor
+msgid "Odor"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_mouth_sores
+msgid ""
+"One or more painful sores on inner lips, gums, tongue, roof of the mouth or "
+"throat that may interfere with eating, such as a canker sore."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_eyes__2
+msgid "Opens eyes in response to painful stimuli"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_eyes__3
+msgid "Opens eyes in response to voice"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_eyes__4
+msgid "Opens eyes spontaneously"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_oral_bad_odor
+msgid "Oral bad odor"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_oral_blisters
+msgid "Oral blisters"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_mouth_lesion
+msgid ""
+"Oral lesions are mouth ulcers or sores, which may be painful. They can "
+"include abnormal cell growth and rare tongue and hard-palate (roof of mouth)"
+" disorders."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_oral_white_patches
+msgid "Oral white patches"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__orientation
+msgid "Orientation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nuerological_orientation_level
+msgid "Orientation Level"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__orientation
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_nuerological_orientation_level
+msgid ""
+"Orientation is something healthcare providers check when screening for "
+"dementia and evaluating cognitive abilities."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_verbal__5
+msgid "Oriented, converses normally"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Orthopedic & Neuro"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_orthopnea
+msgid "Orthopnea"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_orthopnea
+msgid ""
+"Orthopnea is a shortness of breath that affects a person when they are lying"
+" down but subsides in other positions, such as standing or sitting up."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_ear_drum_redness
+msgid ""
+"Otitis externa is a condition that causes inflammation (redness and "
+"swelling) of the external ear canal, which is the tube between the outer ear"
+" and eardrum."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_painful_ear_auricle
+msgid ""
+"Outer ear pain can most commonly be caused by environmental conditions such "
+"as water exposure or extreme cold weather that can lead to frostbite of the "
+"outer ear."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_over_sweating
+msgid "Over sweating"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_device_pacemaker
+msgid "Pacemaker"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_device_pacemaker_comment
+msgid "Pacemaker Describe"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_knee_joint_pain
+msgid ""
+"Pain in or around the knee that may indicate a condition affecting the knee "
+"joint itself or the soft tissue around the knee."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_earache
+msgid ""
+"Pain in the inner or outer ear that may interfere with ability to hear, "
+"often caused by excess fluid and infection."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_neck_pain
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_painful_cervical_ln
+msgid ""
+"Pain in the neck and shoulder that varies in intensity, and may feel achy or"
+" like an electric shock from the neck to the arm."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Pain level"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_pharyngitis
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_sore_throat
+msgid ""
+"Pain or irritation in the throat that can occur with or without swallowing, "
+"often accompanies infections, such as a cold or flu."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_swallowing_pain
+msgid "Pain when swallowing food or liquids."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_painful_cervical_ln
+msgid "Painful cervical LN"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_painful_ear_auricle
+msgid "Painful ear auricle"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_painful_eye
+msgid "Painful eye"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_cardio_membrane__pale
+msgid "Pale"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_extremities_palmar_creases
+msgid "Palmar Creases"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Palpitations"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_para_umbilical_pain
+msgid "Para-umbilical pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_paraplegia
+msgid ""
+"Paralysis of the lower half of your body, including both legs, is called "
+"paraplegia. Paralysis of the arms and legs is quadriplegia."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_paraplegia
+msgid "Paraplegia"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_paresthesia
+msgid "Paresthesia"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_paresthesia
+msgid ""
+"Paresthesia is numbness or a burning feeling that occurs most often in the "
+"extremities, such as the hands, arms, legs, or feet, but that can happen "
+"elsewhere in the body as well. It is the same “pins and needles” feeling "
+"that happens when someone sits on their leg or foot for too long."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_palpitation__patent
+msgid "Patent"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_pulse_pedal
+msgid "Pedal"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_lot_of_ear_wax
+msgid ""
+"People who produce a lot of earwax are more likely to have an earwax "
+"blockage and impaction, which is where the wax gets pushed deep inside the "
+"ear canal."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_para_umbilical_pain
+msgid ""
+"Periumbilical pain is a type of abdominal pain that is localized in the "
+"region around or behind your belly button."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_orientation_level__person
+msgid "Person"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_pulse_carotid
+msgid ""
+"Pertaining to the carotid artery and the area near that key artery, which is"
+" located in the front of the neck."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_pharyngitis
+msgid "Pharyngitis"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_yellow_green_phlegm
+msgid ""
+"Phlegm is a type of mucus made in your chest. You typically don’t produce "
+"noticeable amounts of phlegm unless you are sick with a cold or have some "
+"other underlying medical issue."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Physical Examination"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_hip_joint_pain
+msgid "Physical discomfort in the hip, which varies from mild to severe."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_shoulder_pain
+msgid ""
+"Physical discomfort of the shoulder, including the joint itself or the "
+"muscles, tendons and ligaments that support the joint."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_pimples
+msgid "Pimples"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_cardio_membrane__pink
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_mouth_visual__pink
+msgid "Pink"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_edema_present__pitting
+msgid "Pitting"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_orientation_level__place
+msgid "Place"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_fingers__polydactyl
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_toes__polydactyl
+msgid "Polydactyl"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__symptom_proctorrhagia
+msgid "Polyphagia"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_feet_position__positional_deformity
+msgid "Positional Deformity"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_post_nasal_drip
+msgid "Postnasal drip"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__praxis
+msgid "Praxis"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__praxis
+msgid ""
+"Praxis is the medical term for motor planning and dyspraxia is the inability"
+" to plan movement. ... Motor planning is a three step process where a child "
+"is required to: Conceive or imagine a task (Ideation)"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_preschool_checkup
+msgid "Preschool checkup"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_edema_present
+msgid "Present"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_psychic_trauma
+msgid "Psychic trauma"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Pulse"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_apical_radial__pulse_deficit
+msgid "Pulse Deficit"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_quadriplegia
+msgid "Quadriplegia"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_pedal__rabsent
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_radial__rabsent
+msgid "R Absent"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_eyes_rnoreaction
+msgid "R No Reaction"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_pedal__rpalpable
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_radial__rpalpable
+msgid "R Palpable"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_eyes_rabnormal
+msgid "R abnormal shape"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_eyes_rlarge
+msgid "R larger"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_git_rlq
+msgid "RLQ"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_git_ruq
+msgid "RUQ"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_git_ruq
+msgid "RUQ: Right upper quadrant, the upper-right quarter of the abdomen."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_pulse_radial
+msgid "Radial"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__mood__r
+msgid "Rage"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_eyes_reaction
+msgid "Reaction"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_eyes_reactive_to_light
+msgid "Reactive to light"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_red_eye_lid
+msgid "Red eyelid"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_red_patches
+msgid "Red patches"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_redness
+msgid "Redness"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_redness
+msgid ""
+"Redness of the skin that results from capillary congestion. Erythema can "
+"occur with inflammation, as in sunburn and allergic reactions to drugs."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_referral_request
+msgid "Referral request"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_hr_auscultation__regular
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_lymp_nodes__regular
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_tracheal_alignment__regular
+msgid "Regular"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_renal_colic
+msgid "Renal colic"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_renal_colic
+msgid ""
+"Renal colic is a type of pain you get when urinary stones block part of your"
+" urinary tract."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_orientation_level__touch_voice
+msgid "Response to touch and voice"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_rhinitis
+msgid "Rhinitis"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_accomodation__right
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_carotid__right
+msgid "Right"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_git_rlq
+msgid ""
+"Right lower quadrant (RLQ) pain is tummy (abdominal) pain that is mainly in "
+"the lower half on the right-hand side."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_right_lower_quadrant_pain
+msgid ""
+"Right lower quadrant (RUQ) pain is a common complaint that typically "
+"stimulates a workup of the hepatobiliary system."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_right_lower_quadrant_pain
+msgid "Right lower quadrant pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_right_upper_quadrant_pain
+msgid ""
+"Right upper quadrant (RUQ) pain is a common complaint that typically "
+"stimulates a workup of the hepatobiliary system."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_right_upper_quadrant_pain
+msgid "Right upper quadrant pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_tinnitus
+msgid ""
+"Ringing or buzzing noise in one or both ears that may be constant or come "
+"and go, often associated with hearing loss."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_eyes_round
+msgid "Round"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_cardio_membrane__ruddy
+msgid "Ruddy"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_runny_nose
+msgid "Runny Nose"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_back__sacral_dimple
+msgid "Sacral Dimple"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__mood__s
+msgid "Sad"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_shape__scaphoid
+msgid "Scaphoid"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_scars
+msgid "Scars"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_back__scoliosis
+msgid "Scoliosis"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_second_opinion_consultation
+msgid "Second opinion consultation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_post_nasal_drip
+msgid ""
+"Secretions from the nose that drain down into the throat, causing congestion"
+" and cough. Postnasal drip is usually caused by allergies or the common "
+"cold."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_nuerological_sensory
+msgid ""
+"Sensory level is defined as the lowest spinal cord level that still has "
+"normal pinprick and touch sensation."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nuerological_sensory
+msgid "Sensory/Motor"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_pain_level__severe
+msgid "Severe"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_movements__shallow
+msgid "Shallow"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_git_shape
+msgid "Shape"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_head_symmetry
+msgid "Shape/Symmetry"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_shortness_of_breath
+msgid "Shortness of breath"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_shoulder_pain
+msgid "Shoulder pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_sick_leave_request
+msgid "Sick leave request"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_urinary_symptomps
+msgid "Signs and Symptoms of Infection"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_urinary_symptomps_comment
+msgid "Signs and Symptoms of Infection Describe"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_head_sign_symptoms_of_infection
+msgid "Signs and Symptoms of infection"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_palmar_creases__single_crease
+msgid "Single Crease"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_sinusitis
+msgid "Sinusitis"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_sinusitis
+msgid ""
+"Sinusitis is an inflammation of the sinuses that can cause them to get "
+"blocked and filled with fluid. It is usually caused by cold or allergies."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Skin"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_skin_lesions_comment
+msgid "Skin Lesion Describe"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_skin_lesions
+msgid "Skin Lesions"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_skin_crackles
+msgid "Skin crackles"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_fissured_skin
+msgid ""
+"Skin fissures are cracks in the skin that form due to intense dryness and "
+"thickened skin."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_skin_rash
+msgid "Skin rash"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Skin/Mucous Membrane"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_cardio_membrane
+msgid "Skin/Mucous membrane"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_reaction__sluggish
+msgid "Sluggish"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_hemoptysis
+msgid ""
+"Small amounts of blood mixed with sputum (or more seriously, large amounts "
+"of bright red blood) brought up by a forceful cough."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nose_smell
+msgid "Smell"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_sneezing
+msgid "Sneezing"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_sore_throat
+msgid "Sore throat"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_heart_murmurs
+msgid ""
+"Sound of blood flowing through the heart, due to anything from healthy heart"
+" exertion during exercise to a diseased heart valve or other abnormality."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_squint
+msgid "Squint"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_nausea
+msgid ""
+"Stomach queasiness, the urge to vomit. Nausea can be brought on by many "
+"causes, including systemic illnesses, medications, pain, and inner ear "
+"disease."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_strawberry_tongue
+msgid "Strawberry tongue"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_drowsiness
+msgid "Strong desire for sleep and feeling of drowsiness."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_stuffy_nose
+msgid "Stuffy Nose"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Surgery"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_surgical_wound
+msgid "Surgical wound"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nose_swallow
+msgid "Swallow"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_swallowing_pain
+msgid "Swallowing pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_swollen_ear_lobule
+msgid "Swelling can have causes that aren not due to underlying disease. "
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_swollen_ear_lobule
+msgid "Swollen ear lobule"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_swollen_eye
+msgid "Swollen eye"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_swollen_eye_lid
+msgid "Swollen eyelid"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_swollen_lips
+msgid "Swollen lips"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_movements__symmetrical
+msgid "Symmetrical"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_ears_symmetry
+msgid "Symmetry"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_fingers__syndactyl
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_toes__syndactyl
+msgid "Syndactyl"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_new_born_baby_checkup
+msgid ""
+"Taking your baby for regular medical checkups can help keep your baby "
+"healthy. "
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_lacrimation
+msgid ""
+"Tears are a clear liquid secreted by the lacrimal glands found in the eyes "
+"of all land mammals."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_teething
+msgid "Teething"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_teething
+msgid ""
+"Teething is the emergence of the primary (baby) teeth through a baby or "
+"child's gums."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_teleconsultation
+msgid "Teleconsultation"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_teleconsultation
+msgid ""
+"Teleconsultation, sometimes referred to as remote consultation or "
+"telehealth, refers to interactions that happen between a clinician and a "
+"patient for the purpose of providing diagnostic or therapeutic advice "
+"through electronic means."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_skin_temperature
+msgid "Temperature"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_shape__tender
+msgid "Tender"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_genitalia_male__testes_descended
+msgid "Testes Descended"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__memory
+msgid "The ability to recover information about past events or knowledge."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_vomiting
+msgid ""
+"The act of vomiting is also called emesis. From the Indo-European root wem- "
+"(to vomit), the source of the words such as emetic and wamble."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_pulse_apical_radial
+msgid ""
+"The apical pulse is a pulse site on the left side of the chest over the "
+"pointed end, or apex, of the heart."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_scars
+msgid ""
+"The fibrous tissue replacing normal tissues destroyed by injury or disease. "
+"Sometimes called cicatrix."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_urinary_genitalia_male
+msgid "The genital organs of the male."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_ears_lesion
+msgid ""
+"The lesions are erythematous, scaly patches or plaques with irregular "
+"borders which can occur anywhere on the skin."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_muscle_pain
+msgid ""
+"The medical term for muscle pain is myalgia. Myalgia can be described as "
+"muscle pains, aches, and pain associated with ligaments, tendons, and the "
+"soft tissues that connect bones, organs, and muscles."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_cardio_membrane
+msgid ""
+"The moist, inner lining of some organs and body cavities (such as the nose, "
+"mouth, lungs, and stomach)."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_swollen_eye
+msgid ""
+"The most common cause of eyelid swelling is allergies, either by direct "
+"contact with the allergen or from a systemic allergic reaction."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_itching_eye
+msgid ""
+"The most common cause of itchy eyes is an allergy. Itchy eyes can be "
+"triggered by exposure to pollen, animal fur, mould, dust mites, make-up or "
+"eye drops"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_frequency
+msgid ""
+"The number of occurrences of a periodic or recurrent process in a unit of "
+"time, such as the number of electrical cycles per second measured in hertz."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_hemorrhagia
+msgid ""
+"The release of blood from a broken blood vessel, either inside or outside "
+"the body."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_limitation_of_movements
+msgid ""
+"The restriction of movement or range of motion of a part or joint, esp. that"
+" imposed by disease or trauma to joints and soft tissues."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_nose_smell
+msgid "The sense of smell or the act of smelling."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_distention
+msgid ""
+"The state of being distended, enlarged, swollen from internal pressure. For "
+"example, on inhalation there is distention of the lungs due to the increased"
+" air pressure within the lungs"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_nose_tracheal_alignment
+msgid ""
+"The trachea is one of the most important parts of the respiratory system and"
+" damage to the trachea can indicate a life-threatening emergency."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_nuerological_pain_level
+msgid ""
+"These pain intensity levels may be assessed upon initial treatment, or "
+"periodically after treatment."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_enlarged_cervical_ln
+msgid ""
+"This article looks at the symptoms and causes of swollen lymph nodes in your"
+" neck."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_eyes_reactive_to_light
+msgid ""
+"This condition is called anisocoria and may be harmless. But it can also be "
+"a sign that you have a serious health issue in your brain, blood vessels, or"
+" nerves."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_dark_urine
+msgid ""
+"This condition is called rhabdomyolysis, and it can turn your urine brown. "
+"If you have brown urine because of rhabdo, you might also notice: Muscle "
+"pain. Muscle weakness."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_pimples
+msgid "This is the medical term for acne, or pimples."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_pulse_carotid__thrill
+msgid "Thrill"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nuerological_orientation_level__time
+msgid "Time"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_tingling
+msgid "Tingling"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_tingling
+msgid ""
+"Tingling (paresthesia) is an unusual sensation most commonly felt in your "
+"hands, feet, arms and legs"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_tinnitus
+msgid "Tinnitus"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_edema_present
+msgid ""
+"To appear or be felt first during birth. Used of the part of the fetus that "
+"proceeds first through the birth canal."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_extremities_toes
+msgid "Toes"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_extremities_toes
+msgid ""
+"Toes are the digits of the foot. The toe refers to part of the human foot, "
+"with five toes present on each human foot."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_tongue_sores
+msgid "Tongue sores"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_tonsillitis
+msgid "Tonsillitis"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_tonsillitis
+msgid ""
+"Tonsillitis is inflammation of the tonsils, two oval-shaped pads of tissue "
+"at the back of the throat — one tonsil on each side."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_toothache
+msgid "Toothache"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_toothache
+msgid ""
+"Toothache, also known as dental pain, is pain in the teeth or their "
+"supporting structures, caused by dental diseases or pain referred to the "
+"teeth by non-dental diseases."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_hearing_loss
+msgid "Total or significant loss of hearing."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_nose_tracheal_alignment
+msgid "Tracheal Alignment"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_extremities_back__tuft_of_hair
+msgid "Tuft of Hair"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Umbilicus"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_git_visual
+msgid "Umbilicus Visual"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_genitalia_male__undescended
+msgid "Undescended"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_upper_back_pain
+msgid "Upper back pain"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_upper_back_pain
+msgid ""
+"Upper back pain occurs in the thoracic spine, which is often described as "
+"the upper back, middle back, or mid-back."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_urgency
+msgid "Urgency"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_urgency
+msgid "Urgency is an abrupt, strong, often overwhelming, need to urinate."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Urinary & Gynecology"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_urinary_genitalia_female
+msgid "Urinary Genitalia Female"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__loc_verbal__3
+msgid "Utters inappropriate words"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_varicose_veins
+msgid "Varicose veins"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_neck_veins
+msgid "Veins"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_vertigo
+msgid "Vertigo"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__violent
+msgid "Violent Behaviour"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_jugular_vein_visual__visible
+msgid "Visible"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__pe_mouth_visual
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Visual"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_vital_examination.view_hms_appointment_form
+msgid "Vital Signs & Symptoms"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:res.groups,name:pb_hms_vital_examination.group_hms_vital_examination
+msgid "Vital Signs and Physical Examination"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vocabulary
+msgid "Vocabulary"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_vomiting
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_git_movements__vomiting
+msgid "Vomiting"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_skin_temperature__warm
+msgid "Warm to Touch"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_neck_visual__warm
+msgid "Warm to touch"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_weak_reflexes
+msgid "Weak reflexes"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_wet_cough
+msgid "Wet cough"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_gluteal_pimple
+msgid ""
+"What people refer to as butt acne is typically a different condition. The "
+"medical term is folliculitis. Folliculitis affects the hair follicles rather"
+" than the pores of the skin."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_chest_auscultation__wheeze
+msgid "Wheeze"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_wheezy_chest
+msgid ""
+"Wheezing is usually caused by an obstruction (blockage) or narrowing of the "
+"small bronchial tubes in the chest."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_wheezy_chest
+msgid "Wheezy chest"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_weak_reflexes
+msgid ""
+"When reflex responses are absent this could be a clue that the spinal cord, "
+"nerve root, peripheral nerve, or muscle has been damaged."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_white_colored_tongue
+msgid "White colored tongue"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_white_colored_tongue
+msgid ""
+"White tongue is the result of an overgrowth and swelling of the fingerlike "
+"projections (papillae) on the surface of your tongue."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_device_pacemaker__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_ears_lesion__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_equal__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_reactive_to_light__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_eyes_round__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_head_sign_symptoms_of_infection__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_mouth_lesion__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_mouth_missing_teeth__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_neck_palpitation__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_congestion__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_nose_drainage__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_skin_lesions__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_discharge__yes
+#: model:ir.model.fields.selection,name:pb_hms_vital_examination.selection__hms_appointment__pe_urinary_symptomps__yes
+msgid "YES"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,field_description:pb_hms_vital_examination.field_hms_appointment__vs_yellow_green_phlegm
+msgid "Yellow, green phlegm"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__mood
+msgid "a conscious state of mind or predominant emotion."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_device_pacemaker
+msgid ""
+"a group of cells or a body part that serves to establish and maintain a "
+"rhythmic activity."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_nose_odor
+msgid "a quality of something that stimulates the olfactory organ : smell."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_strawberry_tongue
+msgid ""
+"a tongue that is red from swollen congested papillae and that occurs "
+"especially in scarlet fever and Kawasaki disease."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_sick_leave_request
+msgid "an absence from work permitted because of illness."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_pulse_radial
+msgid "arranged or having parts arranged like rays."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__symptom_proctorrhagia
+msgid "excessive appetite or eating."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_eyes_equal
+msgid ""
+"he pupils are in the center of the iris, which is the colored part of your "
+"eye. They control how much light enters the eye by shrinking and widening. "
+"Equal."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_joint_swelling
+msgid ""
+"joints swelling happen when there's an increase of fluid in the tissues that"
+" surround the joints. Joint swelling is common with different types of "
+"arthritis, infections, and injuries."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_diarrhea
+msgid ""
+"loose, watery and possibly more-frequent bowel movements — is a common "
+"problem."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__object_recognition
+msgid ""
+"object recognition - the visual perception of familiar objects. beholding, "
+"seeing, visual perception - perception by means of the eyes."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_pulse_pedal
+msgid "pertaining to the foot or feet."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_psychic_trauma
+msgid ""
+"psychic trauma a psychologically upsetting experience that produces an "
+"emotional or mental disorder or otherwise has lasting negative effects on a "
+"person's thoughts, feelings, or behavior."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_cardio_thoracic_scar
+msgid ""
+"relating to, involving, or specializing in the heart and chest "
+"cardiothoracic surgery."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_foot_oedema
+msgid "standing or sitting in the same position for too long."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_hair_cracking
+msgid "stress fracture. (redirected from Hairline crack)"
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_nose_swallow
+msgid ""
+"swallowing, also called Deglutition, the act of passing food from the mouth,"
+" by way of the pharynx (or throat) and esophagus, to the stomach."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__judgment
+msgid ""
+"the ability to make logical, rational decisions and decide whether a given "
+"action is right or wrong."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_chest_auscultation
+msgid ""
+"the act of listening to sounds arising within organs (as the lungs or heart)"
+" as an aid to diagnosis and treatment."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__pe_git_visual
+msgid ""
+"the depression in the center of the surface of the abdomen indicating the "
+"point of attachment of the umbilical cord to the embryo; navel."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__abstraction
+msgid ""
+"the mental process of forming ideas that are theoretical or representational"
+" rather than concrete."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_loin_pain
+msgid "which is a medical term for blood in the urine."
+msgstr ""
+
+#. module: pb_hms_vital_examination
+#: model:ir.model.fields,help:pb_hms_vital_examination.field_hms_appointment__vs_furuncles
+msgid ""
+"“Furuncle” is another word for a “boil.” Boils are bacterial infections of "
+"hair follicles that also involve the surrounding tissue."
+msgstr ""

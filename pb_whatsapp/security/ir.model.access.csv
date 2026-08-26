@@ -1,0 +1,13 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_pb_whatsapp,access_pb_whatsapp,model_pb_whatsapp_message,,1,1,1,0
+access_pb_whatsapp_user,access_pb_whatsapp_user,model_pb_whatsapp_message,pb_whatsapp.group_whatsapp_user,1,1,1,0
+access_pb_whatsapp_manager,access_pb_whatsapp_manager,model_pb_whatsapp_message,pb_whatsapp.group_whatsapp_manager,1,1,1,1
+access_pb_whatsapp_template,access_pb_whatsapp_template,model_pb_whatsapp_template,,1,0,0,0
+access_pb_whatsapp_template_user,access_pb_whatsapp_template_user,model_pb_whatsapp_template,pb_whatsapp.group_whatsapp_user,1,1,1,0
+access_pb_whatsapp_template_manager,access_pb_whatsapp_template_manager,model_pb_whatsapp_template,pb_whatsapp.group_whatsapp_manager,1,1,1,1
+pb_whatsapp_announcement,pb_whatsapp_announcement,model_pb_whatsapp_announcement,,1,0,0,0
+pb_whatsapp_announcement_user,pb_whatsapp_announcement_user,model_pb_whatsapp_announcement,pb_whatsapp.group_whatsapp_user,1,1,1,0
+pb_whatsapp_announcement_manager,pb_whatsapp_announcement_manager,model_pb_whatsapp_announcement,pb_whatsapp.group_whatsapp_manager,1,1,1,1
+
+access_pb_send_whatsapp,access_pb_send_whatsapp,model_pb_send_whatsapp,base.group_user,1,1,1,1
+access_pb_whatsapp_history,access_pb_whatsapp_history,model_pb_whatsapp_history,base.group_user,1,1,1,1

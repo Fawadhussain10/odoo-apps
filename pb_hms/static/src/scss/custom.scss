@@ -1,0 +1,29 @@
+.o_kanban_dashboard.o_pb_hms_kanban {
+    .o_kanban_record {
+
+    }
+
+    &.o_kanban_ungrouped {
+        .o_kanban_record {
+            width: 99%;
+            height: auto;
+        }
+    }
+}
+
+.o_pb_dashboard_graph > canvas {
+  height: 200px;
+}
+.o_pb_dashboard_graph > canvas g.nv-x.nv-axis {
+  transform: translateY(175px);
+}
+
+#pb_hms_dashboard {
+  min-width: 99%;
+  text-align: center;
+}
+
+.pb_graph_linechart {
+    display: block;
+    height: 350px;
+}

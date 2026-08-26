@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <!-- Commission Role-->
+    <record id="view_pb_commission_role_tree" model="ir.ui.view">
+        <field name="name">pb.commission.role.tree</field>
+        <field name="model">pb.commission.role</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pb_commission_role_form" model="ir.ui.view">
+        <field name="name">pb.commission.role.form</field>
+        <field name="model">pb.commission.role</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <field name="commission_rule_ids" context="{'default_rule_type': 'role'}">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="rule_type" invisible="1"/>
+                            <field name="role_id" invisible="1"/>
+                            <field name="rule_on"/>
+                            <field name="product_category_id" invisible="rule_on != 'product_category'" required="rule_on == 'product_category'"/>
+                            <field name="product_id" invisible="rule_on != 'product'" required="rule_on == 'product'"/>
+                            <field name="type"/>
+                            <field name="percentage" invisible="type != 'percentage'" required="type == 'percentage'"/>
+                            <field name="amount" invisible="type != 'amount'" required="type == 'amount'"/>
+                        </list>
+                    </field>
+
+                    <separator string="Target Rules"/>
+                    <field name="commission_target_rule_ids" context="{'default_rule_type': 'role'}">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="rule_type" invisible="1"/>
+                            <field name="role_id" invisible="1"/>
+                            <field name="target_amount"/>
+                            <field name="percentage"/>
+                            <field name="description"/>
+                        </list>
+                    </field>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pb_commission_role" model="ir.actions.act_window">
+        <field name="name">Commission Role</field>
+        <field name="res_model">pb.commission.role</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Click to add a new Commission Role.
+            </p>
+        </field>
+    </record>
+
+    <!-- Commission Rules-->
+    <record id="view_pb_commission_rule_form" model="ir.ui.view">
+        <field name="name">pb.commission.rule.form</field>
+        <field name="model">pb.commission.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="rule_type"/>
+                            <field name="role_id" invisible="rule_type != 'role'" required="rule_type == 'role'"/>
+                            <field name="user_id" invisible="rule_type != 'user'"/>
+                            <field name="partner_id" invisible="rule_type != 'user'"/>
+                        </group>
+                        <group>
+                            <field name="rule_on"/>
+                            <field name="product_category_id" invisible="rule_on != 'product_category'" required="rule_on == 'product_category'"/>
+                            <field name="product_id" invisible="rule_on != 'product'" required="rule_on == 'product'"/>
+                            <field name="percentage"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Commission -->
+    <record id="pb_commission_search_view" model="ir.ui.view">
+        <field name="name">pb.commission.search</field>
+        <field name="model">pb.commission</field>
+        <field name="arch" type="xml">
+            <search string="Business Commission">
+                <field name="name" string="Business Commissions"/>
+                <field name="partner_id" string="Customer"/>
+                <field name="commission_sheet_id"/>
+                <filter name="not_invoiced" string="Not Invoiced" domain="[('invoice_line_id','=',False)]"/>
+                <separator/>
+                <group>
+                    <filter name="group_by_partner" string="Customer" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter name="group_by_state" string="State" domain="[]" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="pb_commission_form_view" model="ir.ui.view">
+        <field name="name">pb.commission.form</field>
+        <field name="model">pb.commission</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_done" string="Done" type="object" class="btn-primary" invisible="state not in ('draft',)"/>
+                    <button name="action_draft" string="Set to Draft" type="object" invisible="state not in ('cancel', 'done')"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft',)"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Business Commission"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="commission_on"/>
+                            <field name="commission_amount"/>
+                            <field name="payable_amount"/>
+                            <field name="invoice_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="commission_sheet_id"/>
+                            <field name="invoice_line_id"/>
+                            <field name="payment_invoice_id"/>
+                            <field name="payment_status"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="note"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="pb_commission_list_view" model="ir.ui.view">
+        <field name="name">pb.commission.list</field>
+        <field name="model">pb.commission</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="Business Commissions" decoration-info="state=='draft'" decoration-muted="state=='canceled'" decoration-warning="target_based_commission and payable_amount &lt;commission_amount" decoration-danger="target_based_commission and not payable_amount">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="invoice_partner_id"/>
+                <field name="commission_on"/>
+                <field name="commission_amount"/>
+                <field name="payable_amount"/>
+                <field name="commission_sheet_id"/>
+                <field name="state"/>
+                <field name="invoice_id"/>
+                <field name="payment_invoice_id"/>
+                <field name="payment_status"/>
+                <field name="target_based_commission" optional="hide"/>
+                <field name="invoice_journal_id" optional="hide"/>
+                <field name="payment_invoice_journal_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="pb_commission_action" model="ir.actions.act_window">
+        <field name="name">Business Commission</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pb.commission</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+            <p>
+                Click to add new Business Commission.
+            </p>
+        </field>
+    </record>
+
+</odoo>

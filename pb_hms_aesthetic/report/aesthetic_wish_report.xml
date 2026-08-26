@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_pb_aestheticwish_document">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc.with_context({'lang':doc.patient_id.lang})"/>
+            <div class="page">
+                <div class="oe_structure"/>
+
+                <div class="row mb32 mt32">
+                    <div class="col-12 text-center">
+                        <h3>
+                            <strong>
+                                <span>Aesthetic Patient Wish: </span>
+                                <span t-field="doc.name"/>
+                            </strong>
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="row mt32 mb16" id="informations">
+                    <div t-if="doc.patient_id" class="col-3 mb-2">
+                        <strong>Patient</strong>
+                        <p class="m-0" t-field="doc.patient_id"/>
+                    </div>
+                    <div t-if="doc.physician_id" class="col-3 mb-2">
+                        <strong>Doctor</strong>
+                        <p class="m-0" t-field="doc.physician_id"/>
+                    </div>
+                    <div t-if="doc.date" class="col-3 mb-2">
+                        <strong>Date</strong>
+                        <p class="m-0" t-field="doc.date"/>
+                    </div>
+                </div>
+
+                <t t-call="pb_hms_aesthetic.aestheticwish_fields">
+                    <t t-set="record" t-value="doc"/>
+                    <t t-set="body_treatment_product_ids" t-value="doc.sudo().body_treatment_product_ids"/>
+                    <t t-set="body_nutrition_product_ids" t-value="doc.sudo().body_nutrition_product_ids"/>
+                    <t t-set="body_upkeep_product_ids" t-value="doc.sudo().body_upkeep_product_ids"/>
+                    <t t-set="facial_treatment_product_ids" t-value="doc.sudo().facial_treatment_product_ids"/>
+                    <t t-set="facial_nutrition_product_ids" t-value="doc.sudo().facial_nutrition_product_ids"/>
+                    <t t-set="facial_upkeep_product_ids" t-value="doc.sudo().facial_upkeep_product_ids"/>
+                </t>
+
+                <br/><br/><br/>
+                <p t-if="doc.physician_id">
+                    <b>Doctor’s Stamp/Signature</b>
+                    <br/>
+                    <t t-if="doc.physician_id and doc.physician_id.signature">
+                        <span t-field="doc.physician_id.signature" t-options="{'widget': 'image', 'class': 'img-rounded', 'style':'max-width: 200px !important'}"/>
+                    </t>
+                </p>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_pb_aestheticwish">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="pb_hms_aesthetic.report_pb_aestheticwish_document" t-lang="doc.patient_id.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_aestheticwish_report" model="ir.actions.report">
+        <field name="name">Aesthetic Wish</field>
+        <field name="model">pb.aesthetic.patient.wish</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pb_hms_aesthetic.report_pb_aestheticwish</field>
+        <field name="report_file">pb_hms_aesthetic.report_pb_aestheticwish</field>
+        <field name="binding_model_id" ref="model_pb_aesthetic_patient_wish"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

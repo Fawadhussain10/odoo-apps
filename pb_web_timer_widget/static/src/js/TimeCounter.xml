@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pb_web_timer_widget.PbTimeCounter" owl="1">
+        <span><t t-esc="duration"/></span>
+    </t>
+</templates>

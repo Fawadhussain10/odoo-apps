@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pb_commission,pb.commission,model_pb_commission,,1,0,0,0
+access_pb_commission_sheet,pb.commission.sheet,model_pb_commission_sheet,,1,0,0,0
+access_pb_commission_role,pb.commission.role,model_pb_commission_role,,1,0,0,0
+access_pb_commission_rule,pb.commission.rule,model_pb_commission_rule,,1,0,0,0
+access_pb_commission_target_rule,access_pb_commission_target_rule,model_pb_commission_target_rule,,1,0,0,0
+access_pb_commission_account_user,pb.commission.manager,model_pb_commission,account.group_account_invoice,1,1,1,0
+access_pb_commission_user,pb.commission.user,model_pb_commission,pb_commission.group_pb_commission_user,1,1,1,1
+access_pb_commission_role_user,pb.commission.role,model_pb_commission_role,pb_commission.group_pb_commission_user,1,1,1,1
+access_pb_commission_rule_user,pb.commission.rule,model_pb_commission_rule,pb_commission.group_pb_commission_user,1,1,1,1
+access_pb_commission_target_rule_user,access_pb_commission_target_rule,model_pb_commission_target_rule,pb_commission.group_pb_commission_user,1,1,1,1
+access_pb_commission_sheet_user,pb.commission.sheet,model_pb_commission_sheet,pb_commission.group_pb_commission_user,1,1,1,1
+access_commission_bill,access_commission_bill,model_commission_bill,account.group_account_invoice,1,1,1,1

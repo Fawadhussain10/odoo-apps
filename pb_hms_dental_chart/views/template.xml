@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- No data -->
+    <template id="pb_no_details" name="Patient Detail">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <div class="container mt64">
+                    <center>
+                        <h2>No Related Details Available. Please check check it again.</h2>
+                    </center>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Hide header and footer -->
+    <template id="pb_dental_procedure_layout" name="Dental Procedure layout" inherit_id="portal.frontend_layout">
+        <xpath expr="//header" position="attributes">
+            <attribute name="t-attf-class" add="#{'d-none o_snippet_invisible' if pb_header_invisible else ''}" separator=" "/>
+        </xpath>
+        <xpath expr="//footer[@id='bottom']" position="attributes">
+            <attribute name="t-attf-class" add="#{'d-none o_snippet_invisible' if pb_footer_invisible else ''}" separator=" "/>
+        </xpath>
+    </template>
+
+    <!-- Hide website editing header line -->
+    <!-- <template id="pb_user_navbar" name="Dental Procedure layout" inherit_id="website.user_navbar">
+        <xpath expr="//nav[@id='oe_main_menu_navbar']" position="attributes">
+            <attribute name="t-attf-class" add="#{'d-none o_snippet_invisible' if pb_header_invisible else 'o_main_navbar'}" separator=" "/>
+        </xpath>
+
+        <xpath expr="//t[@t-set='html_data']" position="after">
+            <t t-if="pb_header_invisible">
+                <t t-set="body_classname" t-value="'pb_header_invisible'"/>
+            </t>
+        </xpath>
+    </template> -->
+
+    <!-- Teeth Chart -->
+    <template id="pb_teeth_rendering">
+        <div class="col-12">
+            <t t-foreach="teeths" t-as="tooth">
+                <t t-value="pb_teeth_json_data.get(str(tooth.id))" t-set="patient_tooth_data"/>
+                <div class="pb_tooth_div float-start">
+                    <t t-if="lower_teeth_set=='1'">
+                        <div class="text-center up">
+                            <span t-field="tooth.fdi_code" class="pb_fdi_code"/>
+                        </div>
+                    </t>
+                    <input type="radio" name="tooth_id" class="sr-only pb_tooth" t-att-id="tooth.id" t-att-value="tooth.id" t-att-data-tooth-id="tooth.id"/>
+                    <label t-att-for="tooth.id" class="ml4 pb_tooth_label">
+                        <t t-if="patient_tooth_data and patient_tooth_data.get('tooth_is_removed')">
+                        </t>
+                        <t t-else="">
+                            <t t-if="patient_tooth_data and patient_tooth_data.get('show_procedure_image')">
+                                <t t-set="tooth_procedure" t-value="procedures.filtered(lambda p: p.id == int(patient_tooth_data.get('show_procedure_image')))"/>
+                                <t t-if="tooth_procedure.image_128">
+                                    <span t-field="tooth_procedure.image_128" t-options="{'widget': 'image', 'preview_image': 'image_128'}" class="pb_image"/>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <span t-field="tooth.image" t-options="{'widget': 'image', 'preview_image': 'image'}" class="pb_image"/>
+                            </t>
+                        </t>
+                        <br/>
+                    </label>
+                    <t t-if="lower_teeth_set=='0'">
+                        <div class="text-center">
+                            <span t-field="tooth.fdi_code" class="pb_fdi_code"/>
+                        </div>
+                    </t>
+                    <t t-if="patient_tooth_data and patient_tooth_data.get('procedure_details')">
+                        <button type="button" class="btn btn-link pb_popover" data-container="body" data-toggle="popover" data-trigger="focus" tabindex="0" t-att-title="patient_tooth_data['procedure_details']"><i class="fa fa-circle text-info"/></button>
+                    </t>
+                </div>
+            </t>
+        </div>
+    </template> 
+
+    <template id="pb_procedure_table">
+        <table class="table table-sm o_main_table mt16 table-bordered">
+            <thead>
+                <tr class="pb_table_header text-center">
+                    <th class="col-1">Name</th>
+                    <th class="col-2">Tooth</th>
+                    <th class="col-2">Surface</th>
+                    <th class="col-2">Procedure</th>
+                    <th class="col-1">Price</th>
+                    <th class="col-2">Physician</th>
+                    <th class="col-1">Date</th>
+                    <th class="col-1">State</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="lines" t-as="line">
+                    <tr>
+                        <td>
+                            <a t-att-href="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (line._name, line.id, line.env.ref('pb_hms_dental.action_pb_dental_procedure').id)"> 
+                                <span t-field="line.name"/>
+                            </a>
+                        </td>
+                        <td>
+                            <span t-field="line.tooth_id"/>
+                        </td>
+                        <td>
+                            <span t-field="line.tooth_surface_ids"  widget="many2many_tags"/>
+                        </td>
+                        <td>
+                            <span t-field="line.sudo().product_id.name"/>
+                        </td>
+                        <td>
+                            <span t-field="line.price_unit"/>
+                        </td>
+                        <td>
+                            <span t-field="line.physician_id"/>
+                        </td>
+                        <td>
+                            <span t-field="line.date"/>
+                        </td>
+                        <td>
+                            <span class="badge badge-pill badge-success"><span t-field="line.state"/></span>
+                            <t t-if="line.attachment_ids">
+                                <a title="Images" t-attf-href="{{line.document_preview_url}}" target="_blank">
+                                    <i class="fa fa-image text-success"/>
+                                </a>
+                            </t>
+                            <t t-if="line.state=='scheduled'">
+                                <a title="In Progress" t-attf-href="/pb/update/procedure/{{line.id}}?action=inprogress">
+                                    <i class="fa fa-play text-success"/>
+                                </a>
+                            </t>
+                            <t t-if="line.state=='running'">
+                                <a title="Done" t-attf-href="/pb/update/procedure/{{line.id}}?action=done">
+                                    <i class="fa fa-check text-success"/>
+                                </a>
+                            </t>
+                            <t t-if="not line.invoice_id">
+                                <a title="Create Invoice" t-attf-href="/pb/update/procedure/{{line.id}}?action=createinvoice">
+                                    <i class="fa fa-usd text-success"/>
+                                </a>
+                            </t>
+                            <t t-if="line.state=='scheduled'">
+                                <a title="Delete" t-attf-href="/pb/update/procedure/{{line.id}}?action=delete">
+                                    <i class="fa fa-trash text-danger"/>
+                                </a>
+                            </t>
+                        </td>                       
+                    </tr>
+                </t>
+            </tbody>
+        </table>
+    </template>
+
+    <template id="pb_dental_procedure" name="Dental Procedure">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="row pt16 pb8 pb_dental_chart_header">
+                    <div class="col-2">
+                        <a t-att-href="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (patient._name, patient.id, patient.env.ref('pb_hms_base.action_patient').id)" class="ml16"><i class="fa fa-home mr-1 fa-3x"/></a>
+                    </div>
+                    <div class="col-8 text-center">
+                        <b>Patient:</b> 
+                        <a t-att-href="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (patient._name, patient.id, patient.env.ref('pb_hms_base.action_patient').id)"> 
+                            <span t-field="patient.name"/>
+                        </a> <br/>
+                        <b>Age:</b> <span t-field="patient.age"/> <br/>
+                        <b>Patient Code:</b> <span t-field="patient.code"/> <br/>
+                        <b>Gender:</b> <span t-field="patient.gender"/> <br/>
+                        <b>Address:</b> <span t-field="patient.contact_address"/>
+                    </div>
+                    <div class="col-2 text-left">
+                        <img t-attf-src="/web/image/hms.patient/{{patient.id}}/image_128/128x128" t-att-alt="patient.name" class="img img-fluid mx-auto"/>
+                    </div>
+                </div>
+                <!-- <hr class="mt-1 mb-0"/> -->
+                <div class="container">
+                    <div id="dental_chart_content" class="col-12 mt8 pb_dental_chart">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <div t-if="error_message" class="alert alert-danger" role="alert">
+                                    <t t-esc="error_message"/>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> &#215; </button>
+                                </div>
+                                <div t-if="sucess_message" class="alert alert-success" role="alert">
+                                    <t t-esc="sucess_message"/>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> &#215; </button>
+                                </div>
+                            </div>
+                        </div>
+                        <form action="/pb/create/dental/procedure" method="post" role="form"
+                        class="tag_text js_website_submit_form pb_create_dental_procedure">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="treatment_id" t-att-value="treatment_id"/>
+                            <input type="hidden" name="patient_id" t-att-value="patient.id"/>
+                            <input type="hidden" name="appointment_id" t-att-value="appointment_id"/>
+                            <div class="row pb_teeths">
+                                <t t-call="pb_hms_dental_chart.pb_teeth_rendering">
+                                    <t t-set="teeths" t-value="upper_teeths"/>
+                                    <t t-set="lower_teeth_set" t-value="'0'"/>
+                                </t>
+                            </div>
+                            <div class="row pb_teeths">
+                                <t t-call="pb_hms_dental_chart.pb_teeth_rendering">
+                                    <t t-set="teeths" t-value="lower_teeths"/>
+                                    <t t-set="lower_teeth_set" t-value="'1'"/>
+                                </t>
+                            </div>
+
+                            <div class="divide">Select Tooth Surfaces <i class="fa fa-arrow-circle-o-down"></i></div>
+
+                            <div class="row text-center pb_dental_surfaces">
+                                <t t-foreach="surfaces" t-as="surface">
+                                    <div class="pb_surface">
+                                        <input class="sr-only pb_tooth_surface" type="checkbox" t-att-value="surface.id" t-attf-name="surface_#{surface.id}" t-att-checked="False" t-att-data-toothsurface-id="surface.id"  t-attf-id="surface_#{surface.id}"/>
+                                        <label t-attf-for="surface_#{surface.id}" class="mr8 pb_surface_label">
+                                            <span t-field="surface.name"/>
+                                        </label>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <div class="divide"><a data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#pb_dental_procedures">Select Procedure <i class="fa fa-arrow-circle-o-down"></i></a></div>
+
+                            <div class="row mt8 text-center d-flex align-items-center justify-content-center" id="pb_dental_procedures_search" t-if="procedures and len(procedures) &gt;= 10">
+                                <div class="text-center col-6 mt8 mb8">
+                                    <input type="text" placeholder="Search for Procedure.." id="PbProcedureRecordSearch" name="pb_procedures_search" class="form-control text-center col-4"/>
+                                </div>
+                            </div>
+
+                            <div class="row mt8 text-center panel-collapse out collapse show pb_dental_procedures" id="pb_dental_procedures">
+                                <t t-foreach="procedures" t-as="procedure">
+                                    <div class="pb_dental_procedure">
+                                        <input class="sr-only pb_tooth_procedure" type="radio" t-att-value="procedure.id" name="product_id" t-att-checked="False" t-att-data-procedure-id="procedure.id"  t-attf-id="procedure_#{procedure.id}"/>
+                                        <label t-attf-for="procedure_#{procedure.id}" class="mr8 pb_procedure_label">
+                                            <img t-attf-src="/web/image/product.product/{{procedure.id}}/image_128" class="pb_product_avatar"/>
+                                            <span t-field="procedure.name" class="pb_dental_procedure_name"/> [<span t-field="procedure.list_price" t-options='{"widget": "monetary", "display_currency": currency_id}'/>]
+                                        </label>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <div class="h-divider">
+                                <div class="pb_shadow"></div>
+                                <div class="text">
+                                    <i>
+                                        <button type="submit" class="btn btn-link">
+                                            <span class="fa fa-plus"/> Add Procedure
+                                        </button>
+                                    </i>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div t-if="patient_procedure_ids" class="row mb16">
+                            <t t-call="pb_hms_dental_chart.pb_procedure_table">
+                                <t t-set="lines" t-value="patient_procedure_ids"/>
+                            </t>
+                        </div>
+
+                        <div class="divide mb16"><a data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#pb_dental_procedures_done">Completed Procedures <i class="fa fa-arrow-circle-o-down"></i></a></div>
+                        <div class="row mt8 text-center panel-collapse collapse in" id="pb_dental_procedures_done">
+                            <t t-call="pb_hms_dental_chart.pb_procedure_table">
+                                <t t-set="lines" t-value="patient_procedure_done_ids"/>
+                            </t>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

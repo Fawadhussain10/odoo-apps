@@ -1,0 +1,79 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_jitsi_meet
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0-20211110\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-19 14:49+0000\n"
+"PO-Revision-Date: 2021-11-19 09:55-0500\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0\n"
+"Last-Translator: \n"
+"Language: es_PA\n"
+
+#. module: pb_jitsi_meet
+#: model:ir.model,name:pb_jitsi_meet.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes"
+
+#. module: pb_jitsi_meet
+#: model:ir.model.fields,field_description:pb_jitsi_meet.field_res_config_settings__pb_video_call_server_url
+msgid "Jisti Server URL"
+msgstr "URL del servidor Jisti"
+
+#. module: pb_jitsi_meet
+#: model_terms:ir.ui.view,arch_db:pb_jitsi_meet.res_config_settings_view_form
+msgid "Manage call on own Site (Yes or keep blank)"
+msgstr "Administrar llamadas en su propio sitio (Sí o mantener en blanco)"
+
+#. module: pb_jitsi_meet
+#: model_terms:ir.ui.view,arch_db:pb_jitsi_meet.pb_videocall
+msgid "Meeting is Canceled.<br/>"
+msgstr "La reunión está cancelada.<br/>"
+
+#. module: pb_jitsi_meet
+#: model_terms:ir.ui.view,arch_db:pb_jitsi_meet.pb_videocall
+msgid "Meeting is already finished.<br/>"
+msgstr "La reunión ya terminó.<br/>"
+
+#. module: pb_jitsi_meet
+#: model_terms:ir.ui.view,arch_db:pb_jitsi_meet.pb_videocall
+msgid "Meeting is not planned yet.<br/>"
+msgstr "La reunión aún no está planeada.<br/>"
+
+#. module: pb_jitsi_meet
+#: model_terms:ir.ui.view,arch_db:pb_jitsi_meet.pb_videocall
+msgid ""
+"Meeting is not scheduled yet or Already finished.<br/>\n"
+"                                            Please check your invitation "
+"link again."
+msgstr ""
+"La reunión aún no está programada o ya ha terminado.<br/>\n"
+"                                            Por favor, compruebe de "
+"nuevo el enlace de su invitación."
+
+#. module: pb_jitsi_meet
+#: model:ir.model.fields,field_description:pb_jitsi_meet.field_res_config_settings__pb_video_call_on_own_site
+msgid "On Own Site"
+msgstr "En el propio sitio"
+
+#. module: pb_jitsi_meet
+#: model:ir.model,name:pb_jitsi_meet.model_pb_video_call
+msgid "Video Call"
+msgstr "Videollamada"
+
+#. module: pb_jitsi_meet
+#: model_terms:ir.ui.view,arch_db:pb_jitsi_meet.res_config_settings_view_form
+msgid "Video Call Configuration"
+msgstr "Configuración de videollamadas"
+
+#. module: pb_jitsi_meet
+#: model_terms:ir.ui.view,arch_db:pb_jitsi_meet.res_config_settings_view_form
+msgid "Video Call Server URL (JITSI Server)"
+msgstr "URL del servidor de videollamadas (servidor JITSI)"

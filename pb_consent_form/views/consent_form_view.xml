@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Partner -->
+    <record model="ir.ui.view" id="view_partner_form">
+        <field name="name">res.partner.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <div name='button_box' position="inside">
+                <button name="action_open_consent_form" groups="pb_consent_form.group_consent_form_manager" string="Consent Forms" type="object" class="oe_stat_button" icon="fa-pencil-square-o"/>
+            </div>
+        </field>
+    </record>
+
+    <!--Digial Document -->
+    <record id="view_pb_consent_form_tree" model="ir.ui.view">
+        <field name="name">Consent Form Tree</field>
+        <field name="model">pb.consent.form</field>
+        <field name="arch" type="xml">
+            <list string="Consent Forms">
+                <field name="name"/>
+                <field name="subject"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pb_consent_form_search" model="ir.ui.view">
+        <field name="name">Consent Form Search</field>
+        <field name="model">pb.consent.form</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">            
+            <search string="Consent Form">
+                <field name="name"/>
+                <field name="subject"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="date"/>
+                <field name="state"/>
+                <field name="tag_ids" string="Tag" filter_domain="[('tag_ids', 'ilike', self)]"/>
+                <newline/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_pb_consent_form_form" model="ir.ui.view">
+        <field name="name">Consent Form</field>
+        <field name="model">pb.consent.form</field>
+        <field name="arch" type="xml">
+            <form string="Consent Form">
+                <header>
+                    <button name="action_to_sign" string="To Sign" class="oe_highlight" type="object" invisible="state not in ('draft',)"/>
+                    <button name="action_signed" string="Signed" class="oe_highlight" type="object" invisible="state not in ('tosign',)"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="preview_consent_form" type="object" class="oe_stat_button" icon="fa-globe icon">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Customer</span>
+                                <span class="o_stat_text">Preview</span>
+                            </div>
+                        </button> 
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="subject"/>
+                            <field name="partner_id" required="True"/>
+                            <field name="user_id" required="True"/>
+                            <field name="tag_ids" widget="many2many_tags"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="date" required="True"/>
+                            <label for="template_id"/>
+                            <div name='template_id'>
+                                <field name='template_id' class="oe_inline" nolabel="1" widget="selection"/>
+                                <button name="apply_template" string="Get Data" type="object" class="oe_inline fa fa-arrow-right oe_link" invisible="(not template_id or state != 'draft')"/>
+                            </div>
+                            <field name="print_header_in_report"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Document">
+                            <field name="consent_form_content" nolabel="1" placeholder="Digial Document Content"/>
+                        </page>
+                        <page string="Other Information">
+                            <group>
+                                <field name="pb_access_url" readonly="1"  widget="CopyClipboardChar"/>
+                                <field name="pb_has_to_be_signed" invisible="1"/>
+                                <field name="pb_signed_on" readonly="1"/>
+                                <field name="pb_signature" widget="image" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pb_consent_form" model="ir.actions.act_window">
+        <field name="name">Consent Form</field>
+        <field name="res_model">pb.consent.form</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_pb_consent_form_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Click to add a Digial Document.
+            </p>
+        </field>
+    </record>
+
+    <!--Digial Document Template-->
+    <record id="view_pb_consent_form_template_tree" model="ir.ui.view">
+        <field name="name">Consent Form Template</field>
+        <field name="model">pb.consent.form.template</field>
+        <field name="arch" type="xml">
+            <list string="Consent Form Template">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pb_consent_form_template_search" model="ir.ui.view">
+        <field name="name">Consent Form Template</field>
+        <field name="model">pb.consent.form.template</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <search string="Consent Form Template">
+                <field name="name"/>
+                <newline/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_pb_consent_form_template_form" model="ir.ui.view">
+        <field name="name">Consent Form Template</field>
+        <field name="model">pb.consent.form.template</field>
+        <field name="arch" type="xml">
+            <form string="Consent Form Template">
+                <sheet>
+                    <group colspan="2" cols="2"> 
+                        <field name="name" required="True"/>
+                    </group>
+                    <div>
+                        <label for="consent_form_content"/>
+                        <field name="consent_form_content" placeholder="Content"/>
+                    </div>
+                </sheet>
+                <chatter/>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pb_consent_form_template_view" model="ir.actions.act_window">
+        <field name="name">Consent Form Template</field>
+        <field name="res_model">pb.consent.form.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_pb_consent_form_template_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Click to add Consent Form Template.
+            </p>
+        </field>
+    </record>
+
+</odoo>

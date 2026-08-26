@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_partner_form_whatsapp" model="ir.ui.view">
+        <field name="name">res.partner.whatsapp.buttons</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="%(action_pb_send_whatsapp_message)d" icon="fa-whatsapp" string="Whatsapp" class="oe_highlight" type='action'/>
+                    <button name="whatsapp_chat_history" icon="fa-whatsapp" string="Chat History" class="oe_highlight" type='object'/>
+                </header>
+            </xpath>
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button type="object" class="oe_stat_button" icon="fa-whatsapp" name="action_pb_whatsapp" groups="pb_whatsapp.group_whatsapp_user">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="whatsapp_count"/>
+                        </span>
+                        <span class="o_stat_text">WhatsApp</span>
+                    </div>
+                </button>
+                <button type="object" class="oe_stat_button" icon="fa-whatsapp" name="action_pb_whatsapp_announcement" groups="pb_whatsapp.group_whatsapp_user">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="whatsapp_announcement_count"/>
+                        </span>
+                        <span class="o_stat_text">WhatsApp Announcements</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='email']" position="before">
+                <label for="pb_otp_whatsapp" invisible="verified_mobile_whatsapp" groups="pb_whatsapp.group_whatsapp_otp"/>
+                <div>
+                    <div name='pb_otp_whatsapp' groups="pb_whatsapp.group_whatsapp_otp" class="oe_inline">
+                        <field name="pb_otp_whatsapp" invisible="verified_mobile_whatsapp" class="oe_inline"/>
+                        <button name="action_send_otp_whatsapp" string="Send OTP" type="object" class="oe_inline fa fa-arrow-up oe_link" invisible="verified_mobile_whatsapp"/>
+                        <button name="action_verify_otp_whatsapp" string="Verify OTP" type="object" class="oe_inline fa fa-mobile oe_link" invisible="verified_mobile_whatsapp"/>
+                    </div>
+                </div>
+                <field name="verified_mobile_whatsapp" readonly="1" groups="pb_whatsapp.group_whatsapp_otp" invisible="not verified_mobile_whatsapp" string="Verify SMS"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

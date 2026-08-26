@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <menuitem name="Ophthalmology" id="menu_pb_main_ophthalmology" sequence="65" groups="pb_hms_ophthalmology.group_hms_ophthalmology" web_icon="pb_hms_ophthalmology,static/description/icon.png"/>
+
+    <menuitem id="menu_pb_patient" name="Patients" parent="menu_pb_main_ophthalmology" action="action_patient" sequence="5"/>
+
+    <menuitem name="Appointment" id="menu_pb_ophthalmology" parent="menu_pb_main_ophthalmology" action="action_appointment" sequence="10"/>
+
+    <menuitem name="Ophthalmology" id="menu_pb_ophthalmology_evaluations" parent="menu_pb_main_ophthalmology" action="action_pb_ophthalmology_evaluation" sequence="20"/>
+
+</odoo>

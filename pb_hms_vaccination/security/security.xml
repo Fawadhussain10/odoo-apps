@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <record id="group_hms_vaccination" model="res.groups">
+        <field name="name">Vaccination</field>
+        <field name="implied_ids" eval="[(4, ref('pb_hms_base.group_hms_user'))]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <data noupdate="1">
+
+        <record id="ward_rule" model="ir.rule">
+            <field name="name">Vaccination multi-company</field>
+            <field name="model_id" ref="model_pb_vaccination"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+
+    </data>
+    
+</odoo>

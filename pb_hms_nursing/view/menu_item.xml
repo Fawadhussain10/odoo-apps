@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Main Vaccination -->
+    <menuitem id="main_nursing_menu" name="Nursing" web_icon="pb_hms_nursing,static/description/icon.png" sequence="30" groups="pb_hms.group_hms_nurse"/>
+
+    <menuitem id="menu_nurse" action="hr_employee_public_action" name="Nurse" parent="main_nursing_menu" sequence="10"/>
+
+    <menuitem id="menu_nursing" action="hms_ward_round_action" name="Ward Rounds" parent="main_nursing_menu" sequence="20"/>
+
+    <menuitem id="menu_pb_patient_nurse_procedure" action="pb_hms.action_pb_patient_procedure" name="Patient Procedures" parent="main_nursing_menu" sequence="5"/>
+
+</odoo>

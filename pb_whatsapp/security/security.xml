@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+
+        <record model="ir.module.category" id="module_category_whatsapp">
+            <field name="name">whatsapp</field>
+            <field name="description">whatsapp Management</field>
+            <field name="sequence">13</field>
+        </record>
+
+        <record id="group_whatsapp_user" model="res.groups">
+            <field name="name">User</field>
+            </record>
+
+        <record id="group_whatsapp_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="implied_ids" eval="[(4, ref('pb_whatsapp.group_whatsapp_user'))]"/>
+            <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_whatsapp_otp" model="res.groups">
+            <field name="name">Manage Whatsapp OTP</field>
+            </record>
+
+        <!-- RULE -->
+        <record id="pb_whatsapp_message_company_rule" model="ir.rule">
+            <field name="name">WhatsApp Message multi-company</field>
+            <field name="model_id" ref="model_pb_whatsapp_message"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="pb_whatsapp_announcement_company_rule" model="ir.rule">
+            <field name="name">WhatsApp Announcement multi-company</field>
+            <field name="model_id" ref="model_pb_whatsapp_announcement"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- <record id="pb_whatsapp_announcement_department_rule" model="ir.rule">
+            <field name="name">WhatsApp Announcement Multi-Department</field>
+            <field name="model_id" ref="model_pb_whatsapp_announcement"/>
+            <field name="domain_force">['|', ('department_id', '=', False), ('department_id', 'in', [dep.id for dep in user.department_ids])]</field>
+            <field name="groups" eval="[(4, ref('group_whatsapp_user'))]"/>
+        </record> -->
+
+        <record id="pb_whatsapp_announcement_all_rule" model="ir.rule">
+            <field name="name">WhatsApp Announcement Manager rule</field>
+            <field name="model_id" ref="model_pb_whatsapp_announcement"/>
+            <field name="groups" eval="[(4, ref('group_whatsapp_manager'))]"/>
+            <field name="domain_force">[]</field>
+        </record>
+
+    </data>
+</odoo>

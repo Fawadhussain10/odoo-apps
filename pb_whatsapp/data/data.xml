@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="ir_cron_send_whatsapp_action" model="ir.cron">
+            <field name="name">Send WhatsApp Messages</field>
+            <field name="active" eval="True"/>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="model_id" ref="model_pb_whatsapp_message"/>
+            <field name="state">code</field>
+            <field name="code" eval="'model.complete_queue()'"/>
+            </record>
+
+        <record id="pb_whatsapp_verify_otp_template" model="pb.whatsapp.template">
+            <field name="name">VerifyOTP</field>
+            <field name="body_message_type">TEXT</field>
+            <field name="body_message">Dear {{ object.name }},  {{ object.generated_otp_whatsapp }} is your OTP Verification.</field>
+        </record>
+
+        <record id="base.main_company" model="res.company">
+            <field name="pb_waba_verify_otp_template_id" ref="pb_whatsapp_verify_otp_template"/>
+        </record>
+
+    </data>
+</odoo>

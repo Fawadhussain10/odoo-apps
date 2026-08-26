@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="patient_registartion_sms_template" model="pb.sms.template">
+            <field name="name">Patient Registartion Message</field>
+            <field name="message">Dear {{ object.name }}, Your Patient Registartion No. is: {{ object.code }} in PackBytes Hospital. Sent by PB HMS</field>
+        </record>
+
+        <record id="appointment_registartion_sms_template" model="pb.sms.template">
+            <field name="name">Appointment Confirmation Message</field>
+            <field name="message">Dear {{ object.patient_id.name }}, Your Appointment {{ object.name }} Registartion No. is confirmed at PackBytes Hospital. Sent by PB HMS</field>
+        </record>
+
+        <record id="pb_reminder_sms_template" model="pb.sms.template">
+            <field name="name">Appointment Reminder Message</field>
+            <field name="message">Dear {{ object.patient_id.name }}, Reminder for your Appointment {{ object.name }} at PackBytes Hospital. Sent by PB HMS {{ date.strftime('''%Y-%m-%d''') }}. Sent by PB HMS </field>
+        </record>
+
+        <record id="base.main_company" model="res.company">
+            <field name="patient_registartion_sms_template_id" ref="patient_registartion_sms_template"/>
+            <field name="appointment_registartion_sms_template_id" ref="appointment_registartion_sms_template"/>
+            <field name="pb_reminder_sms_template_id" ref="pb_reminder_sms_template"/>
+        </record>
+
+    </data>
+</odoo>

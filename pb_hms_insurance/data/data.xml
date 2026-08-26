@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_insurance_claim" model="ir.sequence">
+            <field name="name">Insurance Claim</field>
+            <field name="code">hms.insurance.claim</field>
+            <field name="prefix">IC</field>
+            <field name="padding">3</field>
+            <field name="pb_auto_create" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_pb_claim_sheet" model="ir.sequence">
+            <field name="name">Claim Sheet</field>
+            <field name="code">pb.claim.sheet</field>
+            <field name="prefix">CS</field>
+            <field name="padding">3</field>
+            <field name="pb_auto_create" eval="True"/>
+        </record>
+
+        <record forcecreate="True" id="ir_cron_archive_policy" model="ir.cron">
+            <field name="name">Archive Expired Policy</field>
+            <field eval="True" name="active"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field ref="model_hms_patient_insurance" name="model_id"/>
+            <field name="state">code</field>
+            <field eval="'model.archive_expired_policy()'" name="code"/>
+        </record>
+
+    </data>
+</odoo>

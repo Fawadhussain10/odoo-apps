@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="pb_video_call.VideoCallSystrayItem">
+        <div class="o_task_navbar_item o-dropdown dropdown o-dropdown--no-caret">
+            <a href="#" title="Schedule Video Call" t-on-click="onClickVideoButton">
+                <i class="fa fa-video-camera"/>
+            </a>
+        </div>
+    </t>
+
+</templates>

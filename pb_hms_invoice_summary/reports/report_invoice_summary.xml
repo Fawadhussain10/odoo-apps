@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="pb_invoice_summary_report_document" inherit_id="pb_invoice_summary.pb_invoice_summary_report_document">
+        <xpath expr="//div/div[2]/div[2]" position="replace">
+            <div class="col-6">
+                <strong>Patient: </strong> <span t-field="doc.patient_id"/>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

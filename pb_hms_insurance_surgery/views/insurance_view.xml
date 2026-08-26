@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_hms_patient_insurance_form" model="ir.ui.view">
+        <field name="name">hms.patient.insurance.form</field>
+        <field name="model">hms.patient.insurance</field>
+        <field name="inherit_id" ref="pb_hms_insurance.view_hms_patient_insurance_form"/>
+        <field name="arch" type="xml">
+            <field name="app_insurance_amount" position="after">
+                <field name="allow_surgery_insurance"/>
+                <field name="surgery_insurance_type" invisible="not allow_surgery_insurance"/>
+                <field name="surgery_insurance_percentage" invisible="(not allow_surgery_insurance or surgery_insurance_type == 'fix')"/>
+                <field name="surgery_insurance_amount" invisible="(not allow_surgery_insurance or surgery_insurance_type == 'percentage')"/>
+            </field>
+
+            <field name="create_claim" position="after">
+                <field name="surgery_insurance_limit" invisible="not allow_surgery_insurance"/>
+                <field name="surgery_create_claim" invisible="not allow_surgery_insurance"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

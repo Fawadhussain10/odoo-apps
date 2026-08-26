@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <!-- Procedure Group -->
+    <record id="view_procedure_group_tree" model="ir.ui.view">
+        <field name="name">procedure.group.tree</field>
+        <field name="model">procedure.group</field>
+        <field name="arch" type="xml">
+            <list string="Procedure Group">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_procedure_group_form" model="ir.ui.view">
+        <field name="name">procedure.group.form</field>
+        <field name="model">procedure.group</field>
+        <field name="arch" type="xml">
+            <form string="Procedure Group">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Procedure Group"/>
+                        </h1>
+                    </div>
+                    <field name="line_ids">
+                        <list string="Lines" editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id" context="{'default_type': 'service', 'default_hospital_product_type': 'procedure'}" domain="[('hospital_product_type','like','procedure')]"/>
+                            <field name="days_to_add"/>
+                            <field name="procedure_time" readonly="1" widget="float_time" sum="Total"/>
+                            <field name="price_unit" readonly="1" sum="Total"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_procedure_group" model="ir.actions.act_window">
+        <field name="name">Procedure Group</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">procedure.group</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+            <p>
+                Click to add new Procedure Group.
+            </p>
+        </field>
+    </record>
+
+    <!-- Patient Procedures View -->
+    <record id="view_pb_patient_procedure_list" model="ir.ui.view">
+        <field name="name">pb.patient.procedure.list</field>
+        <field name="model">pb.patient.procedure</field>
+        <field name="arch" type="xml">
+            <list string="Patient Procedure" decoration-info="state=='scheduled'" decoration-muted="state=='cancel'" decoration-danger="state=='done' and (invoice_id==False)">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="product_id"/>
+                <field name="price_unit" sum="total"/>
+                <field name="physician_id"/>
+                <field name="department_id" groups="pb_hms.group_allow_multi_department"/>
+                <field name="date"/>
+                <field name="date_stop"/>
+                <field name="state"/>
+                <field name="invoice_id" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pb_patient_procedure_form" model="ir.ui.view">
+        <field name="name">pb.patient.procedure.form</field>
+        <field name="model">pb.patient.procedure</field>
+        <field name="arch" type="xml">
+             <form string="Patient Procedure">
+                <header>
+                    <button name="action_schedule" string="Schedule" type="object" invisible="state not in ('cancel',)"/>
+                    <button name="action_running" string="Running" type="object" invisible="state not in ('scheduled',)" class="oe_highlight"/>
+                    <button name="action_done" string="Done" type="object" invisible="state not in ('running',)" class="oe_highlight" groups="pb_hms.group_hms_jr_doctor,pb_hms.group_hms_nurse"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('scheduled',)"/>
+                    <button name="action_create_invoice" string="Create Invoice" type="object" invisible="invoice_id" class="oe_highlight" groups="account.group_account_invoice"/>
+                    <button name="view_invoice" string="View Invoice" type="object" invisible="not invoice_id" class="oe_highlight" groups="account.group_account_invoice"/>
+                    <field name="state" widget="statusbar" statusbar_visible="scheduled,running,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_attachments" icon="fa-files-o" invisible="attach_count == 0">
+                            <field string="Documents" name="attach_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" string="Name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_id" required="1"/>
+                            <label for="date" string="Date"/>
+                            <div class="o_row">
+                                <field name="date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'date_stop'}"/>
+                                <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                                <field name="date_stop" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'date'}"/>
+                            </div>
+                            <field name="duration" widget="float_time"/>
+                            <field name="diseas_id"/>
+                            <field name="treatment_id"/>
+                            <field name="department_id" groups="pb_hms.group_allow_multi_department"/>
+                            <field name="appointment_ids" widget="many2many_tags" domain="[('patient_id','=',patient_id)]"/>
+                        </group>
+                        <group>
+                            <field name="physician_id"/>
+                            <field name="product_id" required="1" context="{'default_type': 'service', 'default_hospital_product_type': 'procedure'}" domain="[('hospital_product_type','like','procedure')]"/>
+                            <field name="price_unit"/>
+                            <field name="invoice_id"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            <field name="department_type" invisible="1"/>
+                            <field name="department_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="consumed_products" string="Consumed Products">
+                            <label for="pb_kit_id" invisible="state in ('done', 'cancel')"/>
+                            <div name="pb_kit_id" class="d-flex align-items-center" invisible="state in ('done', 'cancel')">
+                                <field name="pb_kit_id" nolabel="1" class="oe_inline me-2" style="max-width: 20rem !important;" options="{'no_create': True}"/>
+                                <field name="pb_kit_qty" class="oe_inline me-2" style="max-width: 6rem !important;" nolabel="1" invisible="not pb_kit_id"/>
+                                <button name="get_pb_kit_lines" string="Add Kit Products" type="object" class="oe_inline fa fa-arrow-right oe_link" invisible="not pb_kit_id"/>
+                            </div>
+                            <field name="consumable_line_ids" nolabel="1" colspan="4" context="{'default_patient_id': patient_id, 'default_department_id': department_id, 'default_physician_id': physician_id}">
+                                <list string="Line" editable="top">
+                                    <field name="product_id" expand="1" required="1"/>
+                                    <field name="product_uom_id" groups="uom.group_uom"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="qty" required="1"/>
+                                    <field name="tracking" invisible="1"/>
+                                    <field name="lot_id" context="{'pb_product_id': product_id}" options="{'no_create': True}" readonly="tracking == 'none'" required="tracking != 'none'"/>
+                                    <field name="price_unit" readonly="1"/>
+                                    <field name="subtotal" readonly="1" sum="Total" optional="show"/>
+                                    <field name="date" required="1"/>
+                                    <field name="note"/>
+                                    <field name="move_id" invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    <field name="description"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pb_patient_procedure_search" model="ir.ui.view">
+        <field name="name">pb.patient.procedure.search</field>
+        <field name="model">pb.patient.procedure</field>
+        <field name="arch" type="xml">
+            <search string="Procedure">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="physician_id"/>
+                <field name="product_id"/>
+                <field name="appointment_ids"/>
+                <field name="department_id" groups="pb_hms.group_allow_multi_department"/>
+                <separator/>
+                <filter name="my_procedures" string="My Procedure" domain="[('physician_id.user_id', '=',uid)]"/>
+                <separator/>
+                <filter name="not_done" string="Not Done" domain="[('state','!=','done')]"/>
+                <filter name="scheduled" string="Schedule" domain="[('state','=','scheduled')]"/>
+                <group>
+                    <filter name="group_by_physician_id" string="Physician" domain="[]" context="{'group_by':'physician_id'}"/>
+                    <filter string="State" name="state_groupby" domain="[]" context="{'group_by':'state'}"/>
+                    <filter name="group_by_patient" string="Patient" domain="[]" context="{'group_by':'patient_id'}"/>
+                    <filter name="group_by_product" string="Procedures" domain="[]" context="{'group_by':'product_id'}"/>
+                    <filter name="group_by_date" string="Date" domain="[]" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_pb_patient_procedure_calendar" model="ir.ui.view">
+        <field name="name">pb.patient.procedure.calendar</field>
+        <field name="model">pb.patient.procedure</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar string="Patient Procedures" color="product_id" date_start="date" date_stop="date_stop">
+                <field name="physician_id"/>
+                <field name="patient_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_vaccination_pivot" model="ir.ui.view">
+        <field name="name">pb.patient.procedure.pivot</field>
+        <field name="model">pb.patient.procedure</field>
+        <field name="arch" type="xml">
+            <pivot string="Patient Procedure">
+                <field name="date" type="row"/>
+                <field name="physician_id" type="row"/>
+                <field name="patient_id" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_pb_patient_procedure" model="ir.actions.act_window">
+        <field name="name">Patient Procedures</field>
+        <field name="res_model">pb.patient.procedure</field>
+        <field name="view_mode">list,form,calendar,pivot</field>
+        <field name="context">{'search_default_not_done': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Click to add a Patient Patient Procedure.
+            </p>
+        </field>
+    </record>
+
+</odoo>

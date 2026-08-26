@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_mr_main" name="MR" sequence="75" web_icon="pb_hms_medical_representative,static/description/icon.png" groups="pb_hms.group_hms_receptionist"/>
+
+    <menuitem id="menu_mr_appointment" name="Medical Representative" parent="menu_mr_main" sequence="0" action="action_medical_representative"/>
+
+    <menuitem id="menu_mr" name="Appointment" sequence="2" parent="menu_mr_main" action="action_medical_representative_visit"/>
+
+</odoo>

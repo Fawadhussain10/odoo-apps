@@ -1,0 +1,283 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_paediatric
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20210330\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-09 16:58+0000\n"
+"PO-Revision-Date: 2021-04-09 12:01-0500\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.2\n"
+"Last-Translator: \n"
+"Language: es\n"
+
+#. module: pb_hms_paediatric
+#: model_terms:ir.ui.view,arch_db:pb_hms_paediatric.user_growth_chart_kanban_view
+msgid ""
+"<i class=\"fa fa-area-chart\" aria-label=\"Info\" title=\"Height Chart\"/> "
+"Head Circumference"
+msgstr ""
+"<i class=\"fa fa-area-chart\" aria-label=\"Info\" title=\"Height Chart\"></"
+"i>Circunferencia de la cabeza"
+
+#. module: pb_hms_paediatric
+#: model_terms:ir.ui.view,arch_db:pb_hms_paediatric.user_growth_chart_kanban_view
+msgid ""
+"<i class=\"fa fa-area-chart\" aria-label=\"Info\" title=\"Height Chart\"/> "
+"Height Chart"
+msgstr ""
+"<i class=\"fa fa-area-chart\" aria-label=\"Info\" title=\"Height Chart\"></"
+"i>Gráfico de altura"
+
+#. module: pb_hms_paediatric
+#: model_terms:ir.ui.view,arch_db:pb_hms_paediatric.user_growth_chart_kanban_view
+msgid ""
+"<i class=\"fa fa-area-chart\" aria-label=\"Info\" title=\"Weight Chart\"/> "
+"Weight Chart"
+msgstr ""
+"<i class=\"fa fa-area-chart\" aria-label=\"Info\" title=\"Weight Chart\"></"
+"i>Tabla de peso"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data__age
+msgid "Age"
+msgstr "Edad"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_appointment__age_month
+msgid "Age(Months)"
+msgstr "Edad (Meses)"
+
+#. module: pb_hms_paediatric
+#: model:ir.model,name:pb_hms_paediatric.model_hms_appointment
+msgid "Appointment"
+msgstr "Cita"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_patient__birth_head_circum
+msgid "Birth Head Circumference"
+msgstr "Circunferencia de la cabeza al nacer"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_patient__birth_height
+msgid "Birth Height"
+msgstr "Altura al nacer"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_patient__birth_weight
+msgid "Birth Weight"
+msgstr "Peso del nacimiento"
+
+#. module: pb_hms_paediatric
+#: model:ir.model,name:pb_hms_paediatric.model_pb_growth_chart_data
+msgid "Chart Data"
+msgstr "Datos del gráfico"
+
+#. module: pb_hms_paediatric
+#: model:ir.ui.menu,name:pb_hms_paediatric.menu_pb_paediatric_configuration
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: pb_hms_paediatric
+#: model:ir.model,name:pb_hms_paediatric.model_hr_department
+msgid "Department"
+msgstr "Departamento"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data__display_name
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_appointment__display_name
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_patient__display_name
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hr_department__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: pb_hms_paediatric
+#: model_terms:ir.ui.view,arch_db:pb_hms_paediatric.view_pb_growth_chart_data_search
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: pb_hms_paediatric
+#: model:ir.actions.act_window,name:pb_hms_paediatric.action_growth_chart
+msgid "Growth Chart"
+msgstr "Gráfico de crecimiento"
+
+#. module: pb_hms_paediatric
+#: model_terms:ir.ui.view,arch_db:pb_hms_paediatric.view_pb_pb_growth_chart_data_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_paediatric.view_pb_growth_chart_data_search
+#: model_terms:ir.ui.view,arch_db:pb_hms_paediatric.view_pb_growth_chart_data_tree
+msgid "Growth Chart Data"
+msgstr "Datos del gráfico de crecimiento"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_appointment__head_circum
+#: model:ir.model.fields.selection,name:pb_hms_paediatric.selection__pb_growth_chart_data__record_type__head_circum
+msgid "Head Circumference"
+msgstr "Circunferencia de la cabeza"
+
+#. module: pb_hms_paediatric
+#: model:ir.ui.menu,name:pb_hms_paediatric.menu_pb_hms_head_circum_chart_data
+msgid "Head Circumference Growth"
+msgstr "Crecimiento de la circunferencia de la cabeza"
+
+#. module: pb_hms_paediatric
+#: model:ir.actions.act_window,name:pb_hms_paediatric.action_pb_hms_head_circum_chart_data
+msgid "Head Circumference Growth Data"
+msgstr "Datos de crecimiento de circunferencia de la cabeza"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_appointment__height
+#: model:ir.model.fields.selection,name:pb_hms_paediatric.selection__pb_growth_chart_data__record_type__height
+msgid "Height"
+msgstr "Altura"
+
+#. module: pb_hms_paediatric
+#: model:ir.ui.menu,name:pb_hms_paediatric.menu_pb_hms_height_chart_data
+msgid "Height Growth"
+msgstr "Crecimiento en altura"
+
+#. module: pb_hms_paediatric
+#: model:ir.actions.act_window,name:pb_hms_paediatric.action_pb_hms_height_chart_data
+msgid "Height Growth Data"
+msgstr "Datos de crecimiento en altura"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,help:pb_hms_paediatric.field_hms_appointment__height
+#: model:ir.model.fields,help:pb_hms_paediatric.field_hms_patient__birth_height
+msgid "Height of Child"
+msgstr "Altura del Niño"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hr_department__department_type
+msgid "Hospital Department"
+msgstr "Departamento del Hospital"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data__id
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_appointment__id
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_patient__id
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hr_department__id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_appointment__is_child
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_patient__is_child
+msgid "Is Child"
+msgstr "Es un niño"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data____last_update
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_appointment____last_update
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_patient____last_update
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hr_department____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data__female_value
+msgid "Normal Female Value"
+msgstr "Valor femenino normal"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data__male_value
+msgid "Normal Male Value"
+msgstr "Valor masculino normal"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields.selection,name:pb_hms_paediatric.selection__hr_department__department_type__paediatric
+#: model:ir.ui.menu,name:pb_hms_paediatric.menu_pb_paediatric
+msgid "Paediatric"
+msgstr "Pediatría"
+
+#. module: pb_hms_paediatric
+#: model:res.groups,name:pb_hms_paediatric.group_hms_user_paediatric
+msgid "Paediatric User"
+msgstr "Usuario pediátrico"
+
+#. module: pb_hms_paediatric
+#: model:ir.actions.act_window,name:pb_hms_paediatric.hms_action_child_patient
+#: model:ir.model,name:pb_hms_paediatric.model_hms_patient
+msgid "Patient"
+msgstr "Paciente"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_patient__patient_head_circum_graph
+msgid "Patient Head Circum Graph"
+msgstr "Circunferencia de la cabeza del paciente"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_patient__patient_height_growth
+msgid "Patient Height Growth"
+msgstr "Altura de crecimiento del paciente"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_hms_patient__patient_weight_growth
+msgid "Patient Weight Growth"
+msgstr "Peso de crecimiento del paciente"
+
+#. module: pb_hms_paediatric
+#: model:ir.ui.menu,name:pb_hms_paediatric.menu_pb_patient
+msgid "Patients"
+msgstr "Pacientes"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: pb_hms_paediatric
+#: model_terms:ir.ui.view,arch_db:pb_hms_paediatric.view_hms_patient_form_pediatric
+msgid "Show Growth Chart"
+msgstr "Mostrar gráfico de crecimiento"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,field_description:pb_hms_paediatric.field_pb_growth_chart_data__record_type
+#: model_terms:ir.ui.view,arch_db:pb_hms_paediatric.view_pb_growth_chart_data_search
+msgid "Type"
+msgstr "Tipo"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields.selection,name:pb_hms_paediatric.selection__pb_growth_chart_data__record_type__weight
+msgid "Weight"
+msgstr "Peso"
+
+#. module: pb_hms_paediatric
+#: model:ir.ui.menu,name:pb_hms_paediatric.menu_pb_hms_weight_chart_data
+msgid "Weight Growth"
+msgstr "Peso de crecimiento"
+
+#. module: pb_hms_paediatric
+#: model:ir.actions.act_window,name:pb_hms_paediatric.action_pb_hms_weight_chart_data
+msgid "Weight Growth Data"
+msgstr "Datos del peso de crecimiento"
+
+#. module: pb_hms_paediatric
+#: model:ir.model.fields,help:pb_hms_paediatric.field_hms_patient__birth_weight
+msgid "Weight of Child"
+msgstr "Peso del niño"

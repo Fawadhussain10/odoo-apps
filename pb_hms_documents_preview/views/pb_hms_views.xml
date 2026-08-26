@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Patient -->
+    <record id="view_patient_form" model="ir.ui.view">
+        <field name="name">hms.patient.form</field>
+        <field name="model">hms.patient</field>
+        <field name="inherit_id" ref="pb_hms.view_patient_form"/>
+        <field name="arch" type="xml">
+            <button name="action_view_attachments" position="after">
+                <button class="oe_inline oe_stat_button" type="object" name="pb_action_attachments_preview" title="Preview Documents" icon="fa-files-o" string="Preview Documents" widget="statinfo"/>
+            </button>
+        </field>
+    </record>
+
+    <!-- Treatment -->
+    <record id="view_hospital_hms_treatment_form" model="ir.ui.view">
+        <field name="name">hms.treatment.form</field>
+        <field name="model">hms.treatment</field>
+        <field name="inherit_id" ref="pb_hms.view_hospital_hms_treatment_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_inline oe_stat_button" type="object" name="pb_action_attachments_preview" title="Preview Documents" icon="fa-files-o" string="Preview Documents" widget="statinfo"/>
+            </div>
+        </field>
+    </record>
+
+    <!-- procedure -->
+    <record id="view_pb_patient_procedure_form" model="ir.ui.view">
+        <field name="name">pb.patient.procedure.form</field>
+        <field name="model">pb.patient.procedure</field>
+        <field name="inherit_id" ref="pb_hms.view_pb_patient_procedure_form"/>
+        <field name="arch" type="xml">
+            <button name="action_view_attachments" position="after">
+                <button class="oe_inline oe_stat_button" type="object" name="pb_action_attachments_preview" title="Preview Documents" icon="fa-files-o" string="Preview Documents" widget="statinfo"/>
+            </button>
+        </field>
+    </record>
+
+    <!-- Appointment -->
+    <record id="view_hms_appointment_form" model="ir.ui.view">
+        <field name="name">hms.appointment.form</field>
+        <field name="model">hms.appointment</field>
+        <field name="inherit_id" ref="pb_hms.view_hms_appointment_form"/>
+        <field name="arch" type="xml">
+            <button name="action_view_attachments" position="after">
+                <button class="oe_inline oe_stat_button" type="object" name="pb_action_attachments_preview" title="Preview Documents" icon="fa-files-o" string="Preview Documents" widget="statinfo"/>
+            </button>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- <Laboratory> -->
+    <record id="patient_laboratory_test_request_form" model="ir.ui.view">
+        <field name="name">pb.laboratory.request.from</field>
+        <field name="model">pb.laboratory.request</field>
+        <field name="inherit_id" ref="pb_laboratory.patient_laboratory_test_request_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="insurance_id" domain="[('patient_id','=', patient_id), ('allow_laboratory_insurance', '=', True)]"/>
+                <field name="insurance_company_id"/>
+                <field name="claim_id"/>
+            </field>
+        </field>
+    </record>
+    
+</odoo>

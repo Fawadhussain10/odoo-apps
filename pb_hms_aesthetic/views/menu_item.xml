@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <menuitem id="menu_pb_main_aesthetic" name="Aesthetic" sequence="65" groups="pb_hms_aesthetic.group_hms_aesthetic" web_icon="pb_hms_aesthetic,static/description/icon.png"/>
+
+    <menuitem id="menu_pb_patient" name="Patients" parent="menu_pb_main_aesthetic" action="pb_hms_base.action_patient" sequence="1"/>
+
+    <menuitem id="menu_pb_patient_wish" name="Patients Wish" parent="menu_pb_main_aesthetic" action="action_pb_aesthetic_patient_wish" sequence="10"/>
+
+    <menuitem id="menu_pb_treatment" name="Treatments" parent="menu_pb_main_aesthetic" action="action_pb_treatment" sequence="20"/>
+
+    <menuitem id="menu_pb_appointment" name="Appointment" parent="menu_pb_main_aesthetic" action="pb_hms_aesthetic.action_appointment" sequence="30"/>
+
+    <menuitem id="menu_pb_patient_aesthetic_procedure" name="Aesthetic Procedures" parent="menu_pb_main_aesthetic" action="action_pb_aesthetic_procedure" sequence="40"/>
+
+    <menuitem id="menu_pb_aesthetic_procedures" name="Procedures" parent="menu_pb_main_aesthetic" action="action_aesthetic_procedure" sequence="40"/>
+
+    <!-- Configuration -->
+    <menuitem name="Configuration" id="menu_aesthetic_cofig" parent="menu_pb_main_aesthetic" groups="pb_hms_base.group_hms_manager" sequence="100"/>
+
+    <menuitem name="Medical Questionnaire" id="menu_pb_medical_questionnaire_template" parent="menu_aesthetic_cofig" action="action_pb_medical_questionnaire_template" sequence="10"/>
+
+    <menuitem name="Aesthetic Questionnaire" id="menu_pb_aesthetic_questionnaire_template" parent="menu_aesthetic_cofig" action="action_pb_aesthetic_questionnaire_template" sequence="20"/>
+
+</odoo>

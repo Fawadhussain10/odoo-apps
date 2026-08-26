@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_commission_bill" model="ir.ui.view">
+        <field name="name">Commission Bill</field>
+        <field name="model">commission.bill</field>
+        <field name="arch" type="xml">
+            <form string="Create Commission Bill">
+                <p class="oe_grey">
+                    Bill will be created in draft so that you can review
+                    them before validation.
+                </p>
+                <group>
+                    <group>
+                        <field name="journal_id"/>
+                        <field name="hide_groupby_partner" invisible="1"/>
+                    </group>
+                    <group/>
+                </group>
+                <group>
+                    <group>
+                        <field name="print_commission"/>
+                    </group>
+                    <group>
+                        <field name="groupby_partner" invisible="hide_groupby_partner"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="create_bills" string="Create and View Bill" type="object"
+                        context="{'open_bills': True}" class="btn-primary"/>
+                    <button name="create_bills" string="Create Bill" type="object"
+                        class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_view_commission_bill" model="ir.actions.act_window">
+        <field name="name">Create Commission Bill</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">commission.bill</field>
+        <field name="binding_model_id" ref="model_pb_commission"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

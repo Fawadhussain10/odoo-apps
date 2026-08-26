@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <!-- Aesthetic Patient Wish Views -->
+    <record id="view_pb_aesthetic_patient_wish_list" model="ir.ui.view">
+        <field name="name">pb.aesthetic.patient.wish.list</field>
+        <field name="model">pb.aesthetic.patient.wish</field>
+        <field name="arch" type="xml">
+            <list string="Aesthetic Patient Wish" decoration-info="state=='draft'" decoration-muted="state=='cancel'" decoration-danger="state=='done'">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="physician_id"/>
+                <field name="date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pb_aesthetic_patient_wish_form" model="ir.ui.view">
+        <field name="name">pb.aesthetic.patient.wish.form</field>
+        <field name="model">pb.aesthetic.patient.wish</field>
+        <field name="arch" type="xml">
+             <form string="Aesthetic Patient Wish">
+                <header>
+                    <button name="action_draft" string="Draft" type="object" invisible="state not in ('cancel',)"/>
+                    <button name="action_confirm" string="Confirm" type="object" invisible="state not in ('draft',)" class="oe_highlight"/>
+                    <button name="action_create_treatement" string="Create Treatment" type="object" class="oe_highlight" invisible="(treatment_id or state != 'confirm')"/>
+                    <button name="action_done" string="Done" type="object" invisible="state not in ('confirm',)" class="oe_highlight" groups="pb_hms.group_hms_jr_doctor"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft',)"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_inline oe_stat_button" type="object" name="pb_action_attachments_preview" title="Preview Documents" icon="fa-files-o" string="Preview Documents" widget="statinfo">
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" string="Name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="date"/>
+                            <field name="treatment_id"/>
+                        </group>
+                        <group>
+                            <field name="physician_id"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="body" string="Body">
+                            <group string="I want to Improve">
+                                <group>
+                                    <field name="cellulitis"/>
+                                    <field name="stretch_marks"/>
+                                    <field name="body_circumference_reduction"/>
+                                    <field name="adiposity"/>
+                                    <field name="hair_removal"/>
+                                    <field name="definitive_hair_removal"/>
+                                    <field name="dehydrated_skin"/>
+                                    <field name="overweight"/>
+                                    <field name="skin_faccidity"/>
+                                    <field name="prepost_operative"/>
+                                    <field name="postpartum_treatments"/>
+                                    <field name="body_description" string="Others"/>
+                                </group>
+                                <group>
+                                </group>
+                            </group>
+                            <separator string="Treatment Options"/>
+                            <group col="3">
+                                <group>
+                                    <label for="body_treatment_product_ids" colspan="2"/>
+                                    <field name="body_treatment_product_ids" nolabel="1" colspan="2" widget="many2many_checkboxes" domain="[('is_body_treatment','=',True)]"/>
+                                </group>
+                                <group>
+                                    <label for="body_nutrition_product_ids" colspan="2"/>
+                                    <field name="body_nutrition_product_ids" nolabel="1" colspan="2" widget="many2many_checkboxes" domain="[('is_body_nutrition','=',True)]"/>
+                                </group>
+                                <group>
+                                    <label for="body_upkeep_product_ids" colspan="2"/>
+                                    <field name="body_upkeep_product_ids" nolabel="1" colspan="2" widget="many2many_checkboxes" domain="[('is_body_upkeep','=',True)]"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="facial" string="Facial">
+                            <group string="I want to Improve">
+                                <group>
+                                    <field name="scars"/>
+                                    <field name="pigmentation"/>
+                                    <field name="expression_lines"/>
+                                    <field name="wrinkles"/>
+                                    <field name="spots"/>
+                                    <field name="flaccidity"/>
+                                    <field name="facial_description" string="Others"/>
+                                </group>
+                                <group>
+                                </group>
+                            </group>
+                            <separator string="Treatment Options"/>
+                            <group col="3">
+                                <group>
+                                    <label for="facial_treatment_product_ids" colspan="2"/>
+                                    <field name="facial_treatment_product_ids" nolabel="1" colspan="2" widget="many2many_checkboxes" domain="[('is_facial_treatment','=',True)]"/>
+                                </group>
+                                <group>
+                                    <label for="facial_nutrition_product_ids" colspan="2"/>
+                                    <field name="facial_nutrition_product_ids" nolabel="1" colspan="2" widget="many2many_checkboxes" domain="[('is_facial_nutrition','=',True)]"/>
+                                </group>
+                                <group>
+                                    <label for="facial_upkeep_product_ids" colspan="2"/>
+                                    <field name="facial_upkeep_product_ids" nolabel="1" colspan="2" widget="many2many_checkboxes" domain="[('is_facial_upkeep','=',True)]"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    <field name="note" placehoder="Notes"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pb_aesthetic_patient_wish_search" model="ir.ui.view">
+        <field name="name">pb.aesthetic.patient.wish.search</field>
+        <field name="model">pb.aesthetic.patient.wish</field>
+        <field name="arch" type="xml">
+            <search string="PB Aesthetic Patient Wish">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="physician_id"/>
+                <separator/>
+                <filter name="my_procedures" string="My Aesthetic Patient Wish" domain="[('physician_id.user_id', '=',uid)]"/>
+                <separator/>
+                <filter name="not_done" string="Not Done" domain="[('state','!=','done')]"/>
+                <filter name="confirmed" string="Confirmed" domain="[('state','=','confirm')]"/>
+                <group>
+                    <filter name="group_by_physician_id" string="Physician" domain="[]" context="{'group_by':'physician_id'}"/>
+                    <filter name="group_by_patient" string="Patient" domain="[]" context="{'group_by':'patient_id'}"/>
+                    <filter name="group_by_date" string="Date" domain="[]" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_pb_aesthetic_patient_wish_calendar" model="ir.ui.view">
+        <field name="name">pb.aesthetic.patient.wish.calendar</field>
+        <field name="model">pb.aesthetic.patient.wish</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar string="Aesthetic Patient Wishs" color="patient_id" date_start="date">
+                <field name="physician_id"/>
+                <field name="patient_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_pb_aesthetic_patient_wish_pivot" model="ir.ui.view">
+        <field name="name">pb.aesthetic.patient.wish.pivot</field>
+        <field name="model">pb.aesthetic.patient.wish</field>
+        <field name="arch" type="xml">
+            <pivot string="Aesthetic Patient Wish">
+                <field name="date" type="row"/>
+                <field name="physician_id" type="row"/>
+                <field name="patient_id" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_pb_aesthetic_patient_wish" model="ir.actions.act_window">
+        <field name="name">Aesthetic Patient Wish</field>
+        <field name="res_model">pb.aesthetic.patient.wish</field>
+        <field name="view_mode">list,form,calendar,pivot</field>
+        <field name="context">{'search_default_not_done': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Click to add an Aesthetic Patient Wish.
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,1010 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="my_aesthetic_history_fields" name="Aestetic History fields">
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_any_treatement">1. In the last year have you undergone medical treatment?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_any_treatement" value="no" t-att-checked="record and record.ach_any_treatement=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_any_treatement" value="yes" t-att-checked="record and record.ach_any_treatement=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_dermatological_treatement">2. In the last year have you undergone dermatological treatment?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_dermatological_treatement" value="no" t-att-checked="record and record.ach_dermatological_treatement=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_dermatological_treatement" value="yes" t-att-checked="record and record.ach_dermatological_treatement=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_any_surgery">3. In the last 9 months, have you had any surgery?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_any_surgery" value="no" t-att-checked="record and record.ach_any_surgery=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_any_surgery" value="yes" t-att-checked="record and record.ach_any_surgery=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-4">
+                <label for="ach_surgery_comment">Surgery Details</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control o_website_form_input" name="ach_surgery_comment" id="ach_surgery_comment"  t-att-value="record and record.ach_surgery_comment"/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-12">
+                <strong><p>4. Have you had any of the following health problems, in the past or present?</p></strong>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_heart_problems" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_heart_problems" id="ach_heart_problems"/>
+                <label class="form-check-label" for="ach_heart_problems">
+                    Heart problems
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_cancer" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_cancer" id="ach_cancer"/>
+                <label class="form-check-label" for="ach_cancer">
+                    Cancer
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_diabetes" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_diabetes" id="ach_diabetes"/>
+                <label class="form-check-label" for="ach_diabetes">
+                    Diabetes
+                </label>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_epilepsy" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_epilepsy" id="ach_epilepsy"/>
+                <label class="form-check-label" for="ach_epilepsy">
+                    Epilepsy
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_hormonal_imbalance" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_hormonal_imbalance" id="ach_hormonal_imbalance"/>
+                <label class="form-check-label" for="ach_hormonal_imbalance">
+                    Hormonal Imbalance
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_column_damage" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_column_damage" id="ach_column_damage"/>
+                <label class="form-check-label" for="ach_column_damage">
+                    Column Damage
+                </label>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_veins" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_veins" id="ach_veins"/>
+                <label class="form-check-label" for="ach_veins">
+                    Veins
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_varicose_veins" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_varicose_veins" id="ach_varicose_veins"/>
+                <label class="form-check-label" for="ach_varicose_veins">
+                    Varicose Veins
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_hysterectomy" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_hysterectomy" id="ach_hysterectomy"/>
+                <label class="form-check-label" for="ach_hysterectomy">
+                    Hysterectomy
+                </label>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_thyroid_disease" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_thyroid_disease" id="ach_thyroid_disease"/>
+                <label class="form-check-label" for="ach_thyroid_disease">
+                    Thyroid Disease
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_systemic_disease" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_systemic_disease" id="ach_systemic_disease"/>
+                <label class="form-check-label" for="ach_systemic_disease">
+                    Systemic Disease (Hypertension, Circulatory, etc.)
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_asthma" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_asthma" id="ach_asthma"/>
+                <label class="form-check-label" for="ach_asthma">
+                    Asthma
+                </label>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_pregnancy" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_pregnancy" id="ach_pregnancy"/>
+                <label class="form-check-label" for="ach_pregnancy">
+                    Pregnancy
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_anticoagulants" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_anticoagulants" id="ach_anticoagulants"/>
+                <label class="form-check-label" for="ach_anticoagulants">
+                    Anticoagulants
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_constipation" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_constipation" id="ach_constipation"/>
+                <label class="form-check-label" for="ach_constipation">
+                    Constipation, Colon problems
+                </label>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_metal_implants" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_metal_implants" id="ach_metal_implants"/>
+                <label class="form-check-label" for="ach_metal_implants">
+                    Metal Implants
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_hiv" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_hiv" id="ach_hiv"/>
+                <label class="form-check-label" for="ach_hiv">
+                    HIV
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_gastritis" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_gastritis" id="ach_gastritis"/>
+                <label class="form-check-label" for="ach_gastritis">
+                    Gastritis
+                </label>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_spasms" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_spasms" id="ach_spasms"/>
+                <label class="form-check-label" for="ach_spasms">
+                    Spasms
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_hemophilia" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_hemophilia" id="ach_hemophilia"/>
+                <label class="form-check-label" for="ach_hemophilia">
+                    Hemophilia
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_hypertension" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_hypertension" id="ach_hypertension"/>
+                <label class="form-check-label" for="ach_hypertension">
+                    Hypertension
+                </label>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_fibroids" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_fibroids" id="ach_fibroids"/>
+                <label class="form-check-label" for="ach_fibroids">
+                    Fibroids / Cysts
+                </label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-12">
+                <label for="ach_medicines">5. List medications, supplements, vitamins, diuretics, weight loss tablets, etc. who are consuming regularly.</label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-12">
+                <input type="text" class="form-control o_website_form_input" name="ach_medicines" id="ach_medicines" t-att-value="record and record.ach_medicines"/>
+            </div>
+        </div>
+
+        <div class="form-row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_smoke">6. Do you Smoke?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_smoke" value="no" t-att-checked="record and record.ach_smoke=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_smoke" value="yes" t-att-checked="record and record.ach_smoke=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="form-row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_exercise">7. Do you exercise regularly?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_exercise" value="no" t-att-checked="record and record.ach_exercise=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_exercise" value="yes" t-att-checked="record and record.ach_exercise=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="form-row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_diet">8. Do you follow a diet?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_diet" value="no" t-att-checked="record and record.ach_diet=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_diet" value="yes" t-att-checked="record and record.ach_diet=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="form-row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_regular_sleep">9. Do you have regular sleep patterns?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_regular_sleep" value="no" t-att-checked="record and record.ach_regular_sleep=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_regular_sleep" value="yes" t-att-checked="record and record.ach_regular_sleep=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="form-row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_contact_lenses">10. Do you wear contact lenses?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_contact_lenses" value="no" t-att-checked="record and record.ach_contact_lenses=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_contact_lenses" value="yes" t-att-checked="record and record.ach_contact_lenses=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="form-row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_pacemakers">11. Do you have metal implants or pacemakers?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_pacemakers" value="no" t-att-checked="record and record.ach_pacemakers=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_pacemakers" value="yes" t-att-checked="record and record.ach_pacemakers=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="form-row justify-content-center mt32 mb32">
+            <div class="col-12">
+                <h2 class="heading text-center">YOUR SKIN</h2>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_water_temp">12. At what temperature do you use the water for cleaning at home?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_water_temp" value="cold" t-att-checked="record and record.ach_water_temp=='cold'"/>
+                <label for="cold">Cold</label>
+                <input type="radio" id="tibia" name="ach_water_temp" value="tibia" t-att-checked="record and record.ach_water_temp=='tibia'"/>
+                <label for="tibia">Tibia</label>
+                <input type="radio" id="hot" name="ach_water_temp" value="hot" t-att-checked="record and record.ach_water_temp=='hot'"/>
+                <label for="hot">Hot</label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-4">
+                <label for="ach_skin_problem_comment">Other Skin Problem</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control o_website_form_input" name="ach_skin_problem_comment" id="ach_skin_problem_comment" t-att-value="record and record.ach_skin_problem_comment"/>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_skin_problem">13. Do you have a special problem on the skin of your face or body?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_skin_problem" value="no" t-att-checked="record and record.ach_skin_problem=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_skin_problem" value="yes" t-att-checked="record and record.ach_skin_problem=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <strong><p>14. What products do you regularly use for skin care?</p></strong>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_use_soap" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_use_soap" id="ach_use_soap"/>
+                <label class="form-check-label" for="ach_use_soap">
+                    Soap
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_use_cleaner" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_use_cleaner" id="ach_use_cleaner"/>
+                <label class="form-check-label" for="ach_use_cleaner">
+                    Cleaner
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_use_tonic" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_use_tonic" id="ach_use_tonic"/>
+                <label class="form-check-label" for="ach_use_tonic">
+                    Tonic
+                </label>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_use_mask" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_use_mask" id="ach_use_mask"/>
+                <label class="form-check-label" for="ach_use_mask">
+                    Mask
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_use_peeling" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_use_peeling" id="ach_use_peeling"/>
+                <label class="form-check-label" for="ach_use_peeling">
+                    Peeling
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_use_eye_pct" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_use_eye_pct" id="ach_use_eye_pct"/>
+                <label class="form-check-label" for="ach_use_eye_pct">
+                    Eye Pct
+                </label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-4">
+                <label for="ach_use_comment">Others</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control o_website_form_input" name="ach_use_comment" id="ach_use_comment"  t-att-value="record and record.ach_use_comment"/>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom  mb0">
+            <div class="col-8">
+                <label for="ach_undergone_chemical">15. Have you undergone chemical, laser or dermabrasion peels?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_undergone_chemical" value="no" t-att-checked="record and record.ach_undergone_chemical=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_undergone_chemical" value="yes" t-att-checked="record and record.ach_undergone_chemical=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="form-row mt0">
+            <div class="col-8">
+                <label for="ach_undergone_chemical_in_month">In the last month?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_undergone_chemical_in_month" value="no" t-att-checked="record and record.ach_undergone_chemical_in_month=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_undergone_chemical_in_month" value="yes" t-att-checked="record and record.ach_undergone_chemical_in_month=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom  mb0">
+            <div class="col-8">
+                <label for="ach_undergone_retina">16. Are you using Retin A, Renova or Adapalene?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_undergone_retina" value="no" t-att-checked="record and record.ach_undergone_retina=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_undergone_retina" value="yes" t-att-checked="record and record.ach_undergone_retina=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="form-row mt0">
+            <div class="col-8">
+                <label for="ach_undergone_retina_in_3month">In the last 3 month?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_undergone_retina_in_3month" value="no" t-att-checked="record and record.ach_undergone_retina_in_3month=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_undergone_retina_in_3month" value="yes" t-att-checked="record and record.ach_undergone_retina_in_3month=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom mb0">
+            <div class="col-8">
+                <label for="ach_use_acne">17. Do you use acne or other pathology medications?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_use_acne" value="no" t-att-checked="record and record.ach_use_acne=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_use_acne" value="yes" t-att-checked="record and record.ach_use_acne=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="form-row mt0 mb0">
+            <div class="col-4">
+                <label for="ach_use_acne_comment">Which one?</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control o_website_form_input" name="ach_use_acne_comment" id="ach_use_acne_comment" t-att-value="record and record.ach_use_acne_comment"/>
+            </div>
+        </div>
+        <div class="form-row mt0">
+
+            <div class="col-8">
+                <label for="ach_use_acne_in_6_month">In the last 6 months?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_use_acne_in_6_month" value="no" t-att-checked="record and record.ach_use_acne_in_6_month=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_use_acne_in_6_month" value="yes" t-att-checked="record and record.ach_use_acne_in_6_month=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-4">
+                <label for="ach_use_acne_in_6_month_comment">Please Specify</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control o_website_form_input" name="ach_use_acne_in_6_month_comment" id="ach_use_acne_in_6_month_comment" t-att-value="record and record.ach_use_acne_in_6_month_comment"/>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12">
+                <strong><p>18. Do you frequently use products that contain the following ingredients?</p></strong>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_used_glycolic_acid" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_used_glycolic_acid" id="ach_used_glycolic_acid"/>
+                <label class="form-check-label" for="ach_used_glycolic_acid">
+                    Glycolic Acid
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_used_lactic_acid" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_used_lactic_acid" id="ach_used_lactic_acid"/>
+                <label class="form-check-label" for="ach_used_lactic_acid">
+                    Lactic acid
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_used_grainy_scrub" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_used_grainy_scrub" id="ach_used_grainy_scrub"/>
+                <label class="form-check-label" for="ach_used_grainy_scrub">
+                    Grainy Scrub
+                </label>
+            </div>
+        </div>
+        <div class="form-row ml32">
+
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_used_hydroxyacid_prod" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_used_hydroxyacid_prod" id="ach_used_hydroxyacid_prod"/>
+                <label class="form-check-label" for="ach_used_hydroxyacid_prod">
+                    Hydroxyacid Prod
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_used_derivatives_of_A" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_used_derivatives_of_A" id="ach_used_derivatives_of_A"/>
+                <label class="form-check-label" for="ach_used_derivatives_of_A">
+                    Derivatives of Vit A
+                </label>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt32 mb32">
+            <div class="col-12">
+                <h2 class="heading text-center">HYDRATION LEVEL</h2>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_water_consume">19. How much water do you consume daily?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="4glass" name="ach_water_consume" value="4glass" t-att-checked="record and record.ach_water_consume=='4glass'" />
+                <label for="4glass">1-4 Glasses</label>
+                <input type="radio" id="8glasses" name="ach_water_consume" value="8glasses" t-att-checked="record and record.ach_water_consume=='8glasses'" />
+                <label for="8glasses">4-8 Glasses</label>
+                <input type="radio" id="8plusglasses" name="ach_water_consume" value="8plusglasses" t-att-checked="record and record.ach_water_consume=='8plusglasses'" />
+                <label for="8plusglasses">&gt; 8 Glasses</label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_alcohole_consume">20. How many alcoholic beverages do you consume weekly?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="na" name="ach_alcohole_consume" value="na" t-att-checked="record and record.ach_alcohole_consume=='na'" />
+                <label for="na">NA</label>
+                <input type="radio" id="4cups" name="ach_alcohole_consume" value="4cups" t-att-checked="record and record.ach_alcohole_consume=='4cups'" />
+                <label for="4cups">1-4 Cups</label>
+                <input type="radio" id="8plusglasses" name="ach_alcohole_consume" value="8plusglasses" t-att-checked="record and record.ach_alcohole_consume=='8plusglasses'" />
+                <label for="8plusglasses">5-8 Glasses</label>
+                <input type="radio" id="10plusglasses" name="ach_alcohole_consume" value="10plusglasses" t-att-checked="record and record.ach_alcohole_consume=='10plusglasses'" />
+                <label for="10plusglasses">&gt; 10 Glasses</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <strong><p>21. Have you experienced any of the following skin conditions?</p></strong>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_skin_flaking" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_skin_flaking" id="ach_skin_flaking"/>
+                <label class="form-check-label" for="ach_skin_flaking">
+                    Flaking
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_skin_tightness" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_skin_tightness" id="ach_skin_tightness"/>
+                <label class="form-check-label" for="ach_skin_tightness">
+                    Tightness
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_skin_evident_dryness" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_skin_evident_dryness" id="ach_skin_evident_dryness"/>
+                <label class="form-check-label" for="ach_skin_evident_dryness">
+                    Evident Dryness 
+                </label>
+            </div>
+        </div>
+
+        <div class="form-row form-group form-field o_website_form_required_custom">
+            <div class="col-4">
+                <label for="ach_use_solar_screen_face">22. What Solar Screen FPS do you use for your Face?</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control o_website_form_input" name="ach_use_solar_screen_face" id="ach_use_solar_screen_face" t-att-value="record and record.ach_use_solar_screen_face"/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-4">
+                <label for="ach_use_solar_screen_body">What Solar Screen FPS do you use for your Body?</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control o_website_form_input" name="ach_use_solar_screen_body" id="ach_use_solar_screen_body" t-att-value="record and record.ach_use_solar_screen_body"/>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_skin_tanning">23. Are you tanning?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_skin_tanning" value="no" t-att-checked="record and record.ach_skin_tanning=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_skin_tanning" value="yes" t-att-checked="record and recordach_skin_tanning=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt32 mb32">
+            <div class="col-12">
+                <h2 class="heading text-center">CAPILLARY ACTIVITY</h2>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_suffer_from_burn">24. Does moderate sun exposure burn easily?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_suffer_from_burn" value="no" t-att-checked="record and record.ach_suffer_from_burn=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_suffer_from_burn" value="yes" t-att-checked="record and record.ach_suffer_from_burn=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_suffer_from_blush">25. Do you blush easily when you are nervous?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_suffer_from_blush" value="no" t-att-checked="record and record.ach_suffer_from_blush=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_suffer_from_blush" value="yes" t-att-checked="record and record.ach_suffer_from_blush=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_suffer_from_redness">26. Do you tend to redness?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_suffer_from_redness" value="no" t-att-checked="record and record.ach_suffer_from_redness=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_suffer_from_redness" value="yes" t-att-checked="record and record.ach_suffer_from_redness=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_suffer_from_respiratory">27. Do you suffer from respiratory problems?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_suffer_from_respiratory" value="no" t-att-checked="record and record.ach_suffer_from_respiratory=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_suffer_from_respiratory" value="yes" t-att-checked="record and record.ach_suffer_from_respiratory=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt32 mb32">
+            <div class="col-12">
+                <h2 class="heading text-center">NERVOUS ACTIVITY</h2>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_use_cb">28. Do you consume caffeinated beverages (coffee, tea, soft drinks)?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_use_cb" value="no" t-att-checked="record and record.ach_use_cb=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_use_cb" value="yes" t-att-checked="record and record.ach_use_cb=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <label for="ach_use_cb_per_day">How many per day?</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control o_website_form_input" name="ach_use_cb_per_day" id="ach_use_cb_per_day" t-att-value="record and record.ach_use_cb_per_day"/>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_skin_itching">29. Do you experience burning or itching sensation on your skin?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_skin_itching" value="no" t-att-checked="record and record.ach_skin_itching=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_skin_itching" value="yes" t-att-checked="record and record.ach_skin_itching=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_sensitivity_level">30. What is your level of sensitivity to pain?</label>
+            </div>
+            <div class="col-4">
+                <select class="form-control o_website_form_input" id="ach_sensitivity_level" name="ach_sensitivity_level">
+                    <option></option>
+                    <option value="low" t-att-selected="record and record.ach_sensitivity_level=='low'">Low</option>
+                    <option value="medium" t-att-selected="record and record.ach_sensitivity_level=='medium'">Medium</option>
+                    <option value="tall" t-att-selected="record and record.ach_sensitivity_level=='tall'">Tall</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_claustrophobia">31. Have you experienced claustrophobia?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_claustrophobia" value="no" t-att-checked="record and record.ach_claustrophobia=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_claustrophobia" value="yes" t-att-checked="record and record.ach_claustrophobia=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_massage_pressure">32. What type of pressure do you prefer for your massage?</label>
+            </div>
+            <div class="col-4">
+                <select class="form-control o_website_form_input" id="ach_massage_pressure" name="ach_massage_pressure">
+                    <option></option>
+                    <option value="low" t-att-selected="record and record.ach_massage_pressure=='low'">Low</option>
+                    <option value="medium" t-att-selected="record and record.ach_massage_pressure=='medium'">Medium</option>
+                    <option value="tall" t-att-selected="record and record.ach_massage_pressure=='tall'">Tall</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <strong><p>33. Have you had a reaction to any of the following items?</p></strong>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_reaction_cosmetics" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_reaction_cosmetics" id="ach_reaction_cosmetics"/>
+                <label class="form-check-label" for="ach_reaction_cosmetics">
+                    Cosmetics
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_reaction_medicine" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_reaction_medicine" id="ach_reaction_medicine"/>
+                <label class="form-check-label" for="ach_reaction_medicine">
+                    Medicine
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_reaction_iodine" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_reaction_iodine" id="ach_reaction_iodine"/>
+                <label class="form-check-label" for="ach_reaction_iodine">
+                    Iodine
+                </label>
+            </div>
+        </div>
+        <div class="form-row ml32">
+
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_reaction_animals" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_reaction_animals" id="ach_reaction_animals"/>
+                <label class="form-check-label" for="ach_reaction_animals">
+                    Animals
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_reaction_pollen" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_reaction_pollen" id="ach_reaction_pollen"/>
+                <label class="form-check-label" for="ach_reaction_pollen">
+                    Pollen
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_reaction_food" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_reaction_food" id="ach_reaction_food"/>
+                <label class="form-check-label" for="ach_reaction_food">
+                    Food
+                </label>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_reaction_hydroxy_acids" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_reaction_hydroxy_acids" id="ach_reaction_hydroxy_acids"/>
+                <label class="form-check-label" for="ach_reaction_hydroxy_acids">
+                    Hydroxy acids
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_reaction_fragrances" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_reaction_fragrances" id="ach_reaction_fragrances"/>
+                <label class="form-check-label" for="ach_reaction_fragrances">
+                    Fragrances
+                </label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-4">
+                <label for="ach_reaction_comment">Others</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control o_website_form_input" name="ach_reaction_comment" id="ach_reaction_comment" t-att-value="record and record.ach_reaction_comment"/>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt32 mb32">
+            <div class="col-12">
+                <h2 class="heading text-center">ONLY FEMALE CUSTOMERS</h2>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_use_contraceptives">34. Are you using oral contraceptives?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_use_contraceptives" value="no" t-att-checked="record and record.ach_use_contraceptives=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_use_contraceptives" value="yes" t-att-checked="record and record.ach_use_contraceptives=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_pregnant">35. Are you pregnant or trying to get pregnant?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_pregnant" value="no" t-att-checked="record and record.ach_pregnant=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_pregnant" value="yes" t-att-checked="record and record.ach_pregnant=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_breastfeeding">36. Are you breastfeeding?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_breastfeeding" value="no" t-att-checked="record and record.ach_breastfeeding=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_breastfeeding" value="yes" t-att-checked="record and record.ach_breastfeeding=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_pregnancy_loss">37. Have you had a recent pregnancy loss?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_pregnancy_loss" value="no" t-att-checked="record and record.ach_pregnancy_loss=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_pregnancy_loss" value="yes" t-att-checked="record and record.ach_pregnancy_loss=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt32 mb32">
+            <div class="col-12">
+                <h2 class="heading text-center">ONLY MALE CUSTOMERS</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <strong><p>38. What method do you use to shave?</p></strong>
+            </div>
+        </div>
+        <div class="form-row ml32">
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_shave_electric" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_shave_electric" id="ach_shave_electric"/>
+                <label class="form-check-label" for="ach_shave_electric">
+                    Electric
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_shave_shaving" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_shave_shaving" id="ach_shave_shaving"/>
+                <label class="form-check-label" for="ach_shave_shaving">
+                    Shaving
+                </label>
+            </div>
+            <div t-attf-class="form-group col-4 form-field">
+                <input type="checkbox" name="ach_shave_damp" style="height:initial;width:auto;" class="form-check-input form-control o_website_form_input" t-att-checked="record and record.ach_shave_damp" id="ach_shave_damp"/>
+                <label class="form-check-label" for="ach_shave_damp">
+                    Damp
+                </label>
+            </div>
+        </div>
+
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_shave_irritation">39. Do you experience irritation when shaving?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_shave_irritation" value="no" t-att-checked="record and record.ach_shave_irritation=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_shave_irritation" value="yes" t-att-checked="record and record.ach_shave_irritation=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+        <div class="row form-group form-field o_website_form_required_custom">
+            <div class="col-8">
+                <label for="ach_embedded_hairs">40. Do you suffer from embedded hairs?</label>
+            </div>
+            <div class="col-4">
+                <input type="radio" id="no" name="ach_embedded_hairs" value="no" t-att-checked="record and record.ach_embedded_hairs=='no'"/>
+                <label for="no">No</label>
+                <input type="radio" id="yes" name="ach_embedded_hairs" value="yes" t-att-checked="record and record.ach_embedded_hairs=='yes'"/>
+                <label for="yes">Yes</label>
+            </div>
+        </div>
+    </template>
+
+    <template id="my_aesthetic_history" name="Edit Aestetic History">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">YOUR HEALTH</t>
+            </t>
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card p-3">
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <h2 class="heading text-center">YOUR HEALTH</h2>
+                                </div>
+                            </div>
+                
+                            <form action="/website/form/" id="form_patient_aesthetic_history" method="post" data-model_name="hms.patient" class="s_website_form form-card" enctype="multipart/form-data" data-success_page="/my/aesthetic/history/sign">
+                                <input type="hidden" name="record_id" t-att-value="patient_id.id"/>
+                                <input type="hidden" name="edit_record" value="True"/>
+                                
+                                <t t-call="pb_hms_aesthetic.my_aesthetic_history_fields"/>
+                                <div class="form-group row text-center">
+                                    <div class="col-12">
+                                        <a href="#" class="btn btn-primary btn-lg o_website_form_send">Confirm</a>
+                                        <span id="o_website_form_result"></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="my_patient_content" name="Patient Content" >
+        <div id="patient_report_content" class="col-12 col-lg mt32">
+            <div class="o_portal_html_view shadow p-3" style="background-color: white;">
+              <iframe id="aesthetic_history_html" width="100%" height="1024px" frameborder="1" scrolling="no" t-att-src="'/report/pdf/pb_hms_aesthetic.report_pb_aesthetic_hisotry/'+str(patient.id)"/>
+            </div>
+        </div>
+    </template>
+
+    <template id="my_aesthetic_history_sign" name="Patient Sign" inherit_id="portal.portal_sidebar" primary="True">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <div class="row mt16 o_portal_stock_sidebar">
+                <!-- Sidebar -->
+                <t t-call="portal.portal_record_sidebar">
+                    <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+                    <t t-set="entries">
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                                <a t-if="patient.ach_has_to_be_signed" role="button" class="btn btn-primary btn-block mb8" data-bs-toggle="modal" data-bs-target="#modalaccept" href="#">
+                                    <i class="fa fa-check"/>Accept &amp; Sign
+                                </a>
+                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_download_btn" href="/my/aesthetic/history/sign?report_type=pdf&amp;download=True" title="Download"><i class="fa fa-download"/> Download</a>
+                                    </div>
+                                    <div class="btn-group flex-grow-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" href="/my/aesthetic/history/sign?report_type=pdf" id="print_invoice_report" title="Print" target="_blank"><i class="fa fa-print"/> Print</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="navspy list-group-item pl-0 flex-grow-1" t-ignore="true" role="complementary">
+                                <ul class="nav flex-column bs-sidenav"></ul>
+                            </li>
+                        </ul>
+                    </t>
+                </t>
+
+                <!-- Page content -->
+                <div id="patient_page_content" class="col-12 col-lg justify-content-end">
+                    <!-- modal relative to the actions sign -->
+                    <div role="dialog" class="modal fade" id="modalaccept">
+                        <div class="modal-dialog" t-if="patient">
+                            <form id="accept" method="POST" t-att-data-token="patient.access_token" t-att-data-order-id="patient.id" class="js_accept_json modal-content js_website_submit_form">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <header class="modal-header">
+                                    <h4 class="modal-title">Accept Details</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>
+                                </header>
+                                <main class="modal-body" id="sign-dialog">
+                                    <p>
+                                        <span>By signing this, I agree to the All terms:</span>
+                                        <ul>
+                                            <li><span>Accepted on the behalf of:</span> <b t-field="patient.partner_id.commercial_partner_id"/></li>
+                                        </ul>
+                                    </p>
+                                    <t t-call="portal.signature_form">
+                                        <t t-set="call_url" t-value="patient.get_portal_sign_url()"/>
+                                        <t t-set="default_name" t-value="patient.partner_id.name"/>
+                                    </t>
+                                </main>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- status messages -->
+                    <div t-if="message == 'sign_ok'" class="alert alert-success alert-dismissable d-print-none" role="status">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">&amp;times;</button>
+                        <strong>Thank You!</strong><br/>
+                        Your declaration has been signed.
+                    </div>
+                    <!-- main content -->
+                    <div class="card pb-5">
+                        <div t-call="pb_hms_aesthetic.my_patient_content"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    
+</odoo>

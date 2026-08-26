@@ -1,0 +1,61 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_consent_form
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-14 06:05+0000\n"
+"PO-Revision-Date: 2022-03-14 06:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_hms_consent_form
+#: model:ir.model.fields,field_description:pb_hms_consent_form.field_hms_appointment__consent_form_count
+#: model:ir.model.fields,field_description:pb_hms_consent_form.field_hms_patient__consent_form_count
+msgid "# Consent Form"
+msgstr ""
+
+#. module: pb_hms_consent_form
+#: model:ir.model.fields,field_description:pb_hms_consent_form.field_pb_consent_form__appointment_id
+msgid "Appointment"
+msgstr ""
+
+#. module: pb_hms_consent_form
+#: model:ir.model,name:pb_hms_consent_form.model_pb_consent_form
+#: model:ir.model.fields,field_description:pb_hms_consent_form.field_hms_appointment__consent_form_ids
+#: model:ir.model.fields,field_description:pb_hms_consent_form.field_hms_patient__consent_form_ids
+#: model_terms:ir.ui.view,arch_db:pb_hms_consent_form.view_hms_appointment_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_consent_form.view_hms_patient_consent_form
+msgid "Consent Form"
+msgstr ""
+
+#. module: pb_hms_consent_form
+#: model:ir.model.fields,field_description:pb_hms_consent_form.field_pb_consent_form__physician_id
+msgid "Doctor"
+msgstr ""
+
+#. module: pb_hms_consent_form
+#: model:ir.model.fields,help:pb_hms_consent_form.field_pb_consent_form__physician_id
+msgid "Doctor who provided consent form to the patient"
+msgstr ""
+
+#. module: pb_hms_consent_form
+#: model:ir.model.fields,field_description:pb_hms_consent_form.field_pb_consent_form__patient_id
+msgid "Patient"
+msgstr ""
+
+#. module: pb_hms_consent_form
+#: model:ir.model.fields,help:pb_hms_consent_form.field_pb_consent_form__appointment_id
+msgid "Patient Appointment"
+msgstr ""
+
+#. module: pb_hms_consent_form
+#: model:ir.model.fields,help:pb_hms_consent_form.field_pb_consent_form__patient_id
+msgid "Patient whose consent form to be attached"
+msgstr ""

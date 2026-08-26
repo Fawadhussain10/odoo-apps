@@ -1,0 +1,462 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Patient View -->
+    <record id="view_patient_aesthetic_form" model="ir.ui.view">
+        <field name="name">hms.patient.aesthetic.form</field>
+        <field name="model">hms.patient</field>
+        <field name="inherit_id" ref="pb_hms.view_patient_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_view_aesthetic_wish" class="oe_stat_button" icon="fa-medkit" type="object" groups="pb_hms_aesthetic.group_hms_aesthetic">
+                    <field string="Aesthetic Wish" name="aesthetic_wish_count" widget="statinfo"/>
+                </button>
+            </div>
+            
+            <page name="diseases" position="after">
+                <page string="Skin/Aesthetic" groups="pb_hms_aesthetic.group_hms_aesthetic">
+                    <notebook>
+                        <page string="Body Analysis">
+                            <separator string="TECHNICAL DATA"/>
+                            <group>
+                                <field name="body_size"/>
+                                <field name="current_weight"/>
+                                <field name="ideal_weight"/>
+                                <field name="obesity_type"/>
+                                <field name="adipose_tissue_consistency"/>
+                            </group>
+                            <separator string="STETOPATHOLOGIES"/>
+                            <group>
+                                <field name="state_of_cellulite"/>
+                                <field name="muscle_flacity"/>
+                                <field name="stretch_marks"/>
+                                <field name="trigger_factor"/>
+                            </group>
+
+                            <separator string="BODY ZONE CONTROL EVOLUTION" colspan="4"/>
+                            <field name='body_evolution_ids' nolabel="1"/>
+                        </page>
+
+                        <page string="Skin Analysis (Facial)">
+                            <separator string="SKIN CHARACTERISTICS"/>
+                            <group>
+                                <field name="skin_biotype"/>
+                                <field name="coloration"/>
+                                <field name="hydration_degree"/>
+                                <field name="thickness"/>
+                            </group>
+                            <group string="Acne">
+                                <group>
+                                    <field name="acne_papules"/>
+                                    <field name="acne_pustules"/>
+                                </group>
+                                <group>
+                                    <field name="acne_black_comedones"/>
+                                    <field name="acne_white_comedones"/>
+                                </group>
+                            </group>
+                            <group string="Preauricular Wrinkles">
+                                <group>
+                                    <field name="preauricular_wrinkles_front"/>
+                                    <field name="preauricular_wrinkles_backnose"/>
+                                </group>
+                                <group>
+                                    <field name="preauricular_wrinkles_frown"/>
+                                </group>
+                            </group>
+                            <group string="Periocular wrinkles">
+                                <group>
+                                    <field name="preauricular_wrinkles_nasogenian_sulcus"/>
+                                    <field name="preauricular_wrinkles_neck"/>
+                                </group>
+                                <group>
+                                    <field name="preauricular_wrinkles_other"/>
+                                </group>
+                            </group>
+                            <group string="Skin Disorders">
+                                <group>
+                                    <field name="skin_disorders_chloasmas"/>
+                                    <field name="skin_disorders_melasmas"/>
+                                    <field name="skin_disorders_lentigines"/>
+                                    <field name="skin_disorders_ephelides"/>
+                                    <field name="skin_disorders_moles"/>
+                                    <field name="skin_disorders_achromias"/>
+                                </group>
+                                <group>
+                                    <field name="skin_disorders_vitiligo"/>
+                                    <field name="skin_disorders_hair_alteration"/>
+                                    <field name="skin_disorders_large_pores"/>
+                                    <field name="skin_disorders_fragile_capillary"/>
+                                    <field name="skin_disorders_flaccidity"/>
+                                    <field name="skin_disorders_premature_aging"/>
+                                </group>
+                            </group>
+                            <separator string="Home Care (Clean Routine)"/>
+                            <group>
+                                <field name="routine_clear"/>
+                                <field name="routine_clear_comment"/>
+                                <field name="routine_tone"/>
+                                <field name="routine_tone_comment"/>
+                                <field name="routine_hydrated"/>
+                                <field name="routine_hydrated_comment"/>
+                                <field name="routine_protection"/>
+                                <field name="routine_protection_comment"/>
+                            </group>
+
+                            <separator string="Face Mapping" colspan="4"/>
+                            <field name="face_mapping_ids" nolabel="1"/>
+                        </page>
+
+                        <page string="Phototype Skin Test">
+                            <group col="4">
+                                <label for="skin_color" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="skin_color" class="oe_inline"/>
+                                </div>
+                                <label for="hair_color" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="hair_color" class="oe_inline"/>
+                                </div>
+                                <label for="eye_color" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="eye_color" class="oe_inline"/>
+                                </div>
+                                <label for="freckles_number" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="freckles_number" class="oe_inline"/>
+                                </div>
+                                <label for="genetic_heritage" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="genetic_heritage" class="oe_inline"/>
+                                </div>
+                                <label for="burn_potential" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="burn_potential" class="oe_inline"/>
+                                </div>
+                                <label for="tanning_potential" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="tanning_potential" class="oe_inline"/>
+                                </div>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="skin_phototype"/>
+                                    <field name="filled_by_patient" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="skin_score"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Clinical History" groups="pb_hms_aesthetic.group_hms_aesthetic">
+                            <separator string="YOUR HEALTH"/>
+                            <group col="4">
+                                <label for="ach_any_treatement" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_any_treatement" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+
+                                <label for="ach_dermatological_treatement" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_dermatological_treatement" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+
+                                <label for="ach_any_surgery" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_any_surgery" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <field name="ach_surgery_comment" invisible="ach_any_surgery == 'no'"/>
+                            </group>
+
+                            <group class="mt0 mb0">
+                                <p class="mt0 mb0"><strong>4. Have you had any of the following health problems, in the past or present?</strong></p>
+                                <br/>
+                                <group>
+                                    <field name="ach_heart_problems"/>
+                                    <field name="ach_cancer"/>
+                                    <field name="ach_diabetes"/>
+                                    <field name="ach_epilepsy"/>
+                                    <field name="ach_hormonal_imbalance"/>
+                                    <field name="ach_column_damage"/>
+                                    <field name="ach_veins"/>
+                                    <field name="ach_varicose_veins"/>
+                                    <field name="ach_hysterectomy"/>
+                                    <field name="ach_thyroid_disease"/>
+                                    <field name="ach_systemic_disease"/>
+                                </group>
+                                <group>
+                                    <field name="ach_asthma"/>
+                                    <field name="ach_pregnancy"/>
+                                    <field name="ach_anticoagulants"/>
+                                    <field name="ach_constipation"/>
+                                    <field name="ach_metal_implants"/>
+                                    <field name="ach_hiv"/>
+                                    <field name="ach_gastritis"/>
+                                    <field name="ach_spasms"/>
+                                    <field name="ach_hemophilia"/>
+                                    <field name="ach_hypertension"/>
+                                    <field name="ach_fibroids"/>
+                                </group>
+                            </group>
+
+                            <group col="4" class="mt0 mb0">
+                                <p colspan="4" class="mt0 mb0"><strong>5. List medications, supplements, vitamins, diuretics, weight loss tablets, etc. who are consuming regularly.</strong></p>
+                                <field name="ach_medicines" nolabel="1" colspan="4"/>
+
+                                <label for="ach_smoke" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_smoke" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_exercise" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_exercise" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_diet" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_diet" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_regular_sleep" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_regular_sleep" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_contact_lenses" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_contact_lenses" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_pacemakers" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_pacemakers" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                            </group>
+
+                            <group col="4" string="YOUR SKIN">
+                                <label for="ach_water_temp" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_water_temp" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+
+                                <label for="ach_skin_problem" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_skin_problem" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <field name="ach_skin_problem_comment" invisible="ach_skin_problem == 'no'"/>
+                            </group>
+
+                            <group class="mt0 mb0">
+                                <p colspan="4"><strong>14. What products do you regularly use for skin care?</strong></p>
+                                <group class="mt0 mb0">
+                                    <field name="ach_use_soap"/>
+                                    <field name="ach_use_cleaner"/>
+                                    <field name="ach_use_tonic"/>
+                                    <field name="ach_use_comment" string="Others"/>
+                                </group>
+                                <group>
+                                    <field name="ach_use_mask"/>
+                                    <field name="ach_use_peeling"/>
+                                    <field name="ach_use_eye_pct"/>
+                                </group>
+                            </group>
+
+                            <group col="4" class="mt0 mb0">
+                                <label for="ach_undergone_chemical" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_undergone_chemical" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+
+                                <label for="ach_undergone_chemical_in_month" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_undergone_chemical_in_month" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+
+                                <label for="ach_undergone_retina" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_undergone_retina" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+
+                                <label for="ach_undergone_retina_in_3month" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_undergone_retina_in_3month" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                            </group>
+
+                            <group col="4" class="mt0 mb0">
+                                <label for="ach_use_acne" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_use_acne" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <field name="ach_use_acne_comment" invisible="not ach_use_acne"/>
+
+                                <label for="ach_use_acne_in_6_month" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_use_acne_in_6_month" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <field name="ach_use_acne_in_6_month_comment" invisible="not ach_use_acne_in_6_month"/>
+                            </group>
+
+                            <group class="mt0 mb0">
+                                <p colspan="4"><strong>18. Do you frequently use products that contain the following ingredients?</strong></p>
+                                <group class="mt0 mb0">
+                                    <field name="ach_used_glycolic_acid"/>
+                                    <field name="ach_used_lactic_acid"/>
+                                    <field name="ach_used_grainy_scrub"/>
+                                </group>
+                                <group>
+                                    <field name="ach_used_hydroxyacid_prod"/>
+                                    <field name="ach_used_derivatives_of_A"/>
+                                </group>
+                            </group>
+
+                            <group col="4" string="HYDRATION LEVEL">
+                                <label for="ach_water_consume" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_water_consume" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+
+                                <label for="ach_alcohole_consume" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_alcohole_consume" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                            </group>
+
+                            <group  class="mt0 mb0">
+                                <p colspan="4"><strong>21. Have you experienced any of the following skin conditions?</strong></p>
+                                <group  class="mt0 mb0">
+                                    <field name="ach_skin_flaking"/>
+                                    <field name="ach_skin_tightness"/>
+                                    <field name="ach_skin_evident_dryness"/>
+                                </group>
+                                <group>
+                                </group>
+                            </group>
+
+                            <group col="4" class="mt0 mb0">
+                                <label for="ach_use_solar_screen_face" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_use_solar_screen_face" class="oe_inline"/>
+                                </div>
+                                <label for="ach_use_solar_screen_body" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_use_solar_screen_body" class="oe_inline"/>
+                                </div>
+                            </group>
+
+                            <group col="4" string="CAPILLARY ACTIVITY">
+                                <label for="ach_skin_tanning" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_skin_tanning" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_suffer_from_burn" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_suffer_from_burn" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_suffer_from_blush" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_suffer_from_blush" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_suffer_from_redness" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_suffer_from_redness" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_suffer_from_respiratory" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_suffer_from_respiratory" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                            </group>
+
+                            <group col="4" string="NERVOUS ACTIVITY">
+                                <label for="ach_use_cb" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_use_cb" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <field name="ach_use_cb_per_day" invisible="ach_use_cb == 'no'"/>
+
+                                <label for="ach_skin_itching" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_skin_itching" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+
+                                <field name="ach_sensitivity_level"/>
+
+                                <label for="ach_claustrophobia" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_claustrophobia" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+
+                                <field name="ach_massage_pressure"/>
+                            </group>
+
+                            <group class="mt0 mb0">
+                                <p colspan="4"><strong>33. Have you had a reaction to any of the following items?</strong></p>
+                                <group class="mt0 mb0">
+                                    <field name="ach_reaction_cosmetics"/>
+                                    <field name="ach_reaction_medicine"/>
+                                    <field name="ach_reaction_iodine"/>
+                                    <field name="ach_reaction_animals"/>
+                                    <field name="ach_reaction_comment" string="Others"/>
+                                </group>
+                                <group>
+                                    <field name="ach_reaction_pollen"/>
+                                    <field name="ach_reaction_food"/>
+                                    <field name="ach_reaction_hydroxy_acids"/>
+                                    <field name="ach_reaction_fragrances"/>
+                                </group>
+                            </group>
+                            
+                            <group col="4" string="ONLY FEMALE CUSTOMERS">
+                                <label for="ach_use_contraceptives" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_use_contraceptives" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_pregnant" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_pregnant" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_breastfeeding" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_breastfeeding" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                <label for="ach_pregnancy_loss" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_pregnancy_loss" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                            </group>
+
+                            <group colspan="4" string="ONLY MALE CUSTOMERS">
+                                <p colspan="4"><strong>38. What method do you use to shave?</strong></p>
+                                <group class="mt0 mb0">
+                                    <field name="ach_shave_electric"/>
+                                    <field name="ach_shave_shaving"/>
+                                    <field name="ach_shave_damp"/>
+                                </group>
+                                <group>
+                                </group>
+                            </group>
+
+                            <group col="4" class="mt0 mb0">
+                                <label for="ach_shave_irritation" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_shave_irritation" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                                
+                                <label for="ach_embedded_hairs" colspan="3"/>
+                                <div colspan="1">
+                                    <field name="ach_embedded_hairs" widget="radio" options="{'horizontal': true}" class="oe_inline"/>
+                                </div>
+                            </group>
+
+                            <group>
+                                <field name="ach_has_to_be_signed" invisible="1"/>
+                                <field name="ach_signed_on" readonly="1"/>
+                                <field name="ach_signature" widget="image" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </page>
+
+            </page>
+
+        </field>
+    </record>
+
+</odoo>

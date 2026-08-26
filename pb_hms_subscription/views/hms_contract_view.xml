@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Contract -->
+
+    <record id="pb_hms_contract_search" model="ir.ui.view">
+        <field name="name">pb.hms.contract.search</field>
+        <field name="model">pb.hms.contract</field>
+        <field name="arch" type="xml">
+            <search string="Subscription">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="create_date"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="pb_hms_contract_form_view" model="ir.ui.view">
+        <field name="name">pb.hms.contract.form</field>
+        <field name="model">pb.hms.contract</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary" invisible="state not in ('draft',)"/>
+                    <button name="action_done" string="Done" type="object" class="btn-primary" invisible="state not in ('active',)"/>
+                    <button name="action_draft" string="Set to Draft" type="object" invisible="state not in ('cancel', 'done')"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft', 'active')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_subscriptions"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o"
+                            invisible="subscription_count == 0">
+                            <field name="subscription_count" widget="statinfo" string="Subscriptions"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" nolable="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="product_id" domain="[('type','=','service')]"/>
+                            <field name="price"/>
+                            <field name="no_service"/>
+                            <field name="pb_type"/>
+                            <field name="pricelist_id" groups="product.group_product_pricelist" options="{'no_open':True,'no_create': True}" invisible="pb_type == 'full'" required="pb_type == 'discount'"/>
+                        </group>
+                        <group>
+                            <field name="res_model_id" widget="selection" domain="[('model','not in',['account.move','account.payment','account.bank.statement.line']),('field_id.name','in',['subscription_id'])]"/>
+                            <field name="user_id"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="note"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="pb_hms_contract_list_view" model="ir.ui.view">
+        <field name="name">pb.hms.contract.list</field>
+        <field name="model">pb.hms.contract</field>
+        <field name="arch" type="xml">
+            <list string="Contract" decoration-bf="state=='active'" decoration-muted="state in ['cancel','done']">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="create_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="pb_hms_contract_action" model="ir.actions.act_window">
+        <field name="name">Contract</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pb.hms.contract</field>
+        <field name="view_mode">list,form,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+            <p>
+                Click to define a new Contract.
+            </p>
+        </field>
+    </record>
+
+</odoo>

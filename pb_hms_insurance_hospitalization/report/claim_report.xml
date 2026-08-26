@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="claim_report_document" inherit_id="pb_hms_insurance.claim_report_document">
+        <xpath expr="//td[@name='td_tpa']" position="after">
+            <td>
+                <strong>Package:</strong>
+            </td>
+            <td>
+                <span t-field="doc.package_id"/>
+            </td>
+        </xpath>
+    </template>
+
+</odoo>

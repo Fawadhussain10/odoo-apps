@@ -1,0 +1,846 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_emergency
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-08 08:10+0000\n"
+"PO-Revision-Date: 2022-07-08 08:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_hms_emergency
+#: code:addons/pb_hms_emergency/models/hms_emergency.py:0
+#, python-format
+msgid " Days"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: code:addons/pb_hms_emergency/models/hms_emergency.py:0
+#, python-format
+msgid " Month "
+msgstr ""
+
+#. module: pb_hms_emergency
+#: code:addons/pb_hms_emergency/models/hms_emergency.py:0
+#: code:addons/pb_hms_emergency/models/hms_emergency.py:0
+#, python-format
+msgid " Year"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__invoice_count
+msgid "#Invoices"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model,name:pb_hms_emergency.model_pb_hms_emergency
+msgid "Pb Hms Emergency"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Add Kit Products"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__age
+msgid "Age"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__attachment_ids
+msgid "Attachments"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__bmi_state
+msgid "BMI State"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__bmi
+msgid "Body Mass Index"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.actions.act_window,help:pb_hms_emergency.action_emergency
+msgid "Click to add an emergency."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Clinical Assesment"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__age
+msgid "Computed patient age at the moment of the evaluation"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__product_id
+msgid "Consultation Service"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__product_id
+msgid "Consultation Services"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__consumable_line_ids
+msgid "Consumable Line"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Consumed Products/Services"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Create Evaluation"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Create Invoice"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Create Prescription"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "D/D & Advice"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__date
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_search
+msgid "Date"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model,name:pb_hms_emergency.model_hr_department
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__department_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_search
+msgid "Department"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__radiological_report
+msgid "Details of the Radiological Report"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__lab_report
+msgid "Details of the lab report."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__diastolic_bp
+msgid "Diastolic BP"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__differencial_diagnosis
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Differential Diagnosis"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Differential Diagnosis..."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__patient_diseases_ids
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Disease History"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__diseases_ids
+msgid "Diseases"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Diseases History"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__document_preview_url
+msgid "Document Preview Link"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__attach_count
+msgid "Documents"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields.selection,name:pb_hms_emergency.selection__pb_hms_emergency__state__done
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Done"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields.selection,name:pb_hms_emergency.selection__pb_hms_emergency__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.actions.act_window,name:pb_hms_emergency.action_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_account_bank_statement_line__emergency_id
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_account_move__emergency_id
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_account_payment__emergency_id
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_hms_consumable_line__emergency_id
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_prescription_order__emergency_id
+#: model:ir.model.fields.selection,name:pb_hms_emergency.selection__account_move__hospital_invoice_type__emergency
+#: model:ir.ui.menu,name:pb_hms_emergency.menu_pb_hms_emergency
+#: model:ir.ui.menu,name:pb_hms_emergency.menu_main_pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_tree
+msgid "Emergency"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields.selection,name:pb_hms_emergency.selection__hr_department__department_type__emergency_department
+msgid "Emergency Department"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__evaluation_id
+msgid "Evaluation"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__evaluation_ids
+msgid "Evaluations"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "General Information"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_search
+msgid "Group By..."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__hr
+msgid "HR"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__hr
+msgid "Heart Rate"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__height
+msgid "Height"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__height
+msgid "Height in cm"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__company_id
+msgid "Hospital"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_hr_department__department_type
+msgid "Hospital Department"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_account_bank_statement_line__hospital_invoice_type
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_account_move__hospital_invoice_type
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_account_payment__hospital_invoice_type
+msgid "Hospital Invoice Type"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__id
+msgid "ID"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__message_needaction
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__message_has_error
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__pricelist_id
+msgid "If you change the pricelist, related invoice will be affected."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__image_128
+msgid "Image"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__invoice_id
+msgid "Invoice"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__invoice_exempt
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_tree
+msgid "Invoice Exempt"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__invoice_ids
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Invoices"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model,name:pb_hms_emergency.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__pb_kit_id
+msgid "Kit"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__pb_kit_qty
+msgid "Kit Qty"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__lab_report
+msgid "Lab Report"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Laboratory"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Laboratory Report..."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Last Appointment:"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Line"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model,name:pb_hms_emergency.model_hms_consumable_line
+msgid "List of Consumables"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__medical_advice
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Medical Advice"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Medical Advice..."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "NOTE: Details are shown based on Patient Evaluation."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__name
+msgid "Name"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.actions.act_window,help:pb_hms_emergency.action_emergency
+msgid "No Record Found"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__notes
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Notes"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Notes..."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Other Information"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__spo2
+msgid "Oxygen Saturation, percentage of oxygen bound to hemoglobin"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__pain
+msgid "Pain"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__pain_level
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Pain Level"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__medical_history
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Past Medical History"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__patient_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_search
+msgid "Patient"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__pb_height_name
+msgid "Patient Height unit of measure label"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__patient_id
+msgid "Patient Name"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__pb_rbs_name
+msgid "Patient RBS unit of measure label"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__pb_spo2_name
+msgid "Patient SpO2 unit of measure label"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__pb_temp_name
+msgid "Patient Temp unit of measure label"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__pb_weight_name
+msgid "Patient Weight unit of measure label"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__physician_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_search
+msgid "Physician"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__physician_id
+msgid "Physician's Name"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: code:addons/pb_hms_emergency/models/hms_emergency.py:0
+#, python-format
+msgid "Please Set Consultation Service first."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Prescription"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model,name:pb_hms_emergency.model_prescription_order
+msgid "Prescription Order"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__prescription_ids
+msgid "Prescriptions"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__pricelist_id
+msgid "Pricelist"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__rbs
+msgid "RBS"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__rr
+msgid "RR"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Radiological"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__radiological_report
+msgid "Radiological Report"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Radiological Report..."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__rbs
+msgid ""
+"Random blood sugar measures blood glucose regardless of when you last ate."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Refer. To"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__ref_physician_id
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__ref_physician_id
+msgid "Referring Physician"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_search
+msgid "Referring physician"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__rr
+msgid "Respiratory Rate"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__user_id
+msgid "Responsible"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__responsible_id
+msgid "Responsible Jr. Doctor"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__user_id
+msgid "Responsible User for appointment validation And further Followup."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_search
+msgid "Search Emergency"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__spo2
+msgid "SpO2"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__state
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_search
+msgid "State"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__systolic_bp
+msgid "Systolic BP"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Systolic/Diastolic BP"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__temp
+msgid "Temp"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__differencial_diagnosis
+msgid ""
+"The process of weighing the probability of one disease versus that of other "
+"diseases possibly accounting for a patient's illness."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__medical_advice
+msgid ""
+"The provision of a formal professional opinion regarding what a specific "
+"individual should or should not do to restore or preserve health."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields.selection,name:pb_hms_emergency.selection__pb_hms_emergency__state__to_invoice
+msgid "To Invoice"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Total"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields.selection,name:pb_hms_emergency.selection__pb_hms_emergency__state__under_care
+#: model_terms:ir.ui.view,arch_db:pb_hms_emergency.view_hms_emergency_form
+msgid "Under Care"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,field_description:pb_hms_emergency.field_pb_hms_emergency__weight
+msgid "Weight"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: model:ir.model.fields,help:pb_hms_emergency.field_pb_hms_emergency__weight
+msgid "Weight in KG"
+msgstr ""
+
+#. module: pb_hms_emergency
+#: code:addons/pb_hms_emergency/models/hms_emergency.py:0
+#, python-format
+msgid "You can not delete record in done state"
+msgstr ""

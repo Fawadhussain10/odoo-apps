@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="pb_whatsapp_search_view" model="ir.ui.view">
+        <field name="name">whatsapp Search</field>
+        <field name="model">pb.whatsapp.message</field>
+        <field name="arch" type="xml">
+            <search string="WhatsApp">
+                <field name="partner_id"/>
+                <field name="mobile"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="pb_whatsapp_tree" model="ir.ui.view">
+        <field name="name">pb.whatsapp.message.tree</field>
+        <field name="model">pb.whatsapp.message</field>
+        <field name="arch" type="xml">
+            <list string="WhatsApp">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="mobile"/>
+                <field name="message"/>
+                <field name="state"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="pb_whatsapp_form" model="ir.ui.view">
+        <field name="name">whatsapp.history.form</field>
+        <field name="model">pb.whatsapp.message</field>
+        <field name="arch" type="xml">
+            <form string="WhatsApp">
+                <header>
+                    <button name="send_whatsapp_message" invisible="state not in ('draft',)" type="object" string="Send" class="oe_highlight"/>
+                    <button name="action_draft" invisible="state not in ('error',)" type="object" string="Set to Draft" class="oe_highlight"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_record" string="Open Linked Record" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="(not res_id or not res_model)"/>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="mobile"/>
+                            <field name="template_id"/>
+                            <field name="message_type"/>
+                            <field name="message" invisible="message_type != 'message'" required="message_type == 'message'"/>
+                            <field name="file" filename="file_name" invisible="message_type != 'file'" required="message_type == 'file'"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="link" invisible="message_type != 'link'" required="message_type == 'link'"/>
+                            <field name="file_url" invisible="message_type != 'file_url'" required="message_type == 'file_url'"/>
+                            <field name="mimetype" invisible="0"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            <field name="create_date" readonly="1"/>
+                            <field name="create_uid" readonly="1"/>
+                            <field name="reply_data"/>
+                            <field name="res_model" invisible="1"/>
+                            <field name="res_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pb_whatsapp_graph" model="ir.ui.view">
+        <field name="name">pb.whatsapp.message.graph</field>
+        <field name="model">pb.whatsapp.message</field>
+        <field name="arch" type="xml">
+            <graph string="WhatsApp">
+                <field name="create_date"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_appointment_pivot" model="ir.ui.view">
+        <field name="name">pb.whatsapp.message.pivot</field>
+        <field name="model">pb.whatsapp.message</field>
+        <field name="arch" type="xml">
+            <pivot string="WhatsApp">
+                <field name="create_date" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_pb_whatsapp" model="ir.actions.act_window">
+        <field name="name">WhatsApp</field>
+        <field name="res_model">pb.whatsapp.message</field>
+        <field name="view_mode">list,form,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Click to add new record.
+            </p>
+        </field>
+    </record>
+
+</odoo>

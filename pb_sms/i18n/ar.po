@@ -1,0 +1,290 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_sms
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-02 10:34+0000\n"
+"PO-Revision-Date: 2019-11-02 10:34+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_sms
+#: model:ir.model.fields.selection,name:pb_sms.selection__pb_sms_announcement__employee_selection_type__all
+msgid "All"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__message
+msgid "Announcement"
+msgstr ""
+
+#. module: pb_sms
+#: model_terms:ir.actions.act_window,help:pb_sms.employee_announcement_action
+msgid "Click to add a Announcement."
+msgstr ""
+
+#. module: pb_sms
+#: model_terms:ir.actions.act_window,help:pb_sms.action_sms_queue_tree
+msgid "Click to add new record."
+msgstr "انقر لإضافة سجل جديد."
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__create_uid
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__create_uid
+msgid "Created by"
+msgstr "أنشئ بواسطة"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__create_date
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__create_date
+msgid "Created on"
+msgstr "أنشئ في"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__date
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__department_id
+#: model:ir.model.fields.selection,name:pb_sms.selection__pb_sms_announcement__employee_selection_type__department
+msgid "Department"
+msgstr "القسم"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__mobile
+msgid "Destination Number"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__display_name
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__display_name
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_mixin__display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
+
+#. module: pb_sms
+#: model:ir.model.fields.selection,name:pb_sms.selection__pb_sms_announcement__state__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: pb_sms
+#: model:ir.actions.act_window,name:pb_sms.employee_announcement_action
+#: model:ir.model,name:pb_sms.model_pb_sms_announcement
+#: model:ir.ui.menu,name:pb_sms.menu_employee_announcement
+#: model_terms:ir.ui.view,arch_db:pb_sms.employee_announcement_form
+#: model_terms:ir.ui.view,arch_db:pb_sms.employee_announcement_search
+#: model_terms:ir.ui.view,arch_db:pb_sms.employee_announcement_tree_view
+msgid "SMS Announcement"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__employee_ids
+#: model:ir.model.fields.selection,name:pb_sms.selection__pb_sms_announcement__employee_selection_type__employees
+msgid "Employees"
+msgstr "الموظفون"
+
+#. module: pb_sms
+#: model:ir.model.fields.selection,name:pb_sms.selection__pb_sms__state__error
+msgid "Error"
+msgstr "خطأ"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__error_msg
+msgid "Error Message/MSG ID"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_res_company__sms_extra_param
+msgid "Extra Parameter"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model,name:pb_sms.model_res_company
+msgid "Hospital"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__id
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__id
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_mixin__id
+msgid "ID"
+msgstr "المُعرف"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement____last_update
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms____last_update
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_mixin____last_update
+msgid "Last Modified on"
+msgstr "آخر تعديل في"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__write_uid
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__write_date
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_res_company__sms_message_param
+msgid "Message Parameter"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__state
+msgid "Message Status"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__partner_id
+msgid "Partner"
+msgstr "الشريك"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_res_company__password
+msgid "Password"
+msgstr "كلمة المرور"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_res_company__sms_password_param
+msgid "Password Parameter"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields.selection,name:pb_sms.selection__pb_sms__state__draft
+msgid "Queued"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_res_company__sms_receiver_param
+msgid "Receiver Parameter"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.actions.act_window,name:pb_sms.action_sms_queue_tree
+#: model:ir.model,name:pb_sms.model_pb_sms
+#: model_terms:ir.ui.view,arch_db:pb_sms.pb_sms_tree
+msgid "SMS"
+msgstr ""
+
+#. module: pb_sms
+#: model_terms:ir.ui.view,arch_db:pb_sms.view_company_form
+msgid "SMS Gateway"
+msgstr ""
+
+#. module: pb_sms
+#: model_terms:ir.ui.view,arch_db:pb_sms.pb_sms_form
+msgid "SMS History"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model,name:pb_sms.model_pb_sms_mixin
+msgid "SMS Mixin"
+msgstr ""
+
+#. module: pb_sms
+#: model_terms:ir.ui.view,arch_db:pb_sms.view_company_form
+msgid "SMS Notifications"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.ui.menu,name:pb_sms.menu_sms_queue
+msgid "SMS Queue"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__name
+msgid "SMS Request URl"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms__msg
+msgid "SMS Text"
+msgstr ""
+
+#. module: pb_sms
+#: model_terms:ir.ui.view,arch_db:pb_sms.pb_sms_form
+#: model_terms:ir.ui.view,arch_db:pb_sms.employee_announcement_form
+msgid "Send"
+msgstr "إرسال"
+
+#. module: pb_sms
+#: model:ir.actions.server,name:pb_sms.ir_cron_send_sms_action_ir_actions_server
+#: model:ir.cron,cron_name:pb_sms.ir_cron_send_sms_action
+#: model:ir.cron,name:pb_sms.ir_cron_send_sms_action
+msgid "Send SMS"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_res_company__sms_sender_id
+msgid "Sender"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_res_company__sms_sender_param
+msgid "Sender Parameter"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields.selection,name:pb_sms.selection__pb_sms_announcement__state__sent
+#: model:ir.model.fields.selection,name:pb_sms.selection__pb_sms__state__sent
+msgid "Sent"
+msgstr "تم الإرسال"
+
+#. module: pb_sms
+#: model_terms:ir.ui.view,arch_db:pb_sms.pb_sms_form
+msgid "Set to Draft"
+msgstr "تعيين كمسودة"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__state
+msgid "Status"
+msgstr "الحالة"
+
+#. module: pb_sms
+#: model_terms:ir.ui.view,arch_db:pb_sms.view_company_form
+msgid "Technical Settings"
+msgstr "إعدادات تقنية"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_pb_sms_announcement__employee_selection_type
+msgid "Type"
+msgstr "النوع"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_res_company__url
+msgid "URL"
+msgstr "رابط ويب"
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_res_company__sms_user_name
+msgid "User Name"
+msgstr ""
+
+#. module: pb_sms
+#: model:ir.model.fields,field_description:pb_sms.field_res_company__sms_sms_user_name_param
+msgid "User Name Parameter"
+msgstr ""
+
+#. module: pb_sms
+#: code:addons/pb_sms/models/announcement.py:0
+#, python-format
+msgid "You cannot delete an record which is not draft."
+msgstr ""

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Hospitalization -->
+    <record id="view_pb_hospitalization_form" model="ir.ui.view">
+        <field name="name">pb.hospitalization</field>
+        <field name="model">pb.hospitalization</field>
+        <field name="inherit_id" ref="pb_hms_hospitalization.view_pb_hospitalization_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_ot_booking" class="oe_stat_button" icon="fa-th-list" type="object" invisible="state not in ('hosp', 'discharged', 'done')">
+                    <field string="OT Bookings" name="ot_booking_count" widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+    <record id="view_hospital_hms_treatment_form" model="ir.ui.view">
+        <field name="name">hms.treatment.form</field>
+        <field name="model">hms.treatment</field>
+        <field name="inherit_id" ref="pb_hms.view_hospital_hms_treatment_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" type="object" name="action_view_ot_booking" title="OT Bookings" icon="fa-th-list" string="OT Bookings" widget="statinfo"/>
+            </div>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Dr. View -->
+    <record id="view_physician_form" model="ir.ui.view">
+        <field name="name">hms.physician.form</field>
+        <field name="model">hms.physician</field>
+        <field name="inherit_id" ref="pb_hms.view_physician_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" type="object"  name="commission_action" icon="fa-list" string="Commissions" groups="pb_commission.group_pb_commission_user"/> 
+            </div>
+
+            <field name="vat" position="after">
+                <field name="provide_commission" groups="pb_commission.group_pb_commission_user"/>
+            </field>
+
+            <xpath expr="//notebook" position="inside">
+                <page name="commission" string="Business Commissions" groups="pb_commission.group_pb_commission_user" invisible="not provide_commission">
+                    <group>
+                        <group>
+                            <field name="commission_role_id"/>
+                            <field name="target_based_commission"/>
+                        </group>
+                        <group>
+                            <field name="commission_percentage"/>
+                            <field name="partner_id" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <field name="commission_rule_ids" context="{'default_rule_type': 'user'}">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="role_id" invisible="1"/>
+                            <field name="rule_on"/>
+                            <field name="product_category_id" invisible="rule_on != 'product_category'" required="rule_on == 'product_category'"/>
+                            <field name="product_id" invisible="rule_on != 'product'" required="rule_on == 'product'"/>
+                            <field name="type"/>
+                            <field name="percentage" invisible="type != 'percentage'" required="type == 'percentage'"/>
+                            <field name="amount" invisible="type != 'amount'" required="type == 'amount'"/>
+                        </list>
+                    </field>
+
+                    <separator string="Target Rules" invisible="not target_based_commission"/>
+                    <field name="commission_target_rule_ids" context="{'default_rule_type': 'user'}" invisible="not target_based_commission">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="rule_type" invisible="1"/>
+                            <field name="role_id" invisible="1"/>
+                            <field name="target_amount"/>
+                            <field name="percentage"/>
+                            <field name="description"/>
+                        </list>
+                    </field>
+
+                    <i class="fa fa-info fa-3x text-info float-left" role="img" aria-label="Info" title="Info"/>
+                    <h3 class="mb16 mt8 ml8">Commission Computation Rules</h3>
+                    <div>
+                      <p>
+                        The detailed algorithm for Commission:
+                        <ol>
+                          <li>If we have Commission rules configured on the contact it will have First priority.</li>
+                          <li>Second Priority will be given to rules on the role.</li>
+                          <li>Third Priority will be given to the percentage on the form.</li>
+                        </ol>
+                        * From the list of rules first matching rule will be applied.
+                      </p>
+                      <p>
+                        The detailed algorithm for the Commission target:
+                        <ol>
+                          <li>If we have Commission target rules configured on the contact it will have First priority.</li>
+                          <li>Second Priority will be given to target rules on the role.</li>
+                        </ol>
+                        * From the list of rules last matching rule will be applied.
+                        * If 'Target Based Commission' is ticked then only rules will be taken into consideration.
+                      </p>
+                    </div>
+
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="pb_commission_list_view" model="ir.ui.view">
+        <field name="name">pb.commission</field>
+        <field name="model">pb.commission</field>
+        <field name="inherit_id" ref="pb_commission.pb_commission_list_view"/>
+        <field name="arch" type="xml">
+            <field name="invoice_partner_id" position="after">
+                <field name="invoice_patient_id" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

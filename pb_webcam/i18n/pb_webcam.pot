@@ -1,0 +1,60 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_webcam
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-14 06:05+0000\n"
+"PO-Revision-Date: 2022-03-14 06:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_webcam
+#: model:ir.model,name:pb_webcam.model_pb_webcam_mixin
+msgid "PB Webcam Mixin"
+msgstr ""
+
+#. module: pb_webcam
+#: model_terms:ir.ui.view,arch_db:pb_webcam.open_webcam
+msgid "Cancel"
+msgstr ""
+
+#. module: pb_webcam
+#: model_terms:ir.ui.view,arch_db:pb_webcam.open_webcam
+msgid "Save Image"
+msgstr ""
+
+#. module: pb_webcam
+#: model_terms:ir.ui.view,arch_db:pb_webcam.open_webcam
+msgid "Set Image for"
+msgstr ""
+
+#. module: pb_webcam
+#: model_terms:ir.ui.view,arch_db:pb_webcam.open_webcam
+msgid "Snap Photo"
+msgstr ""
+
+#. module: pb_webcam
+#. openerp-web
+#: code:addons/pb_webcam/static/src/js/button.js:0
+#, python-format
+msgid "Take Picture"
+msgstr ""
+
+#. module: pb_webcam
+#: model:ir.model,name:pb_webcam.model_res_users
+msgid "Users"
+msgstr ""
+
+#. module: pb_webcam
+#: model:ir.model.fields,field_description:pb_webcam.field_pb_webcam_mixin__pb_webcam_url
+#: model:ir.model.fields,field_description:pb_webcam.field_res_partner__pb_webcam_url
+#: model:ir.model.fields,field_description:pb_webcam.field_res_users__pb_webcam_url
+msgid "Webcam Field"
+msgstr ""

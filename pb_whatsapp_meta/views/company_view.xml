@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="pb_whatsapp.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='whatsapp_conf']" position="inside">
+                <group>
+                    <field name='whatsapp_meta_url'/>
+                    <field name='whatsapp_meta_phone_number_id'/>
+                </group>
+                <group>
+                    <field name='whatsapp_meta_token' password="True"/>
+                    <field name='whatsapp_business_acccountid'/>
+                    <button name="get_whatsapp_templates" string="Get Templates from FB" type="object" class="oe_inline fa fa-plus oe_link mr8" invisible="not whatsapp_business_acccountid"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

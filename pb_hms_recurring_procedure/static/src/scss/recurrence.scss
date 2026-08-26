@@ -1,0 +1,28 @@
+.pb_recur_dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.pb_recur_chip {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: color-mix(in srgb, #0d9488 14%, white);
+    color: #0d9488;
+    font-size: 0.8125em;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.pb_recur_chip.pb_recur_more {
+    background: #f4f6f8;
+    color: #6b7280;
+}
+
+.pb_recur_count {
+    margin-top: 8px;
+    font-size: 0.8125em;
+    font-style: italic;
+    color: #6b7280;
+}

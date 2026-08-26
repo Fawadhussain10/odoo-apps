@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_partner_form_sms" model="ir.ui.view">
+        <field name="name">res.partner.sms.buttons</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button type="object" class="oe_stat_button" icon="fa-comment" name="action_pb_sms" groups="pb_sms.group_sms_user">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="sms_count"/>
+                        </span>
+                        <span class="o_stat_text">SMS</span>
+                    </div>
+                </button>
+                <button type="object" class="oe_stat_button" icon="fa-comments" name="action_pb_sms_announcement" groups="pb_sms.group_sms_user">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="announcement_count"/>
+                        </span>
+                        <span class="o_stat_text">SMS Announcements</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='email']" position="before">
+                <label for="pb_otp_sms" invisible="verified_mobile_sms" groups="pb_sms.group_sms_otp"/>
+                <div>
+                    <div name='pb_otp_sms_otp' groups="pb_sms.group_sms_otp" class="oe_inline">
+                        <field name="pb_otp_sms" invisible="verified_mobile_sms" class="oe_inline"/>
+                        <button name="action_send_otp_sms" string="Send OTP" type="object" class="oe_inline fa fa-arrow-up oe_link" invisible="verified_mobile_sms"/>
+                        <button name="action_verify_otp_sms" string="Verify OTP" type="object" class="oe_inline fa fa-mobile oe_link" invisible="verified_mobile_sms"/>
+                    </div>
+                </div>
+                <field name="verified_mobile_sms" readonly="1" groups="pb_sms.group_sms_otp" invisible="not verified_mobile_sms"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

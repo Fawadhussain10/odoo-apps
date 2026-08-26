@@ -1,0 +1,10 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_pb_sms,access_pb_sms,model_pb_sms,,1,1,1,0
+access_pb_sms_user,access_pb_sms_user,model_pb_sms,pb_sms.group_sms_user,1,1,1,0
+access_pb_sms_manager,access_pb_sms_manager,model_pb_sms,pb_sms.group_sms_manager,1,1,1,1
+access_pb_sms_template,access_pb_sms_template,model_pb_sms_template,,1,0,0,0
+access_pb_sms_template_user,access_pb_sms_template_user,model_pb_sms_template,pb_sms.group_sms_user,1,1,1,0
+access_pb_sms_template_manager,access_pb_sms_template_manager,model_pb_sms_template,pb_sms.group_sms_manager,1,1,1,1
+pb_sms_announcement,pb_sms_announcement,model_pb_sms_announcement,,1,0,0,0
+pb_sms_announcement_user,pb_sms_announcement_user,model_pb_sms_announcement,pb_sms.group_sms_user,1,1,1,0
+pb_sms_announcement_manager,pb_sms_announcement_manager,model_pb_sms_announcement,pb_sms.group_sms_manager,1,1,1,1

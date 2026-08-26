@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pb_hms_pharmacy_pos.Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
+        <xpath expr="//ul[hasclass('info-list')]" position="inside">
+            <t t-if="line.get_prescription_order()">
+                <t t-set="pol_data" t-value="line.get_prescription_order()"/>
+                <li class="info orderline-prescription-order">
+                    <i class="fa fa-basket me-1" role="img" aria-label="Prescription Order" title="Prescription Order"/>
+                    <t t-esc="pol_data.name" />
+                </li>
+                <li class="info pb-kit-data" t-if="props.mode != 'receipt' and pol_data.is_kit_product">
+                    (Part of KIT: <span t-esc="pol_data.kit_product_name"/> x <span class="mr8" t-esc="pol_data.kit_product_qty"/>)
+                </li>
+                <li class="info pb-kit-data" t-if="props.mode == 'receipt' and pol_data.details">
+                    <table class="prescription-order-info">
+                        <tr t-foreach="pol_data.details" t-as="kitLine" t-key="kitLine_index">
+                            <td><t t-esc="kitLine.product_uom_qty" />x</td>
+                            <td style="max-width: 200px;">
+                                <t t-esc="kitLine.product_name" />
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+            </t>
+        </xpath>
+    </t>
+</templates>

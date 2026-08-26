@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Hospitalization -->
+    <record id="view_pb_hospitalization_form" model="ir.ui.view">
+        <field name="name">pb.hospitalization</field>
+        <field name="model">pb.hospitalization</field>
+        <field name="inherit_id" ref="pb_hms_hospitalization.view_pb_hospitalization_form"/>
+        <field name="arch" type="xml">
+            <button name="button_indoor_medication" position="after">
+                <button name="action_lab_request" string="Pathology Request" type="object" invisible="state not in ('hosp',)" icon="fa-flask" class="oe_highlight" groups="pb_hms.group_hms_jr_doctor"/>
+            </button>
+            <div name="button_box" position="inside">
+                <button name="action_lab_requests" class="oe_stat_button" icon="fa-th-list" type="object" invisible="state not in ('hosp', 'discharged', 'done')" groups="pb_laboratory.group_hms_lab_user,pb_hms.group_hms_nurse">
+                    <field string="Pathology Requests" name="request_count" widget="statinfo"/>
+                </button>
+                <button name="action_view_test_results" class="oe_stat_button" icon="fa-flask" type="object"  invisible="test_count &lt;= 0" groups="pb_laboratory.group_hms_lab_user,pb_hms.group_hms_nurse">
+                    <field string="Pathology Results" name="test_count" widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+</odoo>

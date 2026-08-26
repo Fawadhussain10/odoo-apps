@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="seq_pb_hms_aesthetic_wish" model="ir.sequence">
+            <field name="name">PB Aesthetic Patient Wish</field>
+            <field name="code">pb.aesthetic.patient.wish</field>
+            <field name="prefix">APW</field>
+            <field name="padding">3</field>
+            <field name="pb_auto_create" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="aesthetic_department" model="hr.department">
+            <field name="name">Aesthetic</field>
+            <field name="patient_department">True</field>
+            <field name="department_type">aesthetic</field>
+            <field name="image" type="base64" file="pb_hms_aesthetic/static/description/icon.png"/>
+        </record>
+
+        <record id="pb_hms_aesthetic.model_pb_aesthetic_patient_wish" model="ir.model">
+            <field name="website_form_key">create_pb_aesthetic_patient_wish</field>
+            <field name="website_form_access">True</field>
+            <field name="website_form_label">Create Aesthetic Patient Wish</field>
+        </record>
+
+        <function model="ir.model.fields" name="formbuilder_whitelist">
+            <value>pb.aesthetic.patient.wish</value>
+            <value eval="[
+                'patient_id',
+                'cellulitis',
+                'stretch_marks',
+                'body_circumference_reduction',
+                'adiposity',
+                'hair_removal',
+                'definitive_hair_removal',
+                'dehydrated_skin',
+                'overweight',
+                'skin_faccidity',
+                'prepost_operative',
+                'postpartum_treatments',
+                'body_description',
+                'body_treatment_product_ids',
+                'body_nutrition_product_ids',
+                'body_upkeep_product_ids',
+                'scars',
+                'pigmentation',
+                'expression_lines',
+                'wrinkles',
+                'spots',
+                'flaccidity',
+                'facial_description',
+                'facial_treatment_product_ids',
+                'facial_nutrition_product_ids',
+                'facial_upkeep_product_ids',
+            ]"/>
+        </function>
+
+        <record id="pb_hms.model_hms_patient" model="ir.model">
+            <field name="website_form_key">edit_hms_patient</field>
+            <field name="website_form_access">True</field>
+            <field name="website_form_label">Patient History</field>
+        </record>
+
+        <function model="ir.model.fields" name="formbuilder_whitelist">
+            <value>hms.patient</value>
+            <value eval="[
+                'ach_any_treatement',
+                'ach_dermatological_treatement',
+                'ach_any_surgery',
+                'ach_surgery_comment',
+                'ach_heart_problems',
+                'ach_cancer',
+                'ach_diabetes',
+                'ach_epilepsy',
+                'ach_hormonal_imbalance',
+                'ach_column_damage',
+                'ach_veins',
+                'ach_varicose_veins',
+                'ach_hysterectomy',
+                'ach_thyroid_disease',
+                'ach_systemic_disease',
+                'ach_asthma',
+                'ach_pregnancy',
+                'ach_anticoagulants',
+                'ach_constipation',
+                'ach_metal_implants',
+                'ach_hiv',
+                'ach_gastritis',
+                'ach_spasms',
+                'ach_hemophilia',
+                'ach_hypertension',
+                'ach_fibroids',
+                'ach_medicines',
+                'ach_smoke',
+                'ach_exercise',
+                'ach_diet',
+                'ach_regular_sleep',
+                'ach_contact_lenses',
+                'ach_pacemakers',
+                'ach_water_temp',
+                'ach_skin_problem',
+                'ach_skin_problem_comment',
+                'ach_use_soap',
+                'ach_use_cleaner',
+                'ach_use_tonic',
+                'ach_use_mask',
+                'ach_use_peeling',
+                'ach_use_eye_pct',
+                'ach_use_comment',
+                'ach_undergone_chemical',
+                'ach_undergone_chemical_in_month',
+                'ach_undergone_retina',
+                'ach_undergone_retina_in_3month',
+                'ach_use_acne',
+                'ach_use_acne_comment',
+                'ach_use_acne_in_6_month',
+                'ach_use_acne_in_6_month_comment',
+                'ach_used_glycolic_acid',
+                'ach_used_lactic_acid',
+                'ach_used_grainy_scrub',
+                'ach_used_hydroxyacid_prod',
+                'ach_used_derivatives_of_A',
+                'ach_water_consume',
+                'ach_alcohole_consume',
+                'ach_skin_flaking',
+                'ach_skin_tightness',
+                'ach_skin_evident_dryness',
+                'ach_use_solar_screen_face',
+                'ach_use_solar_screen_body',
+                'ach_skin_tanning',
+                'ach_suffer_from_burn',
+                'ach_suffer_from_blush',
+                'ach_suffer_from_redness',
+                'ach_suffer_from_respiratory',
+                'ach_use_cb',
+                'ach_use_cb_per_day',
+                'ach_skin_itching',
+                'ach_sensitivity_level',
+                'ach_claustrophobia',
+                'ach_massage_pressure',
+                'ach_reaction_cosmetics',
+                'ach_reaction_medicine',
+                'ach_reaction_iodine',
+                'ach_reaction_pollen',
+                'ach_reaction_food',
+                'ach_reaction_hydroxy_acids',
+                'ach_reaction_animals',
+                'ach_reaction_fragrances',
+                'ach_reaction_comment',
+                'ach_use_contraceptives',
+                'ach_pregnant',
+                'ach_breastfeeding',
+                'ach_pregnancy_loss',
+                'ach_shave_electric',
+                'ach_shave_shaving',
+                'ach_shave_damp',
+                'ach_shave_irritation',
+                'ach_embedded_hairs',
+
+                'skin_color',
+                'hair_color',
+                'eye_color',
+                'freckles_number',
+                'genetic_heritage',
+                'burn_potential',
+                'tanning_potential',
+                'filled_by_patient',
+            ]"/>
+        </function>
+
+    </data>
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hms_radiology_request_line_receptionist,PB Patient Radiology Request line,pb_radiology.model_radiology_request_line,pb_hms.group_hms_receptionist,1,1,1,1
+access_hms_pb_radiology_request_receptionist,Patient Radiology Request Recep,pb_radiology.model_pb_radiology_request,pb_hms.group_hms_receptionist,1,1,1,0
+,,,,,,,
+access_patient_radiology_test_jr_doctor,Patient Radiology Test phy,pb_radiology.model_patient_radiology_test,pb_hms.group_hms_jr_doctor,1,1,1,0
+access_hms_patient_radiology_test_jr_doctor,PB Radiology phy,pb_radiology.model_pb_radiology_test,pb_hms.group_hms_jr_doctor,1,1,1,0

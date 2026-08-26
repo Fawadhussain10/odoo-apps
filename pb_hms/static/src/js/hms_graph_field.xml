@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="pb_hms.PbHmsGraphField" owl="1">
+        <div class="pb_graph_linechart" t-att-class="props.className">
+            <canvas t-ref="canvas"/>
+        </div>
+    </t>
+
+</templates>
