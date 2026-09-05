@@ -5,73 +5,74 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var slot_date_input = $("input[name='slot_date']");
     var last_date = $("input[name='last_date']");
-    
     var disable_dates = $("input[name='disable_dates']");
 
-    function DisableDates(date) {
-        var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
-        return [disable_dates.val().indexOf(string) == -1];
+    // yyyy-mm-dd, matching what the server sends in slot['date'] and what a
+    // native <input type="date"> both stores in .value and reports to
+    // 'change' handlers - no date library (moment/jquery-ui) needed or
+    // available in this Odoo version.
+    function toIsoDate(date) {
+        var year = date.getFullYear();
+        var month = String(date.getMonth() + 1).padStart(2, '0');
+        var day = String(date.getDate()).padStart(2, '0');
+        return year + '-' + month + '-' + day;
     }
 
-    var languages = document.getElementsByClassName("js_change_lang active");
-    if (languages.length > 0) { 
-        var lang = languages[0].getAttribute('data-url_code', '');
-        if (lang.startsWith('es')) {        
-            $.datepicker.regional['es'] = {
-                closeText: 'Cerrar',
-                prevText: '< Ant',
-                nextText: 'Sig >',
-                currentText: 'Hoy',
-                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
-                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
-                dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
-                weekHeader: 'Sm',
-                dateFormat: 'yy-mm-dd',
-                firstDay: 1,
-                isRTL: false,
-                showMonthAfterYear: false,
-                yearSuffix: ''
-            };
-            $.datepicker.setDefaults($.datepicker.regional['es']);
+    function isDateDisabled(isoDate) {
+        return disable_dates.val().indexOf(isoDate) !== -1;
+    }
+
+    function selectDate(isoDate) {
+        slot_date_input.val(isoDate);
+        var records = document.getElementsByClassName("pb_appointment_slot");
+        var slot_to_show = false;
+        var pb_no_slots = document.getElementsByClassName("pb_no_slots");
+        for (var i = 0; i < records.length; i++) {
+            var rec_date = records[i].getAttribute('data-date');
+            if (isoDate === rec_date) {
+                records[i].style.display = "";
+                slot_to_show = true;
+            } else {
+                records[i].style.display = "none";
+            }
+        }
+        if (pb_no_slots.length) {
+            pb_no_slots[0].style.display = slot_to_show ? "none" : "";
         }
     }
 
-    $("#PBDatePicker").datepicker({
-        numberOfMonths: 1,
-        format: 'yyyy-mm-dd',
-        beforeShowDay: DisableDates,
-        onSelect: function(date) {
-            slot_date_input.val(date);
-            var selected_date = moment(date).format('YYYY-MM-DD');
-            var records = document.getElementsByClassName("pb_appointment_slot");
-            var i;
-            var slot_to_show = false;
-            var pb_no_slots = document.getElementsByClassName("pb_no_slots");
-            for (i = 0; i < records.length; i++) {
-                var rec_date = records[i].getAttribute('data-date');
-                if (selected_date==rec_date) {
-                    records[i].style.display = "";
-                    slot_to_show = true;
-                } else {
+    var datePicker = document.getElementById("PBDatePicker");
+    if (datePicker) {
+        var today = new Date();
+        var todayIso = toIsoDate(today);
+        datePicker.min = todayIso;
+        if (last_date.val()) {
+            datePicker.max = toIsoDate(new Date(last_date.val()));
+        }
+        datePicker.value = todayIso;
+
+        datePicker.addEventListener('change', function () {
+            if (!datePicker.value) {
+                return;
+            }
+            if (isDateDisabled(datePicker.value)) {
+                var pb_no_slots = document.getElementsByClassName("pb_no_slots");
+                var records = document.getElementsByClassName("pb_appointment_slot");
+                for (var i = 0; i < records.length; i++) {
                     records[i].style.display = "none";
                 }
+                if (pb_no_slots.length) {
+                    pb_no_slots[0].style.display = "";
+                }
+                return;
             }
-            if (slot_to_show==true) {
-                pb_no_slots[0].style.display = "none";
-            } else {
-                pb_no_slots[0].style.display = "";
-            }
-        },
-        minDate: new Date(),
-        maxDate: new Date(last_date.val()),
-        selectWeek: true,
-        inline: true,
-    });
+            selectDate(datePicker.value);
+        });
 
-    $('.ui-datepicker-current-day').click();
-    slot_date_input.val(new Date());
+        // Reveal whatever slots exist for today as soon as the page loads,
+        // same intent as the old auto-select-today behaviour.
+        selectDate(todayIso);
+    }
 
     $('.pb_appointment_slot').click(function() {
         var schedule_slot_input = $("input[name='schedule_slot_id']");
@@ -79,9 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
         var pb_slot_not_selected = document.getElementsByClassName("pb_slot_not_selected")[0];
         var $each_appointment_slot = $(this).parents().find('.pb_appointment_slot');
         $each_appointment_slot.removeClass('pb_active')
-        
+
         if ($(this).hasClass('pb_active') == true) {
-            $(this).removeClass('pb_active');            
+            $(this).removeClass('pb_active');
             schedule_slot_input.val('');
             if (typeof pb_slot_selected !== 'undefined') {
                 pb_slot_selected.style.display = "none";
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
- 
+
     $("#PbRecordSearch").on('keyup', function() {
         var input, filter, records, rec, i, txtValue;
         input = document.getElementById("PbRecordSearch");
@@ -121,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
         var search_input = document.getElementById("PbRecordSearch");
-        search_input.focus(); 
+        search_input.focus();
     });
 
     $('.pb_appointment').on('change', "input[name='appoitment_by']", function () {

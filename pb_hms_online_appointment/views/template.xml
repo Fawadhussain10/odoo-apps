@@ -272,7 +272,7 @@
                                 <t t-if="slots_data">
                                     <div class="row">
                                         <div class="col-4">
-                                            <div id="PBDatePicker"></div>
+                                            <input type="date" id="PBDatePicker" class="form-control"/>
                                         </div>
                                         <div class="col-8">
                                             <div class="row">
