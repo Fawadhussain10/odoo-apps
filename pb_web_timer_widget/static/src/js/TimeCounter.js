@@ -64,10 +64,10 @@ export class PbTimer extends Component {
 export const pbTimer = {
     component: PbTimer,
     supportedTypes: ["float"],
-    extractProps: ({ attrs }) => ({
-        pb_timer_start_field: attrs.options.widget_start_field,
-        pb_timer_stop_field: attrs.options.widget_stop_field,
-        duration_field: attrs.options.duration_field,
+    extractProps: ({ options }) => ({
+        pb_timer_start_field: options.widget_start_field,
+        pb_timer_stop_field: options.widget_stop_field,
+        duration_field: options.duration_field,
     }),
 };
 
