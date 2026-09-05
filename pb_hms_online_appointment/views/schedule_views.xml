@@ -192,7 +192,7 @@
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar string="Appointment Slots" color="rem_limit" date_start="from_slot" quick_create="false" date_stop="to_slot" mode="week" create="false" delete="false" event_open_popup="true">
-                <field name="physician_id" avatar_field="avatar_128" widget="many2one_avatar_resource"/>
+                <field name="physician_id"/>
                 <field name="department_id" filters="1" color="color" groups="pb_hms.group_allow_multi_department"/>
                 <field name="limit"/>
                 <field name="rem_limit"/>
