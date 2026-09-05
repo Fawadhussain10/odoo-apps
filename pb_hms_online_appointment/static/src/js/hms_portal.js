@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-document.addEventListener('DOMContentLoaded', function () {
+function pbInitAppointmentPortal() {
     "use strict";
 
     var slot_date_input = $("input[name='slot_date']");
@@ -152,6 +152,15 @@ document.addEventListener('DOMContentLoaded', function () {
         $("input[name='appoitment_by']").change();
         $("input[name='appoitment_by']").attr('checked', true);
     }
+}
 
-
-});
+// Odoo's frontend module loader can finish loading/parsing this bundle after
+// the document has already fired DOMContentLoaded (module scripts are
+// deferred by spec) - registering a listener for an event that already
+// happened means the callback silently never runs at all, with no error.
+// Guard against both orderings instead of assuming one.
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', pbInitAppointmentPortal);
+} else {
+    pbInitAppointmentPortal();
+}
