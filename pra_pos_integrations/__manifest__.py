@@ -32,6 +32,8 @@ based on PRAL's "POS Component and eIMS" specification:
             "pra_pos_integrations/static/src/overrides/components/order_receipt.xml",
         ],
     },
+    'price': 168,
+    'currency': "USD",
     "installable": True,
     "application": True,
 }
