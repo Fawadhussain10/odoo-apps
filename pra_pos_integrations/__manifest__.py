@@ -29,7 +29,7 @@ based on PRAL's "POS Component and eIMS" specification:
     ],
     "assets": {
         "point_of_sale._assets_pos": [
-            "pra_pos_integration/static/src/overrides/components/order_receipt.xml",
+            "pra_pos_integrations/static/src/overrides/components/order_receipt.xml",
         ],
     },
     "installable": True,
