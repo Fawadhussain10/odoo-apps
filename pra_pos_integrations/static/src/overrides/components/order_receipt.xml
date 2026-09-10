@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pra_pos_integrations.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('before-footer')]" position="before">
+            <div t-if="props.data.pra and props.data.pra.invoice_number"
+                 class="pra-receipt-info pt-3 text-center" style="font-size: 75%;">
+                <img src="/pra_pos_integrations/static/src/img/pra_logo.png"
+                     style="max-width: 150px; height: auto; margin: 0 auto 4px;"/>
+                <div class="fw-bolder">PRA Invoice No: <t t-esc="props.data.pra.invoice_number"/></div>
+                <div t-if="props.data.pra.pos_id">POS ID: <t t-esc="props.data.pra.pos_id"/></div>
+                <img t-if="props.data.pra.qr_image"
+                     t-att-src="'data:image/png;base64,' + props.data.pra.qr_image"
+                     style="width: 90px; height: 90px; margin-top: 4px;" class="m-0"/>
+                <div>Verify this invoice on the PRA Sahulat mobile app</div>
+            </div>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_pra" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.pra</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <block id="restaurant_section" position="after">
+                <block title="PRA (Punjab Revenue Authority)" id="pra_section">
+                    <setting id="pra_enabled_setting" string="PRA e-Invoicing"
+                             help="Report every validated order of this Point of Sale to PRA's e-IMS in real time.">
+                        <field name="pos_pra_enabled"/>
+                        <div class="content-group" invisible="not pos_pra_enabled">
+                            <div class="row mt8">
+                                <label for="pos_pra_mode" class="col-lg-3 o_light_label"/>
+                                <field name="pos_pra_mode" class="col-lg-4"/>
+                            </div>
+                            <div class="row mt8">
+                                <label for="pos_pra_pos_id" class="col-lg-3 o_light_label"/>
+                                <field name="pos_pra_pos_id" class="col-lg-4"/>
+                            </div>
+                            <div class="row mt8">
+                                <label for="pos_pra_token" class="col-lg-3 o_light_label"/>
+                                <field name="pos_pra_token" class="col-lg-4" password="True"/>
+                            </div>
+                            <div class="text-muted mt8">
+                                Get the POS ID and Token from the ePRA portal
+                                (Registration &gt; POS Client Registration &gt; POS Details / Generate Test POS).
+                                For Production, PRA must whitelist this server's IP: email
+                                eims@pra.punjab.gov.pk with the PNTN, business name, POS ID and server IP.
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </block>
+        </field>
+    </record>
+</odoo>

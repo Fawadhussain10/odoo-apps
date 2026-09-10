@@ -1,0 +1,180 @@
+<section class="oe_container" style="font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; color: #0f172a;">
+
+    <div style="margin: -16px -16px 0 -16px;">
+        <img src="banner.png" style="width: 100%; display: block;"/>
+    </div>
+
+    <!-- ============ Intro band ============ -->
+    <table style="width:100%; border-collapse: collapse; margin: 0;">
+        <tr>
+            <td style="background:#0f172a; padding: 28px 40px; text-align:center; border-radius: 0 0 10px 10px;">
+                <p style="font-size: 16px; max-width: 780px; margin: 0 auto; color: #cbd5e1;">
+                    Real-time fiscal invoicing for Odoo&nbsp;19 Point of Sale under the
+                    <strong style="color:#f3ead9;">Punjab Revenue Authority</strong> e-IMS &mdash; every
+                    validated sale is reported to PRA the moment it is paid, the fiscal invoice number
+                    comes back, and a verification QR prints on the receipt. Built to PRAL's
+                    &ldquo;POS Component &amp; eIMS&rdquo; specification, sandbox and production:<br/>
+                    <span style="color:#f59e0b; font-weight:bold;">
+                        POS Order &rarr; PRA e-IMS &rarr; Fiscal Invoice Number &rarr; QR-verified Receipt
+                    </span>
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ============ Feature cards (table) ============ -->
+    <table style="width:100%; border-collapse: separate; border-spacing: 14px; margin: 28px 0 0;">
+        <tr>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #2a78d6; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#128225; Real-Time e-IMS Reporting</h3>
+                <p style="color:#475569;">Every paid POS order is pushed to PRA as it is validated. The
+                    call runs on the server during checkout and never blocks the cashier &mdash; a
+                    network hiccup just leaves the order queued for retry.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #1baf7a; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#129534; Fiscal Number &amp; QR on Receipt</h3>
+                <p style="color:#475569;">The PRA invoice number and a verification QR code are stored on
+                    the order and printed on the customer receipt, ready to scan in the PRA Sahulat
+                    app.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #4a3aa7; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#127978; Per-Counter Registration</h3>
+                <p style="color:#475569;">Each Point of Sale carries its own PRA POS ID, token and
+                    Sandbox / Production mode &mdash; configured right in the POS settings, so multi-branch
+                    businesses report each counter correctly.</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #eb6834; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#128260; Automatic Retry &amp; Resync</h3>
+                <p style="color:#475569;">A scheduled job re-sends any Not&nbsp;Synced or Failed order from
+                    the last few days, and a one-click <em>Resync to PRA</em> action sits on every order
+                    and in the PRA Invoices list.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #eda100; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#128178; Payment Mode Mapping</h3>
+                <p style="color:#475569;">Map each payment method to PRA's codes &mdash; Cash, Card, Gift
+                    Voucher, Loyalty Card, Cheque. When an order mixes modes, PRA is told it was a
+                    <em>Mixed</em> payment automatically.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #e87ba4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#8630; Returns &amp; Credit Notes</h3>
+                <p style="color:#475569;">POS refunds are detected and reported to PRA as Credit invoices,
+                    referencing the original sale's USIN so the return is tied to the invoice it
+                    reverses.</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #008300; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#127991;&#65039; PCT / HS Codes on Products</h3>
+                <p style="color:#475569;">A PRA HS/PCT Code field on the product template and variant forms;
+                    the module normalises it to the bare 8-digit form PRA expects before every
+                    submission.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #e34948; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#129518; Tax-Accurate Payload</h3>
+                <p style="color:#475569;">Per-line sale value, tax rate, tax charged, discount and totals
+                    are computed from the real POS taxes, so what PRA records matches the printed
+                    receipt to the paisa.</p>
+            </td>
+            <td style="width:33%; vertical-align:top; padding: 20px; background:#fffdf9; border:1px solid #eee0c4; border-top: 4px solid #2a78d6; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <h3 style="color:#0f172a; margin-top:0;">&#128203; Full Request / Response Log</h3>
+                <p style="color:#475569;">The exact JSON sent and the PRA reply are kept on each order, with
+                    a <strong>PRA Invoices</strong> menu that lists Synced / Not&nbsp;Synced / Failed at a
+                    glance.</p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ============ Screenshots (table) ============ -->
+    <table style="width:100%; border-collapse: collapse; margin: 36px 0 0; background:#0f172a; border-radius: 10px;">
+        <tr>
+            <td style="padding: 26px 26px 8px; text-align:center;">
+                <div style="color:#f59e0b; font-weight:bold; letter-spacing:1px; text-transform:uppercase; font-size:12px;">Module Preview</div>
+                <h2 style="color:#f3ead9; margin: 6px 0 20px;">Screenshots</h2>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%; border-collapse: separate; border-spacing: 14px; margin: 0 0 0; background:#0f172a; padding-bottom: 8px; border-radius: 0 0 10px 10px;">
+        <tr>
+            <td style="width:33%; vertical-align:top; padding:0; background:#141b2d; border:1px solid #2a3550; border-radius: 10px; overflow:hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.35);">
+                <div style="padding:10px 14px; color:#cbd5e1; font-size:12px; font-weight:bold; border-bottom:1px solid #2a3550;">&#9881;&#65039; POS Settings &ndash; PRA</div>
+                <img src="screenshots/settings.png" style="width:100%; display:block;"/>
+            </td>
+            <td style="width:33%; vertical-align:top; padding:0; background:#141b2d; border:1px solid #2a3550; border-radius: 10px; overflow:hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.35);">
+                <div style="padding:10px 14px; color:#cbd5e1; font-size:12px; font-weight:bold; border-bottom:1px solid #2a3550;">&#128203; Order &ndash; PRA Tab</div>
+                <img src="screenshots/order-pra-tab.png" style="width:100%; display:block;"/>
+            </td>
+            <td style="width:33%; vertical-align:top; padding:0; background:#141b2d; border:1px solid #2a3550; border-radius: 10px; overflow:hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.35);">
+                <div style="padding:10px 14px; color:#cbd5e1; font-size:12px; font-weight:bold; border-bottom:1px solid #2a3550;">&#129534; Receipt with PRA QR</div>
+                <img src="screenshots/receipt.png" style="width:100%; display:block;"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:33%; vertical-align:top; padding:0; background:#141b2d; border:1px solid #2a3550; border-radius: 10px; overflow:hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.35);">
+                <div style="padding:10px 14px; color:#cbd5e1; font-size:12px; font-weight:bold; border-bottom:1px solid #2a3550;">&#128202; PRA Invoices List</div>
+                <img src="screenshots/pra-invoices-list.png" style="width:100%; display:block;"/>
+            </td>
+            <td style="width:33%; vertical-align:top; padding:0; background:#141b2d; border:1px solid #2a3550; border-radius: 10px; overflow:hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.35);">
+                <div style="padding:10px 14px; color:#cbd5e1; font-size:12px; font-weight:bold; border-bottom:1px solid #2a3550;">&#128666; Payment Mode Mapping</div>
+                <img src="screenshots/payment-mode.png" style="width:100%; display:block;"/>
+            </td>
+            <td style="width:33%; vertical-align:top; padding:0; background:#141b2d; border:1px solid #2a3550; border-radius: 10px; overflow:hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.35);">
+                <div style="padding:10px 14px; color:#cbd5e1; font-size:12px; font-weight:bold; border-bottom:1px solid #2a3550;">&#127991;&#65039; HS/PCT Code on Product</div>
+                <img src="screenshots/product-hs-code.png" style="width:100%; display:block;"/>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ============ Contact Us (table) ============ -->
+    <table style="width:100%; border-collapse: collapse; margin: 36px 0 0;">
+        <tr>
+            <td style="padding: 0 0 8px; text-align:center;">
+                <div style="color:#92400e; font-weight:bold; letter-spacing:1px; text-transform:uppercase; font-size:12px;">Get In Touch</div>
+                <h2 style="color:#0f172a; margin: 6px 0 20px;">Contact Us</h2>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%; border-collapse: separate; border-spacing: 14px;">
+        <tr>
+            <td style="width:20%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; font-size:22px; line-height:52px;">&#128100;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">Author</div>
+                <div style="font-size:14px; color:#0f172a; font-weight:bold; margin-top:4px;">Fawad Hussain</div>
+            </td>
+            <td style="width:20%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#4a3aa7,#6d5bd0); color:#fff; font-size:22px; line-height:52px;">&#127760;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">Website</div>
+                <div style="font-size:14px; margin-top:4px;"><a href="https://packbytes.com" style="color:#92400e; font-weight:bold; text-decoration:none;">packbytes.com</a></div>
+            </td>
+            <td style="width:20%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#2a78d6,#184f95); color:#fff; font-size:22px; line-height:52px;">&#9993;&#65039;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">Sales</div>
+                <div style="font-size:14px; margin-top:4px;"><a href="mailto:sales@packbytes.com" style="color:#92400e; font-weight:bold; text-decoration:none;">sales@packbytes.com</a></div>
+            </td>
+            <td style="width:20%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#1baf7a,#0c8a5c); color:#fff; font-size:22px; line-height:52px;">&#128241;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">WhatsApp</div>
+                <div style="font-size:14px; color:#0f172a; font-weight:bold; margin-top:4px;">+92 325 4460867</div>
+            </td>
+            <td style="width:20%; text-align:center; vertical-align:top; padding: 22px 10px; background:#fffdf9; border:1px solid #eee0c4; border-radius: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.08);">
+                <div style="width:52px; height:52px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg,#eb6834,#c2410c); color:#fff; font-size:22px; line-height:52px;">&#128222;</div>
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:bold;">Phone</div>
+                <div style="font-size:14px; color:#0f172a; font-weight:bold; margin-top:4px;">+92 301 0400131</div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ============ Footer ============ -->
+    <table style="width:100%; border-collapse: collapse; margin: 30px 0 0;">
+        <tr>
+            <td style="text-align:center; padding: 18px; background:#f6f1e6; border-radius: 8px;">
+                <p style="margin:0; color:#0f172a;">
+                    <strong>PRA POS Integration</strong> for Odoo 19 &middot; Built by Fawad
+                    Hussain / <a href="https://packbytes.com" style="color:#92400e;">packbytes.com</a>
+                </p>
+            </td>
+        </tr>
+    </table>
+
+</section>
