@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="whatsapp_qr_connect.Inbox">
+        <div class="o_wa_inbox d-flex h-100">
+            <!-- ================= chat list ================= -->
+            <div class="o_wa_list d-flex flex-column">
+                <div class="o_wa_list_header d-flex align-items-center gap-2 px-3 py-3">
+                    <span class="o_wa_logo"><i class="fa fa-whatsapp"/></span>
+                    <div class="flex-grow-1 lh-1">
+                        <div class="o_wa_title">WhatsApp</div>
+                        <small class="o_wa_subtitle">Chats started from Odoo</small>
+                    </div>
+                    <button class="btn o_wa_check" title="Fetch new messages now" t-on-click="() => this.checkNow()" t-att-disabled="this.state.checking">
+                        <i t-attf-class="fa fa-refresh #{this.state.checking ? 'fa-spin' : ''}"/>
+                        <span> Check now</span>
+                    </button>
+                </div>
+                <div class="o_wa_search_wrap px-3 pb-3">
+                    <div class="o_wa_search_box d-flex align-items-center">
+                        <i class="fa fa-search"/>
+                        <input class="o_wa_search" type="search" placeholder="Search name or number"
+                               t-att-value="this.state.search" t-on-input="(ev) => this.state.search = ev.target.value"/>
+                    </div>
+                </div>
+                <div class="o_wa_tabs d-flex gap-2 px-3 py-2">
+                    <button t-attf-class="o_wa_tab #{this.state.filter === 'all' ? 'active' : ''}" t-on-click="() => this.setFilter('all')">All</button>
+                    <button t-attf-class="o_wa_tab o_wa_tab_unread #{this.state.filter === 'unread' ? 'active' : ''}" t-on-click="() => this.setFilter('unread')">
+                        Unread<span t-if="this.unreadTotal" class="o_wa_tab_count" t-out="this.unreadTotal"/>
+                    </button>
+                </div>
+                <div class="o_wa_rows flex-grow-1 overflow-auto">
+                    <div t-if="this.state.loaded and !this.filteredChats.length" class="o_wa_empty_list text-center">
+                        <i class="fa fa-comments fa-2x"/>
+                        <p t-if="!this.state.hasLinked">No WhatsApp number is linked yet.<br/>Link one in Settings &gt; Technical &gt; WhatsApp.</p>
+                        <p t-else="">No conversations yet.<br/>Chats appear here once a message is sent from Odoo.</p>
+                    </div>
+                    <t t-foreach="this.filteredChats" t-as="chat" t-key="chat.id">
+                        <div t-attf-class="o_wa_chat d-flex align-items-center #{chat.id === this.state.activeId ? 'active' : ''} #{chat.unread ? 'has_unread' : ''}"
+                             t-att-data-chat-id="chat.id" t-on-click="() => this.openChat(chat.id)">
+                            <div class="o_wa_avatar" t-att-style="'background:' + this.avatarColor(chat.name)" t-out="this.initial(chat.name)"/>
+                            <div class="flex-grow-1 overflow-hidden ms-3">
+                                <div class="d-flex justify-content-between align-items-baseline">
+                                    <span class="o_wa_chat_name text-truncate" t-out="chat.name"/>
+                                    <small t-attf-class="o_wa_when ms-2 #{chat.unread ? 'text-success fw-bold' : 'text-muted'}" t-out="this.shortWhen(chat.date)"/>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="o_wa_preview text-truncate" t-out="chat.preview"/>
+                                    <span t-if="chat.unread" class="o_wa_unread ms-2" t-out="chat.unread"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <!-- ================= conversation ================= -->
+            <div class="o_wa_conversation flex-grow-1 d-flex flex-column">
+                <t t-if="this.state.active">
+                    <div class="o_wa_conv_header d-flex align-items-center px-4 py-2">
+                        <div class="o_wa_avatar o_wa_avatar_sm" t-att-style="'background:' + this.avatarColor(this.state.active.name)" t-out="this.initial(this.state.active.name)"/>
+                        <div class="ms-3 lh-sm flex-grow-1">
+                            <div class="o_wa_conv_name" t-out="this.state.active.name"/>
+                            <small class="text-muted">+<t t-out="this.state.active.phone"/></small>
+                        </div>
+                        <span class="o_wa_account_pill"><i class="fa fa-whatsapp me-1"/><t t-out="this.state.active.account"/></span>
+                    </div>
+                    <div class="o_wa_thread_wrap flex-grow-1 position-relative overflow-hidden d-flex flex-column">
+                    <div class="o_wa_thread flex-grow-1 overflow-auto px-4 py-3" t-on-scroll="(ev) => this.onThreadScroll(ev)">
+                        <t t-foreach="this.threadItems" t-as="row" t-key="row.id">
+                            <div t-if="row.day" class="o_wa_day text-center"><span t-out="row.label"/></div>
+                            <div t-else="" t-attf-class="o_wa_row d-flex #{row.first ? 'o_wa_first' : ''} #{row.msg.direction === 'in' ? 'justify-content-start' : 'justify-content-end'}">
+                                <div t-attf-class="o_wa_bubble o_wa_#{row.msg.direction} #{row.first ? 'o_wa_tail' : ''} #{row.msg.status === 'RECEIVED' or row.msg.status === 'SENT' ? '' : 'o_wa_failed'}">
+                                    <t t-if="row.msg.file">
+                                        <a t-if="this.isImage(row.msg.file)" t-attf-href="/web/content/#{row.msg.file.id}" target="_blank">
+                                            <img class="o_wa_media" t-on-load="() => this.onMediaLoad()" t-attf-src="/web/image/#{row.msg.file.id}" t-att-alt="row.msg.file.name"/>
+                                        </a>
+                                        <video t-elif="row.msg.file.mimetype.startsWith('video/')" class="o_wa_media" t-on-loadeddata="() => this.onMediaLoad()" controls="controls" t-attf-src="/web/content/#{row.msg.file.id}"/>
+                                        <audio t-elif="row.msg.file.mimetype.startsWith('audio/')" controls="controls" t-attf-src="/web/content/#{row.msg.file.id}"/>
+                                        <a t-else="" class="o_wa_doc d-flex align-items-center" t-attf-href="/web/content/#{row.msg.file.id}?download=true">
+                                            <span class="o_wa_doc_icon"><i t-attf-class="fa #{this.isPdf(row.msg.file) ? 'fa-file-pdf-o' : 'fa-file-text-o'}"/></span>
+                                            <span class="o_wa_doc_name text-truncate" t-out="row.msg.file.name"/>
+                                            <i class="fa fa-download ms-2"/>
+                                        </a>
+                                    </t>
+                                    <div t-elif="row.msg.media" class="fst-italic small">[<t t-out="row.msg.media"/>]</div>
+                                    <div t-if="row.msg.body" class="o_wa_text" t-out="row.msg.body"/>
+                                    <div class="o_wa_meta">
+                                        <t t-if="row.msg.direction === 'out' and row.msg.user"><t t-out="row.msg.user"/> · </t>
+                                        <t t-out="this.clock(row.msg.date)"/>
+                                        <i class="fa fa-check o_wa_tick" t-if="row.msg.direction === 'out'"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    <button t-if="!this.state.atBottom" class="o_wa_jump" title="Latest messages" t-on-click="() => this.jumpDown()">
+                        <i class="fa fa-chevron-down"/>
+                    </button>
+                    </div>
+                    <div class="o_wa_composer" t-on-drop="(ev) => this.onDrop(ev)" t-on-dragover="(ev) => ev.preventDefault()">
+                        <div t-if="this.state.showEmoji" class="o_wa_emojis d-flex flex-wrap">
+                            <t t-foreach="this.emojis" t-as="emoji" t-key="emoji_index">
+                                <button class="o_wa_emoji" t-on-click="() => this.addEmoji(emoji)" t-out="emoji"/>
+                            </t>
+                        </div>
+                        <div t-if="this.state.files.length" class="o_wa_files d-flex flex-wrap gap-2">
+                            <t t-foreach="this.state.files" t-as="file" t-key="file_index">
+                                <div class="o_wa_file d-flex align-items-center">
+                                    <img t-if="file.preview" t-att-src="file.preview" class="o_wa_thumb"/>
+                                    <span t-else="" class="o_wa_doc_icon me-2"><i t-attf-class="fa #{file.mimetype === 'application/pdf' ? 'fa-file-pdf-o' : 'fa-file-text-o'}"/></span>
+                                    <span class="text-truncate o_wa_file_name" t-out="file.name"/>
+                                    <button class="o_wa_file_remove" t-on-click="() => this.removeFile(file_index)"><i class="fa fa-times"/></button>
+                                </div>
+                            </t>
+                        </div>
+                        <div class="o_wa_composer_bar d-flex align-items-end">
+                            <button class="o_wa_icon_btn o_wa_emoji_toggle" title="Emoji" t-on-click="() => this.toggleEmoji()">
+                                <i class="fa fa-smile-o"/>
+                            </button>
+                            <button class="o_wa_icon_btn o_wa_attach" title="Attach pictures, PDFs, documents..." t-on-click="() => this.pickFiles()">
+                                <i class="fa fa-paperclip"/>
+                            </button>
+                            <input type="file" multiple="multiple" class="o_wa_file_input d-none" t-on-change="(ev) => this.onFilesPicked(ev)"/>
+                            <textarea class="o_wa_input flex-grow-1" rows="1" placeholder="Type a message"
+                                      t-att-value="this.state.draft" t-on-input="(ev) => this.state.draft = ev.target.value"
+                                      t-on-keydown="(ev) => this.onKeydown(ev)" t-on-paste="(ev) => this.onPaste(ev)"/>
+                            <button class="o_wa_send" title="Send" t-on-click="() => this.send()" t-att-disabled="!this.canSend">
+                                <i class="fa fa-paper-plane"/>
+                                <span class="visually-hidden">Send</span>
+                            </button>
+                        </div>
+                    </div>
+                </t>
+                <div t-else="" class="o_wa_welcome d-flex flex-grow-1 align-items-center justify-content-center">
+                    <div class="text-center">
+                        <div class="o_wa_welcome_icon"><i class="fa fa-whatsapp fa-3x"/></div>
+                        <h3 class="o_wa_welcome_title mt-4">WhatsApp for Odoo</h3>
+                        <p class="text-muted mb-4">Select a chat to read replies, send emoji, pictures and documents.</p>
+                        <div class="d-flex flex-wrap justify-content-center gap-2">
+                            <span class="o_wa_chip"><i class="fa fa-comments"/> Live replies</span>
+                            <span class="o_wa_chip"><i class="fa fa-picture-o"/> Photos &amp; files</span>
+                            <span class="o_wa_chip"><i class="fa fa-smile-o"/> Emoji</span>
+                            <span class="o_wa_chip"><i class="fa fa-lock"/> Only chats from Odoo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
