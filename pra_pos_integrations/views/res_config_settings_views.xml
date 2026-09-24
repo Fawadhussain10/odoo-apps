@@ -23,6 +23,11 @@
                                 <label for="pos_pra_token" class="col-lg-3 o_light_label"/>
                                 <field name="pos_pra_token" class="col-lg-4" password="True"/>
                             </div>
+                            <div class="row mt8">
+                                <label for="pos_pra_proxy_url" class="col-lg-3 o_light_label"/>
+                                <field name="pos_pra_proxy_url" class="col-lg-4"
+                                       placeholder="http://user:pass@host:3128 (optional)"/>
+                            </div>
                             <div class="text-muted mt8">
                                 Get the POS ID and Token from the ePRA portal
                                 (Registration &gt; POS Client Registration &gt; POS Details / Generate Test POS).

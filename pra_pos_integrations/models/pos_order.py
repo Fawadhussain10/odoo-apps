@@ -171,7 +171,11 @@ class PosOrder(models.Model):
 
         self.pra_request = json.dumps(payload, indent=2, default=str)
 
-        response = requests.post(url, headers=headers, data=json.dumps(payload, default=str), timeout=PRA_SYNC_TIMEOUT)
+        proxy_url = (config.pra_proxy_url or '').strip()
+        proxies = {'http': proxy_url, 'https': proxy_url} if proxy_url else None
+
+        response = requests.post(url, headers=headers, data=json.dumps(payload, default=str),
+                                 timeout=PRA_SYNC_TIMEOUT, proxies=proxies)
         try:
             result = response.json()
         except ValueError:

@@ -24,3 +24,10 @@ class PosConfig(models.Model):
              "empty to use PRA's shared testing token. In Production it is the token "
              "shown on the POS Details tab of the ePRA portal for this POS ID.",
     )
+    pra_proxy_url = fields.Char(
+        string="PRA Proxy URL",
+        help="Optional HTTP(S) proxy used for PRA calls, e.g. http://user:pass@203.0.113.10:3128. "
+             "Use it when this server's IP is not whitelisted by PRA (e.g. hosted outside "
+             "Pakistan): requests are tunnelled through the proxy so PRA sees the proxy's IP. "
+             "Leave empty to connect to PRA directly.",
+    )

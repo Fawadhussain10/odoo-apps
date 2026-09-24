@@ -8,3 +8,4 @@ class ResConfigSettings(models.TransientModel):
     pos_pra_mode = fields.Selection(related='pos_config_id.pra_mode', readonly=False)
     pos_pra_pos_id = fields.Char(related='pos_config_id.pra_pos_id', readonly=False)
     pos_pra_token = fields.Char(related='pos_config_id.pra_token', readonly=False)
+    pos_pra_proxy_url = fields.Char(related='pos_config_id.pra_proxy_url', readonly=False)
