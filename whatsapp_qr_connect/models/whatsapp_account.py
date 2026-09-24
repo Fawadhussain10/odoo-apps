@@ -30,11 +30,11 @@ LOCK_NAMESPACE = 0x57410000  # advisory lock key = namespace + account id
 
 
 def _qr_png_b64(env, text):
-    """Base64 PNG of a QR code.
+    """Base64 PNG of a QR code, without needing a graphics backend on the server.
 
-    Uses ``segno`` (pure Python; installed together with ``neonize``) so no
-    graphics backend is needed on the server. Falls back to Odoo's reportlab
-    barcode renderer, which needs ``rlPyCairo``/``pycairo`` and is not
+    Tries, in order: ``segno`` (pure Python; installed together with ``neonize``),
+    then ``qrcode`` (used by several Odoo apps; needs Pillow), and finally Odoo's
+    reportlab barcode renderer, which needs ``rlPyCairo``/``pycairo`` and is not
     available on every host (e.g. Odoo.sh)."""
     try:
         import segno
@@ -42,8 +42,18 @@ def _qr_png_b64(env, text):
         segno.make(text, error='m').save(buf, kind='png', scale=8, border=2)
         return base64.b64encode(buf.getvalue()).decode()
     except ImportError:
-        png = env['ir.actions.report'].barcode('QR', text, width=360, height=360, barBorder=2)
-        return base64.b64encode(png).decode()
+        pass
+    try:
+        import qrcode
+        image = qrcode.make(text, error_correction=qrcode.constants.ERROR_CORRECT_M,
+                            box_size=8, border=2)
+        buf = io.BytesIO()
+        image.save(buf, format='PNG')
+        return base64.b64encode(buf.getvalue()).decode()
+    except ImportError:
+        pass
+    png = env['ir.actions.report'].barcode('QR', text, width=360, height=360, barBorder=2)
+    return base64.b64encode(png).decode()
 
 
 class WhatsappAccount(models.Model):
