@@ -4,7 +4,8 @@
         <!-- Vaccine Products -->
         <record id="pb_vaccine_product_0" model="product.template">
             <field name="name">AGGS 10000IU Injection 1's</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">vaccination</field>
             <field name="list_price">1485.0</field>
             <field name="standard_price">890.0</field>
@@ -15,7 +16,8 @@
 
         <record id="pb_vaccine_product_1" model="product.template">
             <field name="name">GLATIMER 20mg Injection 1's</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">vaccination</field>
             <field name="list_price">29700</field>
             <field name="standard_price">15000</field>
@@ -26,7 +28,8 @@
 
         <record id="pb_vaccine_product_2" model="product.template">
             <field name="name">ONCOVAC 40mg Injection</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">vaccination</field>
             <field name="list_price">590.0</field>
             <field name="standard_price">360.0</field>
@@ -37,7 +40,8 @@
 
         <record id="pb_vaccine_product_3" model="product.template">
             <field name="name">STAMARIL Vaccine 0.5ml</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">vaccination</field>
             <field name="list_price">4060.0</field>
             <field name="standard_price">3200.0</field>
@@ -48,7 +52,8 @@
 
         <record id="pb_vaccine_product_4" model="product.template">
             <field name="name">TETANUS TOXOID Injection 5ml</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">vaccination</field>
             <field name="list_price">28.0</field>
             <field name="standard_price">21.0</field>

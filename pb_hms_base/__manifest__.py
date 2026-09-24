@@ -28,13 +28,13 @@
 
         'views/hms_base_views.xml',
         'views/patient_view.xml',
-        'views/patient_map_view.xml',
         'views/physician_view.xml',
         'views/product_view.xml',
         'views/drug_view.xml',
         'views/account_view.xml',
         'views/res_config_settings.xml',
         'views/menu_item.xml',
+        'views/patient_map_view.xml',
     ],
     'demo': [
         'demo/company_demo.xml',

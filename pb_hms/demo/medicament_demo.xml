@@ -107,7 +107,8 @@
         <!-- Medication Product -->
         <record id="product.product_product_7" model="product.product">
             <field name="name">Akilos-P</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <!-- <field name="list_price">170.0</field>
             <field name="standard_price">100.0</field> -->
@@ -119,7 +120,8 @@
 
         <record id="product.product_product_8" model="product.product">
             <field name="name">ACAMPROL 333mg</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <!-- <field name="list_price">50.0</field>
             <field name="standard_price">75.0</field> -->
@@ -131,7 +133,8 @@
 
         <record id="product.product_delivery_01" model="product.product">
             <field name="name">ADRIL Lotion 100ml</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <!-- <field name="list_price">300.0</field>
             <field name="standard_price">342.0</field> -->
@@ -144,7 +147,8 @@
 
         <record id="product.product_delivery_02" model="product.product">
             <field name="name">VICKS</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <!-- <field name="list_price">150.0</field>
             <field name="standard_price">120.0</field> -->
@@ -157,7 +161,8 @@
 
         <record id="product.product_order_01" model="product.product">
             <field name="name">ADCOB TABLET 20'S</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <!-- <field name="list_price">150.0</field>
             <field name="standard_price">120.0</field> -->
@@ -170,7 +175,8 @@
 
         <record id="product.product_product_3" model="product.product">
             <field name="name">GRIDE 1mg Tablet</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <!-- <field name="list_price">40.0</field>
             <field name="standard_price">30.0</field> -->
@@ -183,7 +189,8 @@
 
         <record id="product.product_product_4" model="product.product">
             <field name="name">KLOTFREE A 75mg</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <!-- <field name="list_price">28.0</field>
             <field name="standard_price">21.0</field> -->
@@ -196,7 +203,8 @@
 
         <record id="product.product_product_4b" model="product.product">
             <field name="name">AQUALUBE Eye Drops 10ml</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <!-- <field name="list_price">131.0</field>
             <field name="standard_price">108.0</field> -->
@@ -209,7 +217,8 @@
 
         <record id="product.product_product_4c" model="product.product">
             <field name="name">JAKAVI 5mg Tablet</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <!-- <field name="list_price">131.0</field>
             <field name="standard_price">108.0</field> -->
@@ -222,7 +231,8 @@
 
         <record id="product.product_product_5" model="product.product">
             <field name="name">ENTECA 1mg Tablet</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <!-- <field name="list_price">1288.0</field>
             <field name="standard_price">890.0</field> -->
@@ -235,7 +245,8 @@
  
         <record id="product.product_product_6" model="product.product">
             <field name="name">REDOTREX 500mg Injection 5ml</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <!-- <field name="list_price">21.0</field>
             <field name="standard_price">8.0</field> -->
@@ -305,7 +316,8 @@
 
          <record id="product.product_product_9" model="product.product">
             <field name="name">Azithromycin</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <field name="common_dosage_id" ref="medication_dosage_2"/>
             <field name="form_id" ref="drug_form_7"/>
@@ -316,7 +328,8 @@
 
         <record id="product.product_product_10" model="product.product">
             <field name="name">Baclofen</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <field name="common_dosage_id" ref="medication_dosage_2"/>
             <field name="form_id" ref="drug_form_7"/>
@@ -327,7 +340,8 @@
 
         <record id="product.product_product_11_product_template" model="product.template">
             <field name="name">Cefepime</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable" eval="True"/>
             <field name="hospital_product_type">medicament</field>
             <field name="common_dosage_id" ref="medication_dosage_2"/>
             <field name="form_id" ref="drug_form_7"/>
