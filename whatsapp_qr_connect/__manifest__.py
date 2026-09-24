@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'WhatsApp QR Connect',
-    'version': '19.0.2.0.0',
+    'version': '20.0.2.0.0',
     'category': 'Technical',
     'summary': 'Link WhatsApp by QR code inside Odoo and send sales, purchase, delivery, '
                'invoice, bill, salary slip and ledger PDFs on WhatsApp - no extra service.',
@@ -27,7 +27,9 @@ A standalone building block for WhatsApp messaging in Odoo.
   installed (Sales, Purchase, Inventory, Payroll).
 * Message log of everything sent through the module.
 
-Requires the Python library: neonize==0.5.2  (install with: pip install neonize==0.5.2)
+Requires the Python library: neonize==0.5.2  (install with: pip install neonize==0.5.2;
+it needs protobuf>=7.34.1). If your Odoo Python pins an older protobuf, install neonize in a
+separate virtualenv and set the system parameter whatsapp_qr_connect.python_path to its python.
     """,
     'author': 'PackBytes',
     'website': 'https://packbytes.com',
@@ -36,10 +38,8 @@ Requires the Python library: neonize==0.5.2  (install with: pip install neonize=
     'price': 250.00,
     'currency': 'USD',
     'depends': ['base', 'web', 'account'],
-    'external_dependencies': {'python': ['neonize']},
     'data': [
-        'security/whatsapp_security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/whatsapp_account_views.xml',
         'views/whatsapp_message_views.xml',
         'wizard/whatsapp_send_wizard_views.xml',

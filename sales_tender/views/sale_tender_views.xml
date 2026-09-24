@@ -63,7 +63,7 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_quotation" type="object"
-                                class="oe_stat_button" icon="fa-file-text-o"
+                                class="oe_stat_button" icon="description"
                                 invisible="not sale_order_id">
                             <field name="sale_order_id" widget="statinfo" string="Quotation"/>
                         </button>
@@ -123,11 +123,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>

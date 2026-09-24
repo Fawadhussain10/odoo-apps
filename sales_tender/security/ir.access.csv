@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_sale_tender_user,Tender: user sees and edits only own tenders,sale.tender,sale_tender_group_user,cru,"[('user_id', '=', user.id)]"
+access_sale_tender_approver,Tender: approver has full access to all tenders,sale.tender,sale_tender_group_approver,crud,
+access_sale_tender_attachment_user,Tender attachment: user,sale.tender.attachment,sale_tender_group_user,crud,
+access_sale_tender_line_user,Tender line: user,sale.tender.line,sale_tender_group_user,crud,

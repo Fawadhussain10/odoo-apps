@@ -19,6 +19,9 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 MODULE = 'whatsapp_qr_connect'
+# Bump when the markup generated for the buttons changes: views created by an older
+# version are then rewritten the next time the registry loads.
+ARCH_VERSION = 3
 
 INVOICE_TYPES = "('out_invoice', 'out_refund', 'in_invoice', 'in_refund')"
 
@@ -256,7 +259,7 @@ class WhatsappDocument(models.AbstractModel):
             return
         key = model.replace('.', '_')
         action = self._wa_get_or_create('ir.actions.server', 'wa_action_%s' % key, {
-            'name': _("Send WhatsApp"),
+            'name': 'Send WhatsApp',
             'model_id': env['ir.model']._get_id(model),
             'state': 'code',
             'code': "action = env['whatsapp.document'].wa_open_dialog('%s', record.id)" % model,
@@ -272,18 +275,18 @@ class WhatsappDocument(models.AbstractModel):
         invisible_attr = ' invisible="%s"' % invisible if invisible else ''
         if doc.get('place') == 'button_box':
             arch = (
-                '<data><xpath expr="//div[@name=\'button_box\']" position="inside">'
-                '<button name="%(action)d" type="action" class="oe_stat_button" icon="fa-whatsapp"%(inv)s>'
+                '<data><!--wa:%(version)d--><xpath expr="//div[@name=\'button_box\']" position="inside">'
+                '<button name="%(action)d" type="action" class="oe_stat_button" icon="oi_whatsapp"%(inv)s>'
                 '<div class="o_stat_info"><span class="o_stat_text">WhatsApp Ledger</span></div>'
                 '</button></xpath></data>'
             )
         else:
             arch = (
-                '<data><xpath expr="//header/field[@name=\'state\']" position="before">'
-                '<button name="%(action)d" type="action" string="WhatsApp" icon="fa-whatsapp" '
+                '<data><!--wa:%(version)d--><xpath expr="//header/field[@name=\'state\']" position="before">'
+                '<button name="%(action)d" type="action" string="WhatsApp" icon="oi_whatsapp" '
                 'class="btn-secondary"%(inv)s/></xpath></data>'
             )
-        arch = arch % {'action': action.id, 'inv': invisible_attr}
+        arch = arch % {'action': action.id, 'inv': invisible_attr, 'version': ARCH_VERSION}
         view = self._wa_get_or_create('ir.ui.view', 'wa_view_%s' % key, {
             'name': 'whatsapp.qr.connect.button.%s' % model,
             'model': model,
@@ -292,5 +295,6 @@ class WhatsappDocument(models.AbstractModel):
             'priority': 99,
             'arch': arch,
         }, compare=('inherit_id',))
-        if 'name="%d"' % action.id not in (view.arch_db or ''):
-            view.write({'arch': arch})   # the server action was recreated
+        current = view.arch_db or ''
+        if 'name="%d"' % action.id not in current or '<!--wa:%d-->' % ARCH_VERSION not in current:
+            view.write({'arch': arch})   # the server action was recreated / older markup

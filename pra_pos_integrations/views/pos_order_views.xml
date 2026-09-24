@@ -10,7 +10,7 @@
                         invisible="state not in ('paid', 'done', 'invoiced') or pra_status == 'synced'"/>
             </button>
             <div name="button_box" position="inside">
-                <button name="action_pra_resync" type="object" class="oe_stat_button" icon="fa-refresh"
+                <button name="action_pra_resync" type="object" class="oe_stat_button" icon="refresh"
                         invisible="pra_status != 'synced'">
                     <field name="pra_invoice_number" widget="statinfo" string="PRA Invoice"/>
                 </button>
@@ -61,7 +61,7 @@
                 <field name="pra_invoice_number"/>
                 <field name="pra_status" decoration-success="pra_status == 'synced'" decoration-danger="pra_status == 'failed'"/>
                 <field name="pra_synced_date"/>
-                <button name="action_pra_resync" string="Resync" type="object" icon="fa-refresh"
+                <button name="action_pra_resync" string="Resync" type="object" icon="refresh"
                         invisible="pra_status == 'synced'"/>
             </list>
         </field>

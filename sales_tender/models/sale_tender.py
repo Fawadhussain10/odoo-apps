@@ -147,7 +147,7 @@ class SaleTender(models.Model):
         for line in self.attachment_ids.filtered('datas'):
             attachment_vals.append({
                 'name': line.filename or line.name or line.attachment_type,
-                'datas': line.datas,
+                'raw': line.datas.content,
                 'res_model': 'sale.order',
                 'res_id': order.id,
             })

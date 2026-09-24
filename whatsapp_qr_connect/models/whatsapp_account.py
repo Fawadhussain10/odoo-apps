@@ -30,11 +30,11 @@ LOCK_NAMESPACE = 0x57410000  # advisory lock key = namespace + account id
 
 
 def _qr_png_b64(env, text):
-    """Base64 PNG of a QR code.
+    """Base64 PNG of a QR code, without needing a graphics backend on the server.
 
-    Uses ``segno`` (pure Python; installed together with ``neonize``) so no
-    graphics backend is needed on the server. Falls back to Odoo's reportlab
-    barcode renderer, which needs ``rlPyCairo``/``pycairo`` and is not
+    Tries, in order: ``segno`` (pure Python; installed together with ``neonize``),
+    then ``qrcode`` (used by several Odoo apps; needs Pillow), and finally Odoo's
+    reportlab barcode renderer, which needs ``rlPyCairo``/``pycairo`` and is not
     available on every host (e.g. Odoo.sh)."""
     try:
         import segno
@@ -42,8 +42,18 @@ def _qr_png_b64(env, text):
         segno.make(text, error='m').save(buf, kind='png', scale=8, border=2)
         return base64.b64encode(buf.getvalue()).decode()
     except ImportError:
-        png = env['ir.actions.report'].barcode('QR', text, width=360, height=360, barBorder=2)
-        return base64.b64encode(png).decode()
+        pass
+    try:
+        import qrcode
+        image = qrcode.make(text, error_correction=qrcode.constants.ERROR_CORRECT_M,
+                            box_size=8, border=2)
+        buf = io.BytesIO()
+        image.save(buf, format='PNG')
+        return base64.b64encode(buf.getvalue()).decode()
+    except ImportError:
+        pass
+    png = env['ir.actions.report'].barcode('QR', text, width=360, height=360, barBorder=2)
+    return base64.b64encode(png).decode()
 
 
 class WhatsappAccount(models.Model):
@@ -108,15 +118,35 @@ class WhatsappAccount(models.Model):
         digits = re.sub(r'\D', '', phone or '')
         if digits.startswith('00'):
             digits = digits[2:]
-        country = re.sub(r'\D', '', self.env['ir.config_parameter'].sudo().get_param(
-            'whatsapp_qr_connect.default_country_code') or '')
+        country = re.sub(r'\D', '', self.env['ir.config_parameter'].sudo().get_str(
+            'whatsapp_qr_connect.default_country_code'))
         if country and digits.startswith('0'):
             digits = country + digits.lstrip('0')
         return digits if 8 <= len(digits) <= 15 else None
 
     def _python_bin(self):
-        return (self.env['ir.config_parameter'].sudo().get_param(
+        return (self.env['ir.config_parameter'].sudo().get_str(
             'whatsapp_qr_connect.python_path') or sys.executable)
+
+    def _check_worker_python(self):
+        """Fail early, with instructions, when the interpreter that runs the
+        WhatsApp helper cannot import ``neonize``."""
+        python = self._python_bin()
+        try:
+            proc = subprocess.run(
+                [python, '-c', 'import neonize, psycopg2'],
+                capture_output=True, text=True, timeout=60)
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            raise UserError(_("The Python interpreter for WhatsApp (%(python)s) cannot be started: %(error)s",
+                              python=python, error=exc))
+        if proc.returncode:
+            detail = ((proc.stderr or '').strip().splitlines() or [''])[-1]
+            raise UserError(_(
+                "The Python library 'neonize' (version 0.5.2, needs protobuf 7.34.1 or newer) cannot be "
+                "loaded by %(python)s.\n\n%(detail)s\n\nInstall it there (pip install neonize==0.5.2 "
+                "psycopg2-binary), or install it in a separate virtualenv and set the system parameter "
+                "'whatsapp_qr_connect.python_path' to that virtualenv's python.",
+                python=python, detail=detail))
 
     def _worker_config(self, mode, payload=None, **extra):
         dbname, params = sql_db.connection_info_for(self.env.cr.dbname)
@@ -179,6 +209,7 @@ class WhatsappAccount(models.Model):
         if self.state == 'connected':
             raise UserError(_("This number is already linked."))
         if not self._link_running():
+            self._check_worker_python()
             # Commit so the helper process (own DB connection) sees the record.
             self.write({'state': 'linking', 'last_error': False})
             if not modules.module.current_test:

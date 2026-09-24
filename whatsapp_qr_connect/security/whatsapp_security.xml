@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<odoo>
-    <record id="whatsapp_account_company_rule" model="ir.rule">
-        <field name="name">WhatsApp account: multi-company</field>
-        <field name="model_id" ref="model_whatsapp_account"/>
-        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-    </record>
-</odoo>

@@ -1,20 +1,22 @@
-import { Component, onWillStart, onWillUnmount, useState } from "@odoo/owl";
+import { Component, onWillDestroy, onWillStart, proxy, useProps } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { _t } from "@web/core/l10n/translation";
+import { standardActionServiceProps } from "@web/webclient/actions/action_plugin";
 
 const POLL_MS = 2000;
 
 export class WhatsappLinkAction extends Component {
     static template = "whatsapp_qr_connect.LinkAction";
-    static props = ["*"];
+    // Owl 3: props are declared with useProps (a client action gets the standard action props)
+    props = useProps({ ...standardActionServiceProps });
 
     setup() {
         this.orm = useService("orm");
         this.action = useService("action");
         this.notification = useService("notification");
         this.accountId = this.props.action.params.account_id;
-        this.state = useState({
+        this.state = proxy({
             status: "linking",
             qr: false,
             error: false,
@@ -23,7 +25,7 @@ export class WhatsappLinkAction extends Component {
         });
         this.timer = null;
         onWillStart(() => this.poll());
-        onWillUnmount(() => this.stopPolling());
+        onWillDestroy(() => this.stopPolling());
         this.startPolling();
     }
 

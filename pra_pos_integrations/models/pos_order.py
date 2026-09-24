@@ -1,4 +1,3 @@
-import base64
 import json
 import logging
 import re
@@ -11,6 +10,7 @@ import requests
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+from odoo.tools.binary import BinaryBytes
 
 _logger = logging.getLogger(__name__)
 
@@ -214,4 +214,4 @@ class PosOrder(models.Model):
             qr.make(fit=True)
             stream = BytesIO()
             qr.make_image().save(stream, format="PNG")
-            order.pra_qr_image = base64.b64encode(stream.getvalue())
+            order.pra_qr_image = BinaryBytes(stream.getvalue())

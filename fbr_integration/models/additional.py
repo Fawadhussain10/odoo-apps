@@ -17,8 +17,10 @@ class ResPartner(models.Model):
 class ProductTempExt(models.Model):
     _inherit = 'product.template'
 
-    pct_code = fields.Char("PCT/HS Code", required=True)
-    sale_type = fields.Char(string='Sale Type', required=True)
+    # Mandatory in the product form (see views), not in the database: a NOT NULL column
+    # would also break every record created without them (e.g. other apps' products).
+    pct_code = fields.Char("PCT/HS Code")
+    sale_type = fields.Char(string='Sale Type')
     sro_schedule = fields.Char(string='SRO Schedule No')
     sro_item = fields.Char(string='SRO Item No')
     fed_duty = fields.Many2one('account.tax', string='FED Duty')

@@ -1,11 +1,15 @@
-# WhatsApp QR Connect (Odoo 19)
+# WhatsApp QR Connect (Odoo 20)
 
 Link WhatsApp numbers by scanning a QR code **inside Odoo** and send messages
 from any other module. No Node.js / gateway service.
 
 ## Install
-1. Install the Python library **neonize==0.5.2** in the environment Odoo runs in:
-   `pip install neonize==0.5.2` (it is also listed in the repository's `requirements.txt`).
+1. Install the Python library **neonize==0.5.2** (it needs `protobuf>=7.34.1`) where Odoo runs:
+   `pip install neonize==0.5.2` (also listed in the repository's `requirements.txt` on Odoo.sh).
+   *If your Odoo Python pins an older protobuf* (for example Firebase / Google Cloud libraries need
+   `protobuf<7`), install it in a **separate virtualenv** instead:
+   `python -m venv /opt/whatsapp-venv && /opt/whatsapp-venv/bin/pip install neonize==0.5.2 psycopg2-binary`
+   and set the system parameter `whatsapp_qr_connect.python_path` to `/opt/whatsapp-venv/bin/python`.
 2. Install the module. Go to **Settings > Technical > WhatsApp > WhatsApp Numbers**
    (needs developer mode). While nothing is linked this opens the QR screen directly.
 3. On the phone: WhatsApp > Linked devices > Link a device > scan.

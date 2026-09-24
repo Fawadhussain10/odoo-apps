@@ -20,7 +20,8 @@ class TestLinkTour(HttpCase):
                 'link_pid': os.getpid(),
             })
 
-        with patch.object(WhatsappAccount, '_spawn_link_worker', fake_spawn):
+        with patch.object(WhatsappAccount, '_spawn_link_worker', fake_spawn), \
+                patch.object(WhatsappAccount, '_check_worker_python', lambda self: None):
             self.start_tour(
                 '/odoo/action-whatsapp_qr_connect.action_whatsapp_open',
                 'whatsapp_qr_connect_link_tour', login='admin')

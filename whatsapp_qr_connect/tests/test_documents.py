@@ -15,6 +15,9 @@ class TestWhatsappDocuments(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        if not cls.env.company.chart_template:
+            # a bare database has no accounting: load a chart so invoices / ledger work
+            cls.env['account.chart.template'].try_loading('generic_coa', cls.env.company)
         Account = cls.env['whatsapp.account']
         cls.acc_a = Account.create({'name': 'A', 'state': 'connected', 'phone': '923001111111', 'is_default': True})
         cls.partner = cls.env['res.partner'].create({'name': 'Al-Noor Traders', 'phone': '0300 1234567'})
@@ -30,8 +33,10 @@ class TestWhatsappDocuments(TransactionCase):
             form_exists = self._has(doc['model']) and self.env.ref(doc['view'], raise_if_not_found=False)
             self.assertEqual(bool(view), bool(form_exists), doc['model'])
             if view:
+                action = self.env.ref('whatsapp_qr_connect.wa_action_%s' % doc['model'].replace('.', '_'))
                 arch = self.env[doc['model']].get_view(view_type='form')['arch']
-                self.assertIn('fa-whatsapp', arch, doc['model'])
+                self.assertIn('name="%d"' % action.id, arch, doc['model'])
+                self.assertNotIn('fa-whatsapp', view.arch_db)          # Odoo 20 has no Font Awesome icons (brand icon is oi_whatsapp)
 
     def test_button_click_runs_as_plain_internal_user(self):
         """The button is a server action: a normal user must be able to run it."""

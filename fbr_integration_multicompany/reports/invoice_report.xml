@@ -3,32 +3,27 @@
     <data>
 
         <template inherit_id="account.report_invoice_document" id="invoice_report_fbr_inherit">
-            <xpath expr="//div[@class='clearfix invoice_main'][1]/div[@class='page mb-4']/table[1]/thead[1]/tr[1]/th[5]"
-                   position="replace"/>
-            <xpath expr="//div[@class='clearfix invoice_main'][1]/div[@class='page mb-4']/table[1]/tbody[1]/t[5]/t[11]/tr[1]/t[2]/t[1]"
-                   position="replace"/>
-            <xpath expr="//div[@class='clearfix invoice_main'][1]/div[@class='page mb-4']/table[1]/tbody[1]/t[5]/t[11]/tr[1]/t[2]/td[5]"
-                   position="replace"/>
-            <xpath expr="//div[@class='clearfix invoice_main'][1]/div[@class='page mb-4']/table[1]/thead[1]/tr[1]//th[1]"
-                   position="after">
+            <!-- remove the Taxes column (located by name: stable across Odoo versions) -->
+            <xpath expr="//th[@name='th_taxes']" position="replace"/>
+            <xpath expr="//td[@name='td_taxes']" position="replace"/>
+            <xpath expr="//th[@name='th_description']" position="after">
                 <th name="th_hs_code" class="text-start">
                     <span>HS Code</span>
                 </th>
             </xpath>
-            <xpath expr="//div[@class='clearfix invoice_main'][1]/div[@class='page mb-4']/table[1]/tbody[1]/t[5]/t[11]/tr[1]/t[2]/td[1]"
-                   position="after">
+            <xpath expr="//td[@name='account_invoice_line_name']" position="after">
                 <td name="account_invoice_line_hs_code">
                     <span t-if="line.pct_code" t-field="line.pct_code" t-options="{'widget': 'text'}">0000.0000</span>
                 </td>
             </xpath>
-            <xpath expr="//div[@class='clearfix invoice_main'][1]" position="after">
+            <xpath expr="//div[hasclass('invoice_main')]" position="after">
                 <t t-if="o.fbr_invoice_number">
                     <div class="mt16" style="text-align: center;">
                         <strong>FBR Invoice No#</strong>
                     </div>
                     <div class="mt16" style="text-align: center;">
                         <strong>
-                            <t t-esc="o.fbr_invoice_number"/>
+                            <t t-out="o.fbr_invoice_number"/>
                         </strong>
                     </div>
                 </t>

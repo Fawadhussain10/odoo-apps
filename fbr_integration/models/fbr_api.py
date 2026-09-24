@@ -1,11 +1,11 @@
 from odoo import models, fields, api, _
+from odoo.tools.binary import BinaryBytes
 from odoo.exceptions import ValidationError, UserError
 from datetime import timedelta
 import requests
 import json
 import traceback
 import qrcode
-import base64
 from io import BytesIO
 
 
@@ -20,15 +20,17 @@ def generate_qr_code(value):
     img = qr.make_image()
     stream = BytesIO()
     img.save(stream, format="PNG")
-    qr_img = base64.b64encode(stream.getvalue())
-    return qr_img
+    return BinaryBytes(stream.getvalue())
 
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    pct_code = fields.Char("PCT/HS Code", required=True)
-    sale_type = fields.Char(string='Sale Type', required=True)
+    # Required on customer invoice product lines in the form and checked when posting to
+    # FBR; not NOT NULL in the database because Odoo also creates lines that carry no product
+    # (taxes, receivable/payable) and other apps create invoices without these fields.
+    pct_code = fields.Char("PCT/HS Code")
+    sale_type = fields.Char(string='Sale Type')
     sro_schedule = fields.Char(string='SRO Schedule No')
     sro_item = fields.Char(string='SRO Item No')
     fed_duty = fields.Many2one('account.tax', string='FED Duty')
@@ -96,11 +98,23 @@ class AccountMoveLine(models.Model):
             self._apply_custom_taxes()
         return res
 
-    @api.model
-    def create(self, vals):
-        record = super().create(vals)
-        record._apply_custom_taxes()
-        return record
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Lines created without the FBR data (e.g. invoiced from a sale order) inherit it
+        # from the product.
+        for vals in vals_list:
+            if not vals.get('product_id'):
+                continue
+            product = self.env['product.product'].browse(vals['product_id'])
+            for name in ('pct_code', 'sale_type', 'sro_schedule', 'sro_item', 'other_tax'):
+                if not vals.get(name) and product[name]:
+                    vals[name] = product[name]
+            for name in ('fed_duty', 'further_tax', 'extra_tax', 'withholding_tax'):
+                if not vals.get(name) and product[name]:
+                    vals[name] = product[name].id
+        records = super().create(vals_list)
+        records._apply_custom_taxes()
+        return records
 
 
 class AccountMove(models.Model):
@@ -124,7 +138,7 @@ class AccountMove(models.Model):
     def _display_scenario_field(self):
         for rec in self:
             config = self.env['ir.config_parameter'].sudo()
-            fbr_mode = config.get_param('fbr_integration.fbr_mode')
+            fbr_mode = config.get_str('fbr_integration.fbr_mode')
             rec.display_scenario = fbr_mode == 'sandbox'
 
     def _qr_in_report(self):
@@ -152,12 +166,19 @@ class AccountMove(models.Model):
             if invoice.state != 'posted':
                 raise ValidationError(_('Please post the invoice first.'))
 
+            missing = invoice.invoice_line_ids.filtered(
+                lambda l: l.display_type == 'product' and not (l.pct_code and l.sale_type))
+            if missing:
+                raise ValidationError(_(
+                    "FBR needs the PCT/HS Code and the Sale Type on every invoice line. "
+                    "Missing on: %s", ', '.join(missing.mapped(lambda l: l.name or l.product_id.display_name or '?'))))
+
             config = self.env['ir.config_parameter'].sudo()
-            fbr_enable_service = config.get_param('fbr_integration.fbr_enable_service')
+            fbr_enable_service = config.get_bool('fbr_integration.fbr_enable_service')
             service_fee_product = self.env.ref('fbr_integration.product_fbr_service_fee', raise_if_not_found=False)
-            fbr_service_fee = config.get_param('fbr_integration.fbr_service_fee') or 1.0
-            fbr_auth_token = config.get_param('fbr_integration.fbr_token')
-            fbr_mode = config.get_param('fbr_integration.fbr_mode')
+            fbr_service_fee = config.get_float('fbr_integration.fbr_service_fee', 1.0)
+            fbr_auth_token = config.get_str('fbr_integration.fbr_token')
+            fbr_mode = config.get_str('fbr_integration.fbr_mode')
 
             if fbr_enable_service:
                 invoice.button_draft()

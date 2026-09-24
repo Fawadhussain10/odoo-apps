@@ -8,8 +8,8 @@
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
                 <field name="default_code" position="after">
-                    <field name="pct_code"/>
-                    <field name="sale_type"/>
+                    <field name="pct_code" required="1"/>
+                    <field name="sale_type" required="1"/>
                     <field name="sro_schedule"/>
                     <field name="sro_item"/>
                     <field name="fed_duty"/>
@@ -27,8 +27,8 @@
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
                 <field name="default_code" position="after">
-                    <field name="pct_code"/>
-                    <field name="sale_type"/>
+                    <field name="pct_code" required="1"/>
+                    <field name="sale_type" required="1"/>
                     <field name="sro_schedule"/>
                     <field name="sro_item"/>
                     <field name="fed_duty"/>

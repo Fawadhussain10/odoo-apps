@@ -4,19 +4,19 @@
         <div class="o_whatsapp_link d-flex justify-content-center align-items-start p-4 overflow-auto h-100">
             <div class="o_whatsapp_link_card card shadow-sm">
                 <div class="card-body p-4 p-md-5">
-                    <h2 class="mb-1"><i class="fa fa-whatsapp text-success me-2"/>Link WhatsApp</h2>
+                    <h2 class="mb-1"><i class="oi text-success me-2" data-icon="oi_whatsapp"/>Link WhatsApp</h2>
                     <p class="text-muted mb-4">Scan the code with the phone that owns the number.</p>
                     <div class="row g-4 align-items-center">
                         <div class="col-md-5 text-center">
-                            <div t-if="state.qr" class="o_whatsapp_qr border rounded p-2 bg-white d-inline-block">
-                                <img t-att-src="'data:image/png;base64,' + state.qr" alt="WhatsApp QR code"/>
+                            <div t-if="this.state.qr" class="o_whatsapp_qr border rounded p-2 bg-white d-inline-block">
+                                <img t-att-src="'data:image/png;base64,' + this.state.qr" alt="WhatsApp QR code"/>
                             </div>
-                            <div t-elif="isStarting" class="o_whatsapp_qr_placeholder d-flex flex-column justify-content-center align-items-center border rounded text-muted">
-                                <i class="fa fa-circle-o-notch fa-spin fa-2x mb-2"/>
+                            <div t-elif="this.isStarting" class="o_whatsapp_qr_placeholder d-flex flex-column justify-content-center align-items-center border rounded text-muted">
+                                <i class="oi oi-spin oi-2x mb-2" data-icon="autorenew"/>
                                 <span>Generating QR code...</span>
                             </div>
                             <div t-else="" class="o_whatsapp_qr_placeholder d-flex flex-column justify-content-center align-items-center border rounded text-muted">
-                                <i class="fa fa-qrcode fa-3x mb-2"/>
+                                <i class="oi oi-3x mb-2" data-icon="qr_code"/>
                                 <span>No active QR code</span>
                             </div>
                         </div>
@@ -27,20 +27,20 @@
                                 <li>Choose <b>Linked devices</b> &#8594; <b>Link a device</b>.</li>
                                 <li>Point the camera at the QR code on this screen.</li>
                             </ol>
-                            <div t-if="state.error" class="alert alert-danger mt-3" role="alert">
-                                <t t-esc="state.error"/>
+                            <div t-if="this.state.error" class="alert alert-danger mt-3" role="alert">
+                                <t t-out="this.state.error"/>
                             </div>
-                            <div t-elif="state.status === 'linking'" class="text-muted small mt-3">
+                            <div t-elif="this.state.status === 'linking'" class="text-muted small mt-3">
                                 The code refreshes automatically. This page updates by itself once the number is linked.
                             </div>
                         </div>
                     </div>
                     <div class="mt-4 d-flex gap-2">
-                        <button t-if="state.status !== 'linking'" class="btn btn-primary" t-on-click="retry">
+                        <button t-if="this.state.status !== 'linking'" class="btn btn-primary" t-on-click="() => this.retry()">
                             Try again
                         </button>
-                        <button class="btn btn-secondary" t-on-click="cancel">
-                            <t t-if="state.status === 'linking'">Cancel</t>
+                        <button class="btn btn-secondary" t-on-click="() => this.cancel()">
+                            <t t-if="this.state.status === 'linking'">Cancel</t>
                             <t t-else="">Back</t>
                         </button>
                     </div>

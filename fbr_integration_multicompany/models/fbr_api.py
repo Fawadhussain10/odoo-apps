@@ -1,11 +1,11 @@
 from odoo import models, fields, api, _
+from odoo.tools.binary import BinaryBytes
 from odoo.exceptions import ValidationError, UserError
 from datetime import timedelta
 import requests
 import json
 import traceback
 import qrcode
-import base64
 from io import BytesIO
 
 
@@ -20,15 +20,17 @@ def generate_qr_code(value):
     img = qr.make_image()
     stream = BytesIO()
     img.save(stream, format="PNG")
-    qr_img = base64.b64encode(stream.getvalue())
-    return qr_img
+    return BinaryBytes(stream.getvalue())
 
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    pct_code = fields.Char("PCT/HS Code", required=True)
-    sale_type = fields.Char(string='Sale Type', required=True)
+    # Required on customer invoice product lines in the form and checked when posting to
+    # FBR; not NOT NULL in the database because Odoo also creates lines that carry no product
+    # (taxes, receivable/payable) and other apps create invoices without these fields.
+    pct_code = fields.Char("PCT/HS Code")
+    sale_type = fields.Char(string='Sale Type')
     sro_schedule = fields.Char(string='SRO Schedule No')
     sro_item = fields.Char(string='SRO Item No')
     fed_duty = fields.Many2one('account.tax', string='FED Duty')
@@ -96,11 +98,23 @@ class AccountMoveLine(models.Model):
             self._apply_custom_taxes()
         return res
 
-    @api.model
-    def create(self, vals):
-        record = super().create(vals)
-        record._apply_custom_taxes()
-        return record
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Lines created without the FBR data (e.g. invoiced from a sale order) inherit it
+        # from the product.
+        for vals in vals_list:
+            if not vals.get('product_id'):
+                continue
+            product = self.env['product.product'].browse(vals['product_id'])
+            for name in ('pct_code', 'sale_type', 'sro_schedule', 'sro_item', 'other_tax'):
+                if not vals.get(name) and product[name]:
+                    vals[name] = product[name]
+            for name in ('fed_duty', 'further_tax', 'extra_tax', 'withholding_tax'):
+                if not vals.get(name) and product[name]:
+                    vals[name] = product[name].id
+        records = super().create(vals_list)
+        records._apply_custom_taxes()
+        return records
 
 
 class AccountMove(models.Model):
@@ -150,6 +164,13 @@ class AccountMove(models.Model):
         for invoice in self:
             if invoice.state != 'posted':
                 raise ValidationError(_('Please post the invoice first.'))
+
+            missing = invoice.invoice_line_ids.filtered(
+                lambda l: l.display_type == 'product' and not (l.pct_code and l.sale_type))
+            if missing:
+                raise ValidationError(_(
+                    "FBR needs the PCT/HS Code and the Sale Type on every invoice line. "
+                    "Missing on: %s", ', '.join(missing.mapped(lambda l: l.name or l.product_id.display_name or '?'))))
 
             fbr_enable_service = self.company_id.sudo().fbr_enable_service
             service_fee_product = self.env.ref('fbr_integration_multicompany.product_fbr_service_fee',

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- PRA fiscal block on the POS receipt (Odoo 20 receipts are QWeb templates
+             rendered from the order / config data loaded in the POS). -->
+        <template id="pos_order_receipt" inherit_id="point_of_sale.pos_order_receipt">
+            <div name="before-footer" position="before">
+                <div t-if="order.get('pra_invoice_number')" class="pra-receipt-info w-100 pt-3 text-center" style="font-size: 75%;">
+                    <img src="/pra_pos_integrations/static/src/img/pra_logo.png"
+                         style="max-width: 150px; height: auto; margin: 0 auto 4px;"/>
+                    <div class="fw-bolder">PRA Invoice No: <t t-out="order['pra_invoice_number']"/></div>
+                    <div t-if="config.get('pra_pos_id')">POS ID: <t t-out="config['pra_pos_id']"/></div>
+                    <img t-if="order.get('pra_qr_image')" t-att-src="'data:image/png;base64,' + order['pra_qr_image']['content']"
+                         style="width: 90px; height: 90px; margin-top: 4px;" class="m-0"/>
+                    <div>Verify this invoice on the PRA Sahulat mobile app</div>
+                </div>
+            </div>
+        </template>
+    </data>
+</odoo>

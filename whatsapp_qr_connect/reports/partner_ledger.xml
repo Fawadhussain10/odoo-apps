@@ -5,7 +5,6 @@
         <field name="model">res.partner</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">whatsapp_qr_connect.report_partner_ledger</field>
-        <field name="report_file">whatsapp_qr_connect.report_partner_ledger</field>
         <field name="print_report_name">'Ledger - %s' % (object.name or '')</field>
         <field name="binding_model_id" ref="base.model_res_partner"/>
         <field name="binding_type">report</field>

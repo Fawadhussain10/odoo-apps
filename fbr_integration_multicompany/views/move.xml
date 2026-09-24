@@ -7,10 +7,10 @@
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/notebook/page[@name='invoice_tab']/field[@name='invoice_line_ids']/list/field[@name='product_id']"
+                <xpath expr="//form/sheet/notebook/page[@name='invoice_tab']/field[@name='invoice_line_ids']/list/column[@name='product_and_description']"
                        position="after">
-                    <field name="pct_code"/>
-                    <field name="sale_type"/>
+                    <field name="pct_code" required="display_type == 'product' and parent.move_type in ('out_invoice', 'out_refund')"/>
+                    <field name="sale_type" required="display_type == 'product' and parent.move_type in ('out_invoice', 'out_refund')"/>
                     <field name="sro_schedule" optional="hide"/>
                     <field name="sro_item" optional="hide"/>
                     <field name="fed_duty" optional="hide"/>

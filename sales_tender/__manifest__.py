@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Sale Tender',
-    'version': '19.0.1.0.0',
+    'version': '20.0.1.0.0',
     'summary': 'Manage tender submissions and convert accepted tenders into quotations',
     'description': """
 Sale Tender
@@ -20,7 +20,7 @@ accepted tenders can be converted into a sale Quotation with one click.
     'depends': ['sale_management', 'mail'],
     'data': [
         'security/sale_tender_security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/sale_tender_sequence.xml',
         'views/sale_tender_views.xml',
         'views/sale_tender_menus.xml',
