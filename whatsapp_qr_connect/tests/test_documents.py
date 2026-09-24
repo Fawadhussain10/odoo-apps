@@ -22,12 +22,17 @@ class TestWhatsappDocuments(TransactionCase):
     def _has(self, model):
         return model in self.env.registry
 
+    def _need_accounting(self):
+        if 'account.move.line' not in self.env.registry:
+            self.skipTest('accounting not installed')
+
     # -------------------------------------------------------------- buttons
     def test_button_installed_only_for_installed_apps(self):
         for doc in DOCUMENTS:
             view = self.env.ref('whatsapp_qr_connect.wa_view_%s' % doc['model'].replace('.', '_'),
                                 raise_if_not_found=False)
-            form_exists = self._has(doc['model']) and self.env.ref(doc['view'], raise_if_not_found=False)
+            form_exists = (self._has(doc['model']) and self.env.ref(doc['view'], raise_if_not_found=False)
+                           and all(self._has(m) for m in doc.get('requires', [])))
             self.assertEqual(bool(view), bool(form_exists), doc['model'])
             if view:
                 arch = self.env[doc['model']].get_view(view_type='form')['arch']
@@ -35,6 +40,7 @@ class TestWhatsappDocuments(TransactionCase):
 
     def test_button_click_runs_as_plain_internal_user(self):
         """The button is a server action: a normal user must be able to run it."""
+        self._need_accounting()
         user = self.env['res.users'].create({
             'name': 'Seller', 'login': 'seller_wa',
             'groups_id': [(6, 0, [self.env.ref('base.group_user').id, self.env.ref('account.group_account_invoice').id])],
@@ -47,6 +53,7 @@ class TestWhatsappDocuments(TransactionCase):
 
     # --------------------------------------------------------------- dialog
     def test_dialog_prefills_phone_message_and_pdf(self):
+        self._need_accounting()
         action = self.env['whatsapp.document'].wa_open_dialog('res.partner', self.partner.id)
         ctx = action['context']
         self.assertEqual(ctx['default_phone'], '0300 1234567')
@@ -85,6 +92,7 @@ class TestWhatsappDocuments(TransactionCase):
         self.assertEqual(ctx['default_report_xmlid'], 'sale.action_report_saleorder')
 
     def test_invoice_and_bill_wording(self):
+        self._need_accounting()
         invoice = self.env['account.move'].create({
             'move_type': 'out_invoice', 'partner_id': self.partner.id,
             'invoice_line_ids': [(0, 0, {'name': 'Service', 'quantity': 1, 'price_unit': 500})]})
@@ -120,6 +128,7 @@ class TestWhatsappDocuments(TransactionCase):
 
     # --------------------------------------------------------------- ledger
     def test_ledger_lines_and_report_render(self):
+        self._need_accounting()
         invoice = self.env['account.move'].create({
             'move_type': 'out_invoice', 'partner_id': self.partner.id,
             'invoice_line_ids': [(0, 0, {'name': 'Service', 'quantity': 1, 'price_unit': 500})]})

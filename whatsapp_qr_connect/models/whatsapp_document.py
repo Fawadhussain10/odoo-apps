@@ -59,6 +59,7 @@ DOCUMENTS = [
         # Contacts: customer / vendor ledger. Uses this module's own report, so it
         # works without the Enterprise accounting reports.
         'model': 'res.partner', 'label': 'Customer Ledger',
+        'requires': ['account.move.line'],
         'report': '%s.action_report_partner_ledger' % MODULE, 'view': 'base.view_partner_form',
         'place': 'button_box',
         'invisible': "not id",
@@ -249,7 +250,7 @@ class WhatsappDocument(models.AbstractModel):
     def _wa_install_button(self, doc):
         env = self.env
         model = doc['model']
-        if model not in env.registry:
+        if model not in env.registry or any(m not in env.registry for m in doc.get('requires', [])):
             return
         form = env.ref(doc['view'], raise_if_not_found=False)
         if not form:

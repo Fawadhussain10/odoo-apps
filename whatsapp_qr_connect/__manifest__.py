@@ -37,7 +37,7 @@ separate virtualenv and set the system parameter whatsapp_qr_connect.python_path
     'images': ['static/description/banner.png'],
     'price': 250.00,
     'currency': 'USD',
-    'depends': ['base', 'web', 'account'],
+    'depends': ['base', 'web'],
     'data': [
         'security/whatsapp_security.xml',
         'security/ir.model.access.csv',
