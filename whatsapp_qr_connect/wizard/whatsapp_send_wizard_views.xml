@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_whatsapp_send_wizard_form" model="ir.ui.view">
+        <field name="name">whatsapp.send.wizard.form</field>
+        <field name="model">whatsapp.send.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="account_id" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="phone" placeholder="e.g. 923001234567"/>
+                    <field name="res_model" invisible="1"/>
+                    <field name="res_id" invisible="1"/>
+                    <field name="report_xmlid" invisible="1"/>
+                    <field name="attach_pdf" invisible="not report_xmlid"/>
+                    <field name="pdf_filename" invisible="not report_xmlid or not attach_pdf"/>
+                </group>
+                <field name="message" placeholder="Write your message..."/>
+                <footer>
+                    <button name="action_send" type="object" string="Send" class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
