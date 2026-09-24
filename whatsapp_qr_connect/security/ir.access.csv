@@ -2,6 +2,8 @@ id,name,model_id,group_id/id,operation,domain
 access_whatsapp_account_user,whatsapp.account user,whatsapp.account,base.group_user,r,
 access_whatsapp_account_admin,whatsapp.account admin,whatsapp.account,base.group_system,crud,
 access_whatsapp_account_company,WhatsApp account: multi-company,whatsapp.account,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
-access_whatsapp_message_user,whatsapp.message user,whatsapp.message,base.group_user,r,
+access_whatsapp_message_user,whatsapp.message chat user,whatsapp.message,group_whatsapp_chat,r,
 access_whatsapp_message_admin,whatsapp.message admin,whatsapp.message,base.group_system,crud,
 access_whatsapp_send_wizard_user,whatsapp.send.wizard user,whatsapp.send.wizard,base.group_user,crud,
+access_whatsapp_chat_user,whatsapp.chat chat user,whatsapp.chat,group_whatsapp_chat,r,
+access_whatsapp_chat_admin,whatsapp.chat admin,whatsapp.chat,base.group_system,crud,

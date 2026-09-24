@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'WhatsApp QR Connect',
-    'version': '20.0.2.0.0',
+    'version': '20.0.5.0.0',
     'category': 'Technical',
-    'summary': 'Link WhatsApp by QR code inside Odoo and send sales, purchase, delivery, '
-               'invoice, bill, salary slip and ledger PDFs on WhatsApp - no extra service.',
+    'summary': 'Link WhatsApp by QR code inside Odoo, chat with your customers from a '
+               'premium home-screen app (live replies, photos, emoji, attachments, access group) and send sales, purchase, '
+               'delivery, invoice, bill, salary slip and ledger PDFs on WhatsApp.',
     'description': """
 WhatsApp QR Connect
 ===================
@@ -25,6 +26,13 @@ A standalone building block for WhatsApp messaging in Odoo.
   ledger). The document is sent as a PDF attachment; the message can be edited
   and the sending number chosen first. Buttons appear only for apps that are
   installed (Sales, Purchase, Inventory, Payroll).
+* WhatsApp app on the home screen (only for the group WhatsApp / Chat User; administrators
+  have it automatically): a modern WhatsApp-style chat screen (avatars, day separators, image and
+  document bubbles, read ticks) with the conversations Odoo started,
+  replies arrive in Odoo (checked every minute or with the refresh button), a short
+  "new message" pop-up (2 seconds) appears anywhere in Odoo within seconds (live listener + bus
+  websocket), emoji picker and attachments (pictures, videos, audio, PDFs, any file) can be sent, received photos, videos, voice
+  notes and files are downloaded and shown in the chat, and you can answer from the screen.
 * Message log of everything sent through the module.
 
 Requires the Python library: neonize==0.5.2  (install with: pip install neonize==0.5.2;
@@ -37,18 +45,21 @@ separate virtualenv and set the system parameter whatsapp_qr_connect.python_path
     'images': ['static/description/banner.png'],
     'price': 250.00,
     'currency': 'USD',
-    'depends': ['base', 'web', 'account'],
+    'depends': ['base', 'web', 'bus', 'account'],
     'data': [
+        'security/whatsapp_security.xml',
         'security/ir.access.csv',
         'views/whatsapp_account_views.xml',
         'views/whatsapp_message_views.xml',
         'wizard/whatsapp_send_wizard_views.xml',
         'views/menus.xml',
         'reports/partner_ledger.xml',
+        'data/ir_cron.xml',
     ],
     'assets': {
         'web.assets_backend': [
             'whatsapp_qr_connect/static/src/link_action/*',
+            'whatsapp_qr_connect/static/src/inbox/*',
         ],
         'web.assets_tests': [
             'whatsapp_qr_connect/static/tests/tours/*',

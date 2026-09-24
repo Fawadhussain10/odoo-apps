@@ -11,6 +11,7 @@ import subprocess
 import sys
 import tempfile
 import threading
+from datetime import datetime, timezone
 
 from odoo import _, api, fields, models, modules, sql_db
 from odoo.exceptions import AccessError, UserError
@@ -24,6 +25,7 @@ WORKER = os.path.join(
 LINK_TIMEOUT = 170          # seconds a QR code stays scannable (see worker)
 STALE_LINK_AFTER = LINK_TIMEOUT + 40
 CONNECT_TIMEOUT = 30
+RECEIVE_WINDOW = 12
 PER_MESSAGE_TIMEOUT = 20
 PER_ATTACHMENT_TIMEOUT = 60
 LOCK_NAMESPACE = 0x57410000  # advisory lock key = namespace + account id
@@ -82,6 +84,8 @@ class WhatsappAccount(models.Model):
              "than one number is linked.")
     last_connected = fields.Datetime(readonly=True, copy=False)
     last_error = fields.Text(readonly=True, copy=False)
+    listen_stop = fields.Boolean(copy=False, groups='base.group_system',
+                                 help="Set by Odoo to make the background listener release the session.")
     link_pid = fields.Integer(readonly=True, copy=False, groups='base.group_system')
     qr_string = fields.Char(readonly=True, copy=False, groups='base.group_system')
     session_data = fields.Binary(
@@ -185,6 +189,9 @@ class WhatsappAccount(models.Model):
                     break
                 except ValueError:
                     continue
+        for line in (proc.stderr or '').splitlines():
+            if line.startswith('receive:'):
+                _logger.info("WhatsApp worker (%s): %s", mode, line)
         if result is None:
             tail = ((proc.stderr or '').strip().splitlines() or [''])[-1]
             _logger.warning("WhatsApp worker (%s) failed: %s", mode, proc.stderr)
@@ -197,7 +204,14 @@ class WhatsappAccount(models.Model):
     def _lock(self):
         """Serialise use of one WhatsApp session (two live connections of the
         same device would kick each other out)."""
+        self._request_listener_stop()
         self.env.cr.execute("SELECT pg_advisory_xact_lock(%s)", [LOCK_NAMESPACE + self.id])
+
+    def _request_listener_stop(self):
+        """The background listener keeps the WhatsApp connection open; ask it (through a
+        separate, immediately committed transaction) to let go so this operation can run."""
+        with self.env.registry.cursor() as cr:
+            cr.execute("UPDATE whatsapp_account SET listen_stop = true WHERE id = %s", [self.id])
 
     # ------------------------------------------------------------------
     # Linking (QR code)
@@ -453,12 +467,19 @@ class WhatsappAccount(models.Model):
                             fh.write(att['content'])
                         entry['attachment'] = {
                             'path': path, 'filename': att.get('filename') or 'file',
-                            'mimetype': att.get('mimetype') or 'application/pdf'}
+                            'mimetype': att.get('mimetype') or 'application/pdf',
+                            'as_media': bool(att.get('as_media'))}
                         timeout += PER_ATTACHMENT_TIMEOUT
                     else:
                         timeout += PER_MESSAGE_TIMEOUT
                     payload.append(entry)
-                worker = account._run_worker('send', {'messages': payload}, timeout=timeout)
+                known = self.env['whatsapp.chat'].sudo().search(
+                    [('account_id', '=', account.id)]).mapped('phone')
+                worker = account._run_worker(
+                    'send', {'messages': payload, 'known': known, 'media_dir': tmp_dir}, timeout=timeout)
+                # replies that reached this connection must not be lost
+                if worker.get('messages'):
+                    account._process_incoming(worker['messages'])
             finally:
                 shutil.rmtree(tmp_dir, ignore_errors=True)
             worker_results = worker.get('results') if worker.get('ok') else None
@@ -487,6 +508,13 @@ class WhatsappAccount(models.Model):
                 'attachment_name': (item.get('attachment') or {}).get('filename'),
             })
             res['log_id'] = log.id
+            att = item.get('attachment') or {}
+            if att.get('keep') and res['status'] == 'SENT':
+                # chat screen: keep the file so the conversation can show it
+                log.attachment_id = self.env['ir.attachment'].sudo().create({
+                    'name': att.get('filename') or 'file', 'raw': att['content'],
+                    'mimetype': att.get('mimetype') or 'application/octet-stream',
+                    'res_model': 'whatsapp.message', 'res_id': log.id})
             res.setdefault('detail', False)
             res.setdefault('message_id', False)
 
@@ -553,3 +581,137 @@ class WhatsappAccount(models.Model):
                 'next': {'type': 'ir.actions.act_window_close'},
             },
         }
+
+    # ------------------------------------------------------------------
+    # Receiving (chat screen)
+    # ------------------------------------------------------------------
+    def _stream_worker(self, mode, payload, timeout, on_message):
+        """Run the helper and call ``on_message(item)`` for every ``MSG`` line as soon
+        as it is printed (so replies show up live, not when the helper ends)."""
+        self.ensure_one()
+        cfg = self._worker_config(mode, payload)
+        errors = tempfile.TemporaryFile('w+')
+        proc = subprocess.Popen(
+            [self._python_bin(), WORKER], env=self._worker_env(cfg),
+            stdout=subprocess.PIPE, stderr=errors, text=True)
+        timer = threading.Timer(timeout, proc.kill)
+        timer.start()
+        result = None
+        try:
+            for line in proc.stdout:
+                line = line.strip()
+                if line.startswith('MSG '):
+                    try:
+                        item = json.loads(line[4:])
+                    except ValueError:
+                        continue
+                    on_message(item)
+                elif line.startswith('{'):
+                    try:
+                        result = json.loads(line)
+                    except ValueError:
+                        continue
+        finally:
+            timer.cancel()
+            proc.stdout.close()
+            proc.wait()
+        if result is None:
+            errors.seek(0)
+            tail = (errors.read().strip().splitlines() or [''])[-1]
+            result = {'ok': False, 'error': tail or _("WhatsApp helper failed.")}
+        errors.close()
+        return result
+
+    def _receive_messages(self, commit=False, window=RECEIVE_WINDOW):
+        """Stay connected for ``window`` seconds and store replies of the numbers Odoo
+        has chatted with as they arrive. Returns the number of new messages."""
+        total = 0
+        for account in self:
+            known = self.env['whatsapp.chat'].sudo().search(
+                [('account_id', '=', account.id)]).mapped('phone')
+            if not known:
+                continue
+            self.env.cr.execute("SELECT pg_try_advisory_lock(%s)", [LOCK_NAMESPACE + account.id])
+            if not self.env.cr.fetchone()[0]:
+                continue        # a send / check is using the session right now
+            media_dir = tempfile.mkdtemp(prefix='wa_media_')
+            try:
+                with self.env.registry.cursor() as cr:
+                    cr.execute("UPDATE whatsapp_account SET listen_stop = false WHERE id = %s",
+                               [account.id])
+                if commit and not modules.module.current_test:
+                    self.env.cr.commit()        # do not sit in a transaction while listening
+
+                def store(item, account=account):
+                    nonlocal total
+                    total += account._process_incoming([item])
+                    if commit and not modules.module.current_test:
+                        self.env.cr.commit()
+
+                result = account._stream_worker(
+                    'receive', {'known': known, 'window': window, 'media_dir': media_dir},
+                    timeout=CONNECT_TIMEOUT + window + 60, on_message=store)
+                if not result.get('ok'):
+                    _logger.info("WhatsApp receive on %s failed: %s", account.name, result.get('error'))
+            finally:
+                shutil.rmtree(media_dir, ignore_errors=True)
+                self.env.cr.execute("SELECT pg_advisory_unlock(%s)", [LOCK_NAMESPACE + account.id])
+        return total
+
+    def _notify_users(self, chat, message):
+        """Push the new reply to every open Odoo tab through the bus websocket."""
+        payload = {
+            'id': message.id, 'chat_id': chat.id, 'name': chat.name,
+            'text': (message.body or '[%s]' % (message.media_type or '')).replace('\n', ' ')[:80],
+        }
+        group = self.env.ref('whatsapp_qr_connect.group_whatsapp_chat')
+        users = self.env['res.users'].sudo().search(
+            [('share', '=', False), ('all_group_ids', 'in', group.ids)])
+        for user in users:
+            self.env['bus.bus'].sudo()._sendone(user, 'whatsapp_qr_connect.new_message', payload)
+
+    def _store_media(self, media):
+        """File saved by the helper -> attachment (read while the temp dir still exists)."""
+        if not media:
+            return self.env['ir.attachment']
+        try:
+            with open(media['path'], 'rb') as fh:
+                raw = fh.read()
+        except OSError:
+            return self.env['ir.attachment']
+        return self.env['ir.attachment'].sudo().create({
+            'name': media.get('filename') or 'file', 'raw': raw,
+            'mimetype': media.get('mimetype') or 'application/octet-stream'})
+
+    def _process_incoming(self, items):
+        self.ensure_one()
+        Message, Chat = self.env['whatsapp.message'].sudo(), self.env['whatsapp.chat'].sudo()
+        created = 0
+        for item in items:
+            mid = item.get('message_id')
+            if not mid or Message.search_count([('account_id', '=', self.id), ('message_id', '=', mid)]):
+                continue        # already known (also our own sends echoed back)
+            chat = Chat.search([('account_id', '=', self.id), ('phone', '=', item['phone'])], limit=1)
+            if not chat:
+                continue        # never store chats Odoo did not start
+            # typed on the phone: an outgoing message - unless it is the chat with the
+            # linked number itself ("message yourself"), the only way to reply there
+            own = ''.join(c for c in (self.phone or '') if c.isdigit())[-10:]
+            outgoing = bool(item.get('from_me')) and not (own and chat.phone.endswith(own))
+            if item.get('name') and not chat.contact_name and not outgoing:
+                chat.contact_name = item['name']
+            date = datetime.fromtimestamp(item.get('timestamp') or 0, timezone.utc).replace(tzinfo=None)
+            attachment = self._store_media(item.get('media'))
+            message = Message.create({
+                'attachment_id': attachment.id, 'account_id': self.id, 'chat_id': chat.id, 'phone': item['phone'],
+                'direction': 'out' if outgoing else 'in',
+                'status': 'SENT' if outgoing else 'RECEIVED', 'is_read': outgoing, 'message_id': mid,
+                'body': item.get('body') or False, 'media_type': item.get('media_type') or False,
+                'date': date, 'user_id': False,
+            })
+            if not outgoing:
+                self._notify_users(chat, message)
+            if attachment:      # readable by whoever can read the message
+                attachment.write({'res_model': 'whatsapp.message', 'res_id': message.id})
+            created += 1
+        return created
