@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_whatsapp_account_list" model="ir.ui.view">
+        <field name="name">whatsapp.account.list</field>
+        <field name="model">whatsapp.account</field>
+        <field name="arch" type="xml">
+            <list>
+                <header>
+                    <button name="action_new_number" type="object" class="btn-primary"
+                            string="Link New Number" display="always"/>
+                </header>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="push_name" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'connected'"
+                       decoration-warning="state == 'linking'"
+                       decoration-danger="state == 'disconnected'"
+                       decoration-muted="state == 'draft'"/>
+                <field name="is_default" optional="show"/>
+                <field name="last_connected" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_account_form" model="ir.ui.view">
+        <field name="name">whatsapp.account.form</field>
+        <field name="model">whatsapp.account</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_link" type="object" class="btn-primary"
+                            string="Link WhatsApp (Scan QR)"
+                            invisible="state in ('connected', 'linking')"/>
+                    <button name="action_link" type="object" class="btn-primary"
+                            string="Show QR Code" invisible="state != 'linking'"/>
+                    <button name="action_cancel_link" type="object"
+                            string="Cancel Linking" invisible="state != 'linking'"/>
+                    <button name="action_send_test" type="object" class="btn-secondary"
+                            string="Send Test Message" invisible="state != 'connected'"/>
+                    <button name="action_check_connection" type="object"
+                            string="Check Connection" invisible="state != 'connected'"/>
+                    <button name="action_set_default" type="object"
+                            string="Make Default"
+                            invisible="state != 'connected' or is_default"/>
+                    <button name="action_logout" type="object"
+                            string="Unlink Number"
+                            confirm="This logs the number out of Odoo. You will have to scan a new QR code to use it again. Continue?"
+                            invisible="state not in ('connected', 'disconnected')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,linking,connected"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_messages" type="object"
+                                class="oe_stat_button" icon="fa-comments">
+                            <field name="message_count" widget="statinfo" string="Messages"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="name"/>
+                            <field name="phone"/>
+                            <field name="push_name"/>
+                        </group>
+                        <group>
+                            <field name="is_default"/>
+                            <field name="sequence"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="last_connected"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-danger" role="alert"
+                         invisible="not last_error or state == 'connected'">
+                        <field name="last_error" readonly="1" nolabel="1"/>
+                    </div>
+                    <div class="alert alert-info" role="alert" invisible="state != 'draft'">
+                        Press <b>Link WhatsApp (Scan QR)</b>, then on your phone open
+                        WhatsApp &gt; Settings &gt; Linked devices &gt; Link a device
+                        and scan the code shown in Odoo.
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_account_search" model="ir.ui.view">
+        <field name="name">whatsapp.account.search</field>
+        <field name="model">whatsapp.account</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="phone"/>
+                <filter name="linked" string="Linked" domain="[('state', '=', 'connected')]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_account" model="ir.actions.act_window">
+        <field name="name">WhatsApp Numbers</field>
+        <field name="res_model">whatsapp.account</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

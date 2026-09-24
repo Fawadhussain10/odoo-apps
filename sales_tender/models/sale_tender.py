@@ -127,9 +127,9 @@ class SaleTender(models.Model):
             'product_id': line.product_id.id,
             'name': line.name,
             'product_uom_qty': line.product_uom_qty,
-            'product_uom': line.product_uom.id or line.product_id.uom_id.id,
+            'product_uom_id': line.product_uom.id or line.product_id.uom_id.id,
             'price_unit': line.price_unit,
-            'tax_id': [(6, 0, line.tax_id.ids)],
+            'tax_ids': [(6, 0, line.tax_id.ids)],
         }) for line in self.order_line_ids]
 
         order = self.env['sale.order'].sudo().create({

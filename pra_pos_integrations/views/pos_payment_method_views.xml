@@ -5,7 +5,7 @@
         <field name="model">pos.payment.method</field>
         <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
         <field name="arch" type="xml">
-            <field name="qr_code_method" position="after">
+            <field name="config_ids" position="after">
                 <field name="pra_payment_mode" placeholder="Auto"/>
             </field>
         </field>

@@ -18,9 +18,11 @@
         <field name="arch" type="xml">
             <list string="Tenders" decoration-success="state == 'accepted'"
                   decoration-danger="state == 'rejected'"
+                  decoration-warning="state == 'to_approve'"
                   decoration-muted="state == 'converted'">
                 <field name="name"/>
                 <field name="partner_id"/>
+                <field name="user_id"/>
                 <field name="purpose"/>
                 <field name="tender_number"/>
                 <field name="mode_of_instrument"/>
@@ -144,7 +146,7 @@
                 <filter string="Accepted" name="filter_accepted" domain="[('state', '=', 'accepted')]"/>
                 <filter string="Rejected" name="filter_rejected" domain="[('state', '=', 'rejected')]"/>
                 <filter string="Converted" name="filter_converted" domain="[('state', '=', 'converted')]"/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter string="Customer" name="group_partner" context="{'group_by': 'partner_id'}"/>
                     <filter string="Salesperson" name="group_salesperson" context="{'group_by': 'user_id'}"/>
                     <filter string="Purpose" name="group_purpose" context="{'group_by': 'purpose'}"/>

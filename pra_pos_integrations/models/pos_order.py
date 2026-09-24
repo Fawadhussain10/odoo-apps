@@ -35,11 +35,6 @@ class PosOrder(models.Model):
     pra_qr_image = fields.Binary(string="PRA QR Code", copy=False, attachment=False)
 
     @api.model
-    def _load_pos_data_fields(self, config_id):
-        fields = super()._load_pos_data_fields(config_id)
-        return fields + ['pra_status', 'pra_invoice_number', 'pra_qr_image']
-
-    @api.model
     def _process_order(self, order, existing_order):
         order_id = super()._process_order(order, existing_order)
         pos_order = self.browse(order_id)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Sale Tender',
-    'version': '18.0.1.0.0',
+    'version': '19.0.1.0.0',
     'summary': 'Manage tender submissions and convert accepted tenders into quotations',
     'description': """
 Sale Tender

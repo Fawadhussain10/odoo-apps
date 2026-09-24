@@ -1,6 +1,6 @@
 {
     "name": "PRA POS Integration (Punjab Revenue Authority)",
-    "version": "18.0.1.1.0",
+    "version": "19.0.1.1.0",
     "summary": "Report POS sales to the Punjab Revenue Authority (PRA) e-IMS in real time",
     "description": """
 Punjab Revenue Authority - POS / e-IMS Integration
@@ -29,7 +29,6 @@ based on PRAL's "POS Component and eIMS" specification:
     ],
     "assets": {
         "point_of_sale._assets_pos": [
-            "pra_pos_integrations/static/src/overrides/models/pos_order.js",
             "pra_pos_integrations/static/src/overrides/components/order_receipt.xml",
         ],
     },

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="whatsapp_qr_connect.LinkAction">
+        <div class="o_whatsapp_link d-flex justify-content-center align-items-start p-4 overflow-auto h-100">
+            <div class="o_whatsapp_link_card card shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="mb-1"><i class="fa fa-whatsapp text-success me-2"/>Link WhatsApp</h2>
+                    <p class="text-muted mb-4">Scan the code with the phone that owns the number.</p>
+                    <div class="row g-4 align-items-center">
+                        <div class="col-md-5 text-center">
+                            <div t-if="state.qr" class="o_whatsapp_qr border rounded p-2 bg-white d-inline-block">
+                                <img t-att-src="'data:image/png;base64,' + state.qr" alt="WhatsApp QR code"/>
+                            </div>
+                            <div t-elif="isStarting" class="o_whatsapp_qr_placeholder d-flex flex-column justify-content-center align-items-center border rounded text-muted">
+                                <i class="fa fa-circle-o-notch fa-spin fa-2x mb-2"/>
+                                <span>Generating QR code...</span>
+                            </div>
+                            <div t-else="" class="o_whatsapp_qr_placeholder d-flex flex-column justify-content-center align-items-center border rounded text-muted">
+                                <i class="fa fa-qrcode fa-3x mb-2"/>
+                                <span>No active QR code</span>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <ol class="o_whatsapp_steps ps-3">
+                                <li>Open <b>WhatsApp</b> on your phone.</li>
+                                <li>Tap <b>Settings</b> (iPhone) or the <b>&#8942; menu</b> (Android).</li>
+                                <li>Choose <b>Linked devices</b> &#8594; <b>Link a device</b>.</li>
+                                <li>Point the camera at the QR code on this screen.</li>
+                            </ol>
+                            <div t-if="state.error" class="alert alert-danger mt-3" role="alert">
+                                <t t-esc="state.error"/>
+                            </div>
+                            <div t-elif="state.status === 'linking'" class="text-muted small mt-3">
+                                The code refreshes automatically. This page updates by itself once the number is linked.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button t-if="state.status !== 'linking'" class="btn btn-primary" t-on-click="retry">
+                            Try again
+                        </button>
+                        <button class="btn btn-secondary" t-on-click="cancel">
+                            <t t-if="state.status === 'linking'">Cancel</t>
+                            <t t-else="">Back</t>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
