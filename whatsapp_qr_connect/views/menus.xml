@@ -14,4 +14,17 @@
               parent="menu_whatsapp_root" action="action_whatsapp_open" sequence="10"/>
     <menuitem id="menu_whatsapp_messages" name="Message Log"
               parent="menu_whatsapp_root" action="action_whatsapp_message" sequence="20"/>
+
+    <!-- Home-screen app: chats of the numbers Odoo has written to -->
+    <record id="action_whatsapp_inbox" model="ir.actions.client">
+        <field name="name">WhatsApp Chats</field>
+        <field name="tag">whatsapp_qr_connect.inbox</field>
+    </record>
+    <menuitem id="menu_whatsapp_inbox_app" name="WhatsApp" action="action_whatsapp_inbox"
+              web_icon="whatsapp_qr_connect,static/description/icon.png"
+              sequence="95"/>
+    <!-- explicit replace (6,0): an upgrade must drop any group set by an earlier version -->
+    <record id="menu_whatsapp_inbox_app" model="ir.ui.menu">
+        <field name="group_ids" eval="[(6, 0, [ref('whatsapp_qr_connect.group_whatsapp_chat')])]"/>
+    </record>
 </odoo>

@@ -43,7 +43,12 @@ def finish(payload, code=0):
     neonize keeps non-daemon threads alive, so a normal interpreter exit can
     hang; ``os._exit`` guarantees the process ends.
     """
-    print(json.dumps(payload), flush=True)
+    try:
+        text = json.dumps(payload)
+    except TypeError:
+        log('cannot serialise result: %r' % (payload,))
+        text = json.dumps(payload, default=str)
+    print(text, flush=True)
     sys.stdout.flush()
     sys.stderr.flush()
     os._exit(code)
@@ -93,6 +98,12 @@ class Db:
                 'UPDATE whatsapp_account SET %s WHERE id = %%s' % cols,
                 [*vals.values(), self.account_id],
             )
+
+    def stop_requested(self):
+        with self.conn.cursor() as cur:
+            cur.execute('SELECT listen_stop FROM whatsapp_account WHERE id = %s', [self.account_id])
+            row = cur.fetchone()
+        return bool(row and row[0])
 
     def get_session(self):
         with self.conn.cursor() as cur:
@@ -276,12 +287,14 @@ def mode_link(cfg, db, workdir):
     finish({'ok': True, 'phone': phone, 'push_name': push_name})
 
 
-def _connect_existing(cfg, db, workdir):
+def _connect_existing(cfg, db, workdir, before_start=None):
     session = Session(db, workdir)
     if not session.had_session:
         db.update(state='draft')
         finish({'ok': False, 'code': 'NOT_LINKED',
                 'error': 'This WhatsApp number is not linked.'})
+    if before_start:
+        before_start(session)       # e.g. message handlers: queued messages arrive on connect
     session.start()
     result = session.wait_connected(cfg.get('connect_timeout') or CONNECT_TIMEOUT)
     if result in ('NOT_LINKED', 'LOGGED_OUT'):
@@ -295,7 +308,8 @@ def _connect_existing(cfg, db, workdir):
 
 
 def mode_send(cfg, db, workdir):
-    session = _connect_existing(cfg, db, workdir)
+    register, incoming = make_collector(cfg)
+    session = _connect_existing(cfg, db, workdir, before_start=register)
     client = session.client
     from neonize.utils import build_jid
     results = []
@@ -316,7 +330,14 @@ def mode_send(cfg, db, workdir):
             if jid is None:
                 jid = build_jid(number)
             att = msg.get('attachment')
-            if att:
+            mime = (att or {}).get('mimetype') or ''
+            if att and att.get('as_media') and mime.startswith('image/'):
+                resp = client.send_image(jid, att['path'], caption=msg.get('text') or None)
+            elif att and att.get('as_media') and mime.startswith('video/'):
+                resp = client.send_video(jid, att['path'], caption=msg.get('text') or None)
+            elif att and att.get('as_media') and mime.startswith('audio/'):
+                resp = client.send_audio(jid, att['path'])
+            elif att:
                 resp = client.send_document(
                     jid, att['path'], caption=msg.get('text') or None,
                     filename=att.get('filename'),
@@ -332,7 +353,7 @@ def mode_send(cfg, db, workdir):
         session.persist(last_connected=time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime()))
     except Exception:  # noqa: BLE001
         log(traceback.format_exc())
-    finish({'ok': True, 'results': results})
+    finish({'ok': True, 'results': results, 'messages': incoming})
 
 
 def mode_check(cfg, db, workdir):
@@ -345,6 +366,152 @@ def mode_check(cfg, db, workdir):
     session.persist(state='connected', last_error=None,
                     last_connected=time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime()))
     finish({'ok': True, 'phone': phone})
+
+
+MAX_MEDIA_BYTES = 16 * 1024 * 1024
+
+
+def _download_media(client, msg, sub, message_id, media_dir):
+    """Save the attachment into ``media_dir``; None when it is too big or fails."""
+    if not media_dir:
+        return None
+    import mimetypes
+    import re
+    size = int(getattr(sub, 'fileLength', 0) or 0)
+    if size > MAX_MEDIA_BYTES:
+        return None
+    try:
+        data = client.download_any(msg)
+    except Exception:  # noqa: BLE001
+        log(traceback.format_exc())
+        return None
+    if not data or len(data) > MAX_MEDIA_BYTES:
+        return None
+    mime = (getattr(sub, 'mimetype', '') or 'application/octet-stream').split(';')[0]
+    name = getattr(sub, 'fileName', '') or ''
+    if not name:
+        name = 'whatsapp-%s%s' % (message_id, mimetypes.guess_extension(mime) or '')
+    path = os.path.join(media_dir, re.sub(r'[^\w.\-]+', '_', message_id))
+    with open(path, 'wb') as fh:
+        fh.write(data)
+    return {'path': path, 'mimetype': mime, 'filename': name}
+
+
+def _match_known(user, known):
+    """Odoo may store a number as 0301..., WhatsApp reports 92301...: compare the
+    last 10 digits and hand back the number as Odoo knows it."""
+    digits = ''.join(c for c in user if c.isdigit())
+    if len(digits) < 8:
+        return None
+    for number in known:
+        other = ''.join(c for c in number if c.isdigit())
+        if other and (other == digits or (len(other) >= 10 and len(digits) >= 10
+                                          and other[-10:] == digits[-10:])):
+            return number
+    return None
+
+
+def _incoming_from_event(client, ev, known, media_dir=None):
+    """Turn a neonize MessageEv into a plain dict, or None when it is not a
+    1:1 message from a number that Odoo has already written to."""
+    info = ev.Info
+    src = info.MessageSource
+    if src.IsGroup:
+        return None
+    # messages typed on the phone itself (IsFromMe) belong to the chat with the *recipient*
+    jids = (src.Chat, getattr(src, 'RecipientAlt', None)) if src.IsFromMe \
+        else (src.SenderAlt, src.Sender, src.Chat)
+    phone = None
+    for jid in jids:
+        user = getattr(jid, 'User', '') or ''
+        if user and getattr(jid, 'Server', '') == 'lid':
+            try:
+                user = client.get_pn_from_lid(jid).User or ''
+            except Exception:  # noqa: BLE001
+                user = ''
+        phone = _match_known(user, known)
+        if phone:
+            break
+    if not phone:
+        return None
+    msg = ev.Message
+    body, media, media_file = '', '', None
+    if msg.conversation:
+        body = msg.conversation
+    elif msg.HasField('extendedTextMessage'):
+        body = msg.extendedTextMessage.text
+    else:
+        for field, label in (('imageMessage', 'image'), ('videoMessage', 'video'),
+                             ('documentMessage', 'document'), ('audioMessage', 'audio'),
+                             ('stickerMessage', 'sticker'), ('locationMessage', 'location'),
+                             ('contactMessage', 'contact')):
+            if msg.HasField(field):
+                media = label
+                sub = getattr(msg, field)
+                body = getattr(sub, 'caption', '') or ''
+                media_file = _download_media(client, msg, sub, ev.Info.ID, media_dir)
+                break
+        else:
+            return None       # reactions, protocol messages, receipts ...
+    ts = int(info.Timestamp or 0)
+    if ts > 10 ** 11:
+        ts //= 1000
+    return {'phone': phone, 'from_me': bool(src.IsFromMe), 'name': info.Pushname or '', 'message_id': info.ID,
+            'body': body, 'media_type': media, 'media': media_file, 'timestamp': ts or int(time.time())}
+
+
+def make_collector(cfg, emit=None):
+    """Returns (register, found): ``register(session)`` hooks the message handler
+    (must run BEFORE connecting, queued messages arrive on connect)."""
+    from neonize.events import MessageEv
+    payload = cfg.get('payload') or {}
+    known = list(payload.get('known') or [])
+    found, seen = [], set()
+
+    def register(session):
+        @session.client.event(MessageEv)
+        def _on_message(client, ev):
+            try:
+                item = _incoming_from_event(client, ev, known, payload.get('media_dir'))
+            except Exception:  # noqa: BLE001
+                log(traceback.format_exc())
+                return
+            if not item:
+                src = ev.Info.MessageSource
+                log('receive: ignored message (group=%s, from_me=%s, chat=%s, sender=%s)' % (
+                    src.IsGroup, src.IsFromMe, src.Chat.User, src.Sender.User))
+            elif item['message_id'] not in seen:
+                log('receive: got message %s (from_me=%s)' % (item['message_id'], item['from_me']))
+                seen.add(item['message_id'])
+                found.append(item)
+                if emit:
+                    emit(item)
+    return register, found
+
+
+def mode_receive(cfg, db, workdir):
+    """Stay connected for ``window`` seconds and hand every message for numbers Odoo
+    talked to to Odoo the moment it arrives (one ``MSG <json>`` line each).
+    Ends early when Odoo wants the session for a send (``listen_stop`` flag)."""
+    def emit(item):
+        print('MSG ' + json.dumps(item), flush=True)
+
+    register, found = make_collector(cfg, emit)
+    session = _connect_existing(cfg, db, workdir, before_start=register)
+    end = time.time() + (cfg['payload'].get('window') or 12)
+    while time.time() < end:
+        try:
+            if db.stop_requested():
+                break
+        except Exception:  # noqa: BLE001
+            pass
+        time.sleep(1)
+    time.sleep(1)
+    try:
+        session.persist(last_connected=time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime()))
+    except Exception:  # noqa: BLE001
+        log(traceback.format_exc())
+    finish({'ok': True, 'count': len(found)})
 
 
 def mode_logout(cfg, db, workdir):
@@ -368,6 +535,7 @@ MODES = {
     'link': mode_link,
     'send': mode_send,
     'check': mode_check,
+    'receive': mode_receive,
     'logout': mode_logout,
 }
 

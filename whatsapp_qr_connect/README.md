@@ -69,3 +69,23 @@ Sends to one number are serialised with a PostgreSQL advisory lock.
   the only officially supported route.
 * Anyone with database access can read the stored sessions: treat backups like passwords.
 * Media messages need `ffmpeg`; plain text does not.
+
+## WhatsApp app: chats and replies inside Odoo
+
+A **WhatsApp** app icon appears on the Odoo home screen. It lists only the
+conversations that Odoo started (a chat is created when a message is sent to a
+number from Odoo - other chats on the linked phone are never read into Odoo).
+
+* Replies from those numbers are stored and shown as chat bubbles; you can answer from the screen.
+* A short pop-up ("New WhatsApp message from ...", 2 seconds, with an *Open* button)
+  appears on any Odoo screen when a reply arrives.
+* **Access:** only members of the group *WhatsApp / Chat User* see the app, can read the chats and
+  get the pop-up (administrators are members automatically). Add the group on the user form.
+* **Speed:** a scheduled action (*WhatsApp: fetch new replies*, every minute) keeps one WhatsApp
+  connection open for about 50 seconds per run, so replies are stored the moment WhatsApp delivers
+  them and pushed to the browser over Odoo's bus websocket (pop-up within a second or two). The
+  listener steps aside automatically when you send a message. It uses one Odoo cron thread; keep
+  the cron enabled (`--max-cron-threads` >= 1). *Check now* does a short manual run.
+* **Composer:** emoji picker, file button (also paste or drop pictures) - pictures, videos, audio, PDFs
+  and any other file up to 16 MB; the text becomes the caption.
+* Received media (images, stickers, videos, voice notes, documents up to 16 MB) is downloaded and stored as an attachment; images are shown inline, other files as players or download links.
