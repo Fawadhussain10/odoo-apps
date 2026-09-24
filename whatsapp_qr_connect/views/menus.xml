@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Menu > opens the QR screen straight away while no number is linked -->
+    <record id="action_whatsapp_open" model="ir.actions.server">
+        <field name="name">WhatsApp</field>
+        <field name="model_id" ref="model_whatsapp_account"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_accounts()</field>
+    </record>
+
+    <menuitem id="menu_whatsapp_root" name="WhatsApp" parent="base.menu_custom"
+              sequence="90"/>
+    <menuitem id="menu_whatsapp_accounts" name="WhatsApp Numbers"
+              parent="menu_whatsapp_root" action="action_whatsapp_open" sequence="10"/>
+    <menuitem id="menu_whatsapp_messages" name="Message Log"
+              parent="menu_whatsapp_root" action="action_whatsapp_message" sequence="20"/>
+</odoo>
