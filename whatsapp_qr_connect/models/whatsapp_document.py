@@ -256,7 +256,7 @@ class WhatsappDocument(models.AbstractModel):
             return
         key = model.replace('.', '_')
         action = self._wa_get_or_create('ir.actions.server', 'wa_action_%s' % key, {
-            'name': _("Send WhatsApp"),
+            'name': 'Send WhatsApp',
             'model_id': env['ir.model']._get_id(model),
             'state': 'code',
             'code': "action = env['whatsapp.document'].wa_open_dialog('%s', record.id)" % model,

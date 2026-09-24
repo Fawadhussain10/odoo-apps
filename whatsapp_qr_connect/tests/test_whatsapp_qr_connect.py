@@ -126,6 +126,7 @@ class TestWhatsappQrConnect(TransactionCase):
         self.env['whatsapp.account'].search([]).unlink()
         started = []
         with patch.object(WhatsappAccount, '_spawn_link_worker', lambda self: started.append(self.id)), \
+                patch.object(WhatsappAccount, '_check_worker_python', lambda self: None), \
                 patch.object(type(self.env.cr), 'commit', lambda self: None):
             action = self.env['whatsapp.account'].action_open_accounts()
         self.assertEqual(action['tag'], 'whatsapp_qr_connect.link_action')
@@ -137,7 +138,8 @@ class TestWhatsappQrConnect(TransactionCase):
         """The list button reaches the server as call_button(model, method, [[]])."""
         from odoo.service.model import call_kw
         started = []
-        with patch.object(WhatsappAccount, '_spawn_link_worker', lambda self: started.append(self.id)):
+        with patch.object(WhatsappAccount, '_spawn_link_worker', lambda self: started.append(self.id)), \
+                patch.object(WhatsappAccount, '_check_worker_python', lambda self: None):
             action = call_kw(self.env['whatsapp.account'], 'action_new_number', [[]], {})
         self.assertEqual(action['tag'], 'whatsapp_qr_connect.link_action')
         self.assertEqual(len(started), 1)
@@ -198,3 +200,23 @@ class TestWhatsappQrConnect(TransactionCase):
 def os_getpid():
     import os
     return os.getpid()
+
+
+@tagged('post_install', '-at_install')
+class TestWorkerPython(TransactionCase):
+
+    def test_unstartable_interpreter_gives_clear_message(self):
+        self.env['ir.config_parameter'].set_param(
+            'whatsapp_qr_connect.python_path', '/nonexistent/python')
+        account = self.env['whatsapp.account'].create({'name': 'X'})
+        with self.assertRaisesRegex(UserError, 'cannot be started'):
+            account.action_link()
+        self.assertEqual(account.state, 'draft')
+
+    def test_interpreter_without_neonize_is_reported(self):
+        # /bin/false exits non-zero for any arguments: stands in for "import fails"
+        self.env['ir.config_parameter'].set_param('whatsapp_qr_connect.python_path', '/bin/false')
+        account = self.env['whatsapp.account'].create({'name': 'Y'})
+        with self.assertRaisesRegex(UserError, "neonize"):
+            account.action_link()
+        self.assertEqual(account.state, 'draft')
