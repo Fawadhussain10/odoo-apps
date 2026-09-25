@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_hms_lab_test_critearea_jr_doctor,PB Test Criteria phy,lab.test.critearea,pb_hms.group_hms_jr_doctor,cru,
+access_hms_laboratory_request_line_receptionist,PB Patient Laboratory Request line,laboratory.request.line,pb_hms.group_hms_receptionist,crud,
+access_patient_laboratory_test_jr_doctor,Patient Lab Test phy,patient.laboratory.test,pb_hms.group_hms_jr_doctor,cru,
+access_hms_patient_laboratory_test_jr_doctor,PB Laboratory phy,pb.lab.test,pb_hms.group_hms_jr_doctor,cru,
+all_hms_laboratory_request_rule_group_hms_jr_doctor,All Laboratory Requests,pb.laboratory.request,pb_hms.group_hms_jr_doctor,cru,
+access_hms_pb_laboratory_request_receptionist,Patient Lab Request Recep,pb.laboratory.request,pb_hms.group_hms_receptionist,cru,

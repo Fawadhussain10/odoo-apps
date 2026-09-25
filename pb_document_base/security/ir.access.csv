@@ -1,0 +1,8 @@
+id,name,model_id,group_id/id,operation,domain
+document_user_rule,Document: User,ir.attachment,pb_document_base.group_document_user,crud,"[('is_document', '=', True), '|', '|', ('create_uid', '=', user.id), ('directory_id.user_ids', 'in', [user.id]), ('directory_id.department_id.member_ids', 'in', user.employee_ids.ids)]"
+document_manager_rule,Document: Manager,ir.attachment,pb_document_base.group_document_manager,crud,"[('is_document', '=', True)]"
+document_internal_user_rule,Documents: visible to document users only,ir.attachment,,crud,"[] if user.has_group('pb_document_base.group_document_manager') else (['|', ('is_document', '=', False), '|', '|', ('create_uid', '=', user.id), ('directory_id.user_ids', 'in', [user.id]), ('directory_id.department_id.member_ids', 'in', user.employee_ids.ids)] if user.has_group('pb_document_base.group_document_user') else [('is_document', '=', False)])"
+access_document_directory_manager,Directory Manager,document.directory,pb_document_base.group_document_manager,crud,
+access_document_directory_user,Directory User,document.directory,pb_document_base.group_document_user,r,"['|', ('user_ids', 'in', [user.id]), ('department_id.member_ids', 'in', user.employee_ids.ids)]"
+access_pb_document_tag_manager,access_pb_document_tag,pb.document.tag,pb_document_base.group_document_manager,crud,
+access_pb_document_tag_user,access_pb_document_tag,pb.document.tag,pb_document_base.group_document_user,cru,

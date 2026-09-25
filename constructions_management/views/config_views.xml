@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Project Category -->
+    <record id="view_construction_project_category_list" model="ir.ui.view">
+        <field name="name">construction.project.category.list</field>
+        <field name="model">construction.project.category</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="project_count"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_construction_project_category_form" model="ir.ui.view">
+        <field name="name">construction.project.category.form</field>
+        <field name="model">construction.project.category</field>
+        <field name="arch" type="xml">
+            <form class="o_constructions_management">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code" readonly="1"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Default WBS Stages">
+                            <field name="stage_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="default_duration"/>
+                                    <field name="progress_weight"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Sub-Categories">
+                            <field name="subcategory_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_construction_project_category" model="ir.actions.act_window">
+        <field name="name">Project Categories</field>
+        <field name="res_model">construction.project.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Project Sub-Category -->
+    <record id="view_construction_project_subcategory_list" model="ir.ui.view">
+        <field name="name">construction.project.subcategory.list</field>
+        <field name="model">construction.project.subcategory</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="category_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_construction_project_subcategory" model="ir.actions.act_window">
+        <field name="name">Project Sub-Categories</field>
+        <field name="res_model">construction.project.subcategory</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- WBS Stage Template -->
+    <record id="view_construction_wbs_stage_template_list" model="ir.ui.view">
+        <field name="name">construction.wbs.stage.template.list</field>
+        <field name="model">construction.wbs.stage.template</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="default_duration"/>
+                <field name="progress_weight"/>
+                <field name="category_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_construction_wbs_stage_template" model="ir.actions.act_window">
+        <field name="name">WBS Stage Templates</field>
+        <field name="res_model">construction.wbs.stage.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Team -->
+    <record id="view_construction_team_list" model="ir.ui.view">
+        <field name="name">construction.team.list</field>
+        <field name="model">construction.team</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="member_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_construction_team_form" model="ir.ui.view">
+        <field name="name">construction.team.form</field>
+        <field name="model">construction.team</field>
+        <field name="arch" type="xml">
+            <form class="o_constructions_management">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category_id"/>
+                        <field name="subcategory_id"/>
+                    </group>
+                    <field name="member_ids" widget="many2many_tags"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_construction_team" model="ir.actions.act_window">
+        <field name="name">Teams</field>
+        <field name="res_model">construction.team</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Document Type -->
+    <record id="view_construction_document_type_list" model="ir.ui.view">
+        <field name="name">construction.document.type.list</field>
+        <field name="model">construction.document.type</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="category"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_construction_document_type" model="ir.actions.act_window">
+        <field name="name">Document Types</field>
+        <field name="res_model">construction.document.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Cost Code -->
+    <record id="view_construction_cost_code_list" model="ir.ui.view">
+        <field name="name">construction.cost.code.list</field>
+        <field name="model">construction.cost.code</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="cost_type"/>
+                <field name="parent_id"/>
+                <field name="expense_account_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_construction_cost_code_form" model="ir.ui.view">
+        <field name="name">construction.cost.code.form</field>
+        <field name="model">construction.cost.code</field>
+        <field name="arch" type="xml">
+            <form class="o_constructions_management">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="parent_id"/>
+                        </group>
+                        <group>
+                            <field name="cost_type"/>
+                            <field name="expense_account_id"/>
+                            <field name="analytic_applicable"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_construction_cost_code" model="ir.actions.act_window">
+        <field name="name">Cost Codes</field>
+        <field name="res_model">construction.cost.code</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Work Type -->
+    <record id="view_construction_work_type_list" model="ir.ui.view">
+        <field name="name">construction.work.type.list</field>
+        <field name="model">construction.work.type</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="category"/>
+                <field name="default_cost_code_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_construction_work_type" model="ir.actions.act_window">
+        <field name="name">Work Types</field>
+        <field name="res_model">construction.work.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

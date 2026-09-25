@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pb_web_timer_widget.PbTimeCounter">
+        <span><t t-out="this.formattedDuration()"/></span>
+    </t>
+</templates>

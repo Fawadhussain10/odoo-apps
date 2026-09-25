@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+pb_hms_waiting_screen_rule,Waiting Screen multi-company,pb.hms.waiting.screen,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_pb_hms_waiting_screen_user,Wiaitng screen User,pb.hms.waiting.screen,pb_hms_base.group_hms_user,r,
+access_pb_hms_waiting_screen_manager,Waiting Screen Manager,pb.hms.waiting.screen,pb_hms_next_patient_screen.group_waiting_screen,crud,

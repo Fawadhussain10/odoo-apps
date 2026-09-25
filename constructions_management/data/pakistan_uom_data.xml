@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Pakistani construction UoMs. Odoo 19's uom.uom has no separate category model any more -
+        each unit chains to another via relative_uom_id, and the connected tree IS the "family"
+        (conversions only work within one tree). We re-activate a couple of Odoo's built-in but
+        archived-by-default units (Sq.Ft, Cft) and chain Pakistani land-measurement units
+        (Sq.Yard, Marla, Kanal, Acre) onto Sq.Ft, plus discrete counting units (Bag, 1,000 Bricks,
+        Lump Sum) chained onto "Units" - exactly the columns used in the real 3.5 Marla BOQ
+        (Sq.ft, Cft, Bag, Kg, No., L.S., 1,000 Bricks).
+    -->
+
+    <!-- Re-activate Odoo's built-in area/volume units, off by default -->
+    <record id="uom.product_uom_square_foot" model="uom.uom">
+        <field name="active" eval="True"/>
+    </record>
+    <record id="uom.product_uom_foot" model="uom.uom">
+        <field name="active" eval="True"/>
+    </record>
+    <record id="uom.product_uom_cubic_foot" model="uom.uom">
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- Land / area measurement (Punjab & most of Pakistan): 1 Kanal = 20 Marla = 5445 sq.ft -->
+    <record id="uom_square_yard" model="uom.uom">
+        <field name="name">Sq.Yard</field>
+        <field name="relative_uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="relative_factor" eval="9.0"/>
+    </record>
+    <record id="uom_marla" model="uom.uom">
+        <field name="name">Marla</field>
+        <field name="relative_uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="relative_factor" eval="272.25"/>
+    </record>
+    <record id="uom_kanal" model="uom.uom">
+        <field name="name">Kanal</field>
+        <field name="relative_uom_id" ref="uom_marla"/>
+        <field name="relative_factor" eval="20.0"/>
+    </record>
+    <record id="uom_acre_pk" model="uom.uom">
+        <field name="name">Acre</field>
+        <field name="relative_uom_id" ref="uom_kanal"/>
+        <field name="relative_factor" eval="8.0"/>
+    </record>
+
+    <!-- Discrete counting units commonly used in Pakistani BOQs -->
+    <record id="uom_bag" model="uom.uom">
+        <field name="name">Bag</field>
+        <field name="relative_uom_id" ref="uom.product_uom_unit"/>
+        <field name="relative_factor" eval="1.0"/>
+    </record>
+    <record id="uom_1000_bricks" model="uom.uom">
+        <field name="name">1,000 Bricks</field>
+        <field name="relative_uom_id" ref="uom.product_uom_unit"/>
+        <field name="relative_factor" eval="1000.0"/>
+    </record>
+    <record id="uom_lump_sum" model="uom.uom">
+        <field name="name">L.S. (Lump Sum)</field>
+        <field name="relative_uom_id" ref="uom.product_uom_unit"/>
+        <field name="relative_factor" eval="1.0"/>
+    </record>
+</odoo>

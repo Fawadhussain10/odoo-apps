@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Parent "view" location under which each project gets its own location tree
+        (Receiving / Quality Hold / Accepted / Issued / Consumed / Return / Scrap), created
+        automatically when a project is confirmed. Consumed uses usage='production' so
+        stock_account posts a normal valuation journal entry on the move into it, without any
+        hand-written accounting code. Picking types reuse each warehouse's standard internal
+        transfer operation type rather than a dedicated one, to avoid extra multi-company/
+        multi-warehouse configuration.
+    -->
+    <record id="stock_location_construction_sites" model="stock.location">
+        <field name="name">Construction Sites</field>
+        <field name="usage">view</field>
+    </record>
+</odoo>

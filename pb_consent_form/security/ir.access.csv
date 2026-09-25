@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+consent_form_company_rule,Consent Forms multi-company,pb.consent.form,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_pb_consent_form_portal,Digital Document portal,pb.consent.form,base.group_portal,ru,"[('partner_id','=',user.commercial_partner_id.id)]"
+access_pb_consent_form_manager,Digital Document,pb.consent.form,pb_consent_form.group_consent_form_manager,crud,
+access_pb_consent_form_tag_portal,Digial Document Tag Portal,pb.consent.form.tag,base.group_portal,r,
+access_pb_consent_form_tag_manager,Digial Document Tag,pb.consent.form.tag,pb_consent_form.group_consent_form_manager,crud,
+access_pb_consent_form_template_manager,Digial Document Template,pb.consent.form.template,pb_consent_form.group_consent_form_manager,crud,

@@ -1,0 +1,2877 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_aesthetic
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-14 06:05+0000\n"
+"PO-Revision-Date: 2022-03-14 06:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__aesthetic_wish_count
+msgid "# Aesthetic Wishes"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_sign
+msgid "&amp;times;"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "&gt; 10 Glasses"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "&gt; 8 Glasses"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_alcohole_consume__4cups
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "1-4 Cups"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_water_consume__4glass
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "1-4 Glasses"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_any_treatement
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "1. In the last year have you undergone medical treatment?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_color
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "1. What is the natural color of your skin when it is not tanned?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__parameter_10
+msgid "10."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_contact_lenses
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "10. Do you wear contact lenses?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__parameter_11
+msgid "11."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_pacemakers
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "11. Do you have metal implants or pacemakers?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__parameter_12
+msgid "12."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_water_temp
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "12. At what temperature do you use the water for cleaning at home?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__parameter_13
+msgid "13."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_skin_problem
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "13. Do you have a special problem on the skin of your face or body?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__parameter_14
+msgid "14."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "14. What products do you regularly use for skin care?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_undergone_chemical
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "15. Have you undergone chemical, laser or dermabrasion peels?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_undergone_retina
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "16. Are you using Retin A, Renova or Adapalene?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_acne
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "17. Do you use acne or other pathology medications?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid ""
+"18. Do you frequently use products that contain the following ingredients?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_water_consume
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "19. How much water do you consume daily?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_dermatological_treatement
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "2. In the last year have you undergone dermatological treatment?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__hair_color
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "2. What natural color is your hair?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_alcohole_consume
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "20. How many alcoholic beverages do you consume weekly?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "21. Have you experienced any of the following skin conditions?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_solar_screen_face
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "22. What Solar Screen FPS do you use for your Face?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_skin_tanning
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "23. Are you tanning?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_suffer_from_burn
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "24. Does moderate sun exposure burn easily?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_suffer_from_blush
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "25. Do you blush easily when you are nervous?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_suffer_from_redness
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "26. Do you tend to redness?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_suffer_from_respiratory
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "27. Do you suffer from respiratory problems?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_cb
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "28. Do you consume caffeinated beverages (coffee, tea, soft drinks)?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_skin_itching
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "29. Do you experience burning or itching sensation on your skin?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_any_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "3. In the last 9 months, have you had any surgery?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__eye_color
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "3. What color is the eyes?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_sensitivity_level
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "30. What is your level of sensitivity to pain?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_claustrophobia
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "31. Have you experienced claustrophobia?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_massage_pressure
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "32. What type of pressure do you prefer for your massage?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "33. Have you had a reaction to any of the following items?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_contraceptives
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "34. Are you using oral contraceptives?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_pregnant
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "35. Are you pregnant or trying to get pregnant?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_breastfeeding
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "36. Are you breastfeeding?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_pregnancy_loss
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "37. Have you had a recent pregnancy loss?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "38. What method do you use to shave?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_shave_irritation
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "39. Do you experience irritation when shaving?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_water_consume__8glasses
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "4-8 Glasses"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid ""
+"4. Have you had any of the following health problems, in the past or "
+"present?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__freckles_number
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid ""
+"4. How many freckles does your body naturally have when you're not tanning?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_embedded_hairs
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "40. Do you suffer from embedded hairs?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_alcohole_consume__8glasses
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "5-8 Glasses"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_medicines
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid ""
+"5. List medications, supplements, vitamins, diuretics, weight loss tablets, "
+"etc. who are consuming regularly."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__genetic_heritage
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "5. Which category best describes your genetic heritage?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_smoke
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "6. Do you Smoke?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__burn_potential
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid ""
+"6. Which category best describes your burn potential after one hour in the "
+"sun in the summer?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_exercise
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "7. Do you exercise regularly?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__tanning_potential
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "7. Which category best describes your tanning potential?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_diet
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "8. Do you follow a diet?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_regular_sleep
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "9. Do you have regular sleep patterns?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.report_pb_aestheticwish_document
+msgid ""
+"<b>Doctor’s Stamp/Signature</b>\n"
+"                    <br/>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.report_pb_aesthetic_hisotry_document
+msgid ""
+"<b>Patient’s Signature</b>\n"
+"                    <br/>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_sign
+msgid "<i class=\"fa fa-check\"/>Accept &amp; Sign"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_sign
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_view
+msgid "<i class=\"fa fa-download\"/> Download"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_sign
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_view
+msgid "<i class=\"fa fa-print\"/> Print"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwishes
+msgid "<span class=\"fa fa-plus\"> New Aesthetic Wish</span>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_sign
+msgid "<span>Accepted on the behalf of:</span>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.report_pb_aestheticwish_document
+msgid "<span>Aesthetic Patient Wish: </span>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_sign
+msgid "<span>By signing this, I agree to the All terms:</span>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.report_pb_aesthetic_hisotry_document
+msgid ""
+"<strong>\n"
+"                                <span>Patient Aesthetic History</span>\n"
+"                            </strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.report_pb_aesthetic_phototype_document
+msgid ""
+"<strong>\n"
+"                                <span>Patient Skin Phototype</span>\n"
+"                            </strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "<strong>14. What products do you regularly use for skin care?</strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid ""
+"<strong>18. Do you frequently use products that contain the following "
+"ingredients?</strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid ""
+"<strong>21. Have you experienced any of the following skin "
+"conditions?</strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid ""
+"<strong>33. Have you had a reaction to any of the following items?</strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "<strong>38. What method do you use to shave?</strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid ""
+"<strong>4. Have you had any of the following health problems, in the past or"
+" present?</strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid ""
+"<strong>5. List medications, supplements, vitamins, diuretics, weight loss "
+"tablets, etc. who are consuming regularly.</strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.report_pb_aesthetic_hisotry_document
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.report_pb_aestheticwish_document
+msgid "<strong>Date</strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.report_pb_aestheticwish_document
+msgid "<strong>Doctor</strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.report_pb_aesthetic_hisotry_document
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.report_pb_aesthetic_phototype_document
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.report_pb_aestheticwish_document
+msgid "<strong>Patient</strong>"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_sign
+msgid ""
+"<strong>Thank You!</strong><br/>\n"
+"                        Your declaration has been signed."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_alcohole_consume__10plusglasses
+msgid "> 10 Glasses"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_water_consume__8plusglasses
+msgid "> 8 Glasses"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__freckles_number__6
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "A few"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_search
+msgid "PB Aesthetic Patient Wish"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__genetic_heritage__12
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Aboriginal, African, African American"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_sign
+msgid "Accept Details"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__access_warning
+msgid "Access warning"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_achromias
+msgid "Achromias"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Acne"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__scars
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Acne / Scars"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_body_evolution_form
+msgid "Actual"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__adipose_tissue_consistency
+msgid "Adipose Tissue Consistency"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__adiposity
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Adiposity (Rabbits, Chubby, Llanticas)"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.product_template_form_view
+msgid "Aestetic"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__pb_aesthetic_questionnaire_template__question_type__aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hr_department__department_type__aesthetic
+#: model:ir.ui.menu,name:pb_hms_aesthetic.menu_pb_main_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_hms_odontology_appointment_form
+msgid "Aesthetic"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.actions.report,name:pb_hms_aesthetic.action_aesthetic_hisotry_report
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.portal_my_home
+msgid "Aesthetic History"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.actions.act_window,name:pb_hms_aesthetic.action_pb_aesthetic_patient_wish
+#: model:ir.model,name:pb_hms_aesthetic.model_pb_aesthetic_patient_wish
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_list
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_pivot
+msgid "Aesthetic Patient Wish"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_calendar
+msgid "Aesthetic Patient Wishs"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.actions.report,name:pb_hms_aesthetic.action_aesthetic_phototype_report
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.portal_my_home
+msgid "Aesthetic Phototype"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.actions.act_window,name:pb_hms_aesthetic.action_aesthetic_procedure
+msgid "Aesthetic Procedure"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_product__product_procedure_line_ids
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_template__product_procedure_line_ids
+#: model:ir.ui.menu,name:pb_hms_aesthetic.menu_pb_patient_aesthetic_procedure
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.product_template_form_view
+msgid "Aesthetic Procedures"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__product_template__hospital_product_type__aesthetic_procedure
+msgid "Aesthetic Process"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model,name:pb_hms_aesthetic.model_aesthetic_product_procedure
+msgid "Aesthetic Product Procedure"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.actions.act_window,name:pb_hms_aesthetic.action_pb_aesthetic_questionnaire_template
+#: model:ir.model,name:pb_hms_aesthetic.model_pb_aesthetic_questionnaire
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_appointment__aesthetic_questionnaire_ids
+#: model:ir.ui.menu,name:pb_hms_aesthetic.menu_pb_aesthetic_questionnaire_template
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_hms_odontology_appointment_form
+msgid "Aesthetic Questionnaire"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model,name:pb_hms_aesthetic.model_pb_aesthetic_questionnaire_template
+msgid "Aesthetic Questionnaire Template"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:res.groups,name:pb_hms_aesthetic.group_hms_aesthetic
+msgid "Aesthetic User"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.actions.report,name:pb_hms_aesthetic.action_aestheticwish_report
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwishes
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.portal_my_home
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.portal_my_home_menu_hms
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Aesthetic Wish"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__aesthetic_wish_ids
+msgid "Aesthetic Wishes"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_biotype__alipic
+msgid "Alipic"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__burn_potential__0
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Always burns and never tans"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__obesity_type__android
+msgid "Android"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_reaction_animals
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Animals"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_anticoagulants
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Anticoagulants"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.actions.act_window,name:pb_hms_aesthetic.action_appointment
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__appointment_id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__appointment_id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire__appointment_id
+#: model:ir.ui.menu,name:pb_hms_aesthetic.menu_pb_appointment
+msgid "Appointment"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_asthma
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Asthma"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Attach photos of your body/face and areas that you want to improve."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__attachment_ids
+msgid "Attachments"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "BODY TREATMENT PLAN"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_hms_odontology_appointment_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "BODY ZONE CONTROL EVOLUTION"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__preauricular_wrinkles_backnose
+msgid "Back-Nose"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_color__4
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Beige"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__eye_color__16
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__hair_color__16
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_color__16
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Black"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__acne_black_comedones
+msgid "Black Comedones"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__hair_color__2
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Blonde, Light Brown"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__eye_color__2
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Blue, Green, Gray"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_hms_odontology_appointment_form
+msgid "Body"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Body Analysis"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__body_circumference_reduction
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Body Circumference Reduction"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model,name:pb_hms_aesthetic.model_pb_aesthetic_body_evolution
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_appointment__body_evolution_ids
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__body_evolution_ids
+msgid "Body Evolution"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__body_nutrition_product_ids
+msgid "Body Nutrition"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__body_treatment_product_ids
+msgid "Body Treatments"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__body_upkeep_product_ids
+msgid "Body Upkeep"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_body_evolution_form
+msgid "Body Zone"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__eye_color__8
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_color__12
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Brown"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__burn_potential__4
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Burns occasionally, but tans moderately"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__bust
+msgid "Bust"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "CAPILLARY ACTIVITY"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__tanning_potential__8
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Can be deeply tanned"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__tanning_potential__2
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Can be lightly tanned"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__tanning_potential__4
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Can be tanned moderately"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+msgid "Cancel"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__pb_aesthetic_patient_wish__state__cancel
+msgid "Canceled"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_cancer
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Cancer"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__cellulitis
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Cellulitis"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__hair_color__4
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Chestnut"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_chloasmas
+msgid "Chloasmas"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_cleaner
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Cleaner"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__routine_clear
+msgid "Clear"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__routine_clear_comment
+msgid "Clear Remark"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.actions.act_window,help:pb_hms_aesthetic.action_pb_treatment
+msgid "Click to add a Aesthetic Treatment."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.actions.act_window,help:pb_hms_aesthetic.action_pb_aesthetic_procedure
+msgid "Click to add a Patient Dental Procedure."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.actions.act_window,help:pb_hms_aesthetic.action_appointment
+msgid "Click to add an Aesthetic Appointment."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.actions.act_window,help:pb_hms_aesthetic.action_pb_aesthetic_patient_wish
+msgid "Click to add an Aesthetic Patient Wish."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.actions.act_window,help:pb_hms_aesthetic.action_pb_aesthetic_questionnaire_template
+msgid "Click to add an Aesthetic Questionnaire."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.actions.act_window,help:pb_hms_aesthetic.action_pb_medical_questionnaire_template
+msgid "Click to add an Medical Questionnaire."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Clinical History"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_sign
+msgid "Close"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_water_temp__cold
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Cold"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__stretch_marks__color
+msgid "Color"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__coloration
+msgid "Coloration"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_column_damage
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Column Damage"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.ui.menu,name:pb_hms_aesthetic.menu_aesthetic_cofig
+msgid "Configuration"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwish_create
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+msgid "Confirm"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__pb_aesthetic_patient_wish__state__confirm
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_search
+msgid "Confirmed"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_constipation
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Constipation, Colon problems"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_reaction_cosmetics
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Cosmetics"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwish_create
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.portal_my_home
+msgid "Create Aesthetic Wish"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+msgid "Create Treatment"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__create_uid
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__create_uid
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__create_uid
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire__create_uid
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire_template__create_uid
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_aesthetic_product_procedure__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__create_date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__create_date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__create_date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire__create_date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire_template__create_date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_aesthetic_product_procedure__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__current_weight
+msgid "Current Weight"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_hms_patient__access_url
+msgid "Customer Portal URL"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_shave_damp
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Damp"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__eye_color__12
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Dark Brown"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__hair_color__8
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Dark Chestnut"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__hair_color__12
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Dark Chestnut-Black"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__date
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwishes
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_search
+msgid "Date"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_aesthetic_product_procedure__days_to_add
+msgid "Days to add"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_aesthetic_product_procedure__days_to_add
+msgid "Days to add for next date"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__definitive_hair_removal
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Definitive Hair Removal"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__hydration_degree__dehydrated
+msgid "Dehydrated"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__dehydrated_skin
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Dehydrated Skin"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_used_derivatives_of_A
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Derivatives of Vit A"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__muscle_flacity__dermal
+msgid "Dermal"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_diabetes
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Diabetes"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__display_name
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__display_name
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__display_name
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire__display_name
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire_template__display_name
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_aesthetic_product_procedure__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__document_preview_url
+msgid "Document Preview Link"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__attach_count
+msgid "Documents"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__pb_aesthetic_patient_wish__state__done
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+msgid "Done"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_sign
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_view
+msgid "Download"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__pb_aesthetic_patient_wish__state__draft
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+msgid "Draft"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__state_of_cellulite__dura
+msgid "Dura"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__state_of_cellulite__edemotosa
+msgid "Edemotosa"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.portal_my_home
+msgid "Edit Aesthetic History"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.portal_my_home
+msgid "Edit Aesthetic Phototype"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_shave_electric
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Electric"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_ephelides
+msgid "Ephelides"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_epilepsy
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Epilepsy"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_biotype__eudermica
+msgid "Eudérmica"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_skin_evident_dryness
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Evident Dryness"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__evolution
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__evolution
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_body_evolution_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_face_mapping_form
+msgid "Evolution"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__expression_lines
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Expression lines"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_eye_pct
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Eye Pct"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "FACIAL TREATMENT PLAN"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_face_mapping_form
+msgid "Face Chart"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model,name:pb_hms_aesthetic.model_pb_aesthetic_face_mapping
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_appointment__face_mapping_ids
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__face_mapping_ids
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_hms_odontology_appointment_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Face Mapping"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_hms_odontology_appointment_form
+msgid "Facial"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__facial_nutrition_product_ids
+msgid "Facial Nutrition"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__facial_treatment_product_ids
+msgid "Facial Treatments"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__facial_upkeep_product_ids
+msgid "Facial Upkeep"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_fibroids
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Fibroids / Cysts"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__filled_by_patient
+msgid "Filled By Patient"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__thickness__fine
+msgid "Fine"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__adipose_tissue_consistency__flaccid
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__state_of_cellulite__flaccid
+msgid "Flaccid"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__flaccidity
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_flaccidity
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Flaccidity"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_skin_flaking
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Flaking"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_reaction_food
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Food"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_fragile_capillary
+msgid "Fragile capillary"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_reaction_fragrances
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Fragrances"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__preauricular_wrinkles_front
+msgid "Front"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__preauricular_wrinkles_frown
+msgid "Frown"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_gastritis
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Gastritis"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_used_glycolic_acid
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Glycolic Acid"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_used_grainy_scrub
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Grainy Scrub"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__eye_color__4
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Gray, Light Brown"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_biotype__grease
+msgid "Grease"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__coloration__greyish
+msgid "Greyish"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__thickness__gross
+msgid "Gross"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_search
+msgid "Group By..."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__obesity_type__gynecoid
+msgid "Gynecoid"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "HIV"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_hiv
+msgid "HIV (ACH)"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "HYDRATION LEVEL"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__hair_removal
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Hair Removal"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_hair_alteration
+msgid "Hair alteration"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__adipose_tissue_consistency__hard
+msgid "Hard"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_heart_problems
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Heart problems"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_hemophilia
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Hemophilia"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__high_abdomen
+msgid "High abdomen"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__hip
+msgid "Hip"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwish
+msgid "History"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Home Care (Clean Routine)"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_hormonal_imbalance
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Hormonal Imbalance"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__company_id
+msgid "Hospital"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_water_temp__hot
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Hot"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_cb_per_day
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "How many per day?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__routine_hydrated
+msgid "Hydrated"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__routine_hydrated_comment
+msgid "Hydrated Remark"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__hydration_degree
+msgid "Hydration Degree"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_reaction_hydroxy_acids
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Hydroxy acids"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_used_hydroxyacid_prod
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Hydroxyacid Prod"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__hydration_degree__hyper_hydrated
+msgid "Hyper hydrated"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_hypertension
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Hypertension"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_hysterectomy
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Hysterectomy"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+msgid "I want to Improve"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "I want to improve"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire__id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire_template__id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_aesthetic_product_procedure__id
+msgid "ID"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ideal_weight
+msgid "Ideal Weight"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_needaction
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_has_error
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_undergone_retina_in_3month
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "In the last 3 month?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_acne_in_6_month
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "In the last 6 months?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_undergone_chemical_in_month
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "In the last month?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: code:addons/pb_hms_aesthetic/controllers/main.py:0
+#, python-format
+msgid "Invalid signature data."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_reaction_iodine
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Iodine"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_product__is_body_nutrition
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_template__is_body_nutrition
+msgid "Is Body Nutrition"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_product__is_body_treatment
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_template__is_body_treatment
+msgid "Is Body Treatment"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_product__is_body_upkeep
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_template__is_body_upkeep
+msgid "Is Body Upkeep"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_product__is_facial_nutrition
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_template__is_facial_nutrition
+msgid "Is Facial Nutrition"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_product__is_facial_treatment
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_template__is_facial_treatment
+msgid "Is Facial Treatment"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_product__is_facial_upkeep
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_product_template__is_facial_upkeep
+msgid "Is Facial Upkeep"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_used_lactic_acid
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Lactic acid"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_large_pores
+msgid "Large pores"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_body_evolution_form
+msgid "Last"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__last_bust
+msgid "Last Bust"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__last_evolution_id
+msgid "Last Evolution"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__last_high_abdomen
+msgid "Last High abdomen"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__last_hip
+msgid "Last Hip"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__last_left_arm
+msgid "Last Left arm"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__last_left_thigh
+msgid "Last Left thigh"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__last_low_abdomen
+msgid "Last Low abdomen"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__last_middle_abdomen
+msgid "Last Middle abdomen"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution____last_update
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping____last_update
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish____last_update
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire____last_update
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire_template____last_update
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_aesthetic_product_procedure____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__last_right_arm
+msgid "Last Right arm"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__last_right_thigh
+msgid "Last Right thigh"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__write_uid
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__write_uid
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__write_uid
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire__write_uid
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire_template__write_uid
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_aesthetic_product_procedure__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__write_date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__write_date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__write_date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire__write_date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire_template__write_date
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_aesthetic_product_procedure__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__last_weight
+msgid "Last Weight"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__left_arm
+msgid "Left arm"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__left_thigh
+msgid "Left thigh"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_lentigines
+msgid "Lentigines"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__eye_color__0
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Light Blue, Light Green, Gray"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_color__8
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Light Brown"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__stretch_marks__location
+msgid "Location"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_massage_pressure__low
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_sensitivity_level__low
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Low"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__low_abdomen
+msgid "Low abdomen"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__freckles_number__0
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Many"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_mask
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Mask"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__pb_aesthetic_questionnaire_template__question_type__medical
+msgid "Medical"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.actions.act_window,name:pb_hms_aesthetic.action_pb_medical_questionnaire_template
+#: model:ir.ui.menu,name:pb_hms_aesthetic.menu_pb_medical_questionnaire_template
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_hms_odontology_appointment_form
+msgid "Medical Questionnaire"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_reaction_medicine
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Medicine"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_massage_pressure__medium
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_sensitivity_level__medium
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Medium"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_melasmas
+msgid "Melasmas"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_metal_implants
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Metal Implants"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__genetic_heritage__8
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Middle East, Hindu, Asian, Hispanic-American"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__muscle_flacity__mild
+msgid "Mild"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_biotype__mixed
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__state_of_cellulite__mixed
+msgid "Mixed"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__adipose_tissue_consistency__moderate
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__muscle_flacity__moderate
+msgid "Moderate"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_moles
+msgid "Moles"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__muscle_flacity
+msgid "Muscle Flacity"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_search
+msgid "My Aesthetic Patient Wish"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_alcohole_consume__na
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "NA"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "NERVOUS ACTIVITY"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_any_surgery__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_any_treatement__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_breastfeeding__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_claustrophobia__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_contact_lenses__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_dermatological_treatement__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_diet__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_embedded_hairs__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_exercise__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_pacemakers__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_pregnancy_loss__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_pregnant__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_regular_sleep__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_shave_irritation__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_skin_itching__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_skin_problem__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_skin_tanning__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_smoke__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_suffer_from_blush__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_suffer_from_burn__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_suffer_from_redness__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_suffer_from_respiratory__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_undergone_chemical__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_undergone_chemical_in_month__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_undergone_retina__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_undergone_retina_in_3month__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_use_acne__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_use_acne_in_6_month__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_use_cb__no
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_use_contraceptives__no
+msgid "NO"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: code:addons/pb_hms_aesthetic/controllers/main.py:0
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__name
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire__name
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire_template__name
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+#, python-format
+msgid "Name"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__preauricular_wrinkles_nasogenian_sulcus
+msgid "Nasogenian sulcus"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__preauricular_wrinkles_neck
+msgid "Neck"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__burn_potential__12
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Never burns"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__burn_potential__8
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Never burns and tans easily"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__tanning_potential__0
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Never tans"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: code:addons/pb_hms_aesthetic/controllers/main.py:0
+#, python-format
+msgid "Newest"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "No"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.actions.act_window,help:pb_hms_aesthetic.action_pb_treatment
+#: model_terms:ir.actions.act_window,help:pb_hms_aesthetic.action_appointment
+msgid "No Record Found"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__freckles_number__8
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "None"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__coloration__normal
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__thickness__normal
+msgid "Normal"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_search
+msgid "Not Done"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__note
+msgid "Notes"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Nutrition"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "ONLY FEMALE CUSTOMERS"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "ONLY MALE CUSTOMERS"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__body_description
+msgid "Other Body Description"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__facial_description
+msgid "Other Facial Description"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_comment
+msgid "Other Product Details"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_reaction_comment
+msgid "Other Reactions"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_skin_problem_comment
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Other Skin Problem"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__preauricular_wrinkles_other
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Others"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__overweight
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Overweight"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__acne_papules
+msgid "Papules"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__patient_id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__patient_id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__patient_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_search
+msgid "Patient"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.actions.act_window,name:pb_hms_aesthetic.action_pb_aesthetic_procedure
+msgid "Patient Procedures"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__patient_signature
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__patient_signature
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_body_evolution_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_face_mapping_form
+msgid "Patient Signature"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_appointment__aesthetic_wish_id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_treatment__aesthetic_wish_id
+msgid "Patient Wish"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.ui.menu,name:pb_hms_aesthetic.menu_pb_patient
+msgid "Patients"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.ui.menu,name:pb_hms_aesthetic.menu_pb_patient_wish
+msgid "Patients Wish"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_peeling
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Peeling"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Periocular wrinkles"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Phototype Skin Test"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__physician_id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_face_mapping__physician_id
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__physician_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_search
+msgid "Physician"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__pigmentation
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Pigmentation"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_acne_in_6_month_comment
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Please Specify"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_reaction_pollen
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Pollen"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__access_url
+msgid "Portal Access URL"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__postpartum_treatments
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Postpartum treatments"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__prepost_operative
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Pre-post Operative"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Preauricular Wrinkles"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_pregnancy
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Pregnancy"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_premature_aging
+msgid "Premature aging"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwishes
+msgid "Prescription Report"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+msgid "Preview Documents"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_sign
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwishes
+msgid "Print"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.ui.menu,name:pb_hms_aesthetic.menu_pb_aesthetic_procedures
+msgid "Procedures"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_aesthetic_product_procedure__product_id
+msgid "Product"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_aesthetic_product_procedure__product_tmpl_id
+msgid "Product Tempalte"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__routine_protection
+msgid "Protection"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__routine_protection_comment
+msgid "Protection Remark"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__acne_pustules
+msgid "Pustules"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_questionnaire_template_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_questionnaire_template_tree
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_questionnaire_tree
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_medical_questionnaire_tree
+msgid "Question"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire_template__question_type
+msgid "Question Type"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__burn_potential__10
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Rarely burns and deeply tans"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: code:addons/pb_hms_aesthetic/models/hms_aesthetic_wish.py:0
+#, python-format
+msgid "Record can be deleted only in Canceled state."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__coloration__reddish
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_color__0
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Reddish"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__hair_color__0
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Redhead, Light Blonde"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwishes
+msgid "Reg. No #"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire__remark
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire_template__remark
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_questionnaire_template_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_questionnaire_template_tree
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_aesthetic_questionnaire_tree
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.pb_medical_questionnaire_tree
+msgid "Remarks"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_aesthetic_product_procedure__repeat_for
+msgid "Repetition Count"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_aesthetic_product_procedure__repeat_for
+msgid "Repetition for"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwishes
+msgid "Report"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__right_arm
+msgid "Right arm"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__right_thigh
+msgid "Right thigh"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__thickness__rough
+msgid "Rough"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "SKIN CHARACTERISTICS"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "STETOPATHOLOGIES"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__access_token
+msgid "Security Token"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_phototype__phototype3
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Sensitive Normal to sunlight"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_phototype__phototype2
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Sensitive to sunlight"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__muscle_flacity__severe
+msgid "Severe"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_shave_shaving
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Shaving"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_signature
+msgid "Signature"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: code:addons/pb_hms_aesthetic/controllers/main.py:0
+#, python-format
+msgid "Signature is missing."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_signed_on
+msgid "Signed On"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__body_size
+msgid "Size"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Skin"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Skin Analysis (Facial)"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_biotype
+msgid "Skin Biotype"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "Skin Disorders"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__skin_faccidity
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Skin Flaccidity"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_appointment__skin_phototype
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_phototype
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Skin Phototype"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_appointment__skin_score
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_score
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Skin Score"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_soap
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Soap"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__freckles_number__4
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Some"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_spasms
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Spasms"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__spots
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Spots"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__state
+msgid "State"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__state_of_cellulite
+msgid "State Of Cellulite"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwishes
+msgid "Status"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__stretch_marks
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__stretch_marks
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Stretch Marks"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_surgery_comment
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Surgery Details"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_systemic_disease
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Systemic Disease (Hypertension, Circulatory, etc.)"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "TECHNICAL DATA"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_massage_pressure__tall
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_sensitivity_level__tall
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Tall"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: code:addons/pb_hms_aesthetic/controllers/main.py:0
+#, python-format
+msgid "The order is not in a state requiring customer signature."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_phototype__phototype4
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "The skin has tolerance to sunlight"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_phototype__phototype6
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "The skin is black and its tolerance is very high"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_phototype__phototype5
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "The skin is dark and its tolerance is high"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aestheticwishes
+msgid "There are currently no Aesthetic Wish for your account."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: code:addons/pb_hms_aesthetic/models/hms_aesthetic_wish.py:0
+#, python-format
+msgid "There are no documents to Preview. Please Add it in chatter."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__thickness
+msgid "Thickness or Texture"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_thyroid_disease
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Thyroid Disease"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_water_temp__tibia
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Tibia"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_skin_tightness
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Tightness"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__stretch_marks__evolution
+msgid "Time of evolution"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_has_to_be_signed
+msgid "Tobe Signed"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__routine_tone
+msgid "Tone"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__routine_tone_comment
+msgid "Tone Remark"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_tonic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Tonic"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.actions.act_window,name:pb_hms_aesthetic.action_pb_treatment
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__treatment_id
+msgid "Treatment"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_pb_aesthetic_patient_wish_form
+msgid "Treatment Options"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.ui.menu,name:pb_hms_aesthetic.menu_pb_treatment
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Treatments"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__trigger_factor
+msgid "Trigger Factor"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__obesity_type
+msgid "Type of Obesity"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Upkeep"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__burn_potential__2
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Usually burns, but may lightly tan"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_varicose_veins
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Varicose Veins"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_veins
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Veins"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__hydration_degree__very_dehydrated
+msgid "Very dehydrated"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_phototype__phototype1
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "Very sensitive to sunlight"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__skin_disorders_vitiligo
+msgid "Vitiligo"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,help:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__weight
+msgid "Weight"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_solar_screen_body
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "What Solar Screen FPS do you use for your Body?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__ach_use_acne_comment
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Which one?"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_hms_patient__acne_white_comedones
+msgid "White Comedones"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__genetic_heritage__2
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "White Skinned Race"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__genetic_heritage__0
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "White breed with very white skin"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__genetic_heritage__4
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "White race brown skin (Mediterranean)"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__skin_color__2
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_phototype_fields
+msgid "White-Beige"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_patient_wish__wrinkles
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.aestheticwish_fields
+msgid "Wrinkles"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_questionnaire__is_done
+msgid "Y/N"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_any_surgery__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_any_treatement__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_breastfeeding__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_claustrophobia__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_contact_lenses__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_dermatological_treatement__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_diet__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_embedded_hairs__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_exercise__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_pacemakers__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_pregnancy_loss__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_pregnant__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_regular_sleep__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_shave_irritation__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_skin_itching__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_skin_problem__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_skin_tanning__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_smoke__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_suffer_from_blush__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_suffer_from_burn__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_suffer_from_redness__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_suffer_from_respiratory__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_undergone_chemical__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_undergone_chemical_in_month__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_undergone_retina__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_undergone_retina_in_3month__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_use_acne__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_use_acne_in_6_month__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_use_cb__yes
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__ach_use_contraceptives__yes
+msgid "YES"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "YOUR HEALTH"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.view_patient_aesthetic_form
+msgid "YOUR SKIN"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields.selection,name:pb_hms_aesthetic.selection__hms_patient__coloration__yellowish
+msgid "Yellowish"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model_terms:ir.ui.view,arch_db:pb_hms_aesthetic.my_aesthetic_history_fields
+msgid "Yes"
+msgstr ""
+
+#. module: pb_hms_aesthetic
+#: model:ir.model.fields,field_description:pb_hms_aesthetic.field_pb_aesthetic_body_evolution__middle_abdomen
+msgid "string=Middle abdomen"
+msgstr ""

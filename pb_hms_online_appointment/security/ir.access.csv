@@ -1,0 +1,18 @@
+id,name,model_id,group_id/id,operation,domain
+access_appointment_schedule_user,Appointment Schedule,appointment.schedule,base.group_everyone,r,"[('physician_ids.user_id', '=', user.id)] if user.has_group('pb_hms_base.group_hms_user') else []"
+access_appointment_schedule_user_receptionist,Appointment Schedule,appointment.schedule,pb_hms.group_hms_receptionist,cru,"[('physician_ids.user_id','=',user.id)]"
+access_appointment_schedule_user_manager,Appointment Schedule,appointment.schedule,pb_hms_base.group_hms_manager,crud,
+hms_own_appointment_schedule_rule,Own Appointment Schedule,appointment.schedule,pb_hms_base.group_hms_user,r,"[('physician_ids.user_id','=',user.id)]"
+hms_manager_appointment_schedule_manager_rule,Manager Appointment Schedule,appointment.schedule,pb_hms_online_appointment.group_hms_online_appointment_manager,cru,
+access_appointment_schedule_lines,Appointment Schedule lines,appointment.schedule.lines,base.group_everyone,r,
+access_appointment_schedule_lines_receptionist,Appointment Schedule lines,appointment.schedule.lines,pb_hms.group_hms_receptionist,crud,
+access_appointment_schedule_slot,Schedule Slot,appointment.schedule.slot,base.group_everyone,r,"[('slot_ids.physician_id.user_id', '=', user.id)] if user.has_group('pb_hms_base.group_hms_user') else []"
+hms_manager_appointment_schedule_slot_portal_rule,Manager Appointment Schedule Slot,appointment.schedule.slot,base.group_portal,r,
+access_appointment_schedule_slot_receptionist,Schedule Slot,appointment.schedule.slot,pb_hms.group_hms_receptionist,cru,"[('slot_ids.physician_id.user_id','=',user.id)]"
+access_appointment_schedule_slot_manager,Schedule Slot,appointment.schedule.slot,pb_hms_base.group_hms_manager,crud,
+hms_own_appointment_schedule_slot_rule,Own Appointment Schedule Slot,appointment.schedule.slot,pb_hms_base.group_hms_user,r,"[('slot_ids.physician_id.user_id','=',user.id)]"
+hms_manager_appointment_schedule_slot_manager_rule,Manager Appointment Schedule Slot,appointment.schedule.slot,pb_hms_online_appointment.group_hms_online_appointment_manager,cru,
+access_hms_portal_appointment_schedule_slot_lines,Appointment lines,appointment.schedule.slot.lines,base.group_everyone,ru,
+access_hms_portal_appointment_schedule_slot_lines_receptionist,Appointment lines,appointment.schedule.slot.lines,pb_hms.group_hms_receptionist,cru,
+access_hms_portal_appointment_schedule_slot_lines_manager,Appointment lines,appointment.schedule.slot.lines,pb_hms_base.group_hms_manager,crud,
+access_appointment_scheduler_wizard,access_appointment_scheduler_wizard,appointment.scheduler.wizard,base.group_user,crud,

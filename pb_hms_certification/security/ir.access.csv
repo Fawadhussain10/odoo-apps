@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+accsess_certificate_management_portal,accsess_certificate_management_portal,certificate.management,base.group_portal,r,"[('patient_id.partner_id','=',user.commercial_partner_id.id)]"

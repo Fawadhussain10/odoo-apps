@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!--Tooth-->
+    <record id="pb_pb_hms_tooth_form" model="ir.ui.view">
+        <field name="name">pb.hms.tooth.form</field>
+        <field name="model">pb.hms.tooth</field>
+        <field name="inherit_id" ref="pb_hms_dental.pb_pb_hms_tooth_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="before">
+                <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

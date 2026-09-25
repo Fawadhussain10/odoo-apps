@@ -1,0 +1,6 @@
+// PackBytes — center the app icon/name in Odoo's left sidebar ("All Apps"
+// list opened via the hamburger icon in the top navbar).
+.o_app_menu_sidebar li.o_app > .d-flex.align-items-center {
+    justify-content: center;
+    text-align: center;
+}

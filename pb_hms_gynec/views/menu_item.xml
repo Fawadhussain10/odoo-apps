@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<odoo>
+    <menuitem name="Gynecology" id="menu_pb_gynecology" sequence="65" groups="pb_hms_gynec.group_hms_user_gynec" web_icon="pb_hms_gynec,static/description/icon.png"/>
+    <menuitem name="Patients" id="menu_pb_patient" parent="menu_pb_gynecology" action="hms_action_female_patient" sequence="10"/>
+    <menuitem name="Appointments" id="menu_pb_appointment" parent="menu_pb_gynecology" action="action_appointment" sequence="20"/>
+    <menuitem name="Childbirth Register" id="menu_pb_childbirth" parent="menu_pb_gynecology" action="hms_action_form_delivery" sequence="30"/>
+    <menuitem name="Pregnancies" id="menu_pb_pregnancy" parent='menu_pb_gynecology' sequence="40" action="hms_action_pregnancies" groups="pb_hms.group_hms_nurse,pb_hms.group_hms_jr_doctor"/>
+
+    <menuitem name="Sonographies" id="menu_pb_sonography" parent='menu_pb_gynecology' sequence="50" groups="pb_hms.group_hms_jr_doctor"/>
+    <menuitem name="Pelvis Sonography" id="menu_pb_pelvis" parent='menu_pb_sonography' sequence="4" action="hms_action_pelvis"/>
+    <menuitem name="Folical Sonogrpahy" id="menu_pb_folical" parent='menu_pb_sonography' sequence="5" action="hms_action_folical"/>
+    <menuitem name="Obstetric Sonography" id="menu_pb_obstetric" parent='menu_pb_sonography' sequence="6" action="hms_obstetric_sonography"/>
+
+    <menuitem name="Examinations" id="menu_pb_examinations" parent='menu_pb_gynecology' sequence="60" groups="pb_hms.group_hms_jr_doctor"/>
+    <menuitem name="Systemic Examination" id="menu_pb_systemic_examination" parent='menu_pb_examinations' sequence="1" action="action_systemic_examination"/>
+    <menuitem name="Memography Test" id="menu_pb_mammography_test" parent='menu_pb_examinations' sequence="2" action="action_hms_patient_mammography"/>
+    <menuitem name="PAP Test" id="menu_pb_pap" parent='menu_pb_examinations' sequence="3" action="action_hms_pap_history"/>
+    <menuitem name="Colposcopy" id="menu_pb_colposcopy" parent='menu_pb_examinations' sequence="4" action="action_hms_colposcopy_history"/>
+
+</odoo>

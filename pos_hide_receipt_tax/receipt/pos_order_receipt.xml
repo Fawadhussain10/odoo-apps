@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="pos_order_receipt" inherit_id="point_of_sale.pos_order_receipt">
+            <!-- Untaxed subtotal line -->
+            <xpath expr="//td[@name='subtotal']/.." position="attributes">
+                <attribute name="t-if">False</attribute>
+            </xpath>
+            <!-- Per-tax lines (tax amount and tax base) -->
+            <xpath expr="//tr[@name='taxes_line']/.." position="attributes">
+                <attribute name="t-if">False</attribute>
+            </xpath>
+        </template>
+    </data>
+</odoo>

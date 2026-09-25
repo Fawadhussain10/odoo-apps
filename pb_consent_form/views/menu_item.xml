@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_pb_consent_form" name="Consent Form" sequence="72" groups="group_consent_form_manager" web_icon="pb_consent_form,static/description/icon.png"/>
+
+    <menuitem id="menu_consent_form" name="Consent Form" sequence="0"
+        parent="menu_pb_consent_form" action="action_pb_consent_form"/>
+
+    <menuitem id="menu_consent_form_configuration" name="Configuration" sequence="1"
+        parent="menu_pb_consent_form"/>
+    <menuitem id="menu_pb_consent_form_template" name="Consent Form Template"
+        sequence="1" parent="menu_consent_form_configuration" action="action_pb_consent_form_template_view"/>
+
+</odoo>

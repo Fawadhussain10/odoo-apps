@@ -1,0 +1,40 @@
+id,name,model_id,group_id/id,operation,domain
+accsess_patient_portal,hms.patient portal,hms.patient,base.group_portal,r,
+accsess_lab_test_citeria_portal,accsess_lab_test_citeria_portal,lab.test.critearea,base.group_portal,r,
+access_hms_lab_test_critearea_user,PB Test Critearea user,lab.test.critearea,pb_hms_base.group_hms_user,r,
+access_hms_lab_test_critearea_lab_user,PB Test Criteria phy,lab.test.critearea,pb_laboratory.group_hms_lab_user,crud,
+access_laboratory_group,access_laboratory_group,laboratory.group,base.group_user,r,
+access_laboratory_group_manager,access_laboratory_group,laboratory.group,pb_laboratory.group_hms_lab_manager,crud,
+access_laboratory_group_line,access_laboratory_group_line,laboratory.group.line,pb_hms_base.group_hms_user,r,
+access_laboratory_group_line_manager,access_laboratory_group_line,laboratory.group.line,pb_laboratory.group_hms_lab_manager,crud,
+access_hms_laboratory_request_line_portal,Patient Lab Request Line Portal,laboratory.request.line,base.group_portal,cru,
+access_hms_laboratory_request_line_user,PB Patient Laboratory Request line user,laboratory.request.line,pb_hms_base.group_hms_user,r,
+access_hms_laboratory_request_line_lab_user,PB Patient Laboratory Request line  phy,laboratory.request.line,pb_laboratory.group_hms_lab_user,crud,
+lab_test_comp_rule,Patient Lab Test multi-company,patient.laboratory.test,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+accsess_patient_lab_test_portal,accsess_patient_lab_test_portal,patient.laboratory.test,base.group_portal,r,"['|',('request_id.patient_id.partner_id','=',user.commercial_partner_id.id),('patient_id.partner_id','=',user.commercial_partner_id.id)]"
+access_patient_laboratory_test_user,Patient Lab Test user,patient.laboratory.test,pb_hms_base.group_hms_user,r,
+access_patient_laboratory_test_lab_manager,Patient Lab Test  manager,patient.laboratory.test,pb_laboratory.group_hms_lab_manager,crud,
+access_patient_laboratory_test_lab_user,Patient Lab Test phy,patient.laboratory.test,pb_laboratory.group_hms_lab_user,cru,
+lab_comp_rule,Lab Test multi-company,pb.lab.test,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+accsess_lab_test_portal,accsess_lab_test_portal,pb.lab.test,base.group_portal,r,
+access_hms_pb_lab_test_user,Test Type user,pb.lab.test,pb_hms_base.group_hms_user,r,
+access_hms_pb_lab_test_lab_manager,PB Test Type manager,pb.lab.test,pb_laboratory.group_hms_lab_manager,crud,
+access_hms_patient_laboratory_test_lab_user,PB Laboratory phy,pb.lab.test,pb_laboratory.group_hms_lab_user,cru,
+access_pb_lab_test_uom_user,Lab UOM User,pb.lab.test.uom,pb_hms_base.group_hms_user,r,
+access_pb_lab_test_uom_lab_manager,Lab UOM Manager,pb.lab.test.uom,pb_laboratory.group_hms_lab_manager,crud,
+access_pb_lab_test_uom_lab_user,Lab UOM Lab User,pb.lab.test.uom,pb_laboratory.group_hms_lab_user,cru,
+pb_laboratory_comp_rule,Laboratory multi-company,pb.laboratory,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_pb_laboratory_user,Laboratory User,pb.laboratory,pb_hms_base.group_hms_user,r,
+access_pb_laboratory_lab_user,Laboratory Lab User,pb.laboratory,pb_laboratory.group_hms_lab_user,crud,
+lab_req_cal_comp_rule,Lab Request multi-company,pb.laboratory.request,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+accsess_lab_request_portal,accsess_lab_request_portal,pb.laboratory.request,base.group_portal,cu,
+accsess_lab_request_portal_2,accsess_lab_request_portal,pb.laboratory.request,base.group_portal,r,"[('patient_id.partner_id','=',user.commercial_partner_id.id)]"
+access_hms_pb_laboratory_request_user,Patient Lab Request User,pb.laboratory.request,pb_hms_base.group_hms_user,r,
+access_hms_pb_laboratory_request_lab_manager,patient lab Request manager,pb.laboratory.request,pb_laboratory.group_hms_lab_manager,crud,
+all_hms_laboratory_request_rule_group_hms_lab_sample_user,All Laboratory Requests,pb.laboratory.request,pb_laboratory.group_hms_lab_sample_user,r,
+access_hms_pb_laboratory_request_lab_user,patient lab Request user,pb.laboratory.request,pb_laboratory.group_hms_lab_user,cru,
+access_pb_laboratory_sample_type_portal,access_pb_laboratory_sample_type,pb.laboratory.sample.type,base.group_user,r,
+access_pb_laboratory_sample_type,access_pb_laboratory_sample_type,pb.laboratory.sample.type,pb_hms_base.group_hms_user,r,
+access_pb_laboratory_sample_type_manager,access_pb_laboratory_sample_type,pb.laboratory.sample.type,pb_laboratory.group_hms_lab_manager,crud,
+access_pb_patient_laboratory_sample_user,PB Test Sample User,pb.patient.laboratory.sample,pb_hms_base.group_hms_user,r,
+access_pb_patient_laboratory_sample,PB Test Sample,pb.patient.laboratory.sample,pb_laboratory.group_hms_lab_sample_user,crud,

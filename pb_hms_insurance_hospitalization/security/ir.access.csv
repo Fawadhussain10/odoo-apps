@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_inpatient_registration_insurance_officer,PB Inpatient Registration,pb.hospitalization,pb_hms_insurance.group_hms_insurance_officer,ru,

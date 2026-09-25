@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <record id="action_hms_dashboard_client" model="ir.actions.client">
+        <field name="name">My Dashboard</field>
+        <field name="tag">pb_hms_dashboard.dashboard</field>
+    </record>
+
+    <menuitem id="main_dashboard" name="My Dashboard" sequence="0"
+        web_icon="pb_hms_dashboard,static/description/icon.png" groups="pb_hms_dashboard.group_hms_dashboard"/>
+    <menuitem id="dashboard_menu" name="Dashboard" parent="main_dashboard"
+        action="action_hms_dashboard_client" sequence="1"/>
+
+</odoo>

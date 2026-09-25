@@ -1,0 +1,39 @@
+body {
+    background: linear-gradient(180deg, #0b1220 0%, #0d1526 100%);
+}
+
+.pb-webcam {
+    margin-top: 64px;
+}
+
+.pb-webcam-canvas {
+    width: 480px;
+    height: 370px;
+    border:20px solid #4a3aa7;
+    background:#141b2d;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+
+.pb-webcam-video {
+    width: 480px;
+    height: 370px;
+    border:20px solid #f59e0b;
+    background:#141b2d;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+
+@media (max-width: 400px) {
+    .pb-webcam-canvas {
+        width: 300px;
+        height: 232px;
+    }
+
+    .pb-webcam-video {
+        width: 300px;
+        height: 232px;
+    }
+}

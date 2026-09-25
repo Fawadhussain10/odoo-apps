@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_hms_sample_line,access_hms_sample_line,hms.sample.line,pb_hms.group_hms_receptionist,crud,
+access_medical_representative,MR,medical.representative,pb_hms.group_hms_receptionist,crud,
+access_mr_visit,Mr Visit,pb.mr.visit,pb_hms.group_hms_receptionist,crud,

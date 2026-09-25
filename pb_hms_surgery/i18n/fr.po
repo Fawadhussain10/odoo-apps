@@ -1,0 +1,994 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_surgery
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-22 13:41+0000\n"
+"PO-Revision-Date: 2021-11-22 13:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"Language: fr\n"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_patient__surgery_count
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_physician__surgery_count
+msgid "# Surgery"
+msgstr "# Opération"
+
+#. module: pb_hms_surgery
+#: model:ir.actions.report,print_report_name:pb_hms_surgery.action_report_surgery
+msgid "(object.name or 'Surgery').replace('/','_') + '_Surgery'"
+msgstr "(object.name or 'Surgery').replace('/','_') + '_Surgery'"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid ""
+"<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"Arrow icon\" "
+"title=\"Arrow\"/>"
+msgstr "<i class=\"fa fa-long-arrow-right mx-2\" aria-label=\"Arrow icon\" "
+"title=\"Arrow\"/>"
+
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Stock Location</span>"
+msgstr "<span class=\"o_form_label\">Location du Stock</span>"
+
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Stock Usage Location</span>"
+msgstr "<span class=\"o_form_label\">Location du Stock</span>"
+
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid ""
+"<span style=\"margin-left:-15px;\" class=\"col-6\"><strong>Medical Officer:</strong></span>\n"
+"                        <span class=\"col-6\"><strong>Date:</strong></span><br/>\n"
+"                        <span/><br/>\n"
+"                        <span/><br/>"
+msgstr ""
+
+"<span style=\"margin-left:-15px;\" class=\"col-6\"><strong>Officier Médical:</strong></span>\n"
+"                        <span class=\"col-6\"><strong>Date:</strong></span><br/>\n"
+"                        <span/><br/>\n"
+"                        <span/><br/>"
+
+
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid ""
+"<span style=\"margin-left:-15px;\" class=\"col-6\"><strong>Primary Physician:</strong></span>\n"
+"                        <span class=\"col-6\"><strong>Date:</strong></span><br/>\n"
+"                        <span/><br/>\n"
+"                        <span/><br/>"
+msgstr ""
+
+"<span style=\"margin-left:-15px;\" class=\"col-6\"><strong>Médecin principal:</strong></span>\n"
+"                        <span class=\"col-6\"><strong>Date:</strong></span><br/>\n"
+"                        <span/><br/>\n"
+"                        <span/><br/>"
+
+
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid "<strong>Age/Gender:</strong>"
+msgstr "<strong>Age/Gendre:</strong>"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid "<strong>Hospitalization No:</strong>"
+msgstr "<strong>Hospitalisation No:</strong>"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid "<strong>Patient Address:</strong>"
+msgstr "<strong>Adresse du patient:</strong>"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid "<strong>Patient Name:</strong>"
+msgstr "<strong>Nom du patient:</strong>"
+
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid "<strong>Primary Physician:</strong>"
+msgstr "<strong>Médecin principal:</strong>"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid "<strong>Surgery Date:</strong>"
+msgstr "<strong>Date de la chirurgie:</strong>"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid "<strong>Surgery No:</strong>"
+msgstr "<strong>Chirurgie n°:</strong>"
+
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid "<strong>Surgery:</strong>"
+msgstr "<strong>Chirurgie:</strong>"
+
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid "<strong>Surgey Summary</strong>"
+msgstr "<strong> Résumé de la chirurgie </strong>"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid "<strong>Ward/Room:</strong>"
+msgstr "<strong>Service/Chambre:</strong>"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__active_component_ids
+msgid "Active Component"
+msgstr "Composant actif"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__adv_on_dis
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__adv_on_dis
+msgid "Advice on Discharge"
+msgstr "Conseils sur la décharge"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Advise on Discharge"
+msgstr "Conseils sur la décharge"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_surgery_details
+msgid "Advise on Discharge:"
+msgstr "Conseils sur la décharge"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,help:pb_hms_surgery.field_medicament_line__dose
+#: model:ir.model.fields,help:pb_hms_surgery.field_medicament_line__medicine_uom_id
+msgid "Amount of medication (eg, 250 mg) per dose"
+msgstr "Quantité de médicament (par exemple, 250 mg) par dose"
+
+#. module: pb_hms_surgery
+#: model:ir.model,name:pb_hms_surgery.model_hms_anesthesia
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__anesthesia_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_pb_surgery_filter
+msgid "Anesthesia"
+msgstr "Anesthésie"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Anesthesia Details"
+msgstr "Détails de l'anesthésie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_anesthesia__name
+msgid "Anesthesia Name"
+msgstr "Nom de l'anesthésie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__anesthetist_id
+msgid "Anesthetist"
+msgstr "Anesthésiste"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,help:pb_hms_surgery.field_hms_surgery__anesthetist_id
+msgid "Anesthetist data of the patient"
+msgstr " Données anesthésistes du patient"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__assisting_surgeon_ids
+msgid "Assisting Surgeons"
+msgstr " Chirurgiens assistants"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields.selection,name:pb_hms_surgery.selection__hms_surgery__state__cancel
+msgid "Cancelled"
+msgstr "Annulé"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.check_list_conf_tree_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.check_list_conf_view
+msgid "Check List Item"
+msgstr "Liste de contrôle "
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Checked"
+msgstr "Vérifié"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.actions.act_window,help:pb_hms_surgery.action_check_list_conf_view
+msgid "Click to add a Pre-Operative Checklist."
+msgstr "Cliquez pour ajouter une liste de contrôle préopératoire."
+
+#. module: pb_hms_surgery
+#: model_terms:ir.actions.act_window,help:pb_hms_surgery.action_hms_surgery_template
+msgid "Click to add a new Surgery Template."
+msgstr "Cliquez pour ajouter un nouveau modèle de chirurgie."
+
+#. module: pb_hms_surgery
+#: model_terms:ir.actions.act_window,help:pb_hms_surgery.action_hms_surgery
+msgid "Click to add a new Surgery."
+msgstr " Cliquez pour ajouter une nouvelle chirurgie."
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__clinincal_history
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__clinincal_history
+msgid "Clinical History"
+msgstr " Histoire clinique"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_surgery_details
+msgid "Clinical History:"
+msgstr " Histoire clinique"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Clinincal History"
+msgstr " Histoire clinique"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__complication
+msgid "Complication"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model:ir.ui.menu,name:pb_hms_surgery.menu_surgery_cofig
+msgid "Configuration"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields.selection,name:pb_hms_surgery.selection__hms_surgery__state__confirm
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_pb_surgery_filter
+msgid "Confirmed"
+msgstr " Confirmé"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__consumable_line_ids
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__consumable_line_ids
+msgid "Consumable Line"
+msgstr "Ligne de consommables "
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Consumables"
+msgstr " Consommables "
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Create Invoice"
+msgstr " Créer une facture"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Create Prescription"
+msgstr " Créer une ordonnance"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_anesthesia__create_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_dietplan__create_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__create_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__create_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__create_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__create_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list__create_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list_template__create_uid
+msgid "Created by"
+msgstr " Créé par"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_anesthesia__create_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_dietplan__create_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__create_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__create_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__create_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__create_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list__create_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list_template__create_date
+msgid "Created on"
+msgstr " Date de création"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__date
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Date"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__days
+msgid "Days"
+msgstr "Jours"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,help:pb_hms_surgery.field_hms_surgery__medicament_line_ids
+#: model:ir.model.fields,help:pb_hms_surgery.field_hms_surgery_template__medicament_line_ids
+msgid "Define the medicines to be taken after the surgery"
+msgstr " Définir les médicaments à prendre après la chirurgie "
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__description
+msgid "Description"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__diagnosis
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__diagnosis
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Diagnosis"
+msgstr "Diagnostic"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_surgery_details
+msgid "Diagnosis:"
+msgstr " Diagnostic:"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__dietplan
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__dietplan
+msgid "Diet Plan"
+msgstr " Régime alimentaire "
+
+#. module: pb_hms_surgery
+#: model:ir.model,name:pb_hms_surgery.model_hms_dietplan
+msgid "Diet plan"
+msgstr " Régime alimentaire "
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Discharge Summary"
+msgstr " Résumé de décharge "
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__diseases_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__diseases_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_filter
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_pb_surgery_filter
+msgid "Disease"
+msgstr "Maladie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_anesthesia__display_name
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_dietplan__display_name
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__display_name
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__display_name
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__display_name
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__display_name
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list__display_name
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list_template__display_name
+msgid "Display Name"
+msgstr " Afficher nom "
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list__is_done
+#: model:ir.model.fields.selection,name:pb_hms_surgery.selection__hms_surgery__state__done
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_pb_surgery_filter
+msgid "Done"
+msgstr " Terminé "
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__dose
+msgid "Dosage"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Dosage Unit"
+msgstr "Dose"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields.selection,name:pb_hms_surgery.selection__hms_surgery__state__draft
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_pb_surgery_filter
+msgid "Draft"
+msgstr " Brouillon"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,help:pb_hms_surgery.field_medicament_line__common_dosage_id
+#: model:ir.model.fields,help:pb_hms_surgery.field_medicament_line__form_id
+msgid "Drug form, such as tablet or gel"
+msgstr " Forme de médicament, comme un comprimé ou un gel "
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__end_date
+msgid "End Date"
+msgstr " Date de fin "
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__examination
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__examination
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Examination"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_surgery_details
+msgid "Examination:"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__extra_info
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__extra_info
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Extra Info"
+msgstr " Info supplémentaires"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__form_id
+msgid "Form"
+msgstr "Forme"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__common_dosage_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_medicament_table
+msgid "Frequency"
+msgstr " Fréquence "
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "General Information"
+msgstr " Informations générales "
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "General Instruction"
+msgstr " Instructions générales "
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_filter
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_pb_surgery_filter
+msgid "Group By"
+msgstr "Par groupe"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__company_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__company_id
+msgid "Hospital"
+msgstr "Hopital"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__hosp_or_doctor
+msgid "Hospital/Doctor"
+msgstr "Hopital/Docteur"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_anesthesia__id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_dietplan__id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list__id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list_template__id
+msgid "ID"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_surgery_details
+msgid "In Surgery"
+msgstr " En chirurgie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__post_instruction
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__instruction
+msgid "Instructions"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__investigation
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__investigation
+msgid "Investigation"
+msgstr "Enquête"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Investigations"
+msgstr "Enquêtes"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_surgery_details
+msgid "Investigations:"
+msgstr "Enquêtes"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__invoice_id
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_anesthesia____last_update
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_dietplan____last_update
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery____last_update
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template____last_update
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line____last_update
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries____last_update
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list____last_update
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list_template____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_anesthesia__write_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_dietplan__write_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__write_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__write_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__write_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__write_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list__write_uid
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list_template__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_anesthesia__write_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_dietplan__write_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__write_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__write_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__write_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__write_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list__write_date
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list_template__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Line"
+msgstr "Ligne"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,help:pb_hms_surgery.field_hms_surgery__consumable_line_ids
+#: model:ir.model.fields,help:pb_hms_surgery.field_hms_surgery_template__consumable_line_ids
+msgid "List of items that are consumed during the surgery."
+msgstr " Liste des articles qui sont consommés pendant la chirurgie."
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.res_config_settings_view_form
+msgid "Location to manage consumed products in Surgery."
+msgstr " Emplacement pour gérer les produits consommés en chirurgie."
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.res_config_settings_view_form
+msgid "Location to take consumed products in Surgery."
+msgstr " Lieu de prélèvement des produits consommés en Chirurgie."
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__primary_physician
+msgid "Main Surgeon"
+msgstr "Chirurgien principal"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__medicament_line_ids
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__medicament_line_ids
+msgid "Medicament Line"
+msgstr "Ligne de médicament"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Medication"
+msgstr " Médicament"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_surgery_details
+msgid "Medication Plan"
+msgstr "Régime de médicaments"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_consumable_table
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_medicament_table
+msgid "Medicine"
+msgstr "Médicament"
+
+#. module: pb_hms_surgery
+#: model:ir.model,name:pb_hms_surgery.model_medicament_line
+msgid "Medicine Lines"
+msgstr "Ligne de Médicament"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__product_id
+msgid "Medicine Name"
+msgstr "Nom du médicament "
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,help:pb_hms_surgery.field_past_surgeries__patient_id
+msgid "Mention the past surgeries of this patient."
+msgstr " Mentionnez les chirurgies passées de ce patient."
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_dietplan__name
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__name
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list__name
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list_template__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid "Name and Sign"
+msgstr "Nom et signature"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__notes
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__notes
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Operative Notes"
+msgstr "Notes opératoires"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields.selection,name:pb_hms_surgery.selection__hms_surgery__classification__o
+#: model:ir.model.fields.selection,name:pb_hms_surgery.selection__hms_surgery_template__classification__o
+msgid "Optional"
+msgstr "Optionnel"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Other Details"
+msgstr "Autres détails"
+
+#. module: pb_hms_surgery
+#: model:ir.model,name:pb_hms_surgery.model_past_surgeries
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_patient__past_surgeries_ids
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_patient_view
+msgid "Past Surgerys"
+msgstr "Chirurgies passées"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__patient_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_pb_surgery_filter
+msgid "Patient"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__patient_id
+msgid "Patient ID"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__age
+msgid "Patient age"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,help:pb_hms_surgery.field_hms_surgery__age
+msgid "Patient age at the moment of the surgery. Can be estimative"
+msgstr " Âge du patient au moment de la chirurgie. Peut être estimatif"
+
+#. module: pb_hms_surgery
+#: code:addons/pb_hms_surgery/models/surgery.py:0
+#, python-format
+msgid ""
+"Please define a location where the consumables will be used in settings."
+msgstr ""
+"Veuillez définir un emplacement où les consommables seront utilisés dans les paramètres."
+#. module: pb_hms_surgery
+#: code:addons/pb_hms_surgery/models/surgery.py:0
+#, python-format
+msgid ""
+"Please define a surgery location from where the consumables will be taken."
+msgstr ""
+"Veuillez définir un lieu de chirurgie d'où les consommables seront prélevés."
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Post-Operative Orders"
+msgstr "Commandes post-opératoires "
+
+#. module: pb_hms_surgery
+#: model:ir.model,name:pb_hms_surgery.model_pre_operative_check_list
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Pre Operative Checklist"
+msgstr "Liste de contrôle préopératoire"
+
+#. module: pb_hms_surgery
+#: model:ir.model,name:pb_hms_surgery.model_pre_operative_check_list_template
+msgid "Pre Operative Checklist Template"
+msgstr "Modèle de liste de contrôle préopératoire"
+
+#. module: pb_hms_surgery
+#: model:ir.actions.act_window,name:pb_hms_surgery.action_check_list_conf_view
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__pre_operative_checklist_ids
+#: model:ir.ui.menu,name:pb_hms_surgery.conf_pre_operative_check_list
+msgid "Pre-Operative Checklist"
+msgstr " Liste de contrôle préopératoire "
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__pre_operative_checklist_done
+msgid "Pre-Operative Checklist Done"
+msgstr "Liste de contrôle préopératoire terminée "
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Prescription"
+msgstr "Ordonnance"
+
+#. module: pb_hms_surgery
+#: model:ir.model,name:pb_hms_surgery.model_prescription_order
+msgid "Prescription Order"
+msgstr "Ordonnance"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__primary_physician_ids
+msgid "Primary Surgeons"
+msgstr "Docteur primaire"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,help:pb_hms_surgery.field_hms_surgery_template__name
+msgid "Procedure Code, for example ICD-10-PCS Code 7-character string"
+msgstr " Code de procédure, par exemple ICD-10-PCS Code chaîne de 7 caractères"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__surgery_product_id
+msgid "Product"
+msgstr "Produit"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__qty
+msgid "Qty"
+msgstr "Qte"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_consumable_table
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_medicament_table
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,help:pb_hms_surgery.field_hms_surgery__diseases_id
+#: model:ir.model.fields,help:pb_hms_surgery.field_hms_surgery_template__diseases_id
+msgid "Reason for the surgery."
+msgstr "Raison de la chirurgie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list__remark
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list_template__remark
+msgid "Remarks"
+msgstr "Remarques"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields.selection,name:pb_hms_surgery.selection__hms_surgery__classification__r
+#: model:ir.model.fields.selection,name:pb_hms_surgery.selection__hms_surgery_template__classification__r
+msgid "Required"
+msgstr "Obligatoire"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_past_surgeries__result
+msgid "Result"
+msgstr "Résultat"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__scrub_nurse_id
+msgid "Scrub Nurse"
+msgstr "Infirmière de gommage"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_pb_surgery_filter
+msgid "Search Surgery"
+msgstr "Recherche chirurgie"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_filter
+msgid "Search Surgery Template"
+msgstr "Rechercher un modèle de chirurgie"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_pb_surgery_document
+msgid ""
+"Should you have any questions or any Emergency please contact us at your convenience.<br/><br/>\n"
+"                    Best regards,<br/>"
+msgstr ""
+"Si vous avez des questions ou une urgence, veuillez nous contacter à votre convenance.<br/><br/>\n"
+"Meilleures salutations,<br/>"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Special Precaution"
+msgstr "Précaution spéciale"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__special_precautions
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__special_precautions
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Special Precautions"
+msgstr " Précautions spéciales"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_consumable_table
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_medicament_table
+msgid "Sr.No"
+msgstr "Chirurgie No"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_pb_surgery_filter
+msgid "State"
+msgstr "État"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__state
+msgid "Status"
+msgstr "Statut"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,help:pb_hms_surgery.field_res_config_settings__pb_surgery_stock_location_id
+msgid "Stock Location for Consumed Products in Surgery"
+msgstr "Localisation des stocks de produits consommés en chirurgie"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Surgeon Details"
+msgstr "Détails du chirurgien"
+
+#. module: pb_hms_surgery
+#: model:ir.actions.act_window,name:pb_hms_surgery.action_hms_surgery
+#: model:ir.model,name:pb_hms_surgery.model_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_account_bank_statement_line__surgery_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_account_move__surgery_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_account_payment__surgery_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_consumable_line__surgery_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_patient__surgery_ids
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__surgery_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_pre_operative_check_list__surgery_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_prescription_order__surgery_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_stock_move__surgery_id
+#: model:ir.model.fields.selection,name:pb_hms_surgery.selection__product_template__hospital_product_type__surgery
+#: model:ir.ui.menu,name:pb_hms_surgery.main_menu_surgery
+#: model:ir.ui.menu,name:pb_hms_surgery.menu_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_patient_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_tree
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_tree
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_surgery_details
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_hospital_hms_treatment_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_physician_form
+msgid "Surgery"
+msgstr "Chirurgie"
+
+#. module: pb_hms_surgery
+#: code:addons/pb_hms_surgery/models/surgery.py:0
+#, python-format
+msgid "Surgery Charges"
+msgstr "Frais de chirurgie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__classification
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__classification
+msgid "Surgery Classification"
+msgstr "Classification de la chirurgie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__name
+msgid "Surgery Code"
+msgstr "Code de chirurgie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__start_date
+msgid "Surgery Date"
+msgstr "Date de la chirurgie"
+
+#. module: pb_hms_surgery
+#: model:ir.actions.report,name:pb_hms_surgery.action_report_surgery
+msgid "Surgery Discharge Card"
+msgstr "Carte de sortie de chirurgie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__surgery_name
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery_template__surgery_name
+msgid "Surgery Name"
+msgstr "Nom de la chirurgie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__name
+msgid "Surgery Number"
+msgstr "Numéro de chirurgie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__surgery_product_id
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_filter
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.view_pb_surgery_filter
+msgid "Surgery Product"
+msgstr "Produit de chirurgie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_res_company__pb_surgery_stock_location_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_res_config_settings__pb_surgery_stock_location_id
+msgid "Surgery Stock Location for Consumed Products"
+msgstr "Emplacement du stock de chirurgie pour les produits consommés"
+
+#. module: pb_hms_surgery
+#: model:ir.actions.act_window,name:pb_hms_surgery.action_hms_surgery_template
+#: model:ir.model,name:pb_hms_surgery.model_hms_surgery_template
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_consumable_line__surgery_template_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__surgery_template_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__surgery_template_id
+#: model:ir.ui.menu,name:pb_hms_surgery.pb_health_surgery_template
+msgid "Surgery Template"
+msgstr "Modèle de chirurgie"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_res_company__pb_surgery_usage_location_id
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_res_config_settings__pb_surgery_usage_location_id
+msgid "Surgery Usage Location for Consumed Products"
+msgstr "Lieu de chirurgie pour les produits consommés"
+
+#. module: pb_hms_surgery
+#: model:res.groups,name:pb_hms_surgery.group_pb_hms_surgery_user
+msgid "Surgery User"
+msgstr "Utilisateur de chirurgie"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_patient_view
+msgid "Surgerys"
+msgstr "Chirurgies"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Template Details"
+msgstr "Modèle Détails"
+
+#. module: pb_hms_surgery
+#: model:ir.model,name:pb_hms_surgery.model_hms_treatment
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_hms_surgery__treatment_id
+msgid "Treatment"
+msgstr "Traitement"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,field_description:pb_hms_surgery.field_medicament_line__medicine_uom_id
+msgid "Unit"
+msgstr "Unité"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_template_view
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.hms_surgery_view
+msgid "Units"
+msgstr "Unités"
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields.selection,name:pb_hms_surgery.selection__hms_surgery__classification__u
+#: model:ir.model.fields.selection,name:pb_hms_surgery.selection__hms_surgery_template__classification__u
+msgid "Urgent"
+msgstr ""
+
+#. module: pb_hms_surgery
+#: model:ir.model.fields,help:pb_hms_surgery.field_res_config_settings__pb_surgery_usage_location_id
+msgid "Usage Location for Consumed Products in Surgery"
+msgstr "Localisation des produits consommés en chirurgie"
+
+#. module: pb_hms_surgery
+#: model_terms:ir.ui.view,arch_db:pb_hms_surgery.report_surgery_details
+msgid "Used Medicines"
+msgstr "Médicaments usagés"

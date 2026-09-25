@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id="patient_laboratory_test_request_form" model="ir.ui.view">
+        <field name="name">pb.laboratory.request.form</field>
+        <field name="model">pb.laboratory.request</field>
+        <field name="inherit_id" ref="pb_laboratory.patient_laboratory_test_request_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_send_whatsapp" string="Send by Whatsapp" type="object"/>
+            </header>
+        </field>
+    </record>
+
+    <record id="patient_laboratory_test_view" model="ir.ui.view">
+        <field name="name">patient.laboratory.test.form</field>
+        <field name="model">patient.laboratory.test</field>
+        <field name="inherit_id" ref="pb_laboratory.patient_laboratory_test_view"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_send_whatsapp" string="Send by Whatsapp" type="object"/>
+            </header>
+        </field>
+    </record>
+
+</odoo>

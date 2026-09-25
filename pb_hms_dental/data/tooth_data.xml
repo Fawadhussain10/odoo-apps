@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Tooth -->
+        <record id="pb_hms_tooth_1" model="pb.hms.tooth">
+            <field name="name">3rd molar (wisdom tooth)</field>
+            <field name="number">1</field>
+            <field name="quadrant">upper_right</field>
+            <field name="fdi_code">18</field>
+        </record>
+
+        <record id="pb_hms_tooth_2" model="pb.hms.tooth">
+            <field name="name">2nd molar (12-yr molar)</field>
+            <field name="number">2</field>
+            <field name="quadrant">upper_right</field>
+            <field name="fdi_code">17</field>
+        </record>
+
+        <record id="pb_hms_tooth_3" model="pb.hms.tooth">
+            <field name="name">1st molar (6-yr molar)</field>
+            <field name="number">3</field>
+            <field name="quadrant">upper_right</field>
+            <field name="fdi_code">16</field>
+        </record>
+
+        <record id="pb_hms_tooth_4" model="pb.hms.tooth">
+            <field name="name">2nd bicuspid (2nd premolar)</field>
+            <field name="number">4</field>
+            <field name="quadrant">upper_right</field>
+            <field name="fdi_code">15</field>
+        </record>
+
+        <record id="pb_hms_tooth_5" model="pb.hms.tooth">
+            <field name="name">1st bicuspid (1st premolar)</field>
+            <field name="number">5</field>
+            <field name="quadrant">upper_right</field>
+            <field name="fdi_code">14</field>
+        </record>
+
+        <record id="pb_hms_tooth_6" model="pb.hms.tooth">
+            <field name="name">Cuspid (canine/eye tooth)</field>
+            <field name="number">6</field>
+            <field name="quadrant">upper_right</field>
+            <field name="fdi_code">13</field>
+        </record>
+
+        <record id="pb_hms_tooth_7" model="pb.hms.tooth">
+            <field name="name">Lateral incisor</field>
+            <field name="number">7</field>
+            <field name="quadrant">upper_right</field>
+            <field name="fdi_code">12</field>
+        </record>
+
+        <record id="pb_hms_tooth_8" model="pb.hms.tooth">
+            <field name="name">Central incisor</field>
+            <field name="number">8</field>
+            <field name="quadrant">upper_right</field>
+            <field name="fdi_code">11</field>
+        </record>
+
+        <record id="pb_hms_tooth_9" model="pb.hms.tooth">
+            <field name="name">Central incisor</field>
+            <field name="number">9</field>
+            <field name="quadrant">upper_left</field>
+            <field name="fdi_code">21</field>
+        </record>
+
+        <record id="pb_hms_tooth_10" model="pb.hms.tooth">
+            <field name="name">Lateral incisor</field>
+            <field name="number">10</field>
+            <field name="quadrant">upper_left</field>
+            <field name="fdi_code">22</field>
+        </record>
+
+        <record id="pb_hms_tooth_11" model="pb.hms.tooth">
+            <field name="name">Cuspid (canine/eye tooth)</field>
+            <field name="number">11</field>
+            <field name="quadrant">upper_left</field>
+            <field name="fdi_code">23</field>
+        </record>
+
+        <record id="pb_hms_tooth_12" model="pb.hms.tooth">
+            <field name="name">1st bicuspid (1st premolar)</field>
+            <field name="number">12</field>
+            <field name="quadrant">upper_left</field>
+            <field name="fdi_code">24</field>
+        </record>
+
+        <record id="pb_hms_tooth_13" model="pb.hms.tooth">
+            <field name="name">2nd bicuspid (2nd premolar)</field>
+            <field name="number">13</field>
+            <field name="quadrant">upper_left</field>
+            <field name="fdi_code">25</field>
+        </record>
+
+        <record id="pb_hms_tooth_14" model="pb.hms.tooth">
+            <field name="name">1st molar (6-yr molar)</field>
+            <field name="number">14</field>
+            <field name="quadrant">upper_left</field>
+            <field name="fdi_code">26</field>
+        </record>
+
+        <record id="pb_hms_tooth_15" model="pb.hms.tooth">
+            <field name="name">2nd molar (12-yr molar)</field>
+            <field name="number">15</field>
+            <field name="quadrant">upper_left</field>
+            <field name="fdi_code">27</field>
+        </record>
+
+        <record id="pb_hms_tooth_16" model="pb.hms.tooth">
+            <field name="name">3rd molar (wisdom tooth)</field>
+            <field name="number">16</field>
+            <field name="quadrant">upper_left</field>
+            <field name="fdi_code">28</field>
+        </record>
+
+        <record id="pb_hms_tooth_17" model="pb.hms.tooth">
+            <field name="name">3rd molar (wisdom tooth)</field>
+            <field name="number">17</field>
+            <field name="quadrant">lower_right</field>
+            <field name="fdi_code">38</field>
+        </record>
+
+        <record id="pb_hms_tooth_18" model="pb.hms.tooth">
+            <field name="name">2nd molar (12-yr molar)</field>
+            <field name="number">18</field>
+            <field name="quadrant">lower_right</field>
+            <field name="fdi_code">37</field>
+        </record>
+
+        <record id="pb_hms_tooth_19" model="pb.hms.tooth">
+            <field name="name">1st molar (6-yr molar)</field>
+            <field name="number">19</field>
+            <field name="quadrant">lower_right</field>
+            <field name="fdi_code">36</field>
+        </record>
+
+        <record id="pb_hms_tooth_20" model="pb.hms.tooth">
+            <field name="name">2nd bicuspid (2nd premolar)</field>
+            <field name="number">20</field>
+            <field name="quadrant">lower_right</field>
+            <field name="fdi_code">35</field>
+        </record>
+
+        <record id="pb_hms_tooth_21" model="pb.hms.tooth">
+            <field name="name">1st bicuspid (1st premolar)</field>
+            <field name="number">21</field>
+            <field name="quadrant">lower_right</field>
+            <field name="fdi_code">34</field>
+        </record>
+
+        <record id="pb_hms_tooth_22" model="pb.hms.tooth">
+            <field name="name">Cuspid (canine/eye tooth)</field>
+            <field name="number">22</field>
+            <field name="quadrant">lower_right</field>
+            <field name="fdi_code">33</field>
+        </record>
+
+        <record id="pb_hms_tooth_23" model="pb.hms.tooth">
+            <field name="name">Lateral incisor</field>
+            <field name="number">23</field>
+            <field name="quadrant">lower_right</field>
+            <field name="fdi_code">32</field>
+        </record>
+
+        <record id="pb_hms_tooth_24" model="pb.hms.tooth">
+            <field name="name">Central incisor</field>
+            <field name="number">24</field>
+            <field name="quadrant">lower_right</field>
+            <field name="fdi_code">31</field>
+        </record>
+
+        <record id="pb_hms_tooth_25" model="pb.hms.tooth">
+            <field name="name">Central incisor</field>
+            <field name="number">25</field>
+            <field name="quadrant">lower_left</field>
+            <field name="fdi_code">41</field>
+        </record>
+
+        <record id="pb_hms_tooth_26" model="pb.hms.tooth">
+            <field name="name">Lateral incisor</field>
+            <field name="number">26</field>
+            <field name="quadrant">lower_left</field>
+            <field name="fdi_code">42</field>
+        </record>
+
+        <record id="pb_hms_tooth_27" model="pb.hms.tooth">
+            <field name="name">Cuspid (canine/eye tooth)</field>
+            <field name="number">27</field>
+            <field name="quadrant">lower_left</field>
+            <field name="fdi_code">43</field>
+        </record>
+
+        <record id="pb_hms_tooth_28" model="pb.hms.tooth">
+            <field name="name">1st bicuspid (1st premolar)</field>
+            <field name="number">28</field>
+            <field name="quadrant">lower_left</field>
+            <field name="fdi_code">44</field>
+        </record>
+
+        <record id="pb_hms_tooth_29" model="pb.hms.tooth">
+            <field name="name">2nd bicuspid (2nd premolar)</field>
+            <field name="number">29</field>
+            <field name="quadrant">lower_left</field>
+            <field name="fdi_code">45</field>
+        </record>
+
+        <record id="pb_hms_tooth_30" model="pb.hms.tooth">
+            <field name="name">1st molar (6-yr molar)</field>
+            <field name="number">30</field>
+            <field name="quadrant">lower_left</field>
+            <field name="fdi_code">46</field>
+        </record>
+
+        <record id="pb_hms_tooth_31" model="pb.hms.tooth">
+            <field name="name">2nd molar (12-yr molar)</field>
+            <field name="number">31</field>
+            <field name="quadrant">lower_left</field>
+            <field name="fdi_code">47</field>
+        </record>
+
+        <record id="pb_hms_tooth_32" model="pb.hms.tooth">
+            <field name="name">3rd molar (wisdom tooth)</field>
+            <field name="number">32</field>
+            <field name="quadrant">lower_left</field>
+            <field name="fdi_code">48</field>
+        </record>
+
+        <!-- Tooth Surface -->
+        <record id="pb_tooth_surface_distal" model="pb.tooth.surface">
+            <field name="name">Distal</field>
+            <field name="description">The surface that is away from the midline of the face.</field>
+        </record>
+
+        <record id="pb_tooth_surface_facial" model="pb.tooth.surface">
+            <field name="name">Facial</field>
+            <field name="description">The surface that faces the cheeks or lips</field>
+        </record>
+
+        <record id="pb_tooth_surface_labial" model="pb.tooth.surface">
+            <field name="name">Labial</field>
+            <field name="description">The surface towards the lips.</field>
+        </record>
+
+        <record id="pb_tooth_surface_buccal" model="pb.tooth.surface">
+            <field name="name">Buccal</field>
+            <field name="description">The surface towards the cheeks.</field>
+        </record>
+
+        <record id="pb_tooth_surface_incisal" model="pb.tooth.surface">
+            <field name="name">Incisal</field>
+            <field name="description">The biting edge of an anterior tooth.</field>
+        </record>
+
+        <record id="pb_tooth_surface_lingual" model="pb.tooth.surface">
+            <field name="name">Lingual</field>
+            <field name="description">The surface that faces the tongue.</field>
+        </record>
+
+        <record id="pb_tooth_surface_mesial" model="pb.tooth.surface">
+            <field name="name">Mesial</field>
+            <field name="description">The surface that is closest to the midline of the face.</field>
+        </record>
+
+        <record id="pb_tooth_surface_occlusal" model="pb.tooth.surface">
+            <field name="name">Occlusal</field>
+            <field name="description">The chewing surface of posterior teeth.</field>
+        </record>
+
+        <record id="pb_tooth_surface_proximal" model="pb.tooth.surface">
+            <field name="name">Proximal</field>
+            <field name="description">Tooth surfaces that are next to each other (i.e., distal of lateral incisor and mesial of canine).</field>
+        </record>
+
+    </data>
+</odoo>

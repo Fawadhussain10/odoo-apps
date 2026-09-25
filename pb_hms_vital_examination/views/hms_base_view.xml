@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hms_appointment_form" model="ir.ui.view"> 
+        <field name="name">hms.appointment.form</field>
+        <field name="model">hms.appointment</field>
+        <field name="inherit_id" ref="pb_hms.view_hms_appointment_form"/>
+        <field name="arch" type="xml">
+
+            <page name="clinical_ass" position="after">
+                <page name="vital_signs" string="Vital Signs &amp; Symptoms" groups="pb_hms_vital_examination.group_hms_vital_examination">
+                    <notebook>
+                        <page name="head_and_neck" string="Head and Neck">
+                            <field name="vital_symptom_ids" nolabel="1" widget="many2many_checkboxes"
+                                domain="[('category', '=', 'head_neck')]"/>
+                        
+                        </page>
+
+                        <page name="ent" string="ENT">
+                            <field name="vital_symptom_ids" nolabel="1" widget="many2many_checkboxes"
+                                domain="[('category', '=', 'ent')]"/>
+                        
+                        </page>
+
+                        <page name="eye" string="Eye">
+                            <field name="vital_symptom_ids" nolabel="1" widget="many2many_checkboxes"
+                                domain="[('category', '=', 'eye')]"/>
+                        
+                        </page>
+
+                        <page name="chest_heart" string="Chest &amp; Heart">
+                            <field name="vital_symptom_ids" nolabel="1" widget="many2many_checkboxes"
+                                domain="[('category', '=', 'chest_heart')]"/>
+                        
+                        </page>
+
+                        <page name="git" string="GIT">
+                            <field name="vital_symptom_ids" nolabel="1" widget="many2many_checkboxes"
+                                domain="[('category', '=', 'git')]"/>
+                        
+                        </page>
+
+                        <page name="surgery" string="Surgery">
+                            <field name="vital_symptom_ids" nolabel="1" widget="many2many_checkboxes"
+                                domain="[('category', '=', 'surgery')]"/>
+                        
+                        </page>
+
+                        <page name="urinary_gynecology" string="Urinary &amp; Gynecology">
+                            <field name="vital_symptom_ids" nolabel="1" widget="many2many_checkboxes"
+                                domain="[('category', '=', 'urinary_gynec')]"/>
+                        
+                        </page>
+
+                        <page name="orthopedic_neuro" string="Orthopedic &amp; Neuro">
+                            <field name="vital_symptom_ids" nolabel="1" widget="many2many_checkboxes"
+                                domain="[('category', '=', 'ortho_neuro')]"/>
+                        
+                        </page>
+
+                        <page name="mouth" string="Mouth">
+                            <field name="vital_symptom_ids" nolabel="1" widget="many2many_checkboxes"
+                                domain="[('category', '=', 'mouth')]"/>
+                        
+                        </page>
+
+                        <page name="skin" string="Skin">
+                            <field name="vital_symptom_ids" nolabel="1" widget="many2many_checkboxes"
+                                domain="[('category', '=', 'skin')]"/>
+                        
+                        </page>
+
+                        <page name="miscellaneous" string="Miscellaneous">
+                            <field name="vital_symptom_ids" nolabel="1" widget="many2many_checkboxes"
+                                domain="[('category', '=', 'misc')]"/>
+                        
+                        </page>
+
+                        <page name="mental_status" string="Mental Status">
+                            <group string="Glasgow Coma Scale">
+                                <group>
+                                    <field name="loc"/>
+                                    <field name="loc_verbal"/>
+                                </group>
+                                <group>
+                                    <field name="loc_eyes"/>
+                                    <field name="loc_motor"/>
+                                </group>
+                            </group>
+                            <group string="Mental Assessment and Impairments">
+                                <group>
+                                    <field name="mood"/>
+                                    <field name="orientation"/>
+                                    <field name="knowledge_current_events"/>
+                                    <field name="abstraction"/>
+                                    <field name="calculation_ability"/>
+                                    <field name="praxis"/>
+                                </group>
+                                <group>
+                                    <field name="violent"/>
+                                    <field name="memory"/>
+                                    <field name="judgment"/>
+                                    <field name="vocabulary"/>
+                                    <field name="object_recognition"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </page>
+
+                <page string="Physical Examination" groups="pb_hms_vital_examination.group_hms_vital_examination" invisible="state == 'draft'">
+                    <group string="Head and Neck">
+                        <group string="Head">
+                            <field name="pe_head_sign_symptoms_of_infection" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_head_symmetry" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Eyes">
+                            <field name="pe_eyes_equal" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_eyes_rlarge" invisible="pe_eyes_equal in ('no', 'na')"/>
+                            <field name="pe_eyes_llarge" invisible="pe_eyes_equal in ('no', 'na')"/>
+
+                            <field name="pe_eyes_reactive_to_light" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_eyes_round" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_eyes_rabnormal" invisible="pe_eyes_round in ('no', 'na')"/>
+                            <field name="pe_eyes_labnormal" invisible="pe_eyes_round in ('no', 'na')"/>
+
+                            <field name="pe_eyes_reaction" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_eyes_rnoreaction" invisible="pe_eyes_reaction in ('na',)"/>
+                            <field name="pe_eyes_lnoreaction" invisible="pe_eyes_reaction in ('na',)"/>
+
+                            <field name="pe_eyes_accomodation" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <group string="Ears">
+                            <field name="pe_ears_symmetry" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_ears_lesion" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_ears_lesion_comment" invisible="pe_ears_lesion in ('na',)"/>
+                            <field name="pe_ears_gross_hearing" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <group string="Nose">
+                            <field name="pe_nose_congestion" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_drainage" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_drainage_comment" invisible="pe_nose_drainage in ('na',)"/>
+                            <field name="pe_nose_smell" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <group string="Mouth/Throat">
+                            <field name="pe_mouth_visual" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_mouth_lesion" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_mouth_lesion_comment" invisible="pe_mouth_lesion in ('na',)"/>
+                            <field name="pe_mouth_missing_teeth" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_odor" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_swallow" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_tracheal_alignment" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nose_lymp_nodes" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <group string="Skin">
+                            <field name="pe_skin_color" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_skin_temperature" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_skin_lesions" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_skin_lesions_comment" invisible="pe_skin_lesions in ('na',)"/>
+                        </group>
+
+                        <group string="Neck">
+                            <field name="pe_neck_veins" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_neck_visual" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_neck_palpitation" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+
+                    <group string="Chest">
+                        <group>
+                            <field name="pe_chest_movements" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_chest_auscultation" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_chest_breathing_sounds" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+
+                    <group string="CARDIOVASCULAR">
+                        <group string="Skin/Mucous Membrane" colspan="4">
+                            <field name="pe_cardio_membrane" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Pulse">
+                            <field name="pe_pulse_radial" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_pulse_pedal" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_pulse_apical_radial" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_pulse_carotid" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Capillary Refill">
+                            <field name="pe_capillary_refill" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Jugular Vein">
+                            <field name="pe_jugular_vein_visual" string="Visual" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Edema">
+                            <field name="pe_edema_present" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Hearth Rythmn">
+                            <field name="pe_hr_auscultation" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Device">
+                            <field name="pe_device_pacemaker" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_device_pacemaker_comment" invisible="pe_device_pacemaker in ('na',)"/>
+                        </group>
+                    </group>
+
+                    <group string="GIT">
+                        <group string="Abdomen">
+                            <field name="pe_git_shape" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="4-Quadrant">
+                            <field name="pe_git_luq" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="(Auscultation)">
+                            <field name="pe_git_ruq" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_git_llq" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_git_rlq" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Umbilicus">
+                            <field name="pe_git_visual" string="Visual" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Anus">
+                            <field name="pe_git_palpitation" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Bowel">
+                            <field name="pe_git_movements" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+
+                    <group string="NEUROLOGICAL">
+                        <group string="LOC" colspan="4">
+                            <field name="pe_nuerological_alertness" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pe_nuerological_orientation_level" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Cranial Nerve">
+                            <field name="pe_nuerological_sensory" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group string="Pain level">
+                            <field name="pe_nuerological_pain_level" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+
+                    <group string="GENITO URINARY">
+                        <field name="pe_urinary_symptomps" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_urinary_symptomps_comment" invisible="pe_urinary_symptomps in ('na',)"/>
+                        <field name="pe_urinary_discharge" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_urinary_discharge_comment" invisible="pe_urinary_discharge in ('na',)"/>
+                        <field name="pe_urinary_genitalia_male" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_urinary_genitalia_female" string="Genitalia Female" widget="radio" options="{'horizontal': true}"/>
+                    </group>
+
+                    <group string="EXTREMITIES">
+                        <field name="pe_extremities_arms" string="Genitalia Female" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_palmar_creases" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_fingers" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_hips" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_legs" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_feet_position" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_toes" widget="radio" options="{'horizontal': true}"/>
+                        <field name="pe_extremities_back" widget="radio" options="{'horizontal': true}"/>
+                    </group>
+                </page>
+            </page>
+
+        </field>
+    </record>
+
+</odoo>

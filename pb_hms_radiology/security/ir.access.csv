@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_patient_radiology_test_jr_doctor,Patient Radiology Test phy,patient.radiology.test,pb_hms.group_hms_jr_doctor,cru,
+all_hms_radiology_request_rule_group_hms_jr_doctor,All Radiology Requests,pb.radiology.request,pb_hms.group_hms_jr_doctor,cru,
+access_hms_pb_radiology_request_receptionist,Patient Radiology Request Recep,pb.radiology.request,pb_hms.group_hms_receptionist,cru,
+access_hms_patient_radiology_test_jr_doctor,PB Radiology phy,pb.radiology.test,pb_hms.group_hms_jr_doctor,cru,
+access_hms_radiology_request_line_receptionist,PB Patient Radiology Request line,radiology.request.line,pb_hms.group_hms_receptionist,crud,

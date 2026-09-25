@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_pb_ophthalmology_evaluation,access_pb_ophthalmology_evaluation,pb.ophthalmology.evaluation,base.group_user,r,
+access_pb_ophthalmology_evaluation_user,access_pb_ophthalmology_evaluation,pb.ophthalmology.evaluation,pb_hms_ophthalmology.group_hms_ophthalmology,crud,
+access_pb_ophthalmology_finding,access_pb_ophthalmology_finding,pb.ophthalmology.finding,base.group_user,r,
+access_pb_ophthalmology_finding_user,access_pb_ophthalmology_finding,pb.ophthalmology.finding,pb_hms_ophthalmology.group_hms_ophthalmology,crud,

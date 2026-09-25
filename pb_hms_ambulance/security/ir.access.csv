@@ -1,0 +1,13 @@
+id,name,model_id,group_id/id,operation,domain
+access_hms_fleet_service_type,Fleet Service Type,fleet.service.type,pb_hms_ambulance.group_ambulance_service_user,r,
+access_hms_fleet_vehicle_user,Fleet Vehicle,fleet.vehicle,pb_hms_ambulance.group_ambulance_service_user,r,
+access_hms_fleet_vehicle_assignation_log,fleet_vehicle_assignation_log,fleet.vehicle.assignation.log,pb_hms_ambulance.group_ambulance_service_user,r,
+access_hms_fleet_vehicle_log_contract_user,Fleet Vehicle Log Contract,fleet.vehicle.log.contract,pb_hms_ambulance.group_ambulance_service_user,r,
+access_hms_fleet_vehicle_services_fuel,fleet_vehicle_log_services,fleet.vehicle.log.services,pb_hms_ambulance.group_ambulance_service_user,r,
+access_hms_fleet_vehicle_odometer,fleet Vehicle Odometer,fleet.vehicle.odometer,pb_hms_ambulance.group_ambulance_service_user,cru,
+access_hms_fleet_vehicle_state_user,Fleet Vehicle State,fleet.vehicle.state,pb_hms_ambulance.group_ambulance_service_user,r,
+access_hms_fleet_vehicle_tag,fleet_vehicle_tag,fleet.vehicle.tag,pb_hms_ambulance.group_ambulance_service_user,r,
+pb_ambulance_service_rule,Ambulance Service multi-company,pb.ambulance.service,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+pb_ambulance_service_department_rule,Ambulance Services: Departments,pb.ambulance.service,,crud,"['|', ('department_id', '=', False), ('department_id', 'in', [dep.id for dep in user.department_ids])]"
+access_hms_pb_ambulance_service_user,Ambulance Service,pb.ambulance.service,pb_hms_ambulance.group_ambulance_service_user,cru,
+access_hms_pb_ambulance_service_manager,Ambulance Service,pb.ambulance.service,pb_hms_base.group_hms_manager,crud,

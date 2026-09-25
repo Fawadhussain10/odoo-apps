@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root cost codes, one per cost type -->
+    <record id="cost_code_material" model="construction.cost.code">
+        <field name="code">MAT</field>
+        <field name="name">Material</field>
+        <field name="cost_type">material</field>
+    </record>
+    <record id="cost_code_labour" model="construction.cost.code">
+        <field name="code">LAB</field>
+        <field name="name">Labour</field>
+        <field name="cost_type">labour</field>
+    </record>
+    <record id="cost_code_subcontract" model="construction.cost.code">
+        <field name="code">SUB</field>
+        <field name="name">Subcontract</field>
+        <field name="cost_type">subcontract</field>
+    </record>
+    <record id="cost_code_equipment" model="construction.cost.code">
+        <field name="code">EQP</field>
+        <field name="name">Equipment</field>
+        <field name="cost_type">equipment</field>
+    </record>
+    <record id="cost_code_overhead" model="construction.cost.code">
+        <field name="code">OH</field>
+        <field name="name">Overhead</field>
+        <field name="cost_type">overhead</field>
+    </record>
+    <record id="cost_code_other" model="construction.cost.code">
+        <field name="code">OTH</field>
+        <field name="name">Other</field>
+        <field name="cost_type">other</field>
+    </record>
+
+    <!-- Matching work types -->
+    <record id="work_type_material" model="construction.work.type">
+        <field name="name">Material</field>
+        <field name="code">MAT</field>
+        <field name="category">material</field>
+        <field name="default_cost_code_id" ref="cost_code_material"/>
+    </record>
+    <record id="work_type_labour" model="construction.work.type">
+        <field name="name">Labour</field>
+        <field name="code">LAB</field>
+        <field name="category">labour</field>
+        <field name="default_cost_code_id" ref="cost_code_labour"/>
+    </record>
+    <record id="work_type_subcontract" model="construction.work.type">
+        <field name="name">Subcontract</field>
+        <field name="code">SUB</field>
+        <field name="category">subcontract</field>
+        <field name="default_cost_code_id" ref="cost_code_subcontract"/>
+    </record>
+    <record id="work_type_equipment" model="construction.work.type">
+        <field name="name">Equipment</field>
+        <field name="code">EQP</field>
+        <field name="category">equipment</field>
+        <field name="default_cost_code_id" ref="cost_code_equipment"/>
+    </record>
+    <record id="work_type_overhead" model="construction.work.type">
+        <field name="name">Overhead</field>
+        <field name="code">OH</field>
+        <field name="category">overhead</field>
+        <field name="default_cost_code_id" ref="cost_code_overhead"/>
+    </record>
+
+    <!-- Default document types -->
+    <record id="doc_type_drawing" model="construction.document.type">
+        <field name="name">Drawing</field>
+        <field name="category">drawing</field>
+    </record>
+    <record id="doc_type_rfi" model="construction.document.type">
+        <field name="name">RFI</field>
+        <field name="category">rfi</field>
+    </record>
+    <record id="doc_type_contract" model="construction.document.type">
+        <field name="name">Contract</field>
+        <field name="category">contract</field>
+    </record>
+    <record id="doc_type_submittal" model="construction.document.type">
+        <field name="name">Submittal</field>
+        <field name="category">submittal</field>
+    </record>
+    <record id="doc_type_method_statement" model="construction.document.type">
+        <field name="name">Method Statement</field>
+        <field name="category">method_statement</field>
+    </record>
+    <record id="doc_type_inspection" model="construction.document.type">
+        <field name="name">Inspection Report</field>
+        <field name="category">inspection</field>
+    </record>
+    <record id="doc_type_certificate" model="construction.document.type">
+        <field name="name">Certificate</field>
+        <field name="category">certificate</field>
+    </record>
+    <record id="doc_type_permit" model="construction.document.type">
+        <field name="name">Permit</field>
+        <field name="category">permit</field>
+    </record>
+
+    <!-- WBS stage templates, taken from the real 3.5 Marla house BOQ work-head structure -->
+    <record id="wbs_stage_site_clearance" model="construction.wbs.stage.template">
+        <field name="name">Site Clearance &amp; Setting Out</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="wbs_stage_foundation" model="construction.wbs.stage.template">
+        <field name="name">Foundation, PCC, RCC Footing &amp; Plinth</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="wbs_stage_dpc" model="construction.wbs.stage.template">
+        <field name="name">DPC, Filling &amp; Ground Bed</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="wbs_stage_masonry" model="construction.wbs.stage.template">
+        <field name="name">Brick Masonry Load-Bearing Walls</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="wbs_stage_rcc_band" model="construction.wbs.stage.template">
+        <field name="name">Brick-Side RCC Band Over Doors &amp; Windows</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="wbs_stage_roof_slab" model="construction.wbs.stage.template">
+        <field name="name">Roof Slab, First Slab, Stair &amp; Mumty</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="wbs_stage_roof_treatment" model="construction.wbs.stage.template">
+        <field name="name">Roof Treatment &amp; Waterproofing</field>
+        <field name="sequence">70</field>
+    </record>
+    <record id="wbs_stage_plaster" model="construction.wbs.stage.template">
+        <field name="name">Internal &amp; External Plaster</field>
+        <field name="sequence">80</field>
+    </record>
+    <record id="wbs_stage_mep_roughin" model="construction.wbs.stage.template">
+        <field name="name">Electrical &amp; Plumbing Rough-In</field>
+        <field name="sequence">90</field>
+    </record>
+    <record id="wbs_stage_finishing" model="construction.wbs.stage.template">
+        <field name="name">Finishing (Flooring, Doors, Paint, Fixtures)</field>
+        <field name="sequence">100</field>
+    </record>
+    <record id="wbs_stage_handover" model="construction.wbs.stage.template">
+        <field name="name">External Works, Testing &amp; Handover</field>
+        <field name="sequence">110</field>
+    </record>
+
+    <!-- Default project category / sub-category -->
+    <record id="project_category_construction" model="construction.project.category">
+        <field name="name">Construction</field>
+        <field name="stage_ids" eval="[(6, 0, [
+            ref('wbs_stage_site_clearance'), ref('wbs_stage_foundation'), ref('wbs_stage_dpc'),
+            ref('wbs_stage_masonry'), ref('wbs_stage_rcc_band'), ref('wbs_stage_roof_slab'),
+            ref('wbs_stage_roof_treatment'), ref('wbs_stage_plaster'), ref('wbs_stage_mep_roughin'),
+            ref('wbs_stage_finishing'), ref('wbs_stage_handover')])]"/>
+    </record>
+    <record id="project_subcategory_house" model="construction.project.subcategory">
+        <field name="name">House</field>
+        <field name="category_id" ref="project_category_construction"/>
+    </record>
+    <record id="project_subcategory_building" model="construction.project.subcategory">
+        <field name="name">Building</field>
+        <field name="category_id" ref="project_category_construction"/>
+    </record>
+    <record id="project_subcategory_shop" model="construction.project.subcategory">
+        <field name="name">Shop</field>
+        <field name="category_id" ref="project_category_construction"/>
+    </record>
+</odoo>

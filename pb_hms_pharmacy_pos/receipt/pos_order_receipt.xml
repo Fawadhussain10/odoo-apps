@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="pos_orderline_receipt_information" inherit_id="point_of_sale.pos_orderline_receipt_information">
+            <div name="extra-info" position="inside">
+                <t t-if="line.get('prescription_order_name')">
+                    <div class="text-small mt-1">
+                        <strong>Prescription: </strong><span t-out="line.get('prescription_order_name')"/>
+                    </div>
+                    <table t-if="line.get('pb_kit_lines')" class="prescription-order-info text-small">
+                        <tr t-foreach="line.get('pb_kit_lines')" t-as="kit_line">
+                            <td><t t-out="kit_line.get('product_uom_qty')"/>x</td>
+                            <td t-out="kit_line.get('product_name')"/>
+                        </tr>
+                    </table>
+                </t>
+            </div>
+        </template>
+    </data>
+</odoo>

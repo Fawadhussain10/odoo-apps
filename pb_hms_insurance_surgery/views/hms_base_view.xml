@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- <Laboratory> -->
+    <record id="hms_surgery_view" model="ir.ui.view">
+        <field name="name">hms.surgery.from</field>
+        <field name="model">hms.surgery</field>
+        <field name="inherit_id" ref="pb_hms_surgery.hms_surgery_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general']//field[@name='department_id']" position="after">
+                <field name="insurance_id" domain="[('patient_id','=', patient_id), ('allow_surgery_insurance', '=', True)]"/>
+                <field name="insurance_company_id"/>
+                <field name="claim_id"/>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>

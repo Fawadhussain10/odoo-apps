@@ -1,0 +1,919 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_commission
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-14 06:05+0000\n"
+"PO-Revision-Date: 2022-03-14 06:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_commission
+#: model:ir.actions.report,print_report_name:pb_commission.action_pb_commission_sheet_report
+msgid "(object.name or 'CommissionSheet').replace('/','_')"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Commission Product</span>"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_report_document
+msgid "<span>Commission Sheet: </span>"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_report_document
+msgid "<strong>#</strong>"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_report_document
+msgid "<strong>Commission Amount</strong>"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_report_document
+msgid "<strong>Commission On</strong>"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_report_document
+msgid "<strong>Contact: </strong>"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_report_document
+msgid "<strong>Date: </strong>"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_report_document
+msgid "<strong>Date</strong>"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_report_document
+msgid "<strong>Invoice</strong>"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_report_document
+msgid "<strong>Name</strong>"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_report_document
+msgid "<strong>Total</strong>"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_needaction
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__activity_ids
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__activity_exception_decoration
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__activity_state
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__activity_type_icon
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_commission_bill__print_commission
+msgid "Add Commission no in Description"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__amount
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_rule__type__amount
+msgid "Amount"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_attachment_count
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__account_move__commission_type__automatic
+msgid "Automatic"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_commission_bill
+msgid ""
+"Bill will be created in draft so that you can review\n"
+"                    them before validation."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.actions.act_window,name:pb_commission.pb_commission_action
+#: model:ir.model.fields,field_description:pb_commission.field_res_partner__commission_ids
+#: model:ir.model.fields,field_description:pb_commission.field_res_users__commission_ids
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+msgid "Business Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_list_view
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_move_form
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_partner_form
+msgid "Business Commissions"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_form_view
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_pb_commission_sheet
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_commission_bill
+msgid "Cancel"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__payment_status__cancel
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__state__cancel
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_sheet__payment_status__cancel
+msgid "Canceled"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.actions.act_window,help:pb_commission.action_pb_commission_role
+msgid "Click to add a new Commission Role."
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.actions.act_window,help:pb_commission.pb_commission_action
+#: model_terms:ir.actions.act_window,help:pb_commission.action_pb_commission_sheet
+msgid "Click to add new Business Commission."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.ui.menu,name:pb_commission.menu_pb_invoice_commission
+#: model:product.product,name:pb_commission.pb_commission_product
+#: model:product.template,name:pb_commission.pb_commission_product_product_template
+#: model_terms:ir.ui.view,arch_db:pb_commission.res_config_settings_view_form
+msgid "Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__commission_amount
+msgid "Commission Amount"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_bank_statement_line__commission_created
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_created
+#: model:ir.model.fields,field_description:pb_commission.field_account_payment__commission_created
+msgid "Commission Finalized"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_bank_statement_line__commission_partner_ids
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_partner_ids
+#: model:ir.model.fields,field_description:pb_commission.field_account_payment__commission_partner_ids
+msgid "Commission For"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_bank_statement_line__commission_on
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_on
+#: model:ir.model.fields,field_description:pb_commission.field_account_payment__commission_on
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__commission_on
+msgid "Commission On"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_res_company__commission_product_id
+#: model:ir.model.fields,field_description:pb_commission.field_res_config_settings__commission_product_id
+msgid "Commission Product"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.actions.act_window,name:pb_commission.action_pb_commission_role
+#: model:ir.model,name:pb_commission.model_pb_commission_role
+#: model:ir.ui.menu,name:pb_commission.menu_pb_invoice_commission_role
+msgid "Commission Role"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_role__commission_rule_ids
+#: model:ir.model.fields,field_description:pb_commission.field_res_partner__commission_rule_ids
+#: model:ir.model.fields,field_description:pb_commission.field_res_users__commission_rule_ids
+msgid "Commission Rules"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.actions.act_window,name:pb_commission.action_pb_commission_sheet
+#: model:ir.model,name:pb_commission.model_pb_commission_sheet
+#: model:ir.ui.menu,name:pb_commission.menu_pb_commission_sheet
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_list_view
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_search_view
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_pb_commission_sheet
+msgid "Commission Sheet"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_bank_statement_line__commission_type
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_type
+#: model:ir.model.fields,field_description:pb_commission.field_account_payment__commission_type
+msgid "Commission Type"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_res_company__commission_on_invoice_amount
+#: model:ir.model.fields,field_description:pb_commission.field_res_config_settings__commission_on_invoice_amount
+msgid "Commission on Invoice Amount"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.ui.menu,name:pb_commission.menu_invoice_pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_partner_form
+msgid "Commissions"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__company_id
+msgid "Company"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_move_form
+msgid "Confirm Commissions"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_sheet__state__confirmed
+msgid "Confirmed"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_commission_bill
+msgid "Create Bill"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.actions.act_window,name:pb_commission.action_view_commission_bill
+#: model:ir.model,name:pb_commission.model_commission_bill
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_commission_bill
+msgid "Create Commission Bill"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_pb_commission_sheet
+msgid "Create Payment Bill"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_commission_bill
+msgid "Create and View Bill"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.res_config_settings_view_form
+msgid "Create commission based on invoice amount by default."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__create_uid
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_role__create_uid
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__create_uid
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__create_uid
+#: model:ir.model.fields,field_description:pb_commission.field_commission_bill__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__create_date
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_role__create_date
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__create_date
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__create_date
+#: model:ir.model.fields,field_description:pb_commission.field_commission_bill__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+msgid "Customer"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__date_to
+msgid "Date To"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.res_config_settings_view_form
+msgid "Default product to manage commission"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_role__description
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__description
+msgid "Description"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__display_name
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_role__display_name
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__display_name
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__display_name
+#: model:ir.model.fields,field_description:pb_commission.field_commission_bill__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__state__done
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_form_view
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_pb_commission_sheet
+msgid "Done"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__state__draft
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_sheet__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__payment_status__draft
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_sheet__payment_status__draft
+msgid "Draft Payment"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_follower_ids
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_partner_ids
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__activity_type_icon
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_res_partner__provide_commission
+#: model:ir.model.fields,field_description:pb_commission.field_res_users__provide_commission
+msgid "Give Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+msgid "Group By"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_commission_bill__groupby_partner
+msgid "Group by Partner"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__has_message
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_commission_bill__hide_groupby_partner
+msgid "Hide Group by Partner"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__company_id
+msgid "Hospital"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__id
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_role__id
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__id
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__id
+#: model:ir.model.fields,field_description:pb_commission.field_commission_bill__id
+msgid "ID"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__activity_exception_icon
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__activity_exception_icon
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_needaction
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_unread
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__message_needaction
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_has_error
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_has_sms_error
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__message_has_error
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__invoice_id
+msgid "Invoice"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_pb_commission_sheet
+msgid "Invoice Lines"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_is_follower
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_commission_bill__journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_sheet_report_document
+msgid ""
+"Keep this print as reference further communication and procedure.\n"
+"                    Should you have any questions please contact us at your convenience.<br/><br/>\n"
+"                    Best Regards<br/>"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission____last_update
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_role____last_update
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule____last_update
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet____last_update
+#: model:ir.model.fields,field_description:pb_commission.field_commission_bill____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__write_uid
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_role__write_uid
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__write_uid
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__write_uid
+#: model:ir.model.fields,field_description:pb_commission.field_commission_bill__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__write_date
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_role__write_date
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__write_date
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__write_date
+#: model:ir.model.fields,field_description:pb_commission.field_commission_bill__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__commission_line_ids
+msgid "Lines"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_main_attachment_id
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: pb_commission
+#: model:res.groups,name:pb_commission.group_pb_commission_user
+msgid "Manage Commissions"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_has_error
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_ids
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__my_activity_date_deadline
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__name
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_role__name
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__name
+msgid "Name"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__activity_calendar_event_id
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__activity_date_deadline
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__activity_summary
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__activity_type_id
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: pb_commission
+#: code:addons/pb_commission/models/account_move.py:0
+#, python-format
+msgid "No Commission Lines to Finalize! Please create them first."
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.actions.act_window,help:pb_commission.pb_commission_action
+#: model_terms:ir.actions.act_window,help:pb_commission.action_pb_commission_sheet
+msgid "No Record Found"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+msgid "Not Invoiced"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__payment_status__not_inv
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_sheet__payment_status__not_inv
+msgid "Not Paid"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__note
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__note
+msgid "Note"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_needaction_counter
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_has_error_counter
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_needaction_counter
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_has_error_counter
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__message_unread_counter
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__account_move__commission_type__fix_amount
+msgid "On Fix Amount"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__payment_status__open
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_sheet__payment_status__open
+msgid "Open"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission__payment_status__paid
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_sheet__payment_status__paid
+msgid "Paid"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__partner_id
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__partner_id
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model,name:pb_commission.model_pb_commission
+msgid "Partner Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__payment_invoice_id
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__payment_invoice_id
+msgid "Payment Invoice"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__invoice_line_id
+msgid "Payment Invoice Line"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__payment_status
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__payment_status
+msgid "Payment Status"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__percentage
+#: model:ir.model.fields,field_description:pb_commission.field_res_partner__commission_percentage
+#: model:ir.model.fields,field_description:pb_commission.field_res_users__commission_percentage
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_rule__type__percentage
+msgid "Percentage"
+msgstr ""
+
+#. module: pb_commission
+#: code:addons/pb_commission/models/account_move.py:0
+#, python-format
+msgid "Please Set Amount to calculate Commission"
+msgstr ""
+
+#. module: pb_commission
+#: code:addons/pb_commission/wizard/create_commission_bill.py:0
+#, python-format
+msgid ""
+"Please check there is nothing to bill in selected Commission may be you are "
+"missing partner or trying to bill already billd Commissions."
+msgstr ""
+
+#. module: pb_commission
+#: code:addons/pb_commission/wizard/create_commission_bill.py:0
+#, python-format
+msgid "Please set Commission Product in company first."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__product_id
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_rule__rule_on__product
+msgid "Product"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__product_category_id
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_rule__rule_on__product_category
+msgid "Product Category"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_pb_commission_sheet
+msgid "Refresh Data"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_pb_commission_sheet
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__activity_user_id
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__role_id
+#: model:ir.model.fields,field_description:pb_commission.field_res_partner__commission_role_id
+#: model:ir.model.fields,field_description:pb_commission.field_res_users__commission_role_id
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_rule__rule_type__role
+msgid "Role"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__rule_on
+msgid "Rule On"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__rule_type
+msgid "Rule Type"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_has_sms_error
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_account_bank_statement_line__commission_ids
+#: model:ir.model.fields,field_description:pb_commission.field_account_move__commission_ids
+#: model:ir.model.fields,field_description:pb_commission.field_account_payment__commission_ids
+msgid "Sales Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.res_config_settings_view_form
+msgid "Set Invoice amount as default Commision Amount"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_form_view
+msgid "Set to Draft"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_commission_bill__print_commission
+msgid "Set true if want to append SO in bill line Description"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_commission_bill__groupby_partner
+msgid "Set true if want to create single bill for Partner"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.actions.report,name:pb_commission.action_pb_commission_sheet_report
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__commission_sheet_id
+msgid "Sheet"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_search_view
+msgid "State"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__state
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__state
+msgid "Status"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__activity_state
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__payment_invoice_id
+msgid "The move of this entry line."
+msgstr ""
+
+#. module: pb_commission
+#: code:addons/pb_commission/wizard/create_commission_bill.py:0
+#, python-format
+msgid ""
+"There is no income account defined for this product: \"%s\". You may have to"
+" install a chart of account from Accounting app, settings menu."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__amount_total
+msgid "Total"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__type
+msgid "Type"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__activity_exception_decoration
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: pb_commission
+#: model:product.product,uom_name:pb_commission.pb_commission_product
+#: model:product.template,uom_name:pb_commission.pb_commission_product_product_template
+msgid "Units"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_unread
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__message_unread_counter
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.view_move_form
+msgid "Update Commission"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_rule__user_id
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__user_id
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_rule__rule_type__user
+msgid "User"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission__website_message_ids
+#: model:ir.model.fields,field_description:pb_commission.field_pb_commission_sheet__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields,help:pb_commission.field_pb_commission__website_message_ids
+#: model:ir.model.fields,help:pb_commission.field_pb_commission_sheet__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: pb_commission
+#: code:addons/pb_commission/models/commission.py:0
+#: code:addons/pb_commission/models/commission_sheet.py:0
+#, python-format
+msgid "You cannot delete an record which is not draft or cancelled."
+msgstr ""
+
+#. module: pb_commission
+#: model:ir.model.fields.selection,name:pb_commission.selection__pb_commission_sheet__state__done
+msgid "done"
+msgstr ""
+
+#. module: pb_commission
+#: model_terms:ir.ui.view,arch_db:pb_commission.pb_commission_form_view
+msgid "e.g. Business Commission"
+msgstr ""

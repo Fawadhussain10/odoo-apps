@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+emergency_comp_rule,Emergency multi-company,pb.hms.emergency,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+hms_emergency_department_rule,Emergency Multi-Department,pb.hms.emergency,,crud,"['|', ('department_id', '=', False), ('department_id', 'in', [dep.id for dep in user.department_ids])]"
+access_pb_hms_emergency,access_pb_hms_emergency,pb.hms.emergency,base.group_user,crud,
+hms_all_emergency_rule,All Emergency Rule,pb.hms.emergency,pb_hms_base.group_hms_manager,crud,

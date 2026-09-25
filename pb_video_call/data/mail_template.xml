@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="pb_video_call_invitation" model="mail.template">
+            <field name="name">Video Call/Conference Call Invitation</field>
+            <field name="email_from">{{user.email}}</field>
+            <field name="email_to">{{object.user_id.email}}</field>
+            <field name="partner_to">{{object.get_partner_ids()}}</field>
+            <field name="subject">Video Call/Conference Call Invitation</field>
+            <field name="model_id" ref="pb_video_call.model_pb_video_call"/>
+            <field name="lang">{{object.user_id.lang}}</field>
+            <field name="body_html" type="html">
+<div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+    <t t-set="call_date" t-value="format_datetime(dt=object.date, tz=object.user_id.tz or 'UTC', lang_code=object.user_id.lang)"/>
+    <p>Hello Dear <t t-out="object.user_id.name"/>,</p>
+    <ul>
+        <li>
+            <p>Reference Number: <t t-out="object.name"/></p>
+        </li>
+        <li>
+            <p>Meeting Link: <a t-attf-href="{{ object.meeting_link }}"><t t-out="object.meeting_link"/></a></p>
+        </li>
+        <li t-if="object.password">
+            <p>Meeting Password: <t t-out="object.password"/></p>
+        </li>
+        <li t-if="object.date">
+            <p>Date: <t t-out="call_date"/> (Timezone: <t t-out="object.user_id.tz or 'UTC'"/>)</p>
+        </li>
+    </ul>
+    <p>Please feel free to call anytime for further information or any query.</p>
+
+    <p>Best regards.</p><br/>
+</div>          
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="pb_laboratory_category" model="ir.module.category">
+            <field name="name">Pathology (Laboratory)</field>
+            <field name="description">Manage Pathology Documents.</field>
+            <field name="sequence">11</field>
+            <field name="parent_id" ref="pb_hms_base.module_category_hms"/>
+        </record>
+
+        <!-- LABORATORY -->
+        <record id="group_hms_lab_sample_user" model="res.groups">
+            <field name="name">Lab Sample Collector</field>
+            <field name="implied_ids" eval="[(4, ref('pb_hms_base.group_hms_user'))]"/>
+        </record>
+
+        <record id="group_hms_lab_user" model="res.groups">
+            <field name="name">Lab Technician</field>
+            <field name="implied_ids" eval="[(4, ref('group_hms_lab_sample_user'))]"/>
+        </record>
+
+        <record id="group_hms_lab_manager" model="res.groups">
+            <field name="name">Lab Manager</field>
+            <field name="implied_ids" eval="[(4, ref('group_hms_lab_user'))]"/>
+        </record>
+
+        <record id="group_manage_collection_center" model="res.groups">
+            <field name="name">Manage Collection Center</field>
+            <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="base.user_admin" model="res.users">
+            <field name="group_ids" eval="[(4, ref('pb_laboratory.group_hms_lab_manager'))]"/>
+        </record>
+
+        <record id="pb_hms_base.group_hms_manager" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('pb_laboratory.group_hms_lab_manager'))]"/>
+        </record>
+
+    </data>
+    <data noupdate="0">
+
+        <!-- LAB USER -->
+        <!-- See Lab Reqes -->
+        <!-- See All Lab results -->
+
+
+
+        <!-- Portal -->
+
+
+    </data>
+</odoo>

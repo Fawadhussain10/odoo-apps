@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="pb_radiology_request_template" model="pb.whatsapp.template">
+            <field name="name">RadiologyRequest</field>
+            <field name="body_message_type">TEXT</field>
+            <field name="body_message">Hello dear {{ object.patient_id.name }}, Radiology Request {{ object.name }} is registerd for {{ ', '.join(map(lambda x: x.test_id.name, object.line_ids)) }} test. Sent by PackBytes</field>
+        </record>
+
+        <record id="pb_radiology_result_template" model="pb.whatsapp.template">
+            <field name="name">RadiologyResult</field>
+            <field name="body_message_type">TEXT</field>
+            <field name="body_message">Hello dear {{ object.patient_id.name }}, Radiology Result for {{ object.test_id.name }} is ready. Sent by PackBytes</field>
+        </record>
+
+        <record id="base.main_company" model="res.company">
+            <field name="pb_radiology_request_template_id" ref="pb_radiology_request_template"/>
+            <field name="pb_radiology_result_template_id" ref="pb_radiology_result_template"/>
+        </record>
+
+    </data>
+</odoo>

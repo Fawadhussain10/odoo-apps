@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="pb_video_call_invitaion" model="mail.template">
+            <field name="name">Video Consultation Invitation</field>
+            <field name="email_from">{{ user.email }}</field>
+            <field name="email_to">{{ object.patient_id.partner_id.email }}</field>
+            <field name="partner_to">{{ object.get_partner_ids() }}</field>
+            <field name="subject">Video Consultation Invitation</field>
+            <field name="model_id" ref="pb_hms.model_hms_appointment"/>
+            <field name="lang">{{ object.patient_id.partner_id.lang }}</field>
+            <field name="body_html" type="html">
+<div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+    <t t-set="call_date" t-value="format_datetime(dt=object.date, tz=object.physician_id.tz or 'UTC', lang_code=object.physician_id.lang)"/>
+    <p>Hello Dear <t t-out="object.patient_id.name"/>,</p><br/>
+
+    <p>Your Video Consultation with <t t-out="object.physician_id.name"/> have been Scheduled with following details.</p>
+    <ul>
+        <li>
+            <p>Appointment Number: <t t-out="object.name"/></p>
+        </li>
+        <li t-if="object.video_call_id">
+            <p>Meeting Link: <a t-attf-href="{{ object.video_call_id.meeting_link }}"><t t-out="object.video_call_id.meeting_link"/></a></p>
+        </li>
+        <li t-if="object.video_call_id.password">
+            <p>Meeting Password: <t t-out="object.video_call_id.password"/></p>
+        </li>
+        <li t-if="object.date">
+            <p>Date: <t t-out="call_date"/> (Timezone: <t t-out="object.physician_id.tz or 'UTC'"/>)</p>
+        </li>
+        <li t-if="object.physician_id">
+            <p>Physician: <t t-out="object.physician_id.name"/></p>
+        </li>
+    </ul>
+
+    <p>Please feel free to call anytime for further information or any query.</p>
+
+    <p>Best regards.</p><br/>
+</div>
+            </field>
+        </record>
+
+    </data>
+</odoo>

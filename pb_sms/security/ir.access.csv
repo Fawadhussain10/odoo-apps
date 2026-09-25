@@ -1,0 +1,12 @@
+id,name,model_id,group_id/id,operation,domain
+sms_company_rule,SMS multi-company,pb.sms,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_pb_sms,access_pb_sms,pb.sms,base.group_everyone,cru,
+access_pb_sms_manager,access_pb_sms_manager,pb.sms,pb_sms.group_sms_manager,crud,
+access_pb_sms_user,access_pb_sms_user,pb.sms,pb_sms.group_sms_user,cru,
+sms_announcement_company_rule,SMS Announcement multi-company,pb.sms.announcement,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+pb_sms_announcement,pb_sms_announcement,pb.sms.announcement,base.group_everyone,r,
+pb_sms_announcement_manager,pb_sms_announcement_manager,pb.sms.announcement,pb_sms.group_sms_manager,crud,
+pb_sms_announcement_user,pb_sms_announcement_user,pb.sms.announcement,pb_sms.group_sms_user,cru,
+access_pb_sms_template,access_pb_sms_template,pb.sms.template,base.group_everyone,r,
+access_pb_sms_template_manager,access_pb_sms_template_manager,pb.sms.template,pb_sms.group_sms_manager,crud,
+access_pb_sms_template_user,access_pb_sms_template_user,pb.sms.template,pb_sms.group_sms_user,cru,

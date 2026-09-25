@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+     <data noupdate="1">
+
+        <record id="pb_surgery_category" model="ir.module.category">
+            <field name="name">Surgery</field>
+            <field name="description">Manage Surgery Operations.</field>
+            <field name="sequence">10</field>
+            <field name="parent_id" ref="pb_hms_base.module_category_hms"/>
+        </record>
+
+        <record id="group_pb_hms_surgery_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="implied_ids" eval="[(4, ref('pb_hms_base.group_hms_user'))]"/>
+        </record>
+
+        <record id="group_pb_hms_surgery_approver" model="res.groups">
+            <field name="name">Approver</field>
+            <field name="implied_ids" eval="[(4, ref('pb_hms_surgery.group_pb_hms_surgery_user'))]"/>
+        </record>
+
+        <record id="group_pb_hms_surgery_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="implied_ids" eval="[(4, ref('pb_hms_surgery.group_pb_hms_surgery_approver'))]"/>
+            <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+
+
+
+    </data>
+</odoo>

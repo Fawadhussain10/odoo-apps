@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<menuitem id="menu_pb_hms_commission" name="Business Commissions" sequence="20" parent="pb_hms.menu_hms" action="pb_commission.pb_commission_action" groups="pb_commission.group_pb_commission_user"/>
+
+</odoo>

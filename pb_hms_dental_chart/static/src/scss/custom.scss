@@ -1,0 +1,170 @@
+body.pb_header_invisible {
+    padding-top: 0px !important;
+}
+
+.pb_dental_chart input[type="radio"]:checked + label {
+    filter: grayscale(0);
+    border: 1px solid #f59e0b;
+}
+
+.pb_dental_chart input[type="checkbox"]:checked + label {
+    filter: grayscale(0);
+    border: 1px solid #f59e0b;
+    color: white;
+    background-color: #4a3aa7 !important;
+}
+
+.pb_image img {
+    max-width: 58px;
+}
+
+.pb_tooth_div {
+    width: 6.25%;
+}
+
+.pb_tooth_label {
+    min-width: 58px;
+    min-height: 100px;
+}
+
+.pb_tooth_label:hover {
+    filter: grayscale(0);
+    cursor: pointer;
+}
+
+.pb_surface_label:hover {
+    filter: grayscale(0);
+    cursor: pointer;
+}
+
+.pb_surface_label {
+    background-color: #0d7377;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 5px;
+    margin: 10px;
+}
+
+.pb_surface, .pb_dental_procedure {
+    width: auto;
+}
+
+.pb_procedure_label {
+    background-color: #2a4d7a;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 5px;
+    margin: 10px;
+}
+
+.pb_dental_procedure input[type="radio"]:checked + label {
+    border: 1px solid #f59e0b;
+    color: white;
+    background-color: #4a3aa7 !important;
+}
+
+.pb_table_header {
+    background-color: #0f172a;
+    color: white;
+}
+
+.pb_dental_procedures {
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.pb_dental_procedures, .pb_dental_surfaces, .pb_teeths, .pb_tooth_div {
+    align-items: center;
+    justify-content: center;
+}
+
+.pb_dental_chart_header {
+    background-color: #0f172a;
+    background-image: linear-gradient(#1e3a5f, #4a3aa7);
+    background: linear-gradient(106deg,#0f172a 0%,#4a3aa7 100%);
+    color: white;
+}
+.pb_dental_chart_header a {
+    color: white !important;
+}
+
+.pb_product_avatar {
+    border-radius: 50%;
+    width: 19px;
+    height: 19px;
+    object-fit: cover;
+    margin-right: 4px;
+}
+
+.pb_fdi_code {
+    color: gray;
+}
+
+.pb-state-scheduled { background-color: #2a78d6 !important; color: white !important; }
+.pb-state-running { background-color: #f59e0b !important; color: white !important; }
+.pb-state-done { background-color: #22c55e !important; color: white !important; }
+.pb-state-cancel { background-color: #e34948 !important; color: white !important; }
+
+//css for submit button
+.h-divider {
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 26px;
+    position: relative;
+}
+
+.h-divider .pb_shadow {
+    overflow: hidden;
+    height: 20px;
+}
+
+.h-divider .pb_shadow:after {
+    content: '';
+    display: block;
+    margin: -25px auto 0;
+    width: 100%;
+    height: 25px;
+    border-radius: 125px/12px;
+    box-shadow: 0 0 8px black;
+}
+
+.h-divider .text {
+    width: 200px;
+    height: 60px;
+    padding: 10px;
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: -33px;
+    left: 50%;
+    margin-left: -60px;
+    border-radius: 100%;
+    box-shadow: 0 2px 4px #999;
+    background: white;
+}
+
+.h-divider .text i {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    right: 4px;
+    border-radius: 100%;
+    border: 1px dashed #f59e0b;
+    text-align: center;
+    line-height: 50px;
+    font-style: normal;
+    color: #4a3aa7;
+}
+
+.divide {
+    position: relative;
+    color: gray;
+}
+
+.divide:after {
+    content: '';
+    position: absolute;
+    width: 83%;
+    top: 11px;
+    border-top: 1px solid #eee;
+}

@@ -1,0 +1,29 @@
+id,name,model_id,group_id/id,operation,domain
+access_document_directory_insurance_officer,Document Directory Insurance Officer,document.directory,pb_hms_insurance.group_hms_insurance_officer,cru,
+access_hms_insurance_checklist_insurance_user,insurance checklist User,hms.insurance.checklist,pb_hms.group_hms_receptionist,r,
+access_hms_insurance_checklist_insurance_officer,insurance checklist officer,hms.insurance.checklist,pb_hms_insurance.group_hms_insurance_officer,crud,
+access_hms_insurance_checklist_temp,insurance checklist Template,hms.insurance.checklist.template,pb_hms_base.group_hms_user,r,
+access_hms_insurance_checklist_temp_insurance_officer,insurance checklist Template,hms.insurance.checklist.template,pb_hms_insurance.group_hms_insurance_officer,crud,
+patient_insurance_claim_company_rule,Patient Insurance Claim multi-company,hms.insurance.claim,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_hms_insurance_claim_insurance_portal,PB Insurance Claim Portal,hms.insurance.claim,base.group_portal,r,"[('patient_id.partner_id','=',user.commercial_partner_id.id)]"
+access_hms_insurance_claim_insurance_officer_manager,PB Insurance Claim Manager,hms.insurance.claim,pb_hms_base.group_hms_manager,crud,
+access_hms_insurance_claim_insurance_user,PB Insurance Claim User,hms.insurance.claim,pb_hms_base.group_hms_user,r,
+access_hms_insurance_claim_insurance_officer,PB Insurance Claim,hms.insurance.claim,pb_hms_insurance.group_hms_insurance_officer,crud,
+access_hms_hms_patient_insurance_company_manager,Isurance Company Manager,hms.insurance.company,pb_hms_base.group_hms_manager,crud,
+access_hms_hms_patient_insurance_company_user,Isurance Company user,hms.insurance.company,pb_hms_base.group_hms_user,r,
+access_hms_hms_patient_insurance_company_officer,Isurance Company Officer,hms.insurance.company,pb_hms_insurance.group_hms_insurance_officer,cru,
+access_hms_insurance_req_doc_insurance_manager,PB Insurance Req DocManager,hms.insurance.req.doc,pb_hms_base.group_hms_manager,crud,
+access_hms_insurance_req_doc_insurance_user,PB Insurance Req Doc User,hms.insurance.req.doc,pb_hms_base.group_hms_user,cru,
+access_hms_insurance_req_doc_insurance_officer,PB Insurance Req Doc,hms.insurance.req.doc,pb_hms_insurance.group_hms_insurance_officer,crud,
+patient_insurance_company_rule,Patient Insurance multi-company,hms.patient.insurance,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_hms_hms_patient_insurance_portal,PB Patient Insurance portal,hms.patient.insurance,base.group_portal,r,"[('patient_id.partner_id','=',user.commercial_partner_id.id)]"
+access_hms_hms_patient_insurance_manager,PB Patient Insurance Manager,hms.patient.insurance,pb_hms_base.group_hms_manager,crud,
+access_hms_hms_patient_insurance_user,PB Patient Insurance user,hms.patient.insurance,pb_hms_base.group_hms_user,r,
+access_hms_hms_patient_insurance_officer,PB Patient Insurance officer,hms.patient.insurance,pb_hms_insurance.group_hms_insurance_officer,crud,
+access_insurance_tpa_manager,Isurance TPA Manager,insurance.tpa,pb_hms_base.group_hms_manager,crud,
+access_hms_insurance_tpa,Isurance TPA User,insurance.tpa,pb_hms_base.group_hms_user,r,
+access_insurance_tpa_user,Isurance TPA officer,insurance.tpa,pb_hms_insurance.group_hms_insurance_officer,cru,
+access_pb_claim_sheet,access_pb_claim_sheet,pb.claim.sheet,base.group_user,crud,
+access_pb_insurance_plan,access_pb_insurance_plan,pb.insurance.plan,base.group_user,cru,
+access_pb_insurance_plan_officer,access_pb_insurance_plan_officer,pb.insurance.plan,pb_hms_insurance.group_hms_insurance_officer,crud,
+access_hms_partner_insurance_officer,Partner Insurance Doc,res.partner,pb_hms_insurance.group_hms_insurance_officer,cru,

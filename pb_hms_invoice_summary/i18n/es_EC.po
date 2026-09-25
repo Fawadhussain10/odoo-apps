@@ -1,0 +1,571 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_invoice_summary
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0-20211110\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-22 23:04+0000\n"
+"PO-Revision-Date: 2021-11-22 18:17-0500\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0\n"
+"Last-Translator: \n"
+"Language: es_PA\n"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__move_count
+msgid "# Moves"
+msgstr "# Movimientos"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__payment_count
+msgid "# Payments"
+msgstr "# Pagos"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "&amp;nbsp;<span>on</span>&amp;nbsp;"
+msgstr "&amp;nbsp;<span>en</span>&amp;nbsp;"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "<span class=\"o_stat_text\">Invoices</span>"
+msgstr "<span class=\"o_stat_text\">Facturas</span>"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "<span class=\"o_stat_text\">Payments</span>"
+msgstr "<span class=\"o_stat_text\">Pagos</span>"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid ""
+"<span style=\"margin-left:-15px;\" class=\"col-6 pull-left"
+"\"><strong>Responsible:</strong></span>\n"
+"                        <span class=\"col-6\"><strong>Date:</strong></"
+"span><br/>\n"
+"                        <span/><br/>\n"
+"                        <span/><br/>"
+msgstr ""
+"<span style=\"margin-left:-15px;\" class=\"col-6 pull-left"
+"\"><strong>Responsable:</strong></span>\n"
+"                        <span class=\"col-6\"><strong>Fecha:</strong></"
+"span><br/>\n"
+"                        <span/><br/>\n"
+"                        <span/><br/>"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "<span>Summary Invoice: </span>"
+msgstr "<span>Resumen de la factura: </span>"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "<strong>Date: </strong>"
+msgstr "<strong>Fecha: </strong>"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "<strong>Description</strong>"
+msgstr "<strong>Descripción</strong>"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "<strong>Partner: </strong>"
+msgstr "<strong>Cliente: </strong>"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "<strong>Product</strong>"
+msgstr "<strong>Producto</strong>"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "<strong>Quantity</strong>"
+msgstr "<strong>Cantidad</strong>"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "<strong>Subtotal</strong>"
+msgstr "<strong>Subtotal</strong>"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "<strong>Total</strong>"
+msgstr "<strong>Total</strong>"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "<strong>Unit Price</strong>"
+msgstr "<strong>Precio Unitario</strong>"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_needaction
+msgid "Action Needed"
+msgstr "Acción Requerida"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "Amount"
+msgstr "Importe"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_attachment_count
+msgid "Attachment Count"
+msgstr "Recuento de Adjuntos"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__categ_total
+msgid "Category Total"
+msgstr "Total de la categoría"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__create_uid
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__create_date
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__currency_id
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__date_from
+msgid "Date From"
+msgstr "Fecha de Inicio"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__date_to
+msgid "Date To"
+msgstr "Fecha final"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__description
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__name
+msgid "Description"
+msgstr "Descripción"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "Disc.(%)"
+msgstr "Des. (%)"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__discount
+msgid "Discount"
+msgstr "Descuento"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__display_name
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__display_name
+msgid "Display Name"
+msgstr "Nombre"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__display_type
+msgid "Display Type"
+msgstr "Tipo de pantalla"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "Done"
+msgstr "Listo"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields.selection,name:pb_invoice_summary.selection__pb_invoice_summary__state__draft
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__payment_due
+msgid "Due Payment"
+msgstr "Pago Adeudado"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Clientes)"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "Get Data"
+msgstr "Obtener datos"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__has_message
+msgid "Has Message"
+msgstr "Tiene mensaje"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__id
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__id
+msgid "ID"
+msgstr "Cédula o Pasaporte"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,help:pb_invoice_summary.field_pb_invoice_summary__message_needaction
+#: model:ir.model.fields,help:pb_invoice_summary.field_pb_invoice_summary__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "Si está marcado hay nuevos mensajes que requieren su atención."
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,help:pb_invoice_summary.field_pb_invoice_summary__message_has_error
+#: model:ir.model.fields,help:pb_invoice_summary.field_pb_invoice_summary__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si se encuentra marcado, algunos mensajes tienen error de envío."
+
+#. module: pb_invoice_summary
+#: model:ir.actions.report,name:pb_invoice_summary.invoice_summary_report
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__line_ids
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "Invoice Lines"
+msgstr "Líneas de factura"
+
+#. module: pb_invoice_summary
+#: model:ir.actions.act_window,name:pb_invoice_summary.action_pb_invoice_summary
+#: model:ir.model,name:pb_invoice_summary.model_pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_account_bank_statement_line__pb_invoice_summary_id
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_account_move__pb_invoice_summary_id
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_account_move_line__pb_invoice_summary_id
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_account_payment__pb_invoice_summary_id
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__pb_invoice_summary_id
+#: model:ir.ui.menu,name:pb_invoice_summary.menu_pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_list_view
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_search_view
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "Invoice Summary"
+msgstr "Resumen de la factura"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__pb_invoice_summary_categ_id
+msgid "Invoice Summary For Category"
+msgstr "Resumen de facturas por categoría"
+
+#. module: pb_invoice_summary
+#: model:ir.actions.act_window,name:pb_invoice_summary.action_pb_invoice_summary_lines
+#: model:ir.model,name:pb_invoice_summary.model_pb_invoice_summary_line
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_line_list_view
+msgid "Invoice Summary Lines"
+msgstr "Líneas de resumen de facturas"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_is_follower
+msgid "Is Follower"
+msgstr "Es un seguidor"
+
+#. module: pb_invoice_summary
+#: model:ir.model,name:pb_invoice_summary.model_account_move
+msgid "Journal Entry"
+msgstr "Entrada al diario"
+
+#. module: pb_invoice_summary
+#: model:ir.model,name:pb_invoice_summary.model_account_move_line
+msgid "Journal Item"
+msgstr "Artículo del diario"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid ""
+"Keep this print as reference further communication and procedure.\n"
+"                    Should you have any questions please contact us at your "
+"convenience.<br/><br/>\n"
+"                    Best regards,<br/>"
+msgstr ""
+"Conserve esta impresión como referencia para futuras comunicaciones y "
+"procedimientos.\n"
+"                    Si tiene alguna pregunta, comuníquese con nosotros.<br/"
+"><br/>\n"
+"                    Saludos cordiales<br/>"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary____last_update
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__write_uid
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__write_date
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__categ_line_ids
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "Lines"
+msgstr "Líneas"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Adjuntos principales"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_has_error
+msgid "Message Delivery error"
+msgstr "Error de Envío de Mensaje"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_ids
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__move_line_id
+msgid "Move"
+msgstr "Movimiento"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__move_ids
+msgid "Moves"
+msgstr "Movimientos"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de Acciones"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de Errores"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,help:pb_invoice_summary.field_pb_invoice_summary__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensajes que requieren una acción"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,help:pb_invoice_summary.field_pb_invoice_summary__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de envío"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,help:pb_invoice_summary.field_pb_invoice_summary__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Número de mensajes no leidos"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__origin
+msgid "Origin"
+msgstr "Origen"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__partner_id
+msgid "Partner"
+msgstr "Cliente"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,help:pb_invoice_summary.field_pb_invoice_summary__partner_id
+msgid "Partner-related data of the Patient"
+msgstr "Datos del cliente relacionados al paciente"
+
+#. module: pb_invoice_summary
+#: model:ir.model,name:pb_invoice_summary.model_account_payment
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__payment_ids
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__price_unit
+msgid "Price Unit"
+msgstr "Precio Unitario"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__print_date_range
+msgid "Print Date Range"
+msgstr "Rango de fecha de impresión"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__print_lines
+msgid "Print Lines"
+msgstr "Imprimir líneas"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "Print Name and Sign"
+msgstr "Imprimir nombre y firmar"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__product_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_account_move_line__pb_product_category_id
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__pb_product_category_id
+msgid "Product Category"
+msgstr "Categoría de producto"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_line_list_view
+msgid "Qty"
+msgstr "Cant"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__quantity
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "Refresh Data"
+msgstr "Actualizar datos"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "Reset to Draft"
+msgstr "Restablecer a Borrador"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Error de entrega del SMS"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields.selection,name:pb_invoice_summary.selection__pb_invoice_summary_line__display_type__line_section
+msgid "Section"
+msgstr "Sección"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,help:pb_invoice_summary.field_account_move_line__pb_product_category_id
+msgid "Select category for the current product"
+msgstr "Seleccionar categoría para el producto actual"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__state
+msgid "Status"
+msgstr "Estado"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__price_subtotal
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__amount_tax
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__tax_id
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "Taxes"
+msgstr "ITBMS"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__price_tax
+msgid "Taxes Amount"
+msgstr "Monto de los impuestos"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,help:pb_invoice_summary.field_pb_invoice_summary_line__display_type
+msgid "Technical field for UX purpose."
+msgstr "Campo técnico para fines de UX."
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__amount_total
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__price_total
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "Total"
+msgstr "Total"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__payment_total
+msgid "Total Payment"
+msgstr "Pago total"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.pb_invoice_summary_report_document
+msgid "Total Price"
+msgstr "Precio total"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary_line__product_uom_id
+msgid "Unit of Measure"
+msgstr "Unidad de medida"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_unread
+msgid "Unread Messages"
+msgstr "Mensajes no leídos"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Nº de Mensajes no leídos"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__amount_untaxed
+msgid "Untaxed Amount"
+msgstr "Monto sin impuestos"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__user_id
+msgid "User"
+msgstr "Usuario"
+
+#. module: pb_invoice_summary
+#: model_terms:ir.ui.view,arch_db:pb_invoice_summary.view_pb_invoice_summary
+msgid "View Lines"
+msgstr "Ver líneas"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,field_description:pb_invoice_summary.field_pb_invoice_summary__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del Sitio Web"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields,help:pb_invoice_summary.field_pb_invoice_summary__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicaciones del sitio web"
+
+#. module: pb_invoice_summary
+#: model:ir.model.fields.selection,name:pb_invoice_summary.selection__pb_invoice_summary__state__done
+msgid "done"
+msgstr "Listo"

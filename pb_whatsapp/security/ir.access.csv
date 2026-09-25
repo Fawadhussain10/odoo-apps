@@ -1,0 +1,14 @@
+id,name,model_id,group_id/id,operation,domain
+access_pb_send_whatsapp,access_pb_send_whatsapp,pb.send.whatsapp,base.group_user,crud,
+pb_whatsapp_announcement_company_rule,WhatsApp Announcement multi-company,pb.whatsapp.announcement,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+pb_whatsapp_announcement,pb_whatsapp_announcement,pb.whatsapp.announcement,base.group_everyone,r,
+pb_whatsapp_announcement_manager,pb_whatsapp_announcement_manager,pb.whatsapp.announcement,pb_whatsapp.group_whatsapp_manager,crud,
+pb_whatsapp_announcement_user,pb_whatsapp_announcement_user,pb.whatsapp.announcement,pb_whatsapp.group_whatsapp_user,cru,
+access_pb_whatsapp_history,access_pb_whatsapp_history,pb.whatsapp.history,base.group_user,crud,
+pb_whatsapp_message_company_rule,WhatsApp Message multi-company,pb.whatsapp.message,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_pb_whatsapp,access_pb_whatsapp,pb.whatsapp.message,base.group_everyone,cru,
+access_pb_whatsapp_manager,access_pb_whatsapp_manager,pb.whatsapp.message,pb_whatsapp.group_whatsapp_manager,crud,
+access_pb_whatsapp_user,access_pb_whatsapp_user,pb.whatsapp.message,pb_whatsapp.group_whatsapp_user,cru,
+access_pb_whatsapp_template,access_pb_whatsapp_template,pb.whatsapp.template,base.group_everyone,r,
+access_pb_whatsapp_template_manager,access_pb_whatsapp_template_manager,pb.whatsapp.template,pb_whatsapp.group_whatsapp_manager,crud,
+access_pb_whatsapp_template_user,access_pb_whatsapp_template_user,pb.whatsapp.template,pb_whatsapp.group_whatsapp_user,cru,

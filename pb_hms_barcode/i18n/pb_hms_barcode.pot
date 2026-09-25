@@ -1,0 +1,168 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_barcode
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-14 06:05+0000\n"
+"PO-Revision-Date: 2022-03-14 06:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_hms_barcode
+#: model:ir.actions.report,print_report_name:pb_hms_barcode.action_patient_barcode
+#: model:ir.actions.report,print_report_name:pb_hms_barcode.action_patient_barcode_lable
+msgid "(object.code or object.name).replace('/','_')+'_BarCode'"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_hms_appointment___barcode_scanned
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_hms_treatment___barcode_scanned
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_prescription_order___barcode_scanned
+msgid "Barcode Scanned"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.constraint,message:pb_hms_barcode.constraint_hms_patient_ean13_uniq
+msgid "Barcode must be unique!"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model_terms:ir.ui.view,arch_db:pb_hms_barcode.view_product_barcode_wizard
+msgid "Barcode patient Level"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model_terms:ir.ui.view,arch_db:pb_hms_barcode.view_product_barcode_wizard
+msgid "Cancel"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_patient_barcode_wizard__columns
+msgid "Columns"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_patient_barcode_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_patient_barcode_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_patient_barcode_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model_terms:ir.ui.view,arch_db:pb_hms_barcode.view_patient_barcode_form
+msgid "Generate Barcode"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_patient_barcode_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_patient_barcode_wizard____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_patient_barcode_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_patient_barcode_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.actions.report,name:pb_hms_barcode.action_patient_barcode
+msgid "Patient BarCode"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.actions.report,name:pb_hms_barcode.action_patient_barcode_lable
+msgid "Patient BarCode LP"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.actions.act_window,name:pb_hms_barcode.action_patient_barcode_wiz
+#: model:ir.model,name:pb_hms_barcode.model_report_pb_hms_barcode_report_patient_barcode
+msgid "Patient Barcode"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model,name:pb_hms_barcode.model_patient_barcode_wizard
+msgid "Patient Barcode Print"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_patient_barcode_wizard__starting_position
+msgid "Position"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model_terms:ir.ui.view,arch_db:pb_hms_barcode.view_product_barcode_wizard
+msgid "Print"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model_terms:ir.ui.view,arch_db:pb_hms_barcode.view_product_barcode_wizard
+msgid "Provide Quantity"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_patient_barcode_wizard__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,field_description:pb_hms_barcode.field_patient_barcode_wizard__rows
+msgid "Rows"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model_terms:ir.ui.view,arch_db:pb_hms_barcode.view_product_barcode_wizard
+msgid "Set Position Attribute"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: code:addons/pb_hms_barcode/model/patient.py:0
+#: code:addons/pb_hms_barcode/model/patient.py:0
+#: code:addons/pb_hms_barcode/model/patient.py:0
+#, python-format
+msgid "There is no patient with Barcode: %s"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: code:addons/pb_hms_barcode/model/patient.py:0
+#, python-format
+msgid ""
+"There next sequence is upper than 12 characters. This can't work.You will "
+"have to redefine the sequence or create a new one"
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model:ir.model.fields,help:pb_hms_barcode.field_hms_appointment___barcode_scanned
+#: model:ir.model.fields,help:pb_hms_barcode.field_hms_treatment___barcode_scanned
+#: model:ir.model.fields,help:pb_hms_barcode.field_prescription_order___barcode_scanned
+msgid "Value of the last barcode scanned."
+msgstr ""
+
+#. module: pb_hms_barcode
+#: model_terms:ir.ui.view,arch_db:pb_hms_barcode.view_product_barcode_wizard
+msgid "or"
+msgstr ""

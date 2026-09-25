@@ -1,0 +1,451 @@
+// PackBytes HMS — premium dashboard theme
+// Design language: soft elevated cards, left accent bar, tinted icon badges,
+// generous whitespace, subtle motion on hover.
+
+$pb-bg: #f4f6f8;
+$pb-card-bg: #ffffff;
+$pb-border: #e7eaef;
+$pb-text: #1f2937;
+$pb-text-muted: #6b7280;
+$pb-radius: 16px;
+$pb-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 2px 8px rgba(16, 24, 40, 0.06);
+$pb-shadow-hover: 0 8px 24px rgba(16, 24, 40, 0.12);
+
+.o_kanban_dashboard.o_pb_hms_kanban {
+    background: $pb-bg;
+
+    .o_kanban_record {
+        padding: 0;
+    }
+
+    &.o_kanban_ungrouped .o_kanban_record {
+        width: 99%;
+        height: auto;
+    }
+}
+
+#pb_hms_dashboard {
+    min-width: 99%;
+    padding: 20px 22px 28px;
+    color: $pb-text;
+
+    .row {
+        --bs-gutter-x: 1.25rem;
+        --bs-gutter-y: 1.25rem;
+    }
+}
+
+// ---- Filter pill group ------------------------------------------------
+#pb_hms_dashboard .btn-group[aria-label="Filters"] {
+    display: inline-flex;
+    background: $pb-card-bg;
+    border: 1px solid $pb-border;
+    border-radius: 999px;
+    padding: 4px;
+    box-shadow: $pb-shadow;
+    gap: 2px;
+
+    .btn {
+        border: none !important;
+        border-radius: 999px !important;
+        padding: 6px 18px;
+        font-size: 0.875em;
+        font-weight: 500;
+        color: $pb-text-muted;
+        background: transparent !important;
+        transition: all 0.2s ease;
+
+        &.btn-primary {
+            background: #0d9488 !important;
+            color: #fff;
+            box-shadow: 0 2px 6px rgba(13, 148, 136, 0.35);
+        }
+
+        &:hover:not(.btn-primary) {
+            background: $pb-bg !important;
+            color: $pb-text;
+        }
+    }
+}
+
+// ---- Stat cards ---------------------------------------------------------
+.pb_block {
+    min-width: 280px !important;
+}
+
+.pb-card {
+    --pb-accent: #0d9488;
+    background: $pb-card-bg;
+    border: 1px solid $pb-border;
+    border-left: 4px solid var(--pb-accent);
+    border-radius: $pb-radius;
+    box-shadow: $pb-shadow;
+    overflow: hidden;
+    height: 100%;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: $pb-shadow-hover;
+    }
+}
+
+.pb-card .card-heading {
+    background: transparent !important;
+    border: none !important;
+    padding: 20px 20px 12px !important;
+    color: $pb-text !important;
+}
+
+.pb-card .stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--pb-accent) 14%, white);
+
+    i {
+        font-size: 1.375em;
+        color: var(--pb-accent);
+    }
+}
+
+.pb-card:hover .stat-icon {
+    transform: none;
+    opacity: 1;
+    background: var(--pb-accent);
+
+    i {
+        color: #fff;
+        transform: scale(1.1);
+    }
+}
+
+.pb-card .value,
+.big-pb-number {
+    font-size: 1.85em;
+    font-weight: 700;
+    color: $pb-text !important;
+    line-height: 1.15;
+    transition: none;
+}
+
+.pb-card .title {
+    color: $pb-text-muted !important;
+    font-size: 0.8125em;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.pb-card:hover .value {
+    transform: none;
+}
+.pb-card:hover .title {
+    transform: none;
+}
+
+.pb-footer {
+    background: transparent !important;
+    border-top: 1px solid $pb-border !important;
+    padding: 10px 20px !important;
+    font-size: 0.8125em;
+    font-weight: 500;
+    color: var(--pb-accent);
+
+    i {
+        color: var(--pb-accent);
+    }
+}
+
+.pb-card a[type="object"] {
+    text-decoration: none;
+    display: block;
+}
+
+.pb-hr {
+    margin: 10px 0 8px;
+    border-top: 1px solid $pb-border;
+    opacity: 1;
+}
+
+.small {
+    font-size: 0.8125em !important;
+}
+
+.pb_medium_font {
+    color: $pb-text !important;
+    font-size: 1.125em !important;
+    font-weight: 600;
+}
+
+// ---- Appointments table --------------------------------------------------
+#appointment_list .card,
+#dashboard_graphs .pb-card {
+    border: 1px solid $pb-border;
+    border-radius: $pb-radius;
+    box-shadow: $pb-shadow;
+    overflow: hidden;
+}
+
+#appointment_list .card-header {
+    background: $pb-card-bg;
+    border-bottom: 1px solid $pb-border;
+    padding: 16px 20px;
+    font-weight: 600;
+    color: $pb-text;
+
+    a {
+        color: $pb-text;
+        text-decoration: none;
+    }
+}
+
+#appointment_list table {
+    margin-bottom: 0;
+
+    thead {
+        background: $pb-bg !important;
+
+        th {
+            border: none !important;
+            color: $pb-text-muted;
+            font-size: 0.75em;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 12px 16px;
+        }
+    }
+
+    tbody tr {
+        border-bottom: 1px solid $pb-border;
+        transition: background 0.15s ease;
+
+        &:hover {
+            background: $pb-bg;
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    td {
+        padding: 12px 16px;
+        vertical-align: middle;
+        color: $pb-text;
+        font-size: 0.9em;
+    }
+}
+
+// ---- Graph cards ----------------------------------------------------------
+#dashboard_graphs {
+    margin-top: 8px;
+
+    .pb-card {
+        border-left: 4px solid var(--pb-accent);
+    }
+
+    .card-heading {
+        padding: 20px 20px 4px !important;
+    }
+}
+
+.pb-graph-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: color-mix(in srgb, var(--pb-accent) 14%, white);
+
+    i {
+        font-size: 1.125em;
+        color: var(--pb-accent);
+    }
+}
+
+.pb-graph-title {
+    font-weight: 600;
+    color: $pb-text;
+    font-size: 0.9375em;
+}
+
+.pb-graph-subtitle {
+    color: $pb-text-muted;
+    font-size: 0.75em;
+    margin-top: 1px;
+}
+
+.pb-graph-card .o_pb_dashboard_graph {
+    padding: 8px 12px 16px;
+}
+
+.o_pb_dashboard_graph > .o_dashboard_graph.o_graph_barchart > svg {
+    height: 200px;
+    overflow: visible;
+}
+.o_pb_dashboard_graph > .o_dashboard_graph.o_graph_linechart > svg {
+    height: 200px;
+}
+.o_pb_dashboard_graph > .o_dashboard_graph.o_graph_linechart > svg g.nv-x.nv-axis {
+    transform: translateY(175px);
+}
+
+.pb-birthday-box {
+    margin-top: 2%;
+}
+
+// ---- Welcome header --------------------------------------------------------
+.pb-dash-header {
+    margin-bottom: 20px;
+    padding-bottom: 4px;
+}
+
+.pb-dash-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: $pb-text;
+    margin: 0;
+}
+
+.pb-dash-subtitle {
+    color: $pb-text-muted;
+    font-size: 0.9em;
+    margin-top: 2px;
+}
+
+// ---- Section labels ---------------------------------------------------------
+.pb-section-label {
+    font-size: 0.75em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: $pb-text-muted;
+    margin: 26px 2px 10px;
+
+    &:first-of-type {
+        margin-top: 4px;
+    }
+}
+
+// ---- Card entrance animation -------------------------------------------------
+@keyframes pb-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pb_block {
+    animation: pb-card-in 0.35s ease both;
+
+    @for $i from 1 through 12 {
+        &:nth-child(#{$i}) {
+            animation-delay: #{$i * 0.04}s;
+        }
+    }
+}
+
+// ---- Appointments card -------------------------------------------------------
+.pb-appt-card .card-header {
+    background: $pb-card-bg;
+    border-bottom: 1px solid $pb-border;
+    padding: 16px 20px;
+    font-weight: 600;
+    color: $pb-text;
+}
+
+.pb-count-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: $pb-bg;
+    color: $pb-text-muted;
+    font-size: 0.75em;
+    font-weight: 700;
+}
+
+.pb-view-all {
+    font-size: 0.8125em;
+    font-weight: 600;
+    color: #0d9488;
+    text-decoration: none;
+
+    &:hover {
+        color: #0f766e;
+    }
+}
+
+.pb-time-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: $pb-bg;
+    color: $pb-text;
+    font-size: 0.85em;
+    font-variant-numeric: tabular-nums;
+}
+
+.pb-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.75em;
+    font-weight: 600;
+}
+
+.pb-badge-success {
+    background: color-mix(in srgb, #059669 14%, white);
+    color: #059669;
+}
+.pb-badge-danger {
+    background: color-mix(in srgb, #e11d48 14%, white);
+    color: #e11d48;
+}
+.pb-badge-warning {
+    background: color-mix(in srgb, #d97706 14%, white);
+    color: #d97706;
+}
+.pb-badge-info {
+    background: color-mix(in srgb, #0891b2 14%, white);
+    color: #0891b2;
+}
+.pb-badge-primary {
+    background: color-mix(in srgb, #4f46e5 14%, white);
+    color: #4f46e5;
+}
+.pb-badge-neutral {
+    background: $pb-bg;
+    color: $pb-text-muted;
+}
+
+.pb-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+    color: $pb-text-muted;
+
+    i {
+        font-size: 2em;
+        margin-bottom: 10px;
+        opacity: 0.5;
+    }
+}

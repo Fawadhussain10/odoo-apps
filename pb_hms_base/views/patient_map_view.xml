@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_patient_map" model="ir.actions.client">
+        <field name="name">Patient Map</field>
+        <field name="tag">pb_hms_base.action_patient_map</field>
+    </record>
+
+    <menuitem id="action_main_menu_patient_map" name="Patient Map" action="action_patient_map"
+        parent="main_menu_patient" groups="pb_hms_base.group_hms_user" sequence="15"/>
+
+</odoo>

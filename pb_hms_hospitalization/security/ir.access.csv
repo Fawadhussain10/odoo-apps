@@ -1,0 +1,51 @@
+id,name,model_id,group_id/id,operation,domain
+access_hms_care_plan_template_dr,access_hms_care_plan_template,hms.care.plan.template,pb_hms.group_hms_jr_doctor,crud,
+access_hms_care_plan_template_user,access_hms_care_plan_template,hms.care.plan.template,pb_hms_base.group_hms_user,r,
+bed_comp_rule,Bed multi-company,hospital.bed,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+pb_hospital_bed_department_rule,Hospital Bed: Departments,hospital.bed,,crud,"['|', ('department_id', '=', False), ('department_id', 'in', [dep.id for dep in user.department_ids])]"
+access_hms_hospital_bed_manager,Hospital Bed Manager,hospital.bed,pb_hms_hospitalization.group_pb_hms_hospitalization_manager,crud,
+access_hms_hospital_bed_user,Hospital Bed,hospital.bed,pb_hms_hospitalization.group_pb_hms_hospitalization_user,r,
+access_hms_hospital_building_manager,Hospital Building Manager,hospital.building,pb_hms_hospitalization.group_pb_hms_hospitalization_manager,crud,
+access_hms_hospital_building_user,Hospital Building,hospital.building,pb_hms_hospitalization.group_pb_hms_hospitalization_user,r,
+ward_rule,Ward multi-company,hospital.ward,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+pb_hospital_ward_department_rule,Hospital Ward: Departments,hospital.ward,,crud,"['|', ('department_id', '=', False), ('department_id', 'in', [dep.id for dep in user.department_ids])]"
+access_hms_hospital_ward_manager,Hospital Ward Manager,hospital.ward,pb_hms_hospitalization.group_pb_hms_hospitalization_manager,crud,
+access_hms_hospital_ward_user,Hospital Ward,hospital.ward,pb_hms_hospitalization.group_pb_hms_hospitalization_user,r,
+access_inpatient_checklist_nurse,PB Inpatient Checklist Nurse,inpatient.checklist,pb_hms.group_hms_nurse,ru,
+access_inpatient_checklist_receptionist,Inpatient Checklist Executive,inpatient.checklist,pb_hms_hospitalization.group_pb_hms_hospitalization_executive,cru,
+access_inpatient_checklist_manager,Hospitalization Checklist Manager,inpatient.checklist,pb_hms_hospitalization.group_pb_hms_hospitalization_manager,crud,
+access_inpatient_checklist_user,Hospitalization Checklist,inpatient.checklist,pb_hms_hospitalization.group_pb_hms_hospitalization_user,cr,
+access_inpatient_checklist_template_nurse,Inpatient Checklist Template Nurse,inpatient.checklist.template,pb_hms.group_hms_nurse,ru,
+access_inpatient_checklist_template_receptionist,Inpatient Checklist Template Executive,inpatient.checklist.template,pb_hms_hospitalization.group_pb_hms_hospitalization_executive,cru,
+access_inpatient_checklist_template_manager,Hopsitalization Checklist Template Manager,inpatient.checklist.template,pb_hms_hospitalization.group_pb_hms_hospitalization_manager,crud,
+access_inpatient_checklist_template_user,Hospitalization Checklist Template,inpatient.checklist.template,pb_hms_hospitalization.group_pb_hms_hospitalization_user,r,
+access_hms_patient_accommodation_history_receptionist,Patient Accommodation History Executive,patient.accommodation.history,pb_hms_hospitalization.group_pb_hms_hospitalization_executive,cru,
+access_hms_patient_accommodation_history_manager,Patient Accommodation History Manager,patient.accommodation.history,pb_hms_hospitalization.group_pb_hms_hospitalization_manager,crud,
+access_hms_patient_accommodation_history_user,Patient Accommodation History,patient.accommodation.history,pb_hms_hospitalization.group_pb_hms_hospitalization_user,r,
+death_reg_comp_rule,Death Register multi-company,patient.death.register,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_patient_death_register_dr,access_patient_death_register,patient.death.register,pb_hms.group_hms_jr_doctor,crud,
+death_reg_all_rule,All Death Registers,patient.death.register,pb_hms_base.group_hms_manager,crud,
+access_patient_death_register_user,access_patient_death_register,patient.death.register,pb_hms_hospitalization.group_pb_hms_hospitalization_user,r,
+ot_comp_rule,Hospital OT multi-company,pb.hospital.ot,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_hms_pb_hospital_ot_manager,Hospital Ot Manager,pb.hospital.ot,pb_hms_hospitalization.group_pb_hms_hospitalization_manager,crud,
+access_hms_pb_hospital_ot_user,Hospital Or,pb.hospital.ot,pb_hms_hospitalization.group_pb_hms_hospitalization_user,r,
+pb_hospitalization_department_rule,Hospitalization: Departments,pb.hospitalization,,crud,"['|', ('department_id', '=', False), ('department_id', 'in', [dep.id for dep in user.department_ids])]"
+hospitalization_comp_rule,Hospitalization multi-company,pb.hospitalization,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_hms_pb_hospitalization_nurse,Hospitalization Nurse,pb.hospitalization,pb_hms.group_hms_nurse,ru,
+hms_all_hospitalization_rule,All Hospitalization Rule,pb.hospitalization,pb_hms_base.group_hms_manager,ru,
+access_hms_pb_hospitalization_manager,Hospitalization Manager,pb.hospitalization,pb_hms_hospitalization.group_pb_hms_hospitalization_manager,crud,
+access_hms_pb_hospitalization_user,Hospitalization User,pb.hospitalization,pb_hms_hospitalization.group_pb_hms_hospitalization_user,cru,
+access_pb_hospitalization_forecast,access_pb_hospitalization_forecast,pb.hospitalization.forecast,account.group_account_invoice,crud,
+access_pb_hospitalization_forecast_line,access_pb_hospitalization_forecast_line,pb.hospitalization.forecast.line,account.group_account_invoice,crud,
+access_hms_pre_ward_check_list_nurse,Pre Ward Check List Nurse,pre.ward.check.list,pb_hms.group_hms_nurse,cru,
+access_hms_pre_ward_check_list_receptionist,Pre Ward Check List Executive,pre.ward.check.list,pb_hms_hospitalization.group_pb_hms_hospitalization_executive,cru,
+access_hms_pre_ward_check_list_manager,Pre Ward Checklist Manager,pre.ward.check.list,pb_hms_hospitalization.group_pb_hms_hospitalization_manager,crud,
+access_hms_pre_ward_check_list_user,Pre Ward Checklist User,pre.ward.check.list,pb_hms_hospitalization.group_pb_hms_hospitalization_user,cr,
+access_hms_pre_ward_check_list_template_nurse,Pre Ward Check List Template Nurse,pre.ward.check.list.template,pb_hms.group_hms_nurse,cru,
+access_hms_pre_ward_check_list_template_receptionist,Pre Ward Check List Template Executive,pre.ward.check.list.template,pb_hms_hospitalization.group_pb_hms_hospitalization_executive,cru,
+access_hms_pre_ward_check_list_template_manager,Pre Ward Checklist Template Manager,pre.ward.check.list.template,pb_hms_hospitalization.group_pb_hms_hospitalization_manager,crud,
+access_hms_pre_ward_check_list_template_user,Pre Ward Checklist Template User,pre.ward.check.list.template,pb_hms_hospitalization.group_pb_hms_hospitalization_user,r,
+access_transfer_accommodation,access_transfer_accommodation,transfer.accommodation,pb_hms_hospitalization.group_pb_hms_hospitalization_executive,crud,
+access_hms_ward_rounds_nurse,Ward Rounds,ward.rounds,pb_hms.group_hms_nurse,cru,
+access_hms_ward_rounds_manager,Ward Round Manager,ward.rounds,pb_hms_hospitalization.group_pb_hms_hospitalization_manager,crud,
+access_hms_ward_rounds_user,Ward Rounds,ward.rounds,pb_hms_hospitalization.group_pb_hms_hospitalization_user,r,

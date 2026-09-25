@@ -1,0 +1,1075 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Head and Neck -->
+        <record id="symptom_headaches" model="hms.vital.symptom">
+            <field name="name">Headache</field>
+            <field name="category">head_neck</field>
+            <field name="sequence">10</field>
+            <field name="description">A painful sensation in any part of the head, ranging from sharp to dull, that may occur with other symptoms.</field>
+        </record>
+        <record id="symptom_migraine" model="hms.vital.symptom">
+            <field name="name">Migraine</field>
+            <field name="category">head_neck</field>
+            <field name="sequence">20</field>
+            <field name="description">A migraine is a headache that can cause severe throbbing pain or a pulsing sensation, usually on one side of the head. It is often accompanied by nausea, vomiting, and extreme sensitivity to light and sound.</field>
+        </record>
+        <record id="symptom_neck_pain" model="hms.vital.symptom">
+            <field name="name">Neck Pain</field>
+            <field name="category">head_neck</field>
+            <field name="sequence">30</field>
+            <field name="description">Pain in the neck and shoulder that varies in intensity, and may feel achy or like an electric shock from the neck to the arm.</field>
+        </record>
+        <record id="symptom_limited_neck_movements" model="hms.vital.symptom">
+            <field name="name">Limited Neck Movements</field>
+            <field name="category">head_neck</field>
+            <field name="sequence">40</field>
+            <field name="description">Impaired or limited neck flexion has a variety of causes and usually involves actions that require you to look down often.</field>
+        </record>
+        <record id="symptom_head_trauma" model="hms.vital.symptom">
+            <field name="name">Head Trauma</field>
+            <field name="category">head_neck</field>
+            <field name="sequence">50</field>
+            <field name="description">Brain dysfunction caused by an outside force, usually a violent blow to the head.</field>
+        </record>
+        <record id="symptom_dizziness" model="hms.vital.symptom">
+            <field name="name">Dizziness</field>
+            <field name="category">head_neck</field>
+            <field name="sequence">60</field>
+            <field name="description">Altered sense of balance and place, possibly described as lightheaded, feeling faint or as if head is spinning.</field>
+        </record>
+        <record id="symptom_drowsiness" model="hms.vital.symptom">
+            <field name="name">Drowsiness</field>
+            <field name="category">head_neck</field>
+            <field name="sequence">70</field>
+            <field name="description">Strong desire for sleep and feeling of drowsiness.</field>
+        </record>
+        <record id="symptom_headedness" model="hms.vital.symptom">
+            <field name="name">Headedness</field>
+            <field name="category">head_neck</field>
+            <field name="sequence">80</field>
+            <field name="description">Feeling dizzy or about to pass out.</field>
+        </record>
+        <record id="symptom_enlarged_cervical_ln" model="hms.vital.symptom">
+            <field name="name">Enlarged Cervical LN</field>
+            <field name="category">head_neck</field>
+            <field name="sequence">90</field>
+            <field name="description">This article looks at the symptoms and causes of swollen lymph nodes in your neck.</field>
+        </record>
+        <record id="symptom_painful_cervical_ln" model="hms.vital.symptom">
+            <field name="name">Painful cervical LN</field>
+            <field name="category">head_neck</field>
+            <field name="sequence">100</field>
+            <field name="description">Pain in the neck and shoulder that varies in intensity, and may feel achy or like an electric shock from the neck to the arm.</field>
+        </record>
+
+        <!-- ENT -->
+        <record id="symptom_earache" model="hms.vital.symptom">
+            <field name="name">Earache</field>
+            <field name="category">ent</field>
+            <field name="sequence">10</field>
+            <field name="description">Pain in the inner or outer ear that may interfere with ability to hear, often caused by excess fluid and infection.</field>
+        </record>
+        <record id="symptom_tinnitus" model="hms.vital.symptom">
+            <field name="name">Tinnitus</field>
+            <field name="category">ent</field>
+            <field name="sequence">20</field>
+            <field name="description">Ringing or buzzing noise in one or both ears that may be constant or come and go, often associated with hearing loss.</field>
+        </record>
+        <record id="symptom_low_hearing_equity" model="hms.vital.symptom">
+            <field name="name">Low Hearing Equity</field>
+            <field name="category">ent</field>
+            <field name="sequence">30</field>
+            <field name="description">Hearing loss is common as we age but hearing aid use, the primary approach to managing hearing loss, is not. Nationally, only about 15-20% of older adults with hearing loss use hearing aids.</field>
+        </record>
+        <record id="symptom_clogged_ears" model="hms.vital.symptom">
+            <field name="name">Clogged Ears</field>
+            <field name="category">ent</field>
+            <field name="sequence">40</field>
+            <field name="description">Ear pain can have causes that are&#x27;t due to underlying disease.</field>
+        </record>
+        <record id="symptom_lot_of_ear_wax" model="hms.vital.symptom">
+            <field name="name">Lot Of EarWax</field>
+            <field name="category">ent</field>
+            <field name="sequence">50</field>
+            <field name="description">People who produce a lot of earwax are more likely to have an earwax blockage and impaction, which is where the wax gets pushed deep inside the ear canal.</field>
+        </record>
+        <record id="symptom_runny_nose" model="hms.vital.symptom">
+            <field name="name">Runny Nose</field>
+            <field name="category">ent</field>
+            <field name="sequence">60</field>
+            <field name="description">Excess drainage, ranging from a clear fluid to thick mucus, from the nose and nasal passages.</field>
+        </record>
+        <record id="symptom_blocked_nose" model="hms.vital.symptom">
+            <field name="name">Blocked Nose</field>
+            <field name="category">ent</field>
+            <field name="sequence">70</field>
+            <field name="description">Nasal passages swollen with excess fluid and mucus, may be triggered by infection, tobacco smoke or perfume.</field>
+        </record>
+        <record id="symptom_stuffy_nose" model="hms.vital.symptom">
+            <field name="name">Stuffy Nose</field>
+            <field name="category">ent</field>
+            <field name="sequence">80</field>
+            <field name="description">Nasal passages swollen with excess fluid and mucus, may be triggered by infection, tobacco smoke or perfume.</field>
+        </record>
+        <record id="symptom_epistaxis" model="hms.vital.symptom">
+            <field name="name">Epistaxis</field>
+            <field name="category">ent</field>
+            <field name="sequence">90</field>
+            <field name="description">Bleeding from the nose, either spontaneous or induced by nose picking or trauma.</field>
+        </record>
+        <record id="symptom_sneezing" model="hms.vital.symptom">
+            <field name="name">Sneezing</field>
+            <field name="category">ent</field>
+            <field name="sequence">100</field>
+            <field name="description">A sudden blast of air or mucus expelled from the mouth and nose.</field>
+        </record>
+        <record id="symptom_sore_throat" model="hms.vital.symptom">
+            <field name="name">Sore throat</field>
+            <field name="category">ent</field>
+            <field name="sequence">110</field>
+            <field name="description">Pain or irritation in the throat that can occur with or without swallowing, often accompanies infections, such as a cold or flu.</field>
+        </record>
+        <record id="symptom_itching_dry_throat" model="hms.vital.symptom">
+            <field name="name">Itching Dry Throat</field>
+            <field name="category">ent</field>
+            <field name="sequence">120</field>
+            <field name="description">Dry throat is a rough, scratchy, sometimes itchy feeling in the throat.</field>
+        </record>
+        <record id="symptom_swallowing_pain" model="hms.vital.symptom">
+            <field name="name">Swallowing pain</field>
+            <field name="category">ent</field>
+            <field name="sequence">130</field>
+            <field name="description">Pain when swallowing food or liquids.</field>
+        </record>
+        <record id="symptom_pharyngitis" model="hms.vital.symptom">
+            <field name="name">Pharyngitis</field>
+            <field name="category">ent</field>
+            <field name="sequence">140</field>
+            <field name="description">Pain or irritation in the throat that can occur with or without swallowing, often accompanies infections, such as a cold or flu.</field>
+        </record>
+        <record id="symptom_tonsillitis" model="hms.vital.symptom">
+            <field name="name">Tonsillitis</field>
+            <field name="category">ent</field>
+            <field name="sequence">150</field>
+            <field name="description">Tonsillitis is inflammation of the tonsils, two oval-shaped pads of tissue at the back of the throat — one tonsil on each side.</field>
+        </record>
+        <record id="symptom_rhinitis" model="hms.vital.symptom">
+            <field name="name">Rhinitis</field>
+            <field name="category">ent</field>
+            <field name="sequence">160</field>
+            <field name="description">Irritation and swelling of the mucous membrane in the nose.</field>
+        </record>
+        <record id="symptom_sinusitis" model="hms.vital.symptom">
+            <field name="name">Sinusitis</field>
+            <field name="category">ent</field>
+            <field name="sequence">170</field>
+            <field name="description">Sinusitis is an inflammation of the sinuses that can cause them to get blocked and filled with fluid. It is usually caused by cold or allergies.</field>
+        </record>
+        <record id="symptom_ear_drum_redness" model="hms.vital.symptom">
+            <field name="name">Ear drum redness</field>
+            <field name="category">ent</field>
+            <field name="sequence">180</field>
+            <field name="description">Otitis externa is a condition that causes inflammation (redness and swelling) of the external ear canal, which is the tube between the outer ear and eardrum.</field>
+        </record>
+        <record id="symptom_painful_ear_auricle" model="hms.vital.symptom">
+            <field name="name">Painful ear auricle</field>
+            <field name="category">ent</field>
+            <field name="sequence">190</field>
+            <field name="description">Outer ear pain can most commonly be caused by environmental conditions such as water exposure or extreme cold weather that can lead to frostbite of the outer ear.</field>
+        </record>
+        <record id="symptom_swollen_ear_lobule" model="hms.vital.symptom">
+            <field name="name">Swollen ear lobule</field>
+            <field name="category">ent</field>
+            <field name="sequence">200</field>
+            <field name="description">Swelling can have causes that aren not due to underlying disease. </field>
+        </record>
+        <record id="symptom_ear_rash" model="hms.vital.symptom">
+            <field name="name">Ear rash</field>
+            <field name="category">ent</field>
+            <field name="sequence">210</field>
+            <field name="description">Different skin conditions, such as contact dermatitis and psoriasis, can cause rashes to appear behind the ears.</field>
+        </record>
+        <record id="symptom_post_nasal_drip" model="hms.vital.symptom">
+            <field name="name">Postnasal drip</field>
+            <field name="category">ent</field>
+            <field name="sequence">220</field>
+            <field name="description">Secretions from the nose that drain down into the throat, causing congestion and cough. Postnasal drip is usually caused by allergies or the common cold.</field>
+        </record>
+        <record id="symptom_vertigo" model="hms.vital.symptom">
+            <field name="name">Vertigo</field>
+            <field name="category">ent</field>
+            <field name="sequence">230</field>
+            <field name="description">A sudden internal or external spinning sensation, often triggered by moving your head too quickly.</field>
+        </record>
+        <record id="symptom_hearing_loss" model="hms.vital.symptom">
+            <field name="name">Hearing loss</field>
+            <field name="category">ent</field>
+            <field name="sequence">240</field>
+            <field name="description">Total or significant loss of hearing.</field>
+        </record>
+
+        <!-- Eye -->
+        <record id="symptom_eye_redness" model="hms.vital.symptom">
+            <field name="name">Eye redness</field>
+            <field name="category">eye</field>
+            <field name="sequence">10</field>
+            <field name="description">Eye redness from irritated or inflamed blood vessels on the surface of the white part of the eye, commonly called bloodshot eyes.</field>
+        </record>
+        <record id="symptom_conjunctivitis" model="hms.vital.symptom">
+            <field name="name">Conjunctivitis</field>
+            <field name="category">eye</field>
+            <field name="sequence">20</field>
+            <field name="description">Inflammation or infection of the outer membrane of the eyeball and the inner eyelid.</field>
+        </record>
+        <record id="symptom_red_eye_lid" model="hms.vital.symptom">
+            <field name="name">Red eyelid</field>
+            <field name="category">eye</field>
+            <field name="sequence">30</field>
+            <field name="description">Allergies, infections, and even crying can cause your eyelids to redden.</field>
+        </record>
+        <record id="symptom_swollen_eye_lid" model="hms.vital.symptom">
+            <field name="name">Swollen eyelid</field>
+            <field name="category">eye</field>
+            <field name="sequence">40</field>
+            <field name="description">Eyelid swelling is the enlargement of either or both the lower and upper eyelids, on one or both eyes.</field>
+        </record>
+        <record id="symptom_eye_lid_pimple" model="hms.vital.symptom">
+            <field name="name">Eyelid pimple</field>
+            <field name="category">eye</field>
+            <field name="sequence">50</field>
+            <field name="description">Most bumps on the eyelid are styes.</field>
+        </record>
+        <record id="symptom_squint" model="hms.vital.symptom">
+            <field name="name">Squint</field>
+            <field name="category">eye</field>
+            <field name="sequence">60</field>
+            <field name="description">A squint, also called strabismus, is where the eyes point in different directions.</field>
+        </record>
+        <record id="symptom_low_visual_equity" model="hms.vital.symptom">
+            <field name="name">Low visual equity</field>
+            <field name="category">eye</field>
+            <field name="sequence">70</field>
+            <field name="description">Here is one definition of low vision, related to visual acuity: Low vision is a condition caused by eye disease.</field>
+        </record>
+        <record id="symptom_lacrimation" model="hms.vital.symptom">
+            <field name="name">Lacrimation</field>
+            <field name="category">eye</field>
+            <field name="sequence">80</field>
+            <field name="description">Tears are a clear liquid secreted by the lacrimal glands found in the eyes of all land mammals.</field>
+        </record>
+        <record id="symptom_dry_eye" model="hms.vital.symptom">
+            <field name="name">Dry eye</field>
+            <field name="category">eye</field>
+            <field name="sequence">90</field>
+            <field name="description">Dry eye that occurs when tears are not able to provide adequate moisture.</field>
+        </record>
+        <record id="symptom_itching_eye" model="hms.vital.symptom">
+            <field name="name">Itching eye</field>
+            <field name="category">eye</field>
+            <field name="sequence">100</field>
+            <field name="description">The most common cause of itchy eyes is an allergy. Itchy eyes can be triggered by exposure to pollen, animal fur, mould, dust mites, make-up or eye drops</field>
+        </record>
+        <record id="symptom_painful_eye" model="hms.vital.symptom">
+            <field name="name">Painful eye</field>
+            <field name="category">eye</field>
+            <field name="sequence">110</field>
+            <field name="description">Eye pain can have causes that are not due to underlying disease.</field>
+        </record>
+        <record id="symptom_eye_secretions" model="hms.vital.symptom">
+            <field name="name">Eye secretions</field>
+            <field name="category">eye</field>
+            <field name="sequence">120</field>
+            <field name="description">Eye discharge primarily consists of thin, watery mucus produced by the conjunctiva (called mucin), and meibum — an oily substance secreted by the meibomian glands which helps keep your eyes lubricated between blinks.</field>
+        </record>
+        <record id="symptom_swollen_eye" model="hms.vital.symptom">
+            <field name="name">Swollen eye</field>
+            <field name="category">eye</field>
+            <field name="sequence">130</field>
+            <field name="description">The most common cause of eyelid swelling is allergies, either by direct contact with the allergen or from a systemic allergic reaction.</field>
+        </record>
+        <record id="symptom_eye_skin_color_change" model="hms.vital.symptom">
+            <field name="name">Eye skin color change</field>
+            <field name="category">eye</field>
+            <field name="sequence">140</field>
+            <field name="description">Dark eyelids occur when the skin surrounding the upper eye region darkens in color.</field>
+        </record>
+
+        <!-- Chest & Heart -->
+        <record id="symptom_chest_tightness" model="hms.vital.symptom">
+            <field name="name">Chest tightness</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">10</field>
+            <field name="description">Chest tightness describes any discomfort that occurs between your lower neck and upper belly area. Tightness in the chest may be felt all over the chest area or located in one spot or several spots in the chest. Chest tightness can occur in any age group.</field>
+        </record>
+        <record id="symptom_chest_compression" model="hms.vital.symptom">
+            <field name="name">Chest compression</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">20</field>
+            <field name="description">Chest compression is the act of applying pressure to someone&#x27;s chest in order to help blood flow through the heart in an emergency situation. Give one breath of mouth-to-mouth resuscitation, followed by five chest compressions.</field>
+        </record>
+        <record id="symptom_shortness_of_breath" model="hms.vital.symptom">
+            <field name="name">Shortness of breath</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">30</field>
+            <field name="description">Difficult or laboured breathing.</field>
+        </record>
+        <record id="symptom_dyspnea" model="hms.vital.symptom">
+            <field name="name">Dyspnea</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">40</field>
+            <field name="description">Dyspnea, also called shortness of breath, is a tight feeling in your chest where you may not be able to take a deep breath.</field>
+        </record>
+        <record id="symptom_wet_cough" model="hms.vital.symptom">
+            <field name="name">Wet cough</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">50</field>
+            <field name="description">A wet cough, also known as a productive cough, is any cough that produces mucus (phlegm). It may feel like you have something stuck in your chest or the back of your throat.</field>
+        </record>
+        <record id="symptom_yellow_green_phlegm" model="hms.vital.symptom">
+            <field name="name">Yellow, green phlegm</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">60</field>
+            <field name="description">Phlegm is a type of mucus made in your chest. You typically don’t produce noticeable amounts of phlegm unless you are sick with a cold or have some other underlying medical issue.</field>
+        </record>
+        <record id="symptom_hemoptysis" model="hms.vital.symptom">
+            <field name="name">Hemoptysis</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">70</field>
+            <field name="description">Small amounts of blood mixed with sputum (or more seriously, large amounts of bright red blood) brought up by a forceful cough.</field>
+        </record>
+        <record id="symptom_wheezy_chest" model="hms.vital.symptom">
+            <field name="name">Wheezy chest</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">80</field>
+            <field name="description">Wheezing is usually caused by an obstruction (blockage) or narrowing of the small bronchial tubes in the chest.</field>
+        </record>
+        <record id="symptom_chest_crepitation" model="hms.vital.symptom">
+            <field name="name">Chest crepitation</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">90</field>
+            <field name="description">Bibasilar crackles are a bubbling or crackling sound originating from the base of the lungs. They may occur when the lungs inflate or deflate.</field>
+        </record>
+        <record id="symptom_chest_crackles" model="hms.vital.symptom">
+            <field name="name">Chest crackles</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">100</field>
+            <field name="description">Bibasilar crackles are abnormal sounds from the base of the lungs.</field>
+        </record>
+        <record id="symptom_chest_deformity" model="hms.vital.symptom">
+            <field name="name">Chest deformity</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">110</field>
+            <field name="description">A chest wall deformity is a structural abnormality of the chest that can range from mild to severe.</field>
+        </record>
+        <record id="symptom_palpitations" model="hms.vital.symptom">
+            <field name="name">Chest &amp; Heart Palpitations</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">120</field>
+            <field name="description">A sensation that the heart is racing, pounding, fluttering or skipping a beat, often bothersome, but hardly ever a sign of heart disease.</field>
+        </record>
+        <record id="symptom_heart_murmurs" model="hms.vital.symptom">
+            <field name="name">Heart murmurs</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">130</field>
+            <field name="description">Sound of blood flowing through the heart, due to anything from healthy heart exertion during exercise to a diseased heart valve or other abnormality.</field>
+        </record>
+        <record id="symptom_orthopnea" model="hms.vital.symptom">
+            <field name="name">Orthopnea</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">140</field>
+            <field name="description">Orthopnea is a shortness of breath that affects a person when they are lying down but subsides in other positions, such as standing or sitting up.</field>
+        </record>
+        <record id="symptom_cardio_thoracic_scar" model="hms.vital.symptom">
+            <field name="name">Cardio-thoracic scar</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">150</field>
+            <field name="description">relating to, involving, or specializing in the heart and chest cardiothoracic surgery.</field>
+        </record>
+        <record id="symptom_dry_cough" model="hms.vital.symptom">
+            <field name="name">Dry Cough</field>
+            <field name="category">chest_heart</field>
+            <field name="sequence">160</field>
+            <field name="description">A nonproductive cough, also known as a dry cough, doesn&#x27;t produce phlegm or mucus.</field>
+        </record>
+
+        <!-- GIT -->
+        <record id="symptom_epigastric_pain" model="hms.vital.symptom">
+            <field name="name">Epigastric pain</field>
+            <field name="category">git</field>
+            <field name="sequence">10</field>
+            <field name="description">Epigastric pain is a name for pain or discomfort right below your ribs in the area of your upper abdomen.</field>
+        </record>
+        <record id="symptom_heartburn" model="hms.vital.symptom">
+            <field name="name">Heartburn</field>
+            <field name="category">git</field>
+            <field name="sequence">20</field>
+            <field name="description">Heartburn is a symptom of a common medical condition (GERD) that affects up to 20% of the population.</field>
+        </record>
+        <record id="symptom_gastric_regurgitation" model="hms.vital.symptom">
+            <field name="name">Gastric regurgitation</field>
+            <field name="category">git</field>
+            <field name="sequence">30</field>
+            <field name="description">Gastroesophageal reflux disease (GERD) occurs when stomach acid frequently flows back into the tube connecting your mouth and stomach.</field>
+        </record>
+        <record id="symptom_right_upper_quadrant_pain" model="hms.vital.symptom">
+            <field name="name">Right upper quadrant pain</field>
+            <field name="category">git</field>
+            <field name="sequence">40</field>
+            <field name="description">Right upper quadrant (RUQ) pain is a common complaint that typically stimulates a workup of the hepatobiliary system.</field>
+        </record>
+        <record id="symptom_left_upper_quadrant_pain" model="hms.vital.symptom">
+            <field name="name">Left upper quadrant pain</field>
+            <field name="category">git</field>
+            <field name="sequence">50</field>
+            <field name="description">Left upper quadrant (RUQ) pain is a common complaint that typically stimulates a workup of the hepatobiliary system.</field>
+        </record>
+        <record id="symptom_right_lower_quadrant_pain" model="hms.vital.symptom">
+            <field name="name">Right lower quadrant pain</field>
+            <field name="category">git</field>
+            <field name="sequence">60</field>
+            <field name="description">Right lower quadrant (RUQ) pain is a common complaint that typically stimulates a workup of the hepatobiliary system.</field>
+        </record>
+        <record id="symptom_left_lower_quadrant_pain" model="hms.vital.symptom">
+            <field name="name">Left lower quadrant pain</field>
+            <field name="category">git</field>
+            <field name="sequence">70</field>
+            <field name="description">Left lower quadrant (RUQ) pain is a common complaint that typically stimulates a workup of the hepatobiliary system.</field>
+        </record>
+        <record id="symptom_para_umbilical_pain" model="hms.vital.symptom">
+            <field name="name">Para-umbilical pain</field>
+            <field name="category">git</field>
+            <field name="sequence">80</field>
+            <field name="description">Periumbilical pain is a type of abdominal pain that is localized in the region around or behind your belly button.</field>
+        </record>
+        <record id="symptom_distention" model="hms.vital.symptom">
+            <field name="name">Distention</field>
+            <field name="category">git</field>
+            <field name="sequence">90</field>
+            <field name="description">The state of being distended, enlarged, swollen from internal pressure. For example, on inhalation there is distention of the lungs due to the increased air pressure within the lungs</field>
+        </record>
+        <record id="symptom_diarrhea" model="hms.vital.symptom">
+            <field name="name">Diarrhea</field>
+            <field name="category">git</field>
+            <field name="sequence">100</field>
+            <field name="description">loose, watery and possibly more-frequent bowel movements — is a common problem.</field>
+        </record>
+        <record id="symptom_constipation" model="hms.vital.symptom">
+            <field name="name">Constipation</field>
+            <field name="category">git</field>
+            <field name="sequence">110</field>
+            <field name="description">Chronic constipation is infrequent bowel movements or difficult passage of stools that persists for several weeks or longer.</field>
+        </record>
+        <record id="symptom_abdominal_gases" model="hms.vital.symptom">
+            <field name="name">Abdominal Gases</field>
+            <field name="category">git</field>
+            <field name="sequence">120</field>
+            <field name="description">Intestinal gas, a buildup of air in the digestive tract, is usually not noticed until you burp or pass it rectally.</field>
+        </record>
+        <record id="symptom_abdominal_scar" model="hms.vital.symptom">
+            <field name="name">Abdominal scar</field>
+            <field name="category">git</field>
+            <field name="sequence">130</field>
+            <field name="description">Abdominal adhesions are scar tissue that forms between abdominal tissues and organs that causes your tissues and organs to stick together.</field>
+        </record>
+        <record id="symptom_blood_in_stool" model="hms.vital.symptom">
+            <field name="name">Blood in stool</field>
+            <field name="category">git</field>
+            <field name="sequence">140</field>
+            <field name="description">Hematochezia and melena both refer to having blood in your stool. While hematochezia causes bright red blood to appear in or around your stool, melena causes dark stools that often feel sticky.</field>
+        </record>
+        <record id="symptom_abdominal_pain" model="hms.vital.symptom">
+            <field name="name">Abdominal Pain</field>
+            <field name="category">git</field>
+            <field name="sequence">150</field>
+            <field name="description">Abdominal pain can be referred to as visceral pain or peritoneal pain. The contents of the abdomen can be divided into the foregut, midgut, and hindgut.</field>
+        </record>
+        <record id="symptom_nausea" model="hms.vital.symptom">
+            <field name="name">Nausea</field>
+            <field name="category">git</field>
+            <field name="sequence">160</field>
+            <field name="description">Stomach queasiness, the urge to vomit. Nausea can be brought on by many causes, including systemic illnesses, medications, pain, and inner ear disease.</field>
+        </record>
+        <record id="symptom_vomiting" model="hms.vital.symptom">
+            <field name="name">Vomiting</field>
+            <field name="category">git</field>
+            <field name="sequence">170</field>
+            <field name="description">The act of vomiting is also called emesis. From the Indo-European root wem- (to vomit), the source of the words such as emetic and wamble.</field>
+        </record>
+
+        <!-- Surgery -->
+        <record id="symptom_hemorrhoids" model="hms.vital.symptom">
+            <field name="name">Hemorrhoids(Piles)</field>
+            <field name="category">surgery</field>
+            <field name="sequence">10</field>
+            <field name="description">Hemorrhoids (HEM-uh-roids), also called piles.</field>
+        </record>
+        <record id="symptom_anal_fissures" model="hms.vital.symptom">
+            <field name="name">Anal fissures</field>
+            <field name="category">surgery</field>
+            <field name="sequence">20</field>
+            <field name="description">An anal fissure is a small tear in the thin, moist tissue (mucosa) that lines the anus.</field>
+        </record>
+        <record id="symptom_gluteal_pimple" model="hms.vital.symptom">
+            <field name="name">Gluteal pimple</field>
+            <field name="category">surgery</field>
+            <field name="sequence">30</field>
+            <field name="description">What people refer to as butt acne is typically a different condition. The medical term is folliculitis. Folliculitis affects the hair follicles rather than the pores of the skin.</field>
+        </record>
+        <record id="symptom_abscess" model="hms.vital.symptom">
+            <field name="name">Abscess</field>
+            <field name="category">surgery</field>
+            <field name="sequence">40</field>
+            <field name="description">A local accumulation of pus anywhere in the body.</field>
+        </record>
+        <record id="symptom_pimples" model="hms.vital.symptom">
+            <field name="name">Pimples</field>
+            <field name="category">surgery</field>
+            <field name="sequence">50</field>
+            <field name="description">This is the medical term for acne, or pimples.</field>
+        </record>
+        <record id="symptom_cut_wound" model="hms.vital.symptom">
+            <field name="name">Cut wound</field>
+            <field name="category">surgery</field>
+            <field name="sequence">60</field>
+            <field name="description">A cut is a break or opening in the skin. It is also called a laceration. A cut may be deep, smooth, or jagged. It may be near the surface of the skin, or deeper.</field>
+        </record>
+        <record id="symptom_surgical_wound" model="hms.vital.symptom">
+            <field name="name">Surgical wound</field>
+            <field name="category">surgery</field>
+            <field name="sequence">70</field>
+            <field name="description">An incision is a cut through the skin that is made during surgery. It is also called a surgical wound.</field>
+        </record>
+        <record id="symptom_bedsores" model="hms.vital.symptom">
+            <field name="name">Bedsores</field>
+            <field name="category">surgery</field>
+            <field name="sequence">80</field>
+            <field name="description">Bedsores are ulcers that happen on areas of the skin that are under pressure from lying in bed, sitting in a wheelchair, or wearing a cast for a prolonged time.</field>
+        </record>
+        <record id="symptom_diabetic_foot" model="hms.vital.symptom">
+            <field name="name">Diabetic foot</field>
+            <field name="category">surgery</field>
+            <field name="sequence">90</field>
+            <field name="description">Diabetic foot is a condition in which foot ulcers form on patients with diabetes. People with diabetic foot ulcers (DFUs) have a decreased quality of life and an 8% higher incidence of needing a lower extremity amputation (LEA) in the future.</field>
+        </record>
+        <record id="symptom_varicose_veins" model="hms.vital.symptom">
+            <field name="name">Varicose veins</field>
+            <field name="category">surgery</field>
+            <field name="sequence">100</field>
+            <field name="description"> A vein that has enlarged and twisted, often appearing as a bulging, blue blood vessel that is clearly visible through the skin.</field>
+        </record>
+        <record id="symptom_cesarean_section" model="hms.vital.symptom">
+            <field name="name">Cesarean section</field>
+            <field name="category">surgery</field>
+            <field name="sequence">110</field>
+            <field name="description">Cesarean delivery (C-section) is a surgical procedure used to deliver a baby through incisions in the abdomen and uterus.</field>
+        </record>
+        <record id="symptom_furuncles" model="hms.vital.symptom">
+            <field name="name">Furuncles</field>
+            <field name="category">surgery</field>
+            <field name="sequence">120</field>
+            <field name="description">“Furuncle” is another word for a “boil.” Boils are bacterial infections of hair follicles that also involve the surrounding tissue.</field>
+        </record>
+
+        <!-- Urinary & gynecology -->
+        <record id="symptom_renal_colic" model="hms.vital.symptom">
+            <field name="name">Renal colic</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">10</field>
+            <field name="description">Renal colic is a type of pain you get when urinary stones block part of your urinary tract.</field>
+        </record>
+        <record id="symptom_loin_pain" model="hms.vital.symptom">
+            <field name="name">Loin pain</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">20</field>
+            <field name="description">which is a medical term for blood in the urine.</field>
+        </record>
+        <record id="symptom_dysuria" model="hms.vital.symptom">
+            <field name="name">Dysuria</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">30</field>
+            <field name="description">Dysuria means you feel pain or a burning sensation when you pee.</field>
+        </record>
+        <record id="symptom_frequency" model="hms.vital.symptom">
+            <field name="name">Frequency</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">40</field>
+            <field name="description">The number of occurrences of a periodic or recurrent process in a unit of time, such as the number of electrical cycles per second measured in hertz.</field>
+        </record>
+        <record id="symptom_urgency" model="hms.vital.symptom">
+            <field name="name">Urgency</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">50</field>
+            <field name="description">Urgency is an abrupt, strong, often overwhelming, need to urinate.</field>
+        </record>
+        <record id="symptom_lower_middle_abdominal_pain" model="hms.vital.symptom">
+            <field name="name">Lower middle abdominal pain</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">60</field>
+            <field name="description">Everyone experiences abdominal pain from time to time. Other terms used to describe abdominal pain are stomachache, tummy ache, gut ache and bellyache.</field>
+        </record>
+        <record id="symptom_dark_urine" model="hms.vital.symptom">
+            <field name="name">Dark urine</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">70</field>
+            <field name="description">This condition is called rhabdomyolysis, and it can turn your urine brown. If you have brown urine because of rhabdo, you might also notice: Muscle pain. Muscle weakness.</field>
+        </record>
+        <record id="symptom_cutting_urination" model="hms.vital.symptom">
+            <field name="name">Cutting urination</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">80</field>
+        </record>
+        <record id="symptom_bloody_urine" model="hms.vital.symptom">
+            <field name="name">Bloody urine</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">90</field>
+            <field name="description">Blood in the urine may range from very obvious to microscopic and not visible at all.</field>
+        </record>
+        <record id="symptom_dysmenorrhea" model="hms.vital.symptom">
+            <field name="name">Dysmenorrhea</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">100</field>
+            <field name="description">Cramps and pelvic pain with menstruation, with common causes such as heavy flow, passing clots, uterine fibroids or endometriosis.</field>
+        </record>
+        <record id="symptom_hemorrhagia" model="hms.vital.symptom">
+            <field name="name">Hemorrhagia</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">110</field>
+            <field name="description">The release of blood from a broken blood vessel, either inside or outside the body.</field>
+        </record>
+        <record id="symptom_missed_pills" model="hms.vital.symptom">
+            <field name="name">Missed pills</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">120</field>
+            <field name="description">A combination pill is “missed” if you do not take it for 24 or more hours after you were supposed to. In other words, you&#x27;ve only technically missed a pill, if it&#x27;s been more than 48 hours since your last active pill.</field>
+        </record>
+        <record id="symptom_irregular_menstruation" model="hms.vital.symptom">
+            <field name="name">Irregular menstruation</field>
+            <field name="category">urinary_gynec</field>
+            <field name="sequence">130</field>
+            <field name="description">Missed, delayed or erratic periods or abnormal bleeding patterns.</field>
+        </record>
+
+        <!-- Orthopedic & Neuro -->
+        <record id="symptom_fatigue" model="hms.vital.symptom">
+            <field name="name">Fatigue</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">10</field>
+            <field name="description">Feeling overtired, with low energy and a strong desire to sleep that interferes with normal daily activities.</field>
+        </record>
+        <record id="symptom_general_weakness" model="hms.vital.symptom">
+            <field name="name">General weakness</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">20</field>
+            <field name="description">Asthenia, also known as weakness, is the feeling of body fatigue or tiredness. A person experiencing weakness may not be able to move a certain part of their body properly.</field>
+        </record>
+        <record id="symptom_low_energy" model="hms.vital.symptom">
+            <field name="name">Low energy</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">30</field>
+            <field name="description">Fatigue is a feeling of weariness, tiredness, or lack of energy</field>
+        </record>
+        <record id="symptom_general_body_aches" model="hms.vital.symptom">
+            <field name="name">General body aches</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">40</field>
+        </record>
+        <record id="symptom_muscle_pain" model="hms.vital.symptom">
+            <field name="name">Muscle pain</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">50</field>
+            <field name="description">The medical term for muscle pain is myalgia. Myalgia can be described as muscle pains, aches, and pain associated with ligaments, tendons, and the soft tissues that connect bones, organs, and muscles.</field>
+        </record>
+        <record id="symptom_low_back_pain" model="hms.vital.symptom">
+            <field name="name">Low back pain</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">60</field>
+            <field name="description">Low back pain (LBP) or lumbago is a common disorder involving the muscles, nerves, and bones of the back. Pain can vary from a dull constant ache to a sudden sharp feeling.</field>
+        </record>
+        <record id="symptom_upper_back_pain" model="hms.vital.symptom">
+            <field name="name">Upper back pain</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">70</field>
+            <field name="description">Upper back pain occurs in the thoracic spine, which is often described as the upper back, middle back, or mid-back.</field>
+        </record>
+        <record id="symptom_shoulder_pain" model="hms.vital.symptom">
+            <field name="name">Shoulder pain</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">80</field>
+            <field name="description">Physical discomfort of the shoulder, including the joint itself or the muscles, tendons and ligaments that support the joint.</field>
+        </record>
+        <record id="symptom_lower_limb_pain" model="hms.vital.symptom">
+            <field name="name">Lower limb pain</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">90</field>
+            <field name="description">Most leg pain results from wear and tear, overuse, or injuries in joints or bones or in muscles, ligaments, tendons or other soft tissues.</field>
+        </record>
+        <record id="symptom_hip_joint_pain" model="hms.vital.symptom">
+            <field name="name">Hip joint pain</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">100</field>
+            <field name="description">Physical discomfort in the hip, which varies from mild to severe.</field>
+        </record>
+        <record id="symptom_knee_joint_pain" model="hms.vital.symptom">
+            <field name="name">Knee joint pain</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">110</field>
+            <field name="description">Pain in or around the knee that may indicate a condition affecting the knee joint itself or the soft tissue around the knee.</field>
+        </record>
+        <record id="symptom_elbow_joint_pain" model="hms.vital.symptom">
+            <field name="name">Elbow joint pain</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">120</field>
+            <field name="description">Elbow pain can have causes that aren&#x27;t due to underlying disease. Examples include prolonged pressure or leaning on elbows, trying a new exercise such as tennis, local trauma, desk work, sprains or strains.</field>
+        </record>
+        <record id="symptom_ankle_joint_pain" model="hms.vital.symptom">
+            <field name="name">Ankle joint pain</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">130</field>
+            <field name="description">Ankle pain can have causes that aren&#x27;t due to underlying disease. Examples include poorly fitting footwear such as ski boots, high heels, sprains, strains, overuse, lack of use or trauma.</field>
+        </record>
+        <record id="symptom_ankle_twist" model="hms.vital.symptom">
+            <field name="name">Ankle twist</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">140</field>
+            <field name="description">An injury that occurs when the ankle rolls, twists or turns in an awkward way.</field>
+        </record>
+        <record id="symptom_joint_swelling" model="hms.vital.symptom">
+            <field name="name">Joint swelling</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">150</field>
+            <field name="description">joints swelling happen when there&#x27;s an increase of fluid in the tissues that surround the joints. Joint swelling is common with different types of arthritis, infections, and injuries.</field>
+        </record>
+        <record id="symptom_foot_oedema" model="hms.vital.symptom">
+            <field name="name">Foot oedema</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">160</field>
+            <field name="description">standing or sitting in the same position for too long.</field>
+        </record>
+        <record id="symptom_lowe_limb_oedema" model="hms.vital.symptom">
+            <field name="name">Lower limb oedema</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">170</field>
+            <field name="description">Lower limb edema is a common and challenging diagnostic problem often with a significant impact. It is defined as swelling caused by an increase in interstitial fluid that exceeds the capacity of physiologic lymphatic drainage.</field>
+        </record>
+        <record id="symptom_numbness" model="hms.vital.symptom">
+            <field name="name">Numbness</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">180</field>
+            <field name="description">Numbness is a loss of feeling or sensation in an area of the body.</field>
+        </record>
+        <record id="symptom_tingling" model="hms.vital.symptom">
+            <field name="name">Tingling</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">190</field>
+            <field name="description">Tingling (paresthesia) is an unusual sensation most commonly felt in your hands, feet, arms and legs</field>
+        </record>
+        <record id="symptom_paresthesia" model="hms.vital.symptom">
+            <field name="name">Paresthesia</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">200</field>
+            <field name="description">Paresthesia is numbness or a burning feeling that occurs most often in the extremities, such as the hands, arms, legs, or feet, but that can happen elsewhere in the body as well. It is the same “pins and needles” feeling that happens when someone sits on their leg or foot for too long.</field>
+        </record>
+        <record id="symptom_neuropathic_pain" model="hms.vital.symptom">
+            <field name="name">Neuropathic pain</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">210</field>
+            <field name="description">Neuropathic pain can happen if your nervous system is damaged or not working correctly.</field>
+        </record>
+        <record id="symptom_weak_reflexes" model="hms.vital.symptom">
+            <field name="name">Weak reflexes</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">220</field>
+            <field name="description">When reflex responses are absent this could be a clue that the spinal cord, nerve root, peripheral nerve, or muscle has been damaged.</field>
+        </record>
+        <record id="symptom_limitation_of_movements" model="hms.vital.symptom">
+            <field name="name">Limitation of movements</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">230</field>
+            <field name="description">The restriction of movement or range of motion of a part or joint, esp. that imposed by disease or trauma to joints and soft tissues.</field>
+        </record>
+        <record id="symptom_psychic_trauma" model="hms.vital.symptom">
+            <field name="name">Psychic trauma</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">240</field>
+            <field name="description">psychic trauma a psychologically upsetting experience that produces an emotional or mental disorder or otherwise has lasting negative effects on a person&#x27;s thoughts, feelings, or behavior.</field>
+        </record>
+        <record id="symptom_general_anxiety" model="hms.vital.symptom">
+            <field name="name">General anxiety</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">250</field>
+            <field name="description">Generalized anxiety is a mental disorder in which a person is often worried or anxious about many things and finds it hard to control this anxiety.</field>
+        </record>
+        <record id="symptom_hemiplegia" model="hms.vital.symptom">
+            <field name="name">Hemiplegia</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">260</field>
+            <field name="description">Hemiplegia (sometimes called hemiparesis) is a condition, caused by a brain injury, that results in a varying degree of weakness, stiffness (spasticity) and lack of control in one side of the body.</field>
+        </record>
+        <record id="symptom_paraplegia" model="hms.vital.symptom">
+            <field name="name">Paraplegia</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">270</field>
+            <field name="description">Paralysis of the lower half of your body, including both legs, is called paraplegia. Paralysis of the arms and legs is quadriplegia.</field>
+        </record>
+        <record id="symptom_quadriplegia" model="hms.vital.symptom">
+            <field name="name">Quadriplegia</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">280</field>
+        </record>
+        <record id="symptom_depression_red_flag" model="hms.vital.symptom">
+            <field name="name">Depression red flag</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">290</field>
+            <field name="description">Aches and pains – Experiencing headaches, muscle pain or stomach aches for no reason.</field>
+        </record>
+        <record id="symptom_autistic_red_flag" model="hms.vital.symptom">
+            <field name="name">Autistic red flag</field>
+            <field name="category">ortho_neuro</field>
+            <field name="sequence">300</field>
+        </record>
+
+        <!-- Mouth -->
+        <record id="symptom_mouth_sores" model="hms.vital.symptom">
+            <field name="name">Mouth sores</field>
+            <field name="category">mouth</field>
+            <field name="sequence">10</field>
+            <field name="description">One or more painful sores on inner lips, gums, tongue, roof of the mouth or throat that may interfere with eating, such as a canker sore.</field>
+        </record>
+        <record id="symptom_tongue_sores" model="hms.vital.symptom">
+            <field name="name">Tongue sores</field>
+            <field name="category">mouth</field>
+            <field name="sequence">20</field>
+            <field name="description">Inflammation of the tongue is medically known as glossitis.</field>
+        </record>
+        <record id="symptom_oral_blisters" model="hms.vital.symptom">
+            <field name="name">Oral blisters</field>
+            <field name="category">mouth</field>
+            <field name="sequence">30</field>
+            <field name="description">Mouth ulcers — also known as canker sores — are normally small, painful lesions that develop in your mouth or at the base of your gums.</field>
+        </record>
+        <record id="symptom_white_colored_tongue" model="hms.vital.symptom">
+            <field name="name">White colored tongue</field>
+            <field name="category">mouth</field>
+            <field name="sequence">40</field>
+            <field name="description">White tongue is the result of an overgrowth and swelling of the fingerlike projections (papillae) on the surface of your tongue.</field>
+        </record>
+        <record id="symptom_strawberry_tongue" model="hms.vital.symptom">
+            <field name="name">Strawberry tongue</field>
+            <field name="category">mouth</field>
+            <field name="sequence">50</field>
+            <field name="description">a tongue that is red from swollen congested papillae and that occurs especially in scarlet fever and Kawasaki disease.</field>
+        </record>
+        <record id="symptom_geographic_tongue" model="hms.vital.symptom">
+            <field name="name">Geographic tongue</field>
+            <field name="category">mouth</field>
+            <field name="sequence">60</field>
+            <field name="description">Geographic tongue results from the loss of tiny hairlike projections (papillae) on your tongue&#x27;s surface.</field>
+        </record>
+        <record id="symptom_oral_white_patches" model="hms.vital.symptom">
+            <field name="name">Oral white patches</field>
+            <field name="category">mouth</field>
+            <field name="sequence">70</field>
+            <field name="description">Leukoplakia appears as thick, white patches on the inside surfaces of your mouth. It has a number of possible causes, including repeated injury or irritation.</field>
+        </record>
+        <record id="symptom_teething" model="hms.vital.symptom">
+            <field name="name">Teething</field>
+            <field name="category">mouth</field>
+            <field name="sequence">80</field>
+            <field name="description">Teething is the emergence of the primary (baby) teeth through a baby or child&#x27;s gums.</field>
+        </record>
+        <record id="symptom_dental_pain" model="hms.vital.symptom">
+            <field name="name">Dental pain</field>
+            <field name="category">mouth</field>
+            <field name="sequence">90</field>
+            <field name="description">Dental pain, also known as Toothache, is pain in the teeth or their supporting structures, caused by dental diseases or pain referred to the teeth by non-dental diseases.</field>
+        </record>
+        <record id="symptom_toothache" model="hms.vital.symptom">
+            <field name="name">Toothache</field>
+            <field name="category">mouth</field>
+            <field name="sequence">100</field>
+            <field name="description">Toothache, also known as dental pain, is pain in the teeth or their supporting structures, caused by dental diseases or pain referred to the teeth by non-dental diseases.</field>
+        </record>
+        <record id="symptom_dental_cares" model="hms.vital.symptom">
+            <field name="name">Dental cares</field>
+            <field name="category">mouth</field>
+            <field name="sequence">110</field>
+            <field name="description">Dental caries or cavities, more commonly known as tooth decay, are caused by a breakdown of the tooth enamel.</field>
+        </record>
+        <record id="symptom_oral_bad_odor" model="hms.vital.symptom">
+            <field name="name">Oral bad odor</field>
+            <field name="category">mouth</field>
+            <field name="sequence">120</field>
+            <field name="description">Halitosis is an oral health problem where the main symptom is bad smelling breath.</field>
+        </record>
+        <record id="symptom_mouth_angles_fissures" model="hms.vital.symptom">
+            <field name="name">Mouth angles fissures</field>
+            <field name="category">mouth</field>
+            <field name="sequence">130</field>
+            <field name="description">Angular cheilitis is a condition that causes red, swollen patches in the corners of your mouth where your lips meet and make an angle.Other names for it are perleche and angular stomatitis.</field>
+        </record>
+
+        <!-- Skin -->
+        <record id="symptom_skin_rash" model="hms.vital.symptom">
+            <field name="name">Skin rash</field>
+            <field name="category">skin</field>
+            <field name="sequence">10</field>
+            <field name="description">Medically, a rash is referred to as an exanthem.</field>
+        </record>
+        <record id="symptom_blisters" model="hms.vital.symptom">
+            <field name="name">Blisters</field>
+            <field name="category">skin</field>
+            <field name="sequence">20</field>
+            <field name="description">A collection of fluid underneath the top layer of skin (epidermis).</field>
+        </record>
+        <record id="symptom_red_patches" model="hms.vital.symptom">
+            <field name="name">Red patches</field>
+            <field name="category">skin</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="symptom_dry_skin" model="hms.vital.symptom">
+            <field name="name">Dry skin</field>
+            <field name="category">skin</field>
+            <field name="sequence">40</field>
+            <field name="description">Dry skin occurs when your skin loses too much water and oil. Dry skin is common and can affect anyone at any age. The medical term for dry skin is xerosis.</field>
+        </record>
+        <record id="symptom_fissured_skin" model="hms.vital.symptom">
+            <field name="name">Fissured skin</field>
+            <field name="category">skin</field>
+            <field name="sequence">50</field>
+            <field name="description">Skin fissures are cracks in the skin that form due to intense dryness and thickened skin.</field>
+        </record>
+        <record id="symptom_redness" model="hms.vital.symptom">
+            <field name="name">Redness</field>
+            <field name="category">skin</field>
+            <field name="sequence">60</field>
+            <field name="description">Redness of the skin that results from capillary congestion. Erythema can occur with inflammation, as in sunburn and allergic reactions to drugs.</field>
+        </record>
+        <record id="symptom_itching" model="hms.vital.symptom">
+            <field name="name">Itching</field>
+            <field name="category">skin</field>
+            <field name="sequence">70</field>
+            <field name="description">Itching is medically known as pruritis; something that is itchy is pruritic.</field>
+        </record>
+        <record id="symptom_burns" model="hms.vital.symptom">
+            <field name="name">Burns</field>
+            <field name="category">skin</field>
+            <field name="sequence">80</field>
+            <field name="description">Burns are tissue damage that results from heat, overexposure to the sun or other radiation, or chemical or electrical contact.</field>
+        </record>
+        <record id="symptom_scars" model="hms.vital.symptom">
+            <field name="name">Scars</field>
+            <field name="category">skin</field>
+            <field name="sequence">90</field>
+            <field name="description">The fibrous tissue replacing normal tissues destroyed by injury or disease. Sometimes called cicatrix.</field>
+        </record>
+        <record id="symptom_hair_loss" model="hms.vital.symptom">
+            <field name="name">Hair loss</field>
+            <field name="category">skin</field>
+            <field name="sequence">100</field>
+            <field name="description"> Loss of hair as a result of illness, functional disorder, or hereditary disposition.</field>
+        </record>
+        <record id="symptom_hair_cracking" model="hms.vital.symptom">
+            <field name="name">Hair cracking</field>
+            <field name="category">skin</field>
+            <field name="sequence">110</field>
+            <field name="description">stress fracture. (redirected from Hairline crack)</field>
+        </record>
+        <record id="symptom_nails_cracking" model="hms.vital.symptom">
+            <field name="name">Nails cracking</field>
+            <field name="category">skin</field>
+            <field name="sequence">120</field>
+            <field name="description">A split nail is usually caused by physical stress, nutrient deficiency, or wear and tear. Split nails can be a problem, especially if you work with your hands.</field>
+        </record>
+        <record id="symptom_nails_fungal_infection" model="hms.vital.symptom">
+            <field name="name">Nails fungal infection</field>
+            <field name="category">skin</field>
+            <field name="sequence">130</field>
+        </record>
+        <record id="symptom_over_sweating" model="hms.vital.symptom">
+            <field name="name">Over sweating</field>
+            <field name="category">skin</field>
+            <field name="sequence">140</field>
+            <field name="description">Hyperhidrosis is a medical condition in which a person sweats excessively and unpredictably.</field>
+        </record>
+        <record id="symptom_skin_crackles" model="hms.vital.symptom">
+            <field name="name">Skin crackles</field>
+            <field name="category">skin</field>
+            <field name="sequence">150</field>
+            <field name="description">Crepitus is grating, crackling or popping sounds and sensations experienced under the skin and joints or a crackling sensation due to the presence of air in the subcutaneous tissue.</field>
+        </record>
+        <record id="symptom_lips_fissures" model="hms.vital.symptom">
+            <field name="name">Lips fissures</field>
+            <field name="category">skin</field>
+            <field name="sequence">160</field>
+        </record>
+        <record id="symptom_swollen_lips" model="hms.vital.symptom">
+            <field name="name">Swollen lips</field>
+            <field name="category">skin</field>
+            <field name="sequence">170</field>
+        </record>
+
+        <!-- Miscellaneous -->
+        <record id="symptom_general_checkup" model="hms.vital.symptom">
+            <field name="name">General checkup</field>
+            <field name="category">misc</field>
+            <field name="sequence">10</field>
+            <field name="description"> a medical examination to test your general state of health</field>
+        </record>
+        <record id="symptom_new_born_baby_checkup" model="hms.vital.symptom">
+            <field name="name">New born baby checkup</field>
+            <field name="category">misc</field>
+            <field name="sequence">20</field>
+            <field name="description">Taking your baby for regular medical checkups can help keep your baby healthy. </field>
+        </record>
+        <record id="symptom_preschool_checkup" model="hms.vital.symptom">
+            <field name="name">Preschool checkup</field>
+            <field name="category">misc</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="symptom_laboratory_checkup" model="hms.vital.symptom">
+            <field name="name">Laboratory checkup</field>
+            <field name="category">misc</field>
+            <field name="sequence">40</field>
+            <field name="description">A medical procedure that involves testing a sample of blood, urine, or other substance from the body.</field>
+        </record>
+        <record id="symptom_teleconsultation" model="hms.vital.symptom">
+            <field name="name">Teleconsultation</field>
+            <field name="category">misc</field>
+            <field name="sequence">50</field>
+            <field name="description">Teleconsultation, sometimes referred to as remote consultation or telehealth, refers to interactions that happen between a clinician and a patient for the purpose of providing diagnostic or therapeutic advice through electronic means.</field>
+        </record>
+        <record id="symptom_second_opinion_consultation" model="hms.vital.symptom">
+            <field name="name">Second opinion consultation</field>
+            <field name="category">misc</field>
+            <field name="sequence">60</field>
+            <field name="description">In medicine, the opinion of a doctor other than the patient&#x27;s current doctor. ... A second opinion may confirm or question the first doctor&#x27;s diagnosis and treatment plan, give more information about the patient&#x27;s disease or condition, and offer other treatment options.</field>
+        </record>
+        <record id="symptom_referral_request" model="hms.vital.symptom">
+            <field name="name">Referral request</field>
+            <field name="category">misc</field>
+            <field name="sequence">70</field>
+            <field name="description">A written order from your primary care doctor for you to see a specialist or get certain medical services.</field>
+        </record>
+        <record id="symptom_sick_leave_request" model="hms.vital.symptom">
+            <field name="name">Sick leave request</field>
+            <field name="category">misc</field>
+            <field name="sequence">80</field>
+            <field name="description">an absence from work permitted because of illness.</field>
+        </record>
+        <record id="symptom_medical_certificate_request" model="hms.vital.symptom">
+            <field name="name">Medical certificate request</field>
+            <field name="category">misc</field>
+            <field name="sequence">90</field>
+            <field name="description">A medical certificate or doctor&#x27;s certificate is a written statement from a physician or another medically qualified health care provider which attests to the result of a medical examination of a patient.</field>
+        </record>
+        <record id="symptom_medical_advice_request" model="hms.vital.symptom">
+            <field name="name">Medical advice request</field>
+            <field name="category">misc</field>
+            <field name="sequence">100</field>
+            <field name="description">Guidance or recommendations from a doctor, nurse, or other healthcare professional regarding a person&#x27;s health or fitness. &#x27;seek medical advice in the event of further symptoms&#x27;</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,56 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_commission
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0-20211110\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-18 00:03+0000\n"
+"PO-Revision-Date: 2021-11-18 08:30-0500\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0\n"
+"Last-Translator: \n"
+"Language: es_PA\n"
+
+#. module: pb_hms_commission
+#: model:ir.model,name:pb_hms_commission.model_hms_appointment
+msgid "Appointment"
+msgstr "Cita"
+
+#. module: pb_hms_commission
+#: model:ir.ui.menu,name:pb_hms_commission.menu_pb_hms_commission
+#: model_terms:ir.ui.view,arch_db:pb_hms_commission.view_physician_form
+msgid "Business Commissions"
+msgstr "Comisiones de la empresa"
+
+#. module: pb_hms_commission
+#: model:ir.model.fields.selection,name:pb_hms_commission.selection__account_move__hospital_invoice_type__commission
+msgid "Commission"
+msgstr "Comisión"
+
+#. module: pb_hms_commission
+#: model_terms:ir.ui.view,arch_db:pb_hms_commission.view_physician_form
+msgid "Commissions"
+msgstr "Comisiones"
+
+#. module: pb_hms_commission
+#: model:ir.model.fields,field_description:pb_hms_commission.field_account_bank_statement_line__hospital_invoice_type
+#: model:ir.model.fields,field_description:pb_hms_commission.field_account_move__hospital_invoice_type
+#: model:ir.model.fields,field_description:pb_hms_commission.field_account_payment__hospital_invoice_type
+msgid "Hospital Invoice Type"
+msgstr "Tipo de factura hospitalaria"
+
+#. module: pb_hms_commission
+#: model:ir.model,name:pb_hms_commission.model_account_move
+msgid "Journal Entry"
+msgstr "Entrada al diario"
+
+#. module: pb_hms_commission
+#: model:ir.model,name:pb_hms_commission.model_hms_physician
+msgid "Physician"
+msgstr "Profesional"

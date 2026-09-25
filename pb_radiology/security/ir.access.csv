@@ -1,0 +1,31 @@
+id,name,model_id,group_id/id,operation,domain
+accsess_patient_portal,hms.patient portal,hms.patient,base.group_portal,r,
+radiology_test_comp_rule,Patient Radiology Test multi-company,patient.radiology.test,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+accsess_patient_radiology_test_portal,accsess_patient_radiology_test_portal,patient.radiology.test,base.group_portal,r,"['|',('radiology_request_id.patient_id.partner_id','=',user.commercial_partner_id.id),('patient_id.partner_id','=',user.commercial_partner_id.id)]"
+access_patient_radiology_test_user,Patient Radiology Test user,patient.radiology.test,pb_hms_base.group_hms_user,r,
+access_patient_radiology_test_radiology_manager,Patient Radiology Test  manager,patient.radiology.test,pb_radiology.group_hms_radiology_manager,crud,
+access_patient_radiology_test_radiology_user,Patient Radiology Test phy,patient.radiology.test,pb_radiology.group_hms_radiology_user,cru,
+pb_radiology_comp_rule,Radiology multi-company,pb.radiology,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_pb_radiology_user,Radiology User,pb.radiology,pb_hms_base.group_hms_user,r,
+access_pb_radiology_radiology_user,Radiology Radiology User,pb.radiology,pb_radiology.group_hms_radiology_user,crud,
+radiology_req_cal_comp_rule,Radiology Request multi-company,pb.radiology.request,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+accsess_radiology_request_portal,accsess_radiology_request_portal,pb.radiology.request,base.group_portal,cu,
+accsess_radiology_request_portal_2,accsess_radiology_request_portal,pb.radiology.request,base.group_portal,r,"[('patient_id.partner_id','=',user.commercial_partner_id.id)]"
+access_hms_pb_radiology_request_user,Patient Radiology Request User,pb.radiology.request,pb_hms_base.group_hms_user,r,
+access_hms_pb_radiology_request_radiology_manager,patient lab Request manager,pb.radiology.request,pb_radiology.group_hms_radiology_manager,crud,
+access_hms_pb_radiology_request_radiology_user,patient lab Request user,pb.radiology.request,pb_radiology.group_hms_radiology_user,cru,
+radiology_comp_rule,Radiology Test multi-company,pb.radiology.test,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+accsess_radiology_test_portal,accsess_radiology_test_portal,pb.radiology.test,base.group_portal,r,
+access_hms_pb_radiology_test_user,Test Type user,pb.radiology.test,pb_hms_base.group_hms_user,r,
+access_hms_pb_radiology_test_radiology_manager,PB Test Type manager,pb.radiology.test,pb_radiology.group_hms_radiology_manager,crud,
+access_hms_patient_radiology_test_radiology_user,PB Radiology phy,pb.radiology.test,pb_radiology.group_hms_radiology_user,cru,
+access_pb_radiology_test_uom_user,Radiology UOM User,pb.radiology.test.uom,pb_hms_base.group_hms_user,r,
+access_pb_radiology_test_uom_radiology_manager,Radiology UOM Manager,pb.radiology.test.uom,pb_radiology.group_hms_radiology_manager,crud,
+access_pb_radiology_test_uom_radiology_user,Radiology UOM Radiology User,pb.radiology.test.uom,pb_radiology.group_hms_radiology_user,cru,
+access_radiology_group,access_radiology_group,radiology.group,base.group_user,r,
+access_radiology_group_manager,access_radiology_group,radiology.group,pb_radiology.group_hms_radiology_manager,crud,
+access_radiology_group_line,access_radiology_group_line,radiology.group.line,pb_hms_base.group_hms_user,r,
+access_radiology_group_line_manager,access_radiology_group_line,radiology.group.line,pb_radiology.group_hms_radiology_manager,crud,
+access_hms_radiology_request_line_portal,Patient Radiology Request Line Portal,radiology.request.line,base.group_portal,cru,
+access_hms_radiology_request_line_user,PB Patient Radiology Request line user,radiology.request.line,pb_hms_base.group_hms_user,r,
+access_hms_radiology_request_line_radiology_user,PB Patient Radiology Request line  phy,radiology.request.line,pb_radiology.group_hms_radiology_user,crud,

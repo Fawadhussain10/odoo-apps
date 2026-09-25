@@ -1,0 +1,74 @@
+///
+/// This file regroups the backend general design
+/// rules.
+///
+
+.pb-right-chat {
+  position: relative;
+  background: paleturquoise;
+  text-align: right;
+  min-width: 55%;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  float: right;
+  right: 20px;
+}
+
+.pb-right-chat::before {
+  content: '';
+  position: absolute;
+  visibility: visible;
+  top: -1px;
+  right: -10px;
+  border: 10px solid transparent;
+  border-top: 10px solid #ccc;
+}
+
+.pb-right-chat::after {
+  content: '';
+  position: absolute;
+  visibility: visible;
+  top: 0px;
+  right: -8px;
+  border: 10px solid transparent;
+  border-top: 10px solid paleturquoise;
+  clear: both;
+}
+
+.pb-left-chat {
+  position: relative;
+  background: paleturquoise;
+  text-align: left;
+  min-width: 55%;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  float: left;
+  left: 20px;
+}
+
+.pb-left-chat::before {
+  content: '';
+  position: absolute;
+  visibility: visible;
+  top: -1px;
+  left: -10px;
+  border: 10px solid transparent;
+  border-top: 10px solid #ccc;
+}
+
+.pb-left-chat::after {
+  content: '';
+  position: absolute;
+  visibility: visible;
+  top: 0px;
+  left: -8px;
+  border: 10px solid transparent;
+  border-top: 10px solid paleturquoise;
+  clear: both;
+}
+
+.pb-chat-name {
+	font-size: 10px;
+}

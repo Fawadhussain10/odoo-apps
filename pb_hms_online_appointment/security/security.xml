@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="group_hms_online_appointment_manager" model="res.groups">
+            <field name="name">Online Appointment Manager</field>
+            <field name="implied_ids" eval="[(4, ref('pb_hms.group_hms_receptionist'))]"/>
+            <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="pb_hms_base.group_hms_manager" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('pb_hms_online_appointment.group_hms_online_appointment_manager'))]"/>
+        </record>
+
+    </data>
+    <data noupdate="0">
+
+        <!-- See Own Appointment Schedule & Slot & Lines -->
+
+        <!-- Do not add rule on line to avoid issue for portal and receptionist -->
+
+        <!-- For Manager -->
+
+
+        <!-- For portal User -->
+
+    </data>
+</odoo>

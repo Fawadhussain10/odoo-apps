@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+pb_video_call_hms_user_rule,Video Call: HMS Users Meetings,pb.video.call,pb_hms_base.group_hms_user,crud,"['|'] + ['|','|',('appointment_id','!=',False),('user_id','=',user.id),('partner_ids', 'in', user.partner_id.id)] + ['|',('user_id','=',user.id),('partner_ids', 'in', user.partner_id.id)]"

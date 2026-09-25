@@ -1,0 +1,26 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_subscription_physiotherapy
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-14 06:05+0000\n"
+"PO-Revision-Date: 2022-03-14 06:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_hms_subscription_physiotherapy
+#: model:ir.model,name:pb_hms_subscription_physiotherapy.model_pb_physiotherapy
+msgid "Physiotherapy"
+msgstr ""
+
+#. module: pb_hms_subscription_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_subscription_physiotherapy.field_pb_physiotherapy__subscription_id
+msgid "Subscription"
+msgstr ""

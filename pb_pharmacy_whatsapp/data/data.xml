@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="pb_pharmacy_order_template" model="pb.whatsapp.template">
+            <field name="name">PharmacyOrder</field>
+            <field name="body_message_type">TEXT</field>
+            <field name="body_message">Thank you for visiting {{ object.company_id.name }}, Your order {{ object.name }} is processed and total order amount is {{ object.amount_total }}. Sent by PackBytes</field>
+        </record>
+
+        <record id="base.main_company" model="res.company">
+            <field name="pb_pharmacy_order_template_id" ref="pb_pharmacy_order_template"/>
+        </record>
+
+    </data>
+</odoo>

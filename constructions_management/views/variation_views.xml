@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_construction_variation_list" model="ir.ui.view">
+        <field name="name">construction.variation.list</field>
+        <field name="model">construction.variation</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'approved'" decoration-danger="state == 'rejected'">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="responsibility"/>
+                <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-danger="state == 'rejected'"/>
+                <field name="total_cost_effect" sum="Total Cost Effect"/>
+                <field name="total_revenue_effect" sum="Total Revenue Effect"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_variation_form" model="ir.ui.view">
+        <field name="name">construction.variation.form</field>
+        <field name="model">construction.variation</field>
+        <field name="arch" type="xml">
+            <form class="o_constructions_management">
+                <header>
+                    <button name="action_submit_technical_review" string="Send to Technical Review" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_submit_commercial_eval" string="Send to Commercial Evaluation" type="object" invisible="state != 'technical_review'" class="btn-primary"/>
+                    <button name="action_submit_internal_approval" string="Send to Internal Approval" type="object" invisible="state != 'commercial_eval'" class="btn-primary"/>
+                    <button name="action_submit_customer_approval" string="Send to Customer Approval" type="object" invisible="state != 'internal_approval'" class="btn-primary"/>
+                    <button name="action_approve" string="Approve Variation" type="object" invisible="state != 'customer_approval'" class="btn-primary"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="state in ('approved','rejected')"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft" type="object" invisible="state in ('draft','approved')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,technical_review,commercial_eval,internal_approval,customer_approval,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                        <h3><field name="code" readonly="1"/></h3>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="boq_id"/>
+                            <field name="responsibility"/>
+                        </group>
+                        <group>
+                            <field name="requested_by"/>
+                            <field name="date_raised"/>
+                            <field name="total_cost_effect"/>
+                            <field name="total_revenue_effect"/>
+                            <field name="total_schedule_effect_days"/>
+                        </group>
+                    </group>
+                    <field name="reason" placeholder="Reason for the change request..."/>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="boq_line_id"/>
+                            <field name="orig_qty"/>
+                            <field name="revised_qty"/>
+                            <field name="delta_qty"/>
+                            <field name="orig_rate"/>
+                            <field name="revised_rate"/>
+                            <field name="cost_effect" sum="Total"/>
+                            <field name="revised_customer_rate"/>
+                            <field name="revenue_effect" sum="Total"/>
+                            <field name="schedule_effect_days"/>
+                            <field name="reason"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_variation" model="ir.actions.act_window">
+        <field name="name">Variations</field>
+        <field name="res_model">construction.variation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

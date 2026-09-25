@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <record id="pb_hospitalization_category" model="ir.module.category">
+        <field name="name">Hospitalization</field>
+        <field name="description">Manage Hospitalization operations.</field>
+        <field name="sequence">10</field>
+        <field name="parent_id" ref="pb_hms_base.module_category_hms"/>
+    </record>
+
+    <record id="group_pb_hms_hospitalization_user" model="res.groups">
+        <field name="name">Hospitalization User</field>
+        <field name="implied_ids" eval="[(4, ref('pb_hms_surgery.group_pb_hms_surgery_user'))]"/>
+    </record>
+
+    <record id="group_pb_hms_hospitalization_executive" model="res.groups">
+        <field name="name">Hospitalization Executive</field>
+        <field name="implied_ids" eval="[(4, ref('pb_hms_hospitalization.group_pb_hms_hospitalization_user'))]"/>
+    </record>
+
+    <record id="group_pb_hms_hospitalization_manager" model="res.groups">
+        <field name="name">Hospitalization Manager</field>
+        <field name="implied_ids" eval="[(4, ref('pb_hms_hospitalization.group_pb_hms_hospitalization_executive'))]"/>
+    </record>
+    
+    <data noupdate="1">
+
+
+
+
+
+
+
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="patient_portal_layout" inherit_id="portal.side_content">
+        <xpath expr="//div[@t-field='user_id.partner_id']" position="before">
+            <img t-attf-src="/web/image/res.partner/{{user_id.partner_id.id}}/image_1920/400x400" t-att-alt="user_id.partner_id.name" class="img img-fluid mx-auto mt8 mb8"/>
+        </xpath>
+    </template>
+
+    <!-- Odoo 19 replaced portal.portal_my_details / portal.portal_my_details_fields
+         with a completely different address-form template system
+         (portal.address_form_fields etc., see addons/portal/views/address_templates.xml).
+         The old inline image-upload field injected here no longer has a
+         matching form to attach to, so it's dropped rather than force-fit
+         against the new system. The profile photo itself still displays via
+         the patient_portal_layout template above; portal users just can't
+         upload their own photo from My Details anymore. -->
+
+</odoo>

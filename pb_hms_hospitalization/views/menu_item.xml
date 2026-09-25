@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    
+    <menuitem name="Hospitalization" id="pb_inpatient_menu" parent="pb_hms.menu_hms" sequence="2" groups="pb_hms_hospitalization.group_pb_hms_hospitalization_user"/>
+    <menuitem id="pb_conf_inpatient_add" name="Hospitalization" action="pb_action_form_inpatient" parent="pb_hms_hospitalization.pb_inpatient_menu" sequence="1"/>
+
+    <!-- Hospitalization --> 
+    <menuitem id="main_menu_hospitalization" name="Hospitalization" sequence="26" groups="pb_hms_hospitalization.group_pb_hms_hospitalization_user" web_icon="pb_hms_hospitalization,static/description/icon.png"/>
+
+    <menuitem id="menu_hospitalization" name="Hospitalization" action="pb_action_form_inpatient" parent="main_menu_hospitalization"/>
+
+    <menuitem id="pb_health_surgery" name="Surgery" action="pb_hms_surgery.action_hms_surgery" parent="main_menu_hospitalization" groups="pb_hms.group_hms_nurse"/>
+
+    <menuitem id="menuitem_action_hos_bed" name="Beds" parent="main_menu_hospitalization" action="action_bed" groups="pb_hms_hospitalization.group_pb_hms_hospitalization_executive"/>
+
+    <menuitem id="menuitem_action_ward" name="Wards/Rooms" parent="main_menu_hospitalization" action="actions_ward" groups="pb_hms_hospitalization.group_pb_hms_hospitalization_executive"/>
+
+    <menuitem id="menuitem_action_death_register" name="Death Register" parent="main_menu_hospitalization" action="hms_action_death_register" groups="pb_hms_hospitalization.group_pb_hms_hospitalization_executive"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_hospitalization_cofig" name="Configuration" parent="main_menu_hospitalization" sequence="50" groups="pb_hms_hospitalization.group_pb_hms_hospitalization_manager"/>
+
+    <!-- Health Center -->
+    <menuitem id="health_center" name="Health Center" parent="menu_hospitalization_cofig" sequence="45"/>
+    <menuitem id="hos_building" name="Hospital Building" parent="health_center" action="act_open_hospital_building_view"/>
+    <menuitem id="hos_ot" name="Hospital Operation Theater" parent="health_center" action="act_open_pb_hospital_ot"/>
+
+    <!-- Checklists -->
+    <menuitem id="checklist_configuration" name="Checklists" parent="menu_hospitalization_cofig" sequence="50"/>
+    <menuitem id="conf_check_list12" name="Admission Checklist" parent="checklist_configuration" action="action_check_list_conf_view12" />
+    <menuitem id="conf_ward_check_list" name="Pre-Ward Checklist" parent="checklist_configuration" action="action_ward_check_list_conf_view" />
+
+    <!-- Surgery -->
+    <menuitem id="pb_health_surgery_template" name="Surgery Template" action="pb_hms_surgery.action_hms_surgery_template" parent="menu_hospitalization_cofig" sequence="27" />
+    <menuitem id="pb_care_plan_template" name="Care Plan Template" action="pb_hms_hospitalization.view_pb_care_plan_action" parent="menu_hospitalization_cofig" sequence="30" />    
+
+</odoo>

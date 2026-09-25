@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Project-scoped visibility: base-tier users (site engineer/storekeeper/estimator/
+        procurement) only see records of projects they manage or are a team member of.
+        Manager/finance/admin/auditor tiers see everything (combined with OR per Odoo's rule
+        evaluation, since "manager" group membership implies "user" group membership too).
+    -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--
+        Further transactional models get the same pattern added alongside their model definitions
+        in later stages.
+    -->
+</odoo>

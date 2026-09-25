@@ -1,0 +1,180 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_dental_chart
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-20 09:38+0000\n"
+"PO-Revision-Date: 2022-07-20 09:38+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_dental_procedure
+msgid "<b>Patient:</b>"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_dental_procedure
+msgid ""
+"<br/>\n"
+"                        <b>Address:</b>"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_dental_procedure
+msgid ""
+"<br/>\n"
+"                        <b>Age:</b>"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_dental_procedure
+msgid ""
+"<br/>\n"
+"                        <b>Gender:</b>"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_dental_procedure
+msgid ""
+"<br/>\n"
+"                        <b>Patient Code:</b>"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_dental_procedure
+msgid "<span class=\"fa fa-plus\"/> Add Procedure"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_dental_procedure
+msgid "Close"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "Create Invoice"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: code:addons/pb_hms_dental_chart/controllers/main.py:0
+#, python-format
+msgid "Created new Procedure %s."
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "Date"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "Delete"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.view_pb_patient_procedure_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.view_hospital_hms_treatment_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.view_patient_form
+msgid "Dental Chart"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "Done"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model:ir.model.fields,field_description:pb_hms_dental_chart.field_pb_hms_tooth__image
+msgid "Image"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "In Progress"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "Name"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_no_details
+msgid "No Related Details Available. Please check check it again."
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model:ir.model,name:pb_hms_dental_chart.model_hms_patient
+msgid "Patient"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model:ir.model,name:pb_hms_dental_chart.model_pb_patient_procedure
+msgid "Patient Procedure"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "Physician"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: code:addons/pb_hms_dental_chart/controllers/main.py:0
+#, python-format
+msgid "Please Select Procedure and other data Properly."
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: code:addons/pb_hms_dental_chart/controllers/main.py:0
+#, python-format
+msgid "Please Select Tooth and other data Properly."
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "Price"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "Procedure"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_dental_procedure
+msgid "Select Procedure <i class=\"fa fa-arrow-circle-o-down\"/>"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_dental_procedure
+msgid "Select Tooth Surfaces <i class=\"fa fa-arrow-circle-o-down\"/>"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "State"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "Surface"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model:ir.model,name:pb_hms_dental_chart.model_pb_hms_tooth
+#: model_terms:ir.ui.view,arch_db:pb_hms_dental_chart.pb_procedure_table
+msgid "Tooth"
+msgstr ""
+
+#. module: pb_hms_dental_chart
+#: model:ir.model,name:pb_hms_dental_chart.model_hms_treatment
+msgid "Treatment"
+msgstr ""

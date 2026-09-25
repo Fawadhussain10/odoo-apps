@@ -1,0 +1,15 @@
+id,name,model_id,group_id/id,operation,domain
+access_commission_bill,access_commission_bill,commission.bill,account.group_account_invoice,crud,
+commission_company_user_rule,Commission multi-company,pb.commission,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_pb_commission_account_user,pb.commission.manager,pb.commission,account.group_account_invoice,cru,
+access_pb_commission,pb.commission,pb.commission,base.group_everyone,r,
+access_pb_commission_user,pb.commission.user,pb.commission,pb_commission.group_pb_commission_user,crud,
+access_pb_commission_role,pb.commission.role,pb.commission.role,base.group_everyone,r,
+access_pb_commission_role_user,pb.commission.role,pb.commission.role,pb_commission.group_pb_commission_user,crud,
+access_pb_commission_rule,pb.commission.rule,pb.commission.rule,base.group_everyone,r,
+access_pb_commission_rule_user,pb.commission.rule,pb.commission.rule,pb_commission.group_pb_commission_user,crud,
+commission_sheet_company_user_rule,Commission Sheet multi-company,pb.commission.sheet,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_pb_commission_sheet,pb.commission.sheet,pb.commission.sheet,base.group_everyone,r,
+access_pb_commission_sheet_user,pb.commission.sheet,pb.commission.sheet,pb_commission.group_pb_commission_user,crud,
+access_pb_commission_target_rule,access_pb_commission_target_rule,pb.commission.target.rule,base.group_everyone,r,
+access_pb_commission_target_rule_user,access_pb_commission_target_rule,pb.commission.target.rule,pb_commission.group_pb_commission_user,crud,

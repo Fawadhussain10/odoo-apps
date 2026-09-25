@@ -1,0 +1,12 @@
+id,name,model_id,group_id/id,operation,domain
+access_pb_plan_vaccinations,access_pb_plan_vaccinations,pb.plan.vaccinations,base.group_user,crud,
+ward_rule,Vaccination multi-company,pb.vaccination,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+action_pb_vaccination_jr_dr,vaccination jr Dr,pb.vaccination,pb_hms.group_hms_jr_doctor,crud,
+action_pb_vaccination_receptionist,vaccination receptionist,pb.vaccination,pb_hms.group_hms_receptionist,cru,
+action_pb_vaccination,vaccination vaccination,pb.vaccination,pb_hms_base.group_hms_user,r,
+action_pb_vaccination_group_jr_dr,vaccination group jr Dr,vaccination.group,pb_hms.group_hms_jr_doctor,crud,
+action_pb_vaccination_group_receptionist,vaccination group receptionist,vaccination.group,pb_hms.group_hms_receptionist,r,
+action_vaccination_group,vaccination group vaccination,vaccination.group,pb_hms_base.group_hms_user,r,
+action_pb_vaccination_group_line_jr_dr,vaccination group line jr Dr,vaccination.group.line,pb_hms.group_hms_jr_doctor,crud,
+action_pb_vaccination_group_line_receptionist,vaccination group line receptionist,vaccination.group.line,pb_hms.group_hms_receptionist,cru,
+access_vaccination_group_line,vaccination group line vaccination,vaccination.group.line,pb_hms_base.group_hms_user,r,

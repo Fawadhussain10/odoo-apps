@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Appointment View -->
+    <record id="view_hms_odontology_appointment_form" model="ir.ui.view">
+        <field name="name">hms.appointment.form</field>
+        <field name="model">hms.appointment</field>
+        <field name="inherit_id" ref="pb_hms.view_hms_appointment_form"/>
+        <field name="arch" type="xml">
+            <field name="treatment_id" position="after">
+                <field name="aesthetic_wish_id"/>
+            </field>
+
+            <xpath expr="//page[@name='info']" position="attributes">
+                <attribute name="invisible">[('department_type','=', 'aesthetic')]</attribute>
+            </xpath>
+            <xpath expr="//page[@name='advice']" position="attributes">
+                <attribute name="invisible">[('department_type','=', 'aesthetic')]</attribute>
+            </xpath>
+            <xpath expr="//page[@name='clinical_ass']" position="attributes">
+                <attribute name="invisible">[('department_type','=', 'aesthetic')]</attribute>
+            </xpath>
+            <xpath expr="//page[@name='consumed_products']" position="attributes">
+                <attribute name="groups">pb_hms.group_hms_jr_doctor,pb_hms.group_pb_hms_appointment_user,pb_hms_aesthetic.group_hms_aesthetic</attribute>
+            </xpath>
+            <button name="appointment_consultation" position="attributes">
+                <attribute name="groups">pb_hms.group_hms_jr_doctor,pb_hms_aesthetic.group_hms_aesthetic</attribute>
+            </button>
+            <button name="consultation_done" position="attributes">
+                <attribute name="groups">pb_hms.group_hms_jr_doctor,pb_hms_aesthetic.group_hms_aesthetic</attribute>
+            </button>
+
+            <xpath expr="//notebook/page[@name='diseases']" position="after">
+                <page string="Aesthetic" invisible="department_type != 'aesthetic'" groups="pb_hms_aesthetic.group_hms_aesthetic">
+                    <group groups="pb_hms_aesthetic.group_hms_aesthetic">
+                        <group>
+                            <field name="skin_phototype"/>
+                        </group>
+                        <group>
+                            <field name="skin_score"/>
+                        </group>
+                    </group>
+                    <separator string="Medical Questionnaire"/>
+                    <field name='medical_questionnaire_ids'/>
+                    <separator string="Aesthetic Questionnaire"/>
+                    <field name='aesthetic_questionnaire_ids'/>
+                </page>
+                <page string="Facial" invisible="department_type != 'aesthetic'" groups="pb_hms_aesthetic.group_hms_aesthetic">
+                    <separator string="Face Mapping" colspan="4"/>
+                    <field name="face_mapping_ids" nolabel="1" context="{ 'default_patient_id':patient_id}"/>
+                </page>
+                <page string="Body" invisible="department_type != 'aesthetic'" groups="pb_hms_aesthetic.group_hms_aesthetic">
+                    <separator string="BODY ZONE CONTROL EVOLUTION" colspan="4"/>
+                    <field name='body_evolution_ids' nolabel="1" context="{ 'default_patient_id':patient_id}"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_pb_appointment_calendar" model="ir.ui.view">
+        <field name="name">hms.appointment</field>
+        <field name="model">hms.appointment</field>
+        <field name="inherit_id" ref="pb_hms.view_pb_appointment_calendar"/>
+        <field name="arch" type="xml">
+            <calendar position="attributes">
+                <attribute name="mode">month</attribute>
+            </calendar>
+            <calendar position="attributes">
+                <attribute name="color">purpose_id</attribute>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_appointment" model="ir.actions.act_window">
+        <field name="name">Appointment</field>
+        <field name="res_model">hms.appointment</field>
+        <field name="view_mode">calendar,list,form,kanban,pivot</field>
+        <field name="domain" eval="[('department_id.department_type','=','aesthetic')]"/>
+        <field name="context">{'pb_department_type': 'aesthetic'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+            <p>
+                Click to add an Aesthetic Appointment.
+            </p>
+        </field>
+    </record>
+
+    <!-- Treatment -->
+    <record id="view_hospital_hms_treatment_form" model="ir.ui.view">
+        <field name="name">hms.treatment.form</field>
+        <field name="model">hms.treatment</field>
+        <field name="inherit_id" ref="pb_hms.view_hospital_hms_treatment_form"/>
+        <field name="arch" type="xml">
+
+            <field name="is_infectious" position="after">
+                <field name="aesthetic_wish_id" domain="[('patient_id','=', patient_id)]" context="{'default_patient_id': patient_id, 'default_department_id': department_id, 'default_physician_id': physician_id}"/>
+                <field name="department_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_pb_treatment" model="ir.actions.act_window">
+        <field name="name">Treatment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hms.treatment</field>
+        <field name="view_mode">list,form,calendar,pivot</field>
+        <field name="domain" eval="[('department_id.department_type','=','aesthetic')]"/>
+        <field name="context">{'pb_department_type': 'aesthetic'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Record Found
+            </p>
+            <p>
+                Click to add a Aesthetic Treatment.
+            </p>
+        </field>
+    </record>
+
+    <!-- Products -->
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales']" position="after">
+                <page string="Aestetic" invisible="hospital_product_type != 'aesthetic_procedure'">
+                    <group>
+                        <group>
+                            <field name="is_body_treatment"/>
+                            <field name="is_body_nutrition"/>
+                            <field name="is_body_upkeep"/>
+                        </group>
+                        <group>
+                            <field name="is_facial_treatment"/>
+                            <field name="is_facial_nutrition"/>
+                            <field name="is_facial_upkeep"/>
+                        </group>
+                    </group>
+
+                    <separator string="Aesthetic Procedures"/>
+                    <field name="product_procedure_line_ids">
+                        <list string="Aesthetic Procedures" editable="bottom">
+                            <field name="product_id"/>
+                            <field name="repeat_for"/>
+                            <field name="days_to_add"/>
+                        </list>
+                    </field>
+
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Patient Procedures View -->
+    <record id="action_pb_aesthetic_procedure" model="ir.actions.act_window">
+        <field name="name">Patient Procedures</field>
+        <field name="res_model">pb.patient.procedure</field>
+        <field name="view_mode">list,form,calendar,pivot</field>
+        <field name="context">{'search_default_not_done': 1}</field>
+        <field name="domain" eval="[('department_id.department_type','=','aesthetic')]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Click to add a Patient Dental Procedure.
+            </p>
+        </field>
+    </record>
+
+</odoo>

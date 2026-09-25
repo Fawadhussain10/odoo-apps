@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pb_invoice_summary" model="ir.ui.view">
+        <field name="name">pb.invoice.summary.form</field>
+        <field name="model">pb.invoice.summary</field>
+        <field name="inherit_id" ref="pb_invoice_summary.view_pb_invoice_summary"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="before">
+                <field name="patient_id"/>
+            </field>
+
+            <field name="partner_id" position="attributes">
+                <attribute name="invisible">1</attribute> 
+                <attribute name="required">0</attribute> 
+            </field>
+
+        </field>
+    </record>
+
+</odoo>

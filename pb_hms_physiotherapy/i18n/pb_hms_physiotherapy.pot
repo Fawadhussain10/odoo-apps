@@ -1,0 +1,862 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_hms_physiotherapy
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-14 06:05+0000\n"
+"PO-Revision-Date: 2022-03-14 06:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_hms_patient__physiotherapy_count
+msgid "# Physiotherapy"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#, python-format
+msgid "%s year / %s"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#, python-format
+msgid "</table></td></tr>"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Invoice Policy</span>"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#, python-format
+msgid "<strong><th>Group Name</th> <th>Price</th> <th>Exercise</th></strong>"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#, python-format
+msgid "<td><table class='table table-condensed'>"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#, python-format
+msgid ""
+"<tr><td style='border-bottom: 1px solid black'><b>Findings:</b></td><td "
+"style='border-bottom: 1px solid black'>%s</td></tr>"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#, python-format
+msgid "<tr><td>%s</td><td>%s</td><td>%s</td></tr>"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#, python-format
+msgid "<tr><td><b>Date:</b></td><td>%s</td></tr>"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#, python-format
+msgid "<tr><td><b>Diagnosis:</b></td><td>%s</td></tr>"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#, python-format
+msgid "<tr><td><b>Exercise:</b></td>"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: code:addons/pb_hms_physiotherapy/models/physiotherapy.py:0
+#, python-format
+msgid "<tr><td><b>Medicine:</b></td>"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Accept"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__state__accepted
+msgid "Accepted"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__age
+msgid "Age"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__years_sex
+msgid "Age / Sex"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__joint_type__all_poly
+msgid "All Poly"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__appointment_id
+msgid "Appointment"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__interested_side__bilat
+msgid "Bilat"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__by_orientation
+msgid "By"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__state__cancel
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.actions.act_window,help:pb_hms_physiotherapy.pb_action_form_physiotherapy
+#: model_terms:ir.actions.act_window,help:pb_hms_physiotherapy.pb_action_form_physiotherapy_exercise_group
+#: model_terms:ir.actions.act_window,help:pb_hms_physiotherapy.hms_physiotherapy_notetemplate_action
+#: model_terms:ir.actions.act_window,help:pb_hms_physiotherapy.hms_physiotherapy_selectionnotetemplate_action
+msgid "Click to add new record."
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.ui.menu,name:pb_hms_physiotherapy.menu_physiotherapy_cofig
+msgid "Configuration"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Create Invoice"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__create_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__create_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template__create_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__create_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note_template__create_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise__create_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group__create_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines__create_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_lines__create_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_send__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__create_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__create_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template__create_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__create_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note_template__create_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise__create_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group__create_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines__create_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_lines__create_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_send__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Date & Time"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group__description
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.hms_physiotherapy_exercise_group_formview
+msgid "Description"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__diagnosed_first
+msgid "Diagnosed First"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__display_name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__display_name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template__display_name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__display_name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note_template__display_name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise__display_name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group__display_name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines__display_name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_lines__display_name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_send__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__state__done
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Done"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group__exercise_ids
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines__exercise_ids
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_lines__exercise_ids
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_send__grp_exercise_ids
+msgid "Exercise"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.actions.act_window,name:pb_hms_physiotherapy.pb_action_form_physiotherapy_exercise_group
+#: model:ir.ui.menu,name:pb_hms_physiotherapy.hos_physiotherapy_exercise_master
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.hms_physiotherapy_exercise_group_formview
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.hms_physiotherapy_exercise_group_treeview
+msgid "Exercise Group Master"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,help:pb_hms_physiotherapy.field_physiotherapy_exercise_group__name
+msgid "Exercise Group Name like Knee,Ankle..."
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise__name
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.hms_physiotherapy_exercise_group_formview
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Exercise Name"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model,name:pb_hms_physiotherapy.model_physiotherapy_exercise
+msgid "Exercise Of Physiotherapy"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__grp_exercise_ids
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise__exercise_group_id
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines__group_id
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_lines__group_id
+msgid "Exercise group"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model,name:pb_hms_physiotherapy.model_physiotherapy_exercise_group
+msgid "Exercise group Of Physiotherapy"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__gender
+msgid "Gender"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_note__note_type__hand
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_note_template__note_type__hand
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note__selnote_type__hand
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note_template__selnote_type__hand
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Hand"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Hand Data"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__date_hand
+msgid "Hand Date & Time"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__hand_data_ids
+msgid "Hand Note"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_hr_department__department_type
+msgid "Hospital Department"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__id
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__id
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template__id
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__id
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note_template__id
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise__id
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group__id
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines__id
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_lines__id
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_send__id
+msgid "ID"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,help:pb_hms_physiotherapy.field_pb_physiotherapy__code
+msgid "Identifier provided by the Health Center."
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,help:pb_hms_physiotherapy.field_pb_physiotherapy__pricelist_id
+msgid "If you change the pricelist, related invoice will be affected."
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__image_128
+msgid "Image"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__state__in_progress
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "In Progress"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__company_id
+msgid "Institution"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__interested
+msgid "Interested"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__invoice_id
+msgid "Invoice"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__res_company__physiotherapy_invoice_policy__anytime
+msgid "Invoice Anytime"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__invoice_exempt
+msgid "Invoice Exempt"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__res_company__physiotherapy_invoice_policy__advance
+msgid "Invoice in Advance"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__res_company__physiotherapy_invoice_policy__at_end
+msgid "Invoice in the End"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__joint_type
+msgid "Joint Type"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy____last_update
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note____last_update
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template____last_update
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note____last_update
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note_template____last_update
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise____last_update
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group____last_update
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines____last_update
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_lines____last_update
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_send____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__write_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__write_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template__write_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__write_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note_template__write_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise__write_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group__write_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines__write_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_lines__write_uid
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_send__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__write_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__write_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template__write_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__write_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note_template__write_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise__write_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group__write_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines__write_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_lines__write_date
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_send__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_note__note_type__lower
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_note_template__note_type__lower
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note__selnote_type__lower
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note_template__selnote_type__lower
+msgid "Lower"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Lower Limb"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Lower Limb Data"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__date_lower_limb
+msgid "Lower Limb Date & Time"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Lower Limb Selection Data"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__lower_data_ids
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__lower_data_id
+msgid "Lower Note"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__lower_selectdata_id
+msgid "Lower SNote"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__lower_seldata_ids
+msgid "Lower Selection Note"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__interested_side__left
+msgid "Lt"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template__name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group__name
+msgid "Name"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note__left_val__negative
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note__right_val__negative
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note_template__left_val__negative
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note_template__right_val__negative
+msgid "Negative"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__diagnosed_first__no
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__interested__no
+msgid "No"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.actions.act_window,help:pb_hms_physiotherapy.pb_action_form_physiotherapy
+#: model_terms:ir.actions.act_window,help:pb_hms_physiotherapy.pb_action_form_physiotherapy_exercise_group
+#: model_terms:ir.actions.act_window,help:pb_hms_physiotherapy.hms_physiotherapy_notetemplate_action
+#: model_terms:ir.actions.act_window,help:pb_hms_physiotherapy.hms_physiotherapy_selectionnotetemplate_action
+msgid "No Record Found"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note__left_val__normal
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note__right_val__normal
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note_template__left_val__normal
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note_template__right_val__normal
+msgid "Normal"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__hand_data_id
+msgid "Note"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.ui.menu,name:pb_hms_physiotherapy.hos_hms_physiotherapy_notetemplate
+msgid "Note Template"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__note_type
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template__note_type
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__selnote_type
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note_template__selnote_type
+msgid "Note Type"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__notes
+msgid "Notes"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__date_orientation
+msgid "Orientation Date & Time"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note__left_val__other
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note__right_val__other
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note_template__left_val__other
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note_template__right_val__other
+msgid "Other"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__visit_count
+msgid "Past Visit"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__patient_id
+msgid "Patient"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,help:pb_hms_physiotherapy.field_pb_physiotherapy__patient_id
+msgid "Patient Name"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__physiotherapist_id
+#: model:res.groups,name:pb_hms_physiotherapy.group_hms_physiotherapy
+msgid "Physiotherapist"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.actions.act_window,name:pb_hms_physiotherapy.pb_action_form_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_hms_patient__physiotherapy_ids
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines__physiotherapy_id
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__account_move__hospital_invoice_type__physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__hr_department__department_type__physiotherapy
+#: model:ir.ui.menu,name:pb_hms_physiotherapy.pb_physiotherapy
+#: model:ir.ui.menu,name:pb_hms_physiotherapy.main_hos_physiotherapy
+#: model:ir.ui.menu,name:pb_hms_physiotherapy.main_menu_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.hms_physiotherapy_treeview
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_pb_hms_physiotherapy_calendar
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_pb_hms_physiotherapy_pivot
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_hms_physiotherapy_appointment_form
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_patient_form_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Physiotherapy"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__date
+msgid "Physiotherapy Date"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_wizard_form
+msgid "Physiotherapy Exercise"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model,name:pb_hms_physiotherapy.model_physiotherapy_exercise_group_lines
+msgid "Physiotherapy Exercise Group Lines"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model,name:pb_hms_physiotherapy.model_physiotherapy_exercise_lines
+msgid "Physiotherapy Exercise Lines"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.constraint,message:pb_hms_physiotherapy.constraint_physiotherapy_exercise_group_code_uniq
+msgid "Physiotherapy Group Name must be unique"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__physiotherapy_history
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Physiotherapy History"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__physiotherapy_invoice_policy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_res_company__physiotherapy_invoice_policy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_res_config_settings__physiotherapy_invoice_policy
+msgid "Physiotherapy Invoicing Policy"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model,name:pb_hms_physiotherapy.model_pb_physiotherapy_note
+#: model:ir.model,name:pb_hms_physiotherapy.model_pb_physiotherapy_note_template
+msgid "Physiotherapy Note"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.actions.act_window,name:pb_hms_physiotherapy.hms_physiotherapy_notetemplate_action
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.hms_physiotherapy_notetemplate_formview
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.hms_physiotherapy_notetemplate_treeview
+msgid "Physiotherapy NoteTemplate"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model,name:pb_hms_physiotherapy.model_pb_physiotherapy_selection_note
+#: model:ir.model,name:pb_hms_physiotherapy.model_pb_physiotherapy_selection_note_template
+msgid "Physiotherapy Selection Note"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.hms_physiotherapy_selectionnotetemplate_formview
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.hms_physiotherapy_selectionnotetemplate_treeview
+msgid "Physiotherapy Selection NoteTemplate"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.actions.act_window,name:pb_hms_physiotherapy.hms_physiotherapy_selectionnotetemplate_action
+msgid "Physiotherapy SelectionNote Template"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_hms_physiotherapy_search
+msgid "Physiotherapy Today"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_wizard_form
+msgid "Physiotherapy Wizard"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note__left_val__positive
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note__right_val__positive
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note_template__left_val__positive
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note_template__right_val__positive
+msgid "Positive"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__past_history
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Prescription History"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines__price
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_lines__price
+msgid "Price"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,help:pb_hms_physiotherapy.field_physiotherapy_exercise_group_lines__price
+#: model:ir.model.fields,help:pb_hms_physiotherapy.field_physiotherapy_exercise_lines__price
+msgid "Price at which the product is sold to customers."
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__pricelist_id
+msgid "Pricelist"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__problem_areas
+msgid "Problem Areas"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__name
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note_template__name
+msgid "Reflexes"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__code
+msgid "Reg. No."
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__interested_side__right
+msgid "Rt"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__left_val
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note_template__left_val
+msgid "STRENGTH LEFT"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__right_val
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note_template__right_val
+msgid "STRENGTH RIGHT"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.ui.menu,name:pb_hms_physiotherapy.hos_hms_physiotherapy_selectionnotetemplate
+msgid "SelectionNote Template"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_wizard_form
+msgid "Send"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.actions.act_window,name:pb_hms_physiotherapy.physiotherapy_wizard_action
+msgid "Send To Physiotherapy"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model,name:pb_hms_physiotherapy.model_physiotherapy_send
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_hms_physiotherapy_appointment_form
+msgid "Send to Physiotherapy"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__sensory_val
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template__sensory_val
+msgid "Sensory"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_group__product_id
+msgid "Service"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.res_config_settings_view_form
+msgid "Set to manage invoicing option on Physiotherapy."
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__interested_side
+msgid "Side"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__state
+msgid "State"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__left_val
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template__left_val
+msgid "Strength Left"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__right_val
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note_template__right_val
+msgid "Strength Right"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__state__to_invoice
+msgid "To Invoice"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_hms_physiotherapy_search
+msgid "Today"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_note__note_type__upper
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_note_template__note_type__upper
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note__selnote_type__upper
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy_selection_note_template__selnote_type__upper
+msgid "Upper"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Upper Limb"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Upper Limb Data"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__date_upper_limb
+msgid "Upper Limb Date & Time"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "Upper Limb Selection Data"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__upper_data_ids
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_note__upper_data_id
+msgid "Upper Note"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy_selection_note__upper_selectdata_id
+msgid "Upper SNote"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__upper_seldata_ids
+msgid "Upper Selection Note"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model_terms:ir.ui.view,arch_db:pb_hms_physiotherapy.view_physiotherapy_form
+msgid "View Invoice"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_pb_physiotherapy__when_orientation
+msgid "When"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields,field_description:pb_hms_physiotherapy.field_physiotherapy_exercise_lines__wiz_id
+msgid "Wiz ID"
+msgstr ""
+
+#. module: pb_hms_physiotherapy
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__diagnosed_first__yes
+#: model:ir.model.fields.selection,name:pb_hms_physiotherapy.selection__pb_physiotherapy__interested__yes
+msgid "Yes"
+msgstr ""

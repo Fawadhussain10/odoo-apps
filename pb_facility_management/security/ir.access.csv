@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_facility_activity_manager,Facility Activity,facility.activity,pb_facility_management.group_facility_manager,crud,
+access_facility_activity_user,Facility Activity,facility.activity,pb_facility_management.group_facility_user,r,
+access_facility_master_manager,Facility Master,facility.master,pb_facility_management.group_facility_manager,crud,
+access_facility_master_user,Facility Master,facility.master,pb_facility_management.group_facility_user,r,

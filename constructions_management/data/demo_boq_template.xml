@@ -1,0 +1,2124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Demo BOQ template generated from a real 3.5 Marla (B-Category) house construction BOQ
+    spreadsheet. Reproduces the sheet's ~150 line items (material/labour costed lines plus
+    per-stage subtotal marker rows) mapped onto the WBS stage templates already defined in
+    data/config_data.xml. Loaded last (after config_data.xml, boq template/UoM data) since it
+    references those records by xmlid.
+-->
+<odoo>
+    <record id="demo_boq_template_35marla_bcat" model="construction.boq.template">
+        <field name="name">3.5 Marla House - B Category</field>
+        <field name="category_id" ref="project_category_construction"/>
+        <field name="subcategory_id" ref="project_subcategory_house"/>
+        <field name="plot_area">787.5</field>
+        <field name="covered_area">1320</field>
+        <field name="grade">B-Category / Mid-Range</field>
+        <field name="description">B-category load-bearing brick masonry: no full-height RCC columns; RCC only for PCC/RCC foundation where required, DPC/plinth, brick-side door/window band, slabs, stairs and mumty. Ground Covered 620 sq.ft, First Floor 580 sq.ft, Mumty 120 sq.ft (Total Covered Area 1320 sq.ft).</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_007" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">10</field>
+        <field name="name">Site cleaning / debris removal</field>
+        <field name="technical_basis">Plot area cleaned before layout; Qty = plot sq.ft</field>
+        <field name="source_remarks">https://mapia.pk/material-rates</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_site_clearance"/>
+        <field name="formula_type">manual</field>
+        <field name="number">787.5</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">3</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_008" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">20</field>
+        <field name="name">Layout marking / line dori</field>
+        <field name="technical_basis">One-time site layout, marking, corner points and grid lines</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_site_clearance"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">12000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_009" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">30</field>
+        <field name="name">Temporary water/electric arrangement</field>
+        <field name="technical_basis">Temporary utility, tools, small consumables for construction period</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_site_clearance"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">12000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_010" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">40</field>
+        <field name="name">Foundation trench excavation</field>
+        <field name="technical_basis">Load-bearing wall trench excavation; Qty = trench length × width × depth</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_site_clearance"/>
+        <field name="formula_type">manual</field>
+        <field name="number">780</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">25</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_011" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">50</field>
+        <field name="name">Backfilling and compaction</field>
+        <field name="technical_basis">Reusable excavated earth backfilled and compacted in layers</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_site_clearance"/>
+        <field name="formula_type">manual</field>
+        <field name="number">540</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">12</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_012" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">60</field>
+        <field name="name">Surplus earth disposal</field>
+        <field name="technical_basis">Surplus earth outside building footprint after backfill</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_site_clearance"/>
+        <field name="formula_type">manual</field>
+        <field name="number">130</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">15</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_013" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">70</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 01 Site Clearance &amp; Setting Out</field>
+        <field name="stage_template_id" ref="wbs_stage_site_clearance"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_014" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">80</field>
+        <field name="name">PCC cement</field>
+        <field name="technical_basis">PCC 1:4:8 under foundation; cement ≈ PCC volume × 0.095 bag/cft</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_bag"/>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+        <field name="number">17</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">1450</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_015" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">90</field>
+        <field name="name">PCC sand</field>
+        <field name="technical_basis">PCC 1:4:8; sand ≈ PCC volume × 0.47 cft/cft</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+        <field name="number">88</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">80</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_016" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">100</field>
+        <field name="name">PCC crush / bajri / gabro</field>
+        <field name="technical_basis">PCC 1:4:8; crush ≈ PCC volume × 0.95 cft/cft</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+        <field name="number">176</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">125</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_017" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">110</field>
+        <field name="name">PCC laying labour</field>
+        <field name="technical_basis">PCC bed volume including mixing, laying and leveling</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+        <field name="number">185</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">30</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_018" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">120</field>
+        <field name="name">RCC footing/plinth cement</field>
+        <field name="technical_basis">RCC 1:2:4 only at footing/plinth band where required; not full-height columns</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_bag"/>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+        <field name="number">13</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">1450</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_019" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">130</field>
+        <field name="name">RCC footing/plinth sand</field>
+        <field name="technical_basis">RCC 1:2:4 sand component</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+        <field name="number">32</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">80</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_020" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">140</field>
+        <field name="name">RCC footing/plinth crush / bajri / gabro</field>
+        <field name="technical_basis">RCC 1:2:4 crush component</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+        <field name="number">64</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">125</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_021" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">150</field>
+        <field name="name">Steel/saria for footing/plinth band</field>
+        <field name="technical_basis">Limited RCC reinforcement in footing/plinth only; no vertical RCC columns</field>
+        <field name="source_remarks">https://icons.com.pk/steel-rate-today</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+        <field name="number">175</field>
+        <field name="waste_pct">2</field>
+        <field name="rate">258</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_022" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">160</field>
+        <field name="name">Binding wire for foundation steel</field>
+        <field name="technical_basis">Binding wire ≈ 2% of steel weight</field>
+        <field name="source_remarks">https://icons.com.pk/steel-rate-today</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">310</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_023" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">170</field>
+        <field name="name">RCC footing/plinth labour</field>
+        <field name="technical_basis">RCC mixing, pouring, leveling and curing labour</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+        <field name="number">75</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">55</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_024" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">180</field>
+        <field name="name">Foundation/plinth shuttering</field>
+        <field name="technical_basis">Shuttering for footing/plinth band faces</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+        <field name="number">180</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">55</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_025" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">190</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 02 Foundation, PCC, RCC Footing &amp; Plinth</field>
+        <field name="stage_template_id" ref="wbs_stage_foundation"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_026" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">200</field>
+        <field name="name">DPC cement</field>
+        <field name="technical_basis">Damp-proof course at plinth level; cement component</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_bag"/>
+        <field name="stage_template_id" ref="wbs_stage_dpc"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">1450</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_027" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">210</field>
+        <field name="name">DPC sand</field>
+        <field name="technical_basis">DPC mortar/concrete sand component</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_dpc"/>
+        <field name="formula_type">manual</field>
+        <field name="number">18</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">80</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_028" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">220</field>
+        <field name="name">DPC crush / bajri</field>
+        <field name="technical_basis">DPC concrete crush component</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_dpc"/>
+        <field name="formula_type">manual</field>
+        <field name="number">36</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">125</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_029" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">230</field>
+        <field name="name">DPC waterproof chemical / bitumen layer</field>
+        <field name="technical_basis">DPC layer over plinth wall; Qty = ground covered area</field>
+        <field name="source_remarks">https://mapia.pk/material-rates</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_dpc"/>
+        <field name="formula_type">manual</field>
+        <field name="number">620</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">10</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_030" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">240</field>
+        <field name="name">DPC laying labour</field>
+        <field name="technical_basis">DPC laying, finishing and curing</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_dpc"/>
+        <field name="formula_type">manual</field>
+        <field name="number">620</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">8</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_031" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">250</field>
+        <field name="name">Selected earth filling</field>
+        <field name="technical_basis">Inside plinth filling; Qty = floor footprint × average filling depth</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_dpc"/>
+        <field name="formula_type">manual</field>
+        <field name="number">550</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">20</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_032" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">260</field>
+        <field name="name">Filling compaction labour</field>
+        <field name="technical_basis">Compaction in layers before floor base</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_dpc"/>
+        <field name="formula_type">manual</field>
+        <field name="number">550</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">8</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_033" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">270</field>
+        <field name="name">Brick ballast / hardcore</field>
+        <field name="technical_basis">Hardcore base below ground floor; Qty = floor area × average thickness</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_dpc"/>
+        <field name="formula_type">manual</field>
+        <field name="number">125</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">65</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_034" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">280</field>
+        <field name="name">Sand filling below floor</field>
+        <field name="technical_basis">Levelling sand below floor base</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_dpc"/>
+        <field name="formula_type">manual</field>
+        <field name="number">210</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">80</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_035" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">290</field>
+        <field name="name">Polythene sheet below floor</field>
+        <field name="technical_basis">Moisture barrier below floor base; Qty = ground covered area</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_dpc"/>
+        <field name="formula_type">manual</field>
+        <field name="number">620</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">14</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_036" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">300</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 03 DPC, Filling &amp; Ground Bed</field>
+        <field name="stage_template_id" ref="wbs_stage_dpc"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_037" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">310</field>
+        <field name="name">B-category normal burnt-clay bricks for load-bearing walls</field>
+        <field name="technical_basis">Load-bearing brick walls; Qty estimated from wall volume/opening deductions; no RCC columns</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_masonry"/>
+        <field name="formula_type">manual</field>
+        <field name="number">36000</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">18</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_038" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">320</field>
+        <field name="name">Cement for brick masonry mortar</field>
+        <field name="technical_basis">Brick masonry mortar 1:6; cement based on wall volume and mortar consumption</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_bag"/>
+        <field name="stage_template_id" ref="wbs_stage_masonry"/>
+        <field name="formula_type">manual</field>
+        <field name="number">125</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">1450</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_039" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">330</field>
+        <field name="name">Sand for brick masonry mortar</field>
+        <field name="technical_basis">Brick masonry mortar 1:6; sand component</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_masonry"/>
+        <field name="formula_type">manual</field>
+        <field name="number">760</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">80</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_040" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">340</field>
+        <field name="name">Masonry labour</field>
+        <field name="technical_basis">Labour basis = bricks quantity / 1,000 bricks</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_1000_bricks"/>
+        <field name="stage_template_id" ref="wbs_stage_masonry"/>
+        <field name="formula_type">manual</field>
+        <field name="number">36</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">3000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_041" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">350</field>
+        <field name="name">Scaffolding and staging for masonry</field>
+        <field name="technical_basis">Basic scaffolding for load-bearing walls and plaster access</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_masonry"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">25000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_042" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">360</field>
+        <field name="name">Curing water and masonry support</field>
+        <field name="technical_basis">Watering and curing of masonry walls</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_masonry"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">10000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_043" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">370</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 04 Brick Masonry Load-Bearing Walls</field>
+        <field name="stage_template_id" ref="wbs_stage_masonry"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_044" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">380</field>
+        <field name="name">Cement for central RCC lintel beam/band</field>
+        <field name="technical_basis">Band detail: two brick side cheeks/wythes are raised over door/window openings; the middle reinforced beam is filled with RCC concrete.</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_bag"/>
+        <field name="stage_template_id" ref="wbs_stage_rcc_band"/>
+        <field name="formula_type">manual</field>
+        <field name="number">6</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">1450</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_045" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">390</field>
+        <field name="name">Sand for central RCC lintel beam/band</field>
+        <field name="technical_basis">RCC 1:2:4 sand component for middle beam/band between side brickwork over openings.</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_rcc_band"/>
+        <field name="formula_type">manual</field>
+        <field name="number">14</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">80</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_046" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">400</field>
+        <field name="name">Crush/bajri for central RCC lintel beam/band</field>
+        <field name="technical_basis">RCC 1:2:4 crush component for middle reinforced concrete band over doors/windows.</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_rcc_band"/>
+        <field name="formula_type">manual</field>
+        <field name="number">28</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">125</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_047" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">410</field>
+        <field name="name">Steel/saria for central lintel beam/band</field>
+        <field name="technical_basis">Main bars and stirrups for RCC band over openings; steel is limited to this band, slabs, stairs and small RCC works only.</field>
+        <field name="source_remarks">https://icons.com.pk/steel-rate-today</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="stage_template_id" ref="wbs_stage_rcc_band"/>
+        <field name="formula_type">manual</field>
+        <field name="number">175</field>
+        <field name="waste_pct">2</field>
+        <field name="rate">258</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_048" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">420</field>
+        <field name="name">Binding wire for central lintel beam/band</field>
+        <field name="technical_basis">Binding wire for steel cage of door/window RCC band.</field>
+        <field name="source_remarks">https://icons.com.pk/steel-rate-today</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="stage_template_id" ref="wbs_stage_rcc_band"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">310</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_049" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">430</field>
+        <field name="name">Two-side brick cheekwork and lintel shuttering</field>
+        <field name="technical_basis">Side brick cheeks/wythes built on both sides of the opening with required shuttering support for middle RCC beam.</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_rcc_band"/>
+        <field name="formula_type">manual</field>
+        <field name="number">210</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">55</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_050" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">440</field>
+        <field name="name">Concrete filling and curing labour for lintel band</field>
+        <field name="technical_basis">Labour for pouring, compacting, leveling and curing the RCC middle beam between two side brick cheeks.</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_rcc_band"/>
+        <field name="formula_type">manual</field>
+        <field name="number">32</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">50</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_051" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">450</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 05 Brick-Side RCC Band Over Doors &amp; Windows</field>
+        <field name="stage_template_id" ref="wbs_stage_rcc_band"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_052" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">460</field>
+        <field name="name">Cement for RCC roof slabs</field>
+        <field name="technical_basis">Slab concrete volume = slab area × 5 inch average thickness; load-bearing wall support</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_bag"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">76</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">1450</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_053" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">470</field>
+        <field name="name">Sand for RCC roof slabs</field>
+        <field name="technical_basis">RCC 1:2:4 slab sand component</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">190</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">80</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_054" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">480</field>
+        <field name="name">Crush / bajri / gabro for RCC roof slabs</field>
+        <field name="technical_basis">RCC 1:2:4 slab crush component</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">380</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">125</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_055" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">490</field>
+        <field name="name">Steel/saria for roof slabs</field>
+        <field name="technical_basis">B-Category load-bearing slab reinforcement ≈ 1.6 kg/sq.ft of slab/roof area; no RCC column cage</field>
+        <field name="source_remarks">https://icons.com.pk/steel-rate-today</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">2130</field>
+        <field name="waste_pct">2</field>
+        <field name="rate">258</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_056" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">500</field>
+        <field name="name">Binding wire for slab steel</field>
+        <field name="technical_basis">Binding wire for roof slab reinforcement</field>
+        <field name="source_remarks">https://icons.com.pk/steel-rate-today</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">38</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">310</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_057" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">510</field>
+        <field name="name">Slab shuttering and supports</field>
+        <field name="technical_basis">Shuttering basis = total slab/roof covered area including mumty</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1320</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">55</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_058" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">520</field>
+        <field name="name">RCC slab pouring labour</field>
+        <field name="technical_basis">Slab concrete pouring, leveling, vibration and curing labour</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">450</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">45</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_059" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">530</field>
+        <field name="name">Stair RCC cement</field>
+        <field name="technical_basis">RCC stair concrete including waist slab and landings</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_bag"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">7</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">1450</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_060" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">540</field>
+        <field name="name">Stair RCC sand</field>
+        <field name="technical_basis">RCC stair sand component</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">18</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">80</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_061" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">550</field>
+        <field name="name">Stair RCC crush / bajri</field>
+        <field name="technical_basis">RCC stair crush component</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">36</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">125</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_062" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">560</field>
+        <field name="name">Steel/saria for stairs</field>
+        <field name="technical_basis">Stair reinforcement including waist slab, steps and landings</field>
+        <field name="source_remarks">https://icons.com.pk/steel-rate-today</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">125</field>
+        <field name="waste_pct">2</field>
+        <field name="rate">258</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_063" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">570</field>
+        <field name="name">Stair shuttering</field>
+        <field name="technical_basis">Shuttering for waist slab and landings</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">65</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">55</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_064" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">580</field>
+        <field name="name">Stair RCC labour</field>
+        <field name="technical_basis">RCC stair pouring and curing labour</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">38</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">50</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_065" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">590</field>
+        <field name="name">Mumty/parapet bricks</field>
+        <field name="technical_basis">Mumty and parapet brickwork above roof</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4500</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">18</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_066" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">600</field>
+        <field name="name">Mumty/parapet cement</field>
+        <field name="technical_basis">Mortar for mumty and parapet masonry</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_bag"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">18</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">1450</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_067" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">610</field>
+        <field name="name">Mumty/parapet sand</field>
+        <field name="technical_basis">Sand for mumty/parapet mortar</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">105</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">80</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_068" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">620</field>
+        <field name="name">Mumty/parapet masonry labour</field>
+        <field name="technical_basis">Labour basis = mumty/parapet bricks / 1,000</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_1000_bricks"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4.5</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">3000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_069" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">630</field>
+        <field name="name">Parapet coping / khurra details</field>
+        <field name="technical_basis">Basic coping and slope details above roof/parapet</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">16000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_070" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">640</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 06 Roof Slab, First Slab, Stair &amp; Mumty</field>
+        <field name="stage_template_id" ref="wbs_stage_roof_slab"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_071" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">650</field>
+        <field name="name">Roof brick tile / khurra layer</field>
+        <field name="technical_basis">Roof treatment area excluding open shafts; Qty = roof slab exposed area</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_treatment"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1000</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">30</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_072" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">660</field>
+        <field name="name">Waterproofing chemical coat</field>
+        <field name="technical_basis">B-Category waterproofing coat over roof</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_treatment"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1000</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">18</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_073" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">670</field>
+        <field name="name">Roof slope and tile labour</field>
+        <field name="technical_basis">Labour for roof slope, khurra and waterproofing application</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_roof_treatment"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1000</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">25</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_074" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">680</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 07 Roof Treatment &amp; Waterproofing</field>
+        <field name="stage_template_id" ref="wbs_stage_roof_treatment"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_075" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">690</field>
+        <field name="name">Cement for plaster</field>
+        <field name="technical_basis">Plaster cement based on internal + external plaster area; 1:4/1:6 B-category mix</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_bag"/>
+        <field name="stage_template_id" ref="wbs_stage_plaster"/>
+        <field name="formula_type">manual</field>
+        <field name="number">42</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">1450</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_076" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">700</field>
+        <field name="name">Sand for plaster</field>
+        <field name="technical_basis">Plaster sand based on internal + external plaster area</field>
+        <field name="source_remarks">https://elegantdesignpk.com/latest-construction-material-rates-in-pakistan-2026-update/</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_cubic_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_plaster"/>
+        <field name="formula_type">manual</field>
+        <field name="number">250</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">80</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_077" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">710</field>
+        <field name="name">Plaster labour</field>
+        <field name="technical_basis">Internal and external plaster area including walls and ceilings</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_plaster"/>
+        <field name="formula_type">manual</field>
+        <field name="number">5000</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">25</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_078" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">720</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 08 Internal &amp; External Plaster</field>
+        <field name="stage_template_id" ref="wbs_stage_plaster"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_079" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">730</field>
+        <field name="name">PVC electrical conduit pipes</field>
+        <field name="technical_basis">Conduit before plaster; Qty based on light/fan/socket point routing</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_mep_roughin"/>
+        <field name="formula_type">manual</field>
+        <field name="number">840</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">28</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_080" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">740</field>
+        <field name="name">Electrical PVC boxes / junction boxes</field>
+        <field name="technical_basis">Switch boxes, fan boxes and junction boxes before plaster</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_mep_roughin"/>
+        <field name="formula_type">manual</field>
+        <field name="number">65</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">70</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_081" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">750</field>
+        <field name="name">Electrical rough-in labour</field>
+        <field name="technical_basis">Conduit, box placement, chasing and rough testing</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_mep_roughin"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">45000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_082" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">760</field>
+        <field name="name">PPR water supply pipes</field>
+        <field name="technical_basis">Concealed water lines to kitchens, bathrooms and roof tank</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_mep_roughin"/>
+        <field name="formula_type">manual</field>
+        <field name="number">300</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">90</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_083" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">770</field>
+        <field name="name">uPVC drainage pipes</field>
+        <field name="technical_basis">Concealed and vertical waste/soil pipes</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_mep_roughin"/>
+        <field name="formula_type">manual</field>
+        <field name="number">210</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">145</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_084" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">780</field>
+        <field name="name">Plumbing fittings, bends, valves and clamps</field>
+        <field name="technical_basis">Rough plumbing fittings allowance</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_mep_roughin"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">38000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_085" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">790</field>
+        <field name="name">Plumbing rough-in labour</field>
+        <field name="technical_basis">Chasing, pipe laying, pressure/leak test and sleeves</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_mep_roughin"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">50000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_086" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">800</field>
+        <field name="name">Sewer manholes</field>
+        <field name="technical_basis">Manholes around house; quantity based on drainage path</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_mep_roughin"/>
+        <field name="formula_type">manual</field>
+        <field name="number">3</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">10000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_087" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">810</field>
+        <field name="name">Septic/soakage tank basic masonry</field>
+        <field name="technical_basis">Basic septic/soakage provision where society sewer is not fully relied upon</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_mep_roughin"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">75000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_088" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">820</field>
+        <field name="name">Underground water tank basic</field>
+        <field name="technical_basis">Brick masonry/RCC basic underground water tank allowance</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_mep_roughin"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">60000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_089" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">830</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 09 Electrical &amp; Plumbing Rough-In</field>
+        <field name="stage_template_id" ref="wbs_stage_mep_roughin"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_090" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">840</field>
+        <field name="name">Nails, tie wire, shuttering oil and consumables</field>
+        <field name="technical_basis">Small grey-structure consumables not separately measured</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">38000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_091" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">850</field>
+        <field name="name">Safety, curing, site tools and cleaning</field>
+        <field name="technical_basis">Basic safety, curing, tools and stage cleaning allowance</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">20000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_092" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">860</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 10 Grey Structure Miscellaneous</field>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_094" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">870</field>
+        <field name="name">B-Category floor tiles</field>
+        <field name="technical_basis">Floor tile quantity = covered floor area excluding shafts/openings + waste</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1150</field>
+        <field name="waste_pct">5</field>
+        <field name="rate">160</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_095" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">880</field>
+        <field name="name">Floor tile adhesive/cement</field>
+        <field name="technical_basis">Fixing material for B-category floor tiles</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1150</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">38</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_096" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">890</field>
+        <field name="name">Floor tile fixing labour</field>
+        <field name="technical_basis">Tile fixing, leveling, grouting and cleaning</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1150</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">65</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_097" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">900</field>
+        <field name="name">Skirting tile</field>
+        <field name="technical_basis">Skirting along room walls; Qty based on running feet converted to sq.ft equivalent</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">380</field>
+        <field name="waste_pct">5</field>
+        <field name="rate">80</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_098" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">910</field>
+        <field name="name">Bath/kitchen wall tiles</field>
+        <field name="technical_basis">Bathroom/kitchen wall tile area; B-category height and layout</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">630</field>
+        <field name="waste_pct">5</field>
+        <field name="rate">145</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_099" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">920</field>
+        <field name="name">Wall tile adhesive/cement</field>
+        <field name="technical_basis">Fixing material for kitchen/bath wall tiles</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">630</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">38</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_100" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">930</field>
+        <field name="name">Wall tile fixing labour</field>
+        <field name="technical_basis">Bathroom/kitchen tile fixing, joints and grouting</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">630</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">70</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_101" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">940</field>
+        <field name="name">Stair tile/marble B-category finish</field>
+        <field name="technical_basis">Stair treads/risers and landing finish</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">110</field>
+        <field name="waste_pct">5</field>
+        <field name="rate">250</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_102" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">950</field>
+        <field name="name">Stair finish labour</field>
+        <field name="technical_basis">Stair tile/marble fixing labour</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">110</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">100</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_103" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">960</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 11 Floor &amp; Wall Tiling</field>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_104" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">970</field>
+        <field name="name">Wall putty/primer</field>
+        <field name="technical_basis">Paintable area = internal walls + ceilings + external selected surfaces</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">5500</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">20</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_105" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">980</field>
+        <field name="name">B-Category emulsion/distemper paint</field>
+        <field name="technical_basis">B-Category paint coats on prepared surface</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">5500</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">25</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_106" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">990</field>
+        <field name="name">Paint labour</field>
+        <field name="technical_basis">Surface rubbing, filling, primer and paint application</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">5500</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">15</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_107" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1000</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 12 Paint, Putty &amp; Surface Finish</field>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_108" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1010</field>
+        <field name="name">Main entrance door B-category</field>
+        <field name="technical_basis">One main entrance door with basic polish/finish</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">35000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_109" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1020</field>
+        <field name="name">Room flush doors</field>
+        <field name="technical_basis">Bedroom/lounge/store flush doors; B-category quality</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">6</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">18000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_110" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1030</field>
+        <field name="name">Bathroom PVC doors</field>
+        <field name="technical_basis">PVC doors for bathrooms and utility areas</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">10000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_111" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1040</field>
+        <field name="name">MS/wood door chowkats</field>
+        <field name="technical_basis">Door frames/chowkats for all openings</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">11</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">5000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_112" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1050</field>
+        <field name="name">Door hardware</field>
+        <field name="technical_basis">Locks, handles, hinges, tower bolts and stoppers</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">11</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">2500</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_113" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1060</field>
+        <field name="name">Door polishing/paint labour</field>
+        <field name="technical_basis">Door/frame final finishing labour</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">11</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">2000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_114" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1070</field>
+        <field name="name">Aluminium windows B-category</field>
+        <field name="technical_basis">Window area based on room ventilation/openings schedule</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">125</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">750</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_115" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1080</field>
+        <field name="name">Glass panes</field>
+        <field name="technical_basis">Glass in windows and ventilators</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">125</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">120</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_116" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1090</field>
+        <field name="name">MS safety grills</field>
+        <field name="technical_basis">Window grill area</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">125</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">320</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_117" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1100</field>
+        <field name="name">Ventilators</field>
+        <field name="technical_basis">Bathroom/kitchen ventilators</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">35</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">600</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_118" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1110</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 13 Doors, Windows &amp; Ventilators</field>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_119" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1120</field>
+        <field name="name">Kitchen marble counter</field>
+        <field name="technical_basis">Counter running feet including both kitchens where applicable</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">30</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">2400</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_120" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1130</field>
+        <field name="name">B-Category kitchen cabinets</field>
+        <field name="technical_basis">Basic lower/upper cabinets per running foot</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">30</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">3000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_121" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1140</field>
+        <field name="name">Kitchen sink</field>
+        <field name="technical_basis">B-Category stainless steel sink</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">12000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_122" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1150</field>
+        <field name="name">Kitchen accessories and installation</field>
+        <field name="technical_basis">Basic accessories, shelf supports, knobs and installation</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">18000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_123" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1160</field>
+        <field name="name">Wardrobes / cupboard basic</field>
+        <field name="technical_basis">Basic MDF/laminated cupboard allowance</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_square_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">35</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">1400</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_124" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1170</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 14 Kitchen, Cabinets &amp; Wardrobes</field>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_125" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1180</field>
+        <field name="name">WC/commode B-category</field>
+        <field name="technical_basis">B-Category WC/commode sets for bathrooms</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">12000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_126" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1190</field>
+        <field name="name">Wash basin B-category</field>
+        <field name="technical_basis">B-Category wash basins</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">6000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_127" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1200</field>
+        <field name="name">CP bath sets / mixers</field>
+        <field name="technical_basis">Shower mixer/tap sets for bathrooms</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">7500</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_128" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1210</field>
+        <field name="name">Bath accessories</field>
+        <field name="technical_basis">Soap dish, towel rod, mirror, Muslim shower and small accessories</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">4500</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_129" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1220</field>
+        <field name="name">Sanitary installation labour</field>
+        <field name="technical_basis">Installation, testing and leakage rectification</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">7000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_130" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1230</field>
+        <field name="name">Water pump</field>
+        <field name="technical_basis">B-Category water pump with fittings</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">25000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_131" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1240</field>
+        <field name="name">Final plumbing fittings</field>
+        <field name="technical_basis">Final taps, connectors, traps, valves and miscellaneous fittings</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">38000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_132" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1250</field>
+        <field name="name">Overhead water tank</field>
+        <field name="technical_basis">Plastic overhead water tank B-category size</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">20000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_133" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1260</field>
+        <field name="name">Plumbing final labour</field>
+        <field name="technical_basis">Final connection, testing, commissioning</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">35000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_134" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1270</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 15 Sanitary, Plumbing Final &amp; Accessories</field>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_135" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1280</field>
+        <field name="name">Electrical wire</field>
+        <field name="technical_basis">Wiring after conduit; Qty based on light/fan/power points</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_foot"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4200</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">32</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_136" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1290</field>
+        <field name="name">DB, breakers and earthing</field>
+        <field name="technical_basis">Distribution board, breakers and basic earthing allowance</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">50000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_137" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1300</field>
+        <field name="name">Switches and sockets</field>
+        <field name="technical_basis">Switch/socket points, holders and plates</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">85</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">450</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_138" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1310</field>
+        <field name="name">Ceiling fans</field>
+        <field name="technical_basis">B-Category fans for rooms/lounges</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">6</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">6500</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_139" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1320</field>
+        <field name="name">LED lights / holders</field>
+        <field name="technical_basis">Basic B-category lighting points</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">32</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">900</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_140" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1330</field>
+        <field name="name">Exhaust fans</field>
+        <field name="technical_basis">Bathroom/kitchen exhaust fans</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">4</field>
+        <field name="waste_pct">3</field>
+        <field name="rate">3800</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_141" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1340</field>
+        <field name="name">Electrical final labour</field>
+        <field name="technical_basis">Wire pulling, fixture installation, testing</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">50000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_142" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1350</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 16 Electrical Final Fixtures</field>
+        <field name="stage_template_id" ref="wbs_stage_finishing"/>
+        <field name="formula_type">manual</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_143" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1360</field>
+        <field name="name">Front elevation basic finish</field>
+        <field name="technical_basis">B-Category front elevation texture, tiles/stone allowance and labour</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_handover"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">85000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_144" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1370</field>
+        <field name="name">Main gate, terrace railing and grills</field>
+        <field name="technical_basis">MS main gate/railing/grill miscellaneous allowance</field>
+        <field name="source_remarks">Local supplier rate</field>
+        <field name="work_type_id" ref="work_type_material"/>
+        <field name="cost_code_id" ref="cost_code_material"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_handover"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">120000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_145" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1380</field>
+        <field name="name">Final cleaning and handover</field>
+        <field name="technical_basis">Post-construction cleaning, minor touch-ups and handover</field>
+        <field name="source_remarks">Local labour market</field>
+        <field name="work_type_id" ref="work_type_labour"/>
+        <field name="cost_code_id" ref="cost_code_labour"/>
+        <field name="uom_id" ref="uom_lump_sum"/>
+        <field name="stage_template_id" ref="wbs_stage_handover"/>
+        <field name="formula_type">manual</field>
+        <field name="number">1</field>
+        <field name="waste_pct">0</field>
+        <field name="rate">20000</field>
+    </record>
+
+    <record id="demo_boq_35marla_line_146" model="construction.boq.template.line">
+        <field name="template_id" ref="demo_boq_template_35marla_bcat"/>
+        <field name="sequence">1390</field>
+        <field name="display_type">subtotal</field>
+        <field name="name">Subtotal - 17 External Finish, Gate &amp; Final Cleaning</field>
+        <field name="stage_template_id" ref="wbs_stage_handover"/>
+        <field name="formula_type">manual</field>
+    </record>
+</odoo>

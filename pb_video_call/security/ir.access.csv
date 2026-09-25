@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_video_call_user,pb_video_call_user,pb.video.call,base.group_everyone,crud,"['|', ('user_id', '=', user.id), ('partner_ids', 'in', user.partner_id.id)] if user.has_group('base.group_user') else []"
+pb_video_call_user_rule,Video Call: Users Meetings,pb.video.call,base.group_user,crud,"['|',('user_id','=',user.id),('partner_ids', 'in', user.partner_id.id)]"
+pb_video_call_manager_rule,Video Call: Users Meetings,pb.video.call,pb_video_call.group_video_call_manager,crud,
