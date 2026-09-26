@@ -1,0 +1,364 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_pdc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.1alpha1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-24 06:40+0000\n"
+"PO-Revision-Date: 2020-10-24 06:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_pdc
+#: model_terms:ir.actions.act_window,help:pb_pdc.pb_pdc_action_move_journal_line
+msgid ""
+"A journal entry consists of several journal items, each of\n"
+"                which is either a debit or a credit transaction."
+msgstr ""
+"يتكون إدخال دفتر اليومية من عدة عناصر دفتر يومية ، كل منها \ n"
+"وهي إما معاملة مدينة أو ائتمان."
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__agent
+msgid "Agent"
+msgstr "وكيل"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_ir_attachment
+msgid "Attachment"
+msgstr "المرفق"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__attachment_ids
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Attachments"
+msgstr "المرفقات"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__bank_id
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Bank"
+msgstr "مصرف"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Bounce"
+msgstr "وثب، ارتداد"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__bounced
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Bounced"
+msgstr "ارتد"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_wizard_form_wizard
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__cancel
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Cancelled"
+msgstr "ألغيت"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__reference
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+msgid "Cheque Reference"
+msgstr "تحقق من المرجع"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_res_company
+msgid "Companies"
+msgstr "الشركات"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_res_config_settings
+msgid "Config Settings"
+msgstr "إعدادات التكوين"
+
+#. module: pb_pdc
+#: model_terms:ir.actions.act_window,help:pb_pdc.pb_pdc_action_move_journal_line
+msgid "Create a journal entry"
+msgstr "إنشاء إدخال دفتر اليومية"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__create_uid
+msgid "Created by"
+msgstr "انشأ من قبل"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__create_date
+msgid "Created on"
+msgstr "تم إنشاؤها على"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__currency_id
+msgid "Currency"
+msgstr "عملة"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+msgid "Customer"
+msgstr "الزبون"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Deposit"
+msgstr "الوديعة"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__deposited
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Deposited"
+msgstr "المودعة"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move__display_name
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:pb_pdc.field_ir_attachment__display_name
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__display_name
+#: model:ir.model.fields,field_description:pb_pdc.field_res_company__display_name
+#: model:ir.model.fields,field_description:pb_pdc.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__done
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Done"
+msgstr "منجز"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__draft
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Draft"
+msgstr "مشروع"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__due_date
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Due Date"
+msgstr "تاريخ الاستحقاق"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Group By"
+msgstr "مجموعة من"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move__id
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move_line__id
+#: model:ir.model.fields,field_description:pb_pdc.field_ir_attachment__id
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__id
+#: model:ir.model.fields,field_description:pb_pdc.field_res_company__id
+#: model:ir.model.fields,field_description:pb_pdc.field_res_config_settings__id
+msgid "ID"
+msgstr "هوية شخصية"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__invoice_id
+msgid "Invoice/Bill"
+msgstr "فاتورة"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Journal"
+msgstr "مجلة"
+
+#. module: pb_pdc
+#: model:ir.actions.act_window,name:pb_pdc.pb_pdc_action_move_journal_line
+msgid "Journal Entries"
+msgstr "إدخالات دفتر اليومية"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_account_move
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Journal Entry"
+msgstr "إفتتاحية المجلة"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_account_move_line
+msgid "Journal Item"
+msgstr "عنصر المجلة"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Journal Items"
+msgstr "عناصر دفتر اليومية"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move____last_update
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:pb_pdc.field_ir_attachment____last_update
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard____last_update
+#: model:ir.model.fields,field_description:pb_pdc.field_res_company____last_update
+#: model:ir.model.fields,field_description:pb_pdc.field_res_config_settings____last_update
+msgid "Last Modified on"
+msgstr "تاريخ آخر تعديل"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__memo
+msgid "Memo"
+msgstr "مذكرة"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__name
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Name"
+msgstr "اسم"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_res_company__pdc_vendor
+#: model:ir.model.fields,field_description:pb_pdc.field_res_config_settings__pdc_vendor
+msgid "PDC Account for Vendor"
+msgstr "PDC حساب البائع"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_res_company__pdc_customer
+#: model:ir.model.fields,field_description:pb_pdc.field_res_config_settings__pdc_customer
+msgid "PDC Account for customer"
+msgstr "حساب PDC للعميل"
+
+#. module: pb_pdc
+#: model:ir.actions.act_window,name:pb_pdc.pb_pdc_payment_menu_action
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_tree_form
+msgid "PDC Cheque Payment"
+msgstr "دفع الشيكات PDC"
+
+#. module: pb_pdc
+#: model:ir.actions.act_window,name:pb_pdc.pb_pdc_wizard_action
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_account_setting_inherit
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_wizard_form_wizard
+msgid "PDC Payment"
+msgstr "دفع PDC"
+
+#. module: pb_pdc
+#: model:ir.actions.report,name:pb_pdc.action_report_pdc_payment
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+msgid "PDC Payment Report"
+msgstr "تقرير الدفع PDC"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_pdc_wizard
+msgid "PDC Wizard"
+msgstr "معالج PDC"
+
+#. module: pb_pdc
+#: model:ir.ui.menu,name:pb_pdc.menu_pdc_payment
+msgid "PDC payment"
+msgstr "دفع PDC"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__partner_id
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Partner"
+msgstr "شريك"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__payment_amount
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+msgid "Payment Amount"
+msgstr "مبلغ الدفع"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__payment_date
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Payment Date"
+msgstr "يوم الدفع او الاستحقاق"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__journal_id
+msgid "Payment Journal"
+msgstr "مجلة الدفع"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__payment_type
+msgid "Payment Type"
+msgstr "نوع الدفع"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_account_bank_statement_line__pdc_id
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move__pdc_id
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move_line__pdc_id
+#: model:ir.model.fields,field_description:pb_pdc.field_account_payment__pdc_id
+#: model:ir.model.fields,field_description:pb_pdc.field_ir_attachment__pdc_id
+#: model:ir.model.fields,field_description:pb_pdc.field_mrp_document__pdc_id
+msgid "Pdc"
+msgstr "PDC"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__payment_type__receive_money
+msgid "Receive Money"
+msgstr "إستلم نقود"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Register"
+msgstr "تسجيل"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_move_form_inherit
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_wizard_form_wizard
+msgid "Register PDC Cheque"
+msgstr "تسجيل التحقق من PDC"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__registered
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Registered"
+msgstr "مسجل"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Return"
+msgstr "إرجاع"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__returned
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Returned"
+msgstr "عاد"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Search PDC Payment"
+msgstr "بحث دفع PDC"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__payment_type__send_money
+msgid "Send Money"
+msgstr "إرسال الأموال"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__state
+msgid "State"
+msgstr "حالة"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Status"
+msgstr "الحالة"
