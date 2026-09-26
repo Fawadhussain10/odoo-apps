@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Shared styles (wkhtmltopdf-safe: tables, no flexbox) -->
+    <template id="pdc_report_styles">
+        <style>
+            .pdc-r { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1f2937 !important; font-size: 12px; }
+            /* Company document layouts (Boxed, Striped, Bold...) style every table on
+               the page: cell borders, black header text, grey last cells. Reset them
+               inside PDC reports; colours/borders below are !important for the same reason. */
+            .pdc-r table, .pdc-r tbody, .pdc-r thead, .pdc-r tfoot, .pdc-r tr, .pdc-r td, .pdc-r th { border: 0 none !important; background-color: transparent !important; }
+            .pdc-r thead, .pdc-r tbody, .pdc-r tfoot, .pdc-r tr, .pdc-r td { color: inherit !important; }
+            .pdc-r .pdc-title { font-size: 22px; font-weight: 700; color: #0f172a !important; margin: 0; letter-spacing: .2px; }
+            .pdc-r .pdc-sub { color: #64748b !important; font-size: 11px; text-transform: uppercase; letter-spacing: 1.4px; }
+            .pdc-r .pdc-accent { height: 4px; background: #2563eb !important; border-radius: 2px !important; margin: 8px 0 18px 0; }
+            .pdc-r .pdc-badge { display: inline-block; vertical-align: middle; padding: 3px 10px; border-radius: 10px !important; font-size: 10px;
+                                font-weight: 700; text-transform: uppercase; letter-spacing: .6px; }
+            .pdc-r .st-draft { background: #e2e8f0 !important; color: #334155 !important; }
+            .pdc-r .st-registered { background: #dbeafe !important; color: #1d4ed8 !important; }
+            .pdc-r .st-returned { background: #fef3c7 !important; color: #b45309 !important; }
+            .pdc-r .st-deposited { background: #e0e7ff !important; color: #4338ca !important; }
+            .pdc-r .st-bounced { background: #fee2e2 !important; color: #b91c1c !important; }
+            .pdc-r .st-done { background: #dcfce7 !important; color: #15803d !important; }
+            .pdc-r .st-cancel { background: #f1f5f9 !important; color: #94a3b8 !important; }
+            .pdc-r .pt-in { background: #dcfce7 !important; color: #15803d !important; }
+            .pdc-r .pt-out { background: #fee2e2 !important; color: #b91c1c !important; }
+            .pdc-r table.pdc-grid { width: 100%; border-collapse: separate !important; border-spacing: 0 !important; }
+            .pdc-r table.pdc-grid th { background: #0f172a !important; color: #fff !important; font-size: 10px; text-transform: uppercase;
+                                       letter-spacing: .8px; padding: 9px 10px; text-align: left; }
+            .pdc-r table.pdc-grid th.r, .pdc-r table.pdc-grid td.r { text-align: right; }
+            .pdc-r table.pdc-grid td { padding: 9px 10px; border-bottom: 1px solid #e5e7eb !important; vertical-align: middle; }
+            .pdc-r table.pdc-grid tr.alt td { background: #f8fafc !important; }
+            .pdc-r table.pdc-grid tr.tot td { border-top: 2px solid #0f172a !important; border-bottom: 0 !important; font-weight: 700;
+                                              font-size: 13px; background: #fff !important; }
+            .pdc-r .kpi { border: 1px solid #e5e7eb !important; border-radius: 8px !important; padding: 10px 12px; }
+            .pdc-r .kpi .lbl { color: #64748b !important; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+            .pdc-r .kpi .val { font-size: 16px; font-weight: 700; color: #0f172a !important; margin-top: 3px; }
+            .pdc-r .muted { color: #94a3b8 !important; }
+            .pdc-r .strong { font-weight: 700; color: #0f172a !important; }
+            /* cheque card */
+            .pdc-r .chq { border: 1px solid #cbd5e1 !important; border-radius: 12px !important; overflow: hidden; }
+            .pdc-r .chq-top { background: #1e3a8a !important; color: #fff !important; padding: 12px 18px; }
+            .pdc-r .chq-body { padding: 16px 18px; background: #f8fafc !important; }
+            .pdc-r .chq-lbl { color: #64748b !important; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+            .pdc-r .chq-val { font-size: 14px; font-weight: 600; color: #0f172a !important; border-bottom: 1px dashed #94a3b8 !important;
+                              padding: 3px 0 5px 0; }
+            .pdc-r .chq-amt { background: #fff !important; border: 2px solid #2563eb !important; border-radius: 8px !important; padding: 8px 12px;
+                              font-size: 20px; font-weight: 800; color: #1e3a8a !important; text-align: right; }
+            .pdc-r .words { font-style: italic; color: #334155 !important; }
+            .pdc-r .sec { font-size: 11px; font-weight: 700; color: #1e3a8a !important; text-transform: uppercase;
+                          letter-spacing: 1.2px; margin: 22px 0 8px 0; }
+            .pdc-r .dl td { padding: 6px 0; border-bottom: 1px solid #f1f5f9 !important; }
+            .pdc-r .dl td.k { color: #64748b !important; width: 38%; }
+            .pdc-r .step { text-align: center; font-size: 10px; color: #94a3b8 !important; }
+            .pdc-r .step .dot { width: 22px; height: 22px; line-height: 22px; border-radius: 11px !important; margin: 0 auto 4px auto;
+                                background: #e2e8f0 !important; color: #fff !important; font-weight: 700; }
+            .pdc-r .step.on { color: #0f172a !important; font-weight: 600; }
+            .pdc-r .step.on .dot { background: #2563eb !important; }
+            .pdc-r .step.bad .dot { background: #dc2626 !important; }
+            .pdc-r .step.bad { color: #b91c1c !important; font-weight: 600; }
+            .pdc-r .sign { border-top: 1px solid #0f172a !important; padding-top: 5px; color: #64748b !important; font-size: 10px;
+                           text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+        </style>
+    </template>
+
+    <!-- ===================== Cheque Voucher (one page per cheque) ===================== -->
+    <template id="report_pdc_voucher_document">
+        <t t-call="web.external_layout">
+            <t t-set="state_labels" t-value="dict(doc._fields['state'].selection)"/>
+            <div class="page pdc-r">
+                <t t-call="pb_pdc.pdc_report_styles"/>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <div class="pdc-sub">
+                                <t t-if="doc.payment_type == 'receive_money'">Customer Post-Dated Cheque</t>
+                                <t t-else="">Vendor Post-Dated Cheque</t>
+                            </div>
+                            <h1 class="pdc-title" t-field="doc.name"/>
+                        </td>
+                        <td style="text-align:right; vertical-align:bottom;">
+                            <span t-attf-class="pdc-badge st-#{doc.state}" t-esc="state_labels.get(doc.state)"/>
+                        </td>
+                    </tr>
+                </table>
+                <div class="pdc-accent"/>
+
+                <!-- Cheque card -->
+                <div class="chq">
+                    <div class="chq-top">
+                        <table width="100%">
+                            <tr>
+                                <td style="color:#fff; font-size:15px; font-weight:700;">
+                                    <t t-if="doc.bank_id" t-esc="doc.bank_id.name"/>
+                                    <t t-else="" t-esc="doc.journal_id.name"/>
+                                </td>
+                                <td style="color:#bfdbfe; text-align:right; font-size:11px;">
+                                    Cheque No. <span style="color:#fff; font-weight:700;" t-esc="doc.reference or '—'"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="chq-body">
+                        <table width="100%">
+                            <tr>
+                                <td width="62%" style="padding-right:18px;">
+                                    <div class="chq-lbl">
+                                        <t t-if="doc.payment_type == 'receive_money'">Received from</t>
+                                        <t t-else="">Pay to the order of</t>
+                                    </div>
+                                    <div class="chq-val" t-esc="doc.partner_id.name"/>
+                                </td>
+                                <td width="38%">
+                                    <div class="chq-lbl">Cheque date</div>
+                                    <div class="chq-val" t-field="doc.due_date"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-right:18px; padding-top:14px;">
+                                    <div class="chq-lbl">Amount in words</div>
+                                    <div class="chq-val words"
+                                         t-esc="doc.currency_id.amount_to_text(doc.payment_amount)"/>
+                                </td>
+                                <td style="padding-top:14px; vertical-align:bottom;">
+                                    <div class="chq-amt" t-field="doc.payment_amount"
+                                         t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Lifecycle -->
+                <div class="sec">Cheque Lifecycle</div>
+                <t t-set="order" t-value="['draft', 'registered', 'deposited', 'done']"/>
+                <t t-set="reached" t-value="order.index(doc.state) if doc.state in order else (1 if doc.state == 'returned' else 2)"/>
+                <table width="100%">
+                    <tr>
+                        <t t-foreach="order" t-as="st">
+                            <td width="25%" t-attf-class="step #{'on' if st_index &lt;= reached and doc.state != 'cancel' else ''}">
+                                <div class="dot" t-esc="st_index + 1"/>
+                                <t t-esc="state_labels.get(st)"/>
+                            </td>
+                        </t>
+                    </tr>
+                </table>
+                <div t-if="doc.state in ('bounced', 'returned', 'cancel')" style="margin-top:8px; padding:8px 12px; border-radius:6px; background:#fef2f2; color:#b91c1c; font-size:11px;">
+                    <b>Note:</b> this cheque is currently <b t-esc="state_labels.get(doc.state)"/>.
+                </div>
+
+                <!-- Details -->
+                <table width="100%" style="margin-top:6px;">
+                    <tr>
+                        <td width="48%" style="vertical-align:top;">
+                            <div class="sec">Cheque Details</div>
+                            <table width="100%" class="dl">
+                                <tr><td class="k">Partner</td><td class="strong" t-esc="doc.partner_id.display_name"/></tr>
+                                <tr><td class="k">Cheque Reference</td><td t-esc="doc.reference or '—'"/></tr>
+                                <tr><td class="k">Bank</td><td t-esc="doc.bank_id.name or '—'"/></tr>
+                                <tr><td class="k">Agent</td><td t-esc="doc.agent or '—'"/></tr>
+                                <tr><td class="k">Memo</td><td t-esc="doc.memo or '—'"/></tr>
+                            </table>
+                        </td>
+                        <td width="4%"/>
+                        <td width="48%" style="vertical-align:top;">
+                            <div class="sec">Accounting</div>
+                            <table width="100%" class="dl">
+                                <tr><td class="k">Payment Journal</td><td class="strong" t-esc="doc.journal_id.name"/></tr>
+                                <tr><td class="k">Payment Date</td><td><span t-field="doc.payment_date"/></td></tr>
+                                <tr><td class="k">Due Date</td><td><span t-field="doc.due_date"/></td></tr>
+                                <tr><td class="k">Cleared On</td><td><t t-if="doc.done_date" t-out="doc.done_date" t-options="{'widget': 'date'}"/><t t-else="">—</t></td></tr>
+                                <tr><td class="k">Company</td><td t-esc="doc.company_id.name"/></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Linked documents -->
+                <t t-set="invoices" t-value="doc.invoice_ids | doc.invoice_id"/>
+                <t t-if="invoices">
+                    <div class="sec">
+                        <t t-if="doc.payment_type == 'receive_money'">Settled Invoices</t>
+                        <t t-else="">Settled Bills</t>
+                    </div>
+                    <table class="pdc-grid">
+                        <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Date</th>
+                                <th>Due Date</th>
+                                <th class="r">Total</th>
+                                <th class="r">Amount Due</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="invoices" t-as="inv" t-att-class="'alt' if inv_index % 2 else ''">
+                                <td class="strong" t-esc="inv.name"/>
+                                <td><span t-field="inv.invoice_date"/></td>
+                                <td><span t-field="inv.invoice_date_due"/></td>
+                                <td class="r"><span t-field="inv.amount_total"/></td>
+                                <td class="r"><span t-field="inv.amount_residual"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <!-- Signatures -->
+                <table width="100%" style="margin-top:60px;">
+                    <tr>
+                        <td width="28%" class="sign">Prepared by</td>
+                        <td width="8%"/>
+                        <td width="28%" class="sign">Approved by</td>
+                        <td width="8%"/>
+                        <td width="28%" class="sign">
+                            <t t-if="doc.payment_type == 'receive_money'">Received by</t>
+                            <t t-else="">Issued by</t>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_pdc_voucher">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="pb_pdc.report_pdc_voucher_document"/>
+            </t>
+        </t>
+    </template>
+
+    <!-- ===================== Cheque Register (summary of selection) ===================== -->
+    <template id="report_pdc_payment">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-set="state_labels" t-value="dict(docs._fields['state'].selection)"/>
+                <t t-set="currency" t-value="docs[:1].currency_id or res_company.currency_id"/>
+                <t t-set="open_docs" t-value="docs.filtered(lambda d: d.state in ('draft', 'registered', 'deposited', 'returned'))"/>
+                <t t-set="done_docs" t-value="docs.filtered(lambda d: d.state == 'done')"/>
+                <t t-set="bounced_docs" t-value="docs.filtered(lambda d: d.state == 'bounced')"/>
+                <div class="page pdc-r">
+                    <t t-call="pb_pdc.pdc_report_styles"/>
+                    <div class="pdc-sub">Post-Dated Cheques</div>
+                    <h1 class="pdc-title">PDC Cheque Register</h1>
+                    <div class="muted" style="font-size:11px; margin-top:2px;">
+                        Printed on <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b %Y, %H:%M')"/>
+                    </div>
+                    <div class="pdc-accent"/>
+
+                    <!-- KPI tiles -->
+                    <table width="100%" style="border-collapse:separate; border-spacing:8px 0; margin:0 -8px 18px -8px;">
+                        <tr>
+                            <td width="20%" class="kpi">
+                                <div class="lbl">Cheques</div>
+                                <div class="val" t-esc="len(docs)"/>
+                            </td>
+                            <td width="20%" class="kpi">
+                                <div class="lbl">Total Amount</div>
+                                <div class="val" t-esc="sum(docs.mapped('payment_amount'))"
+                                     t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            </td>
+                            <td width="20%" class="kpi" style="border-left:3px solid #2563eb;">
+                                <div class="lbl">Pending</div>
+                                <div class="val" style="color:#1d4ed8;" t-esc="sum(open_docs.mapped('payment_amount'))"
+                                     t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            </td>
+                            <td width="20%" class="kpi" style="border-left:3px solid #16a34a;">
+                                <div class="lbl">Cleared</div>
+                                <div class="val" style="color:#15803d;" t-esc="sum(done_docs.mapped('payment_amount'))"
+                                     t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            </td>
+                            <td width="20%" class="kpi" style="border-left:3px solid #dc2626;">
+                                <div class="lbl">Bounced</div>
+                                <div class="val" style="color:#b91c1c;" t-esc="sum(bounced_docs.mapped('payment_amount'))"
+                                     t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="pdc-grid" name="pdc_table">
+                        <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Type</th>
+                                <th>Partner</th>
+                                <th>Bank / Cheque No.</th>
+                                <th>Due Date</th>
+                                <th class="r">Amount</th>
+                                <th style="text-align:center;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs.sorted(lambda d: (d.due_date or d.payment_date))" t-as="doc"
+                                t-att-class="'alt' if doc_index % 2 else ''">
+                                <td class="strong" t-esc="doc.name"/>
+                                <td>
+                                    <span t-if="doc.payment_type == 'receive_money'" class="pdc-badge pt-in">Receive</span>
+                                    <span t-else="" class="pdc-badge pt-out">Send</span>
+                                </td>
+                                <td t-esc="doc.partner_id.name"/>
+                                <td>
+                                    <div t-esc="doc.bank_id.name or '—'"/>
+                                    <div class="muted" style="font-size:10px;" t-esc="doc.reference or ''"/>
+                                </td>
+                                <td><span t-field="doc.due_date"/></td>
+                                <td class="r strong"><span t-field="doc.payment_amount"/></td>
+                                <td style="text-align:center;">
+                                    <span t-attf-class="pdc-badge st-#{doc.state}" t-esc="state_labels.get(doc.state)"/>
+                                </td>
+                            </tr>
+                            <tr class="tot">
+                                <td colspan="5">Total</td>
+                                <td class="r"><span t-esc="sum(docs.mapped('payment_amount'))"
+                                    t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                                <td/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="paperformat_pdc" model="report.paperformat">
+        <field name="name">PDC</field>
+        <field name="default" eval="False" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">58</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">38</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_pdc_voucher" model="ir.actions.report">
+        <field name="name">PDC Cheque Voucher</field>
+        <field name="model">pdc.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pb_pdc.report_pdc_voucher</field>
+        <field name="report_file">pb_pdc.report_pdc_voucher</field>
+        <field name="print_report_name">'PDC Voucher - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="pb_pdc.model_pdc_wizard" />
+        <field name="paperformat_id" ref="pb_pdc.paperformat_pdc" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_pdc_payment" model="ir.actions.report">
+        <field name="name">PDC Cheque Register</field>
+        <field name="model">pdc.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pb_pdc.report_pdc_payment</field>
+        <field name="report_file">pb_pdc.report_pdc_payment</field>
+        <field name="print_report_name">'PDC Cheque Register'</field>
+        <field name="binding_model_id" ref="pb_pdc.model_pdc_wizard" />
+        <field name="paperformat_id" ref="pb_pdc.paperformat_pdc" />
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

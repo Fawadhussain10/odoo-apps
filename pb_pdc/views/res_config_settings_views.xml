@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <!--  Accounting setting -->
+    <record id="pb_pdc_account_setting_inherit" model="ir.ui.view">
+        <field name="name">sh.pdc.account.setting.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']" position="inside">
+                <h2>Due Notification</h2>
+                <div class="row mt16 o_settings_container" style='margin-top: 0 !important;'>
+
+                    <!-- CUSTOMER -->
+                    <div class="col-xs-6 col-md-6 o_setting_box">
+                        <group string='Customer'/>
+                        <div class='row'>
+                            <div class="col-xs-12 col-md-12 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="is_cust_due_notify"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for='is_cust_due_notify'/>
+                                </div>
+
+                            </div>
+                            <div class='col-xs-12 col-md-12 o_setting_box'>
+                                <div class="o_setting_left_pane">
+                                    <field name="is_notify_to_customer" invisible="is_cust_due_notify == False"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for='is_notify_to_customer' invisible="is_cust_due_notify == False"/>
+                                </div>
+                            </div>
+                            <div class='col-xs-12 col-md-12 o_setting_box'>
+                                <div class="o_setting_left_pane">
+                                    <field name="is_notify_to_user" invisible="is_cust_due_notify == False"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for='is_notify_to_user' invisible="is_cust_due_notify == False"/>
+                                    <div class="text-muted" invisible="is_cust_due_notify == False">
+                                        Select user to receive email notification.
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="pb_user_ids" widget="many2many_tags" class="col-md-6 pull-left"
+                                                   invisible="is_cust_due_notify == False or is_notify_to_user == False"
+                                                   domain="[('share', '=', False)]"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-xs-12 col-md-12 o_setting_box'>
+
+                                <div class="o_setting_right_pane">
+                                    <div invisible="is_cust_due_notify == False">
+                                        <label for='notify_on_1'
+                                               invisible="is_notify_to_customer == False and is_notify_to_user == False"/>
+                                        <field name='notify_on_1'
+                                               invisible="is_notify_to_customer == False and is_notify_to_user == False"/>
+                                    </div>
+                                    <div invisible="is_cust_due_notify == False">
+                                        <label for='notify_on_2'
+                                               invisible="is_notify_to_customer == False and is_notify_to_user == False"/>
+                                        <field name='notify_on_2'
+                                               invisible="is_notify_to_customer == False and is_notify_to_user == False"/>
+                                    </div>
+                                    <div invisible="is_cust_due_notify == False">
+                                        <label for='notify_on_3'
+                                               invisible="is_notify_to_customer == False and is_notify_to_user == False"/>
+                                        <field name='notify_on_3'
+                                               invisible="is_notify_to_customer == False and is_notify_to_user == False"/>
+                                    </div>
+                                    <div invisible="is_cust_due_notify == False">
+                                        <label for='notify_on_4'
+                                               invisible="is_notify_to_customer == False and is_notify_to_user == False"/>
+                                        <field name='notify_on_4'
+                                               invisible="is_notify_to_customer == False and is_notify_to_user == False"/>
+                                    </div>
+                                    <div invisible="is_cust_due_notify == False">
+                                        <label for='notify_on_5'
+                                               invisible="is_notify_to_customer == False and is_notify_to_user == False"/>
+                                        <field name='notify_on_5'
+                                               invisible="is_notify_to_customer == False and is_notify_to_user == False"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- VENDOR -->
+                    <div class="col-xs-6 col-md-6 o_setting_box">
+                        <group string='Vendor'/>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="is_vendor_due_notify"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for='is_vendor_due_notify'/>
+                                </div>
+                            </div>
+                            <div class='col-xs-12 col-md-12 o_setting_box'>
+                                <div class="o_setting_left_pane">
+                                    <field name="is_notify_to_vendor" invisible="is_vendor_due_notify == False"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for='is_notify_to_vendor' invisible="is_vendor_due_notify == False"/>
+                                </div>
+                            </div>
+                            <div class='col-xs-12 col-md-12 o_setting_box'>
+                                <div class="o_setting_left_pane">
+                                    <field name="is_notify_to_user_vendor" invisible="is_vendor_due_notify == False"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for='is_notify_to_user_vendor' invisible="is_vendor_due_notify == False"/>
+                                    <div class="text-muted" invisible="is_vendor_due_notify == False">
+                                        Select user to receive email notification.
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="pb_user_ids_vendor" widget="many2many_tags"
+                                                   class="col-md-6 pull-left"
+                                                   invisible="is_vendor_due_notify == False or is_notify_to_user_vendor == False"
+                                                   domain="[('share', '=', False)]"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-xs-12 col-md-12 o_setting_box'>
+
+                                <div class="o_setting_right_pane">
+                                    <div invisible="is_vendor_due_notify == False">
+                                        <label for='notify_on_1_vendor'
+                                               invisible="is_notify_to_vendor == False and is_notify_to_user_vendor == False"/>
+                                        <field name='notify_on_1_vendor'
+                                               invisible="is_notify_to_vendor == False and is_notify_to_user_vendor == False"/>
+                                    </div>
+                                    <div invisible="is_vendor_due_notify == False">
+                                        <label for='notify_on_2_vendor'
+                                               invisible="is_notify_to_vendor == False and is_notify_to_user_vendor == False"/>
+                                        <field name='notify_on_2_vendor'
+                                               invisible="is_notify_to_vendor == False and is_notify_to_user_vendor == False"/>
+                                    </div>
+                                    <div invisible="is_vendor_due_notify == False">
+                                        <label for='notify_on_3_vendor'
+                                               invisible="is_notify_to_vendor == False and is_notify_to_user_vendor == False"/>
+                                        <field name='notify_on_3_vendor'
+                                               invisible="is_notify_to_vendor == False and is_notify_to_user_vendor == False"/>
+                                    </div>
+                                    <div invisible="is_vendor_due_notify == False">
+                                        <label for='notify_on_4_vendor'
+                                               invisible="is_notify_to_vendor == False and is_notify_to_user_vendor == False"/>
+                                        <field name='notify_on_4_vendor'
+                                               invisible="is_notify_to_vendor == False and is_notify_to_user_vendor == False"/>
+                                    </div>
+                                    <div invisible="is_vendor_due_notify == False">
+                                        <label for='notify_on_5_vendor'
+                                               invisible="is_notify_to_vendor == False and is_notify_to_user_vendor == False"/>
+                                        <field name='notify_on_5_vendor'
+                                               invisible="is_notify_to_vendor == False and is_notify_to_user_vendor == False"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>PDC Payment</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-xs-6 col-md-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label class="col-lg-6" for="pdc_customer"/>
+                                    <field name="pdc_customer" style="width: 48%;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label class="col-lg-6" for="pdc_vendor"/>
+                                    <field name="pdc_vendor" style="width: 48%;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--                    <div class="col-xs-6 col-md-6 o_setting_box">-->
+                    <!--                        <div class="o_setting_right_pane">-->
+                    <!--                            <div class="content-group">-->
+                    <!--                                <div class="row mt16">-->
+                    <!--                                    <label class="col-lg-6" for="pdc_pad_debit_provision"/>-->
+                    <!--                                    <field name="pdc_pad_debit_provision" style="width: 48%;"/>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+
+                    <div class='col-xs-12 col-md-12 o_setting_box'>
+                        <div class="o_setting_left_pane">
+                            <field name="auto_fill_open_invoice"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for='auto_fill_open_invoice'/>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 groups="pb_pdc.group_pb_pdc_cancel">PDC Cancel Configuration</h2>
+                <div class="row mt16 o_settings_container" groups="pb_pdc.group_pb_pdc_cancel">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane"></div>
+                        <div class="o_setting_right_pane">
+                            <label for="pdc_operation_type"/>
+                            <div class="mt8">
+                                <field name="pdc_operation_type" widget="radio"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
