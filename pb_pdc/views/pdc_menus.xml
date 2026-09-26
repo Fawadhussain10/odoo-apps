@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Home-screen app -->
+    <menuitem id="menu_pdc_root"
+              name="PDC Cheques"
+              web_icon="pb_pdc,static/description/icon.png"
+              groups="account.group_account_invoice"
+              sequence="56"/>
+
+    <menuitem id="menu_pdc_cheques" name="Cheques" parent="menu_pdc_root" sequence="10"/>
+    <menuitem id="menu_pdc_customer_cheques" name="Customer Cheques" parent="menu_pdc_cheques"
+              action="action_pdc_customer_cheques" sequence="10"/>
+    <menuitem id="menu_pdc_vendor_cheques" name="Vendor Cheques" parent="menu_pdc_cheques"
+              action="action_pdc_vendor_cheques" sequence="20"/>
+    <menuitem id="menu_pdc_payment" name="All Cheques" parent="menu_pdc_cheques"
+              action="pb_pdc_payment_menu_action" sequence="30"/>
+
+    <menuitem id="menu_pdc_reporting" name="Reporting" parent="menu_pdc_root" sequence="20"/>
+    <menuitem id="menu_pdc_customer_report" name="PDC Cheque Report" parent="menu_pdc_reporting"
+              action="action_pdc_customer_report_wizard" sequence="5"/>
+    <menuitem id="menu_pdc_due_calendar" name="Due Calendar" parent="menu_pdc_reporting"
+              action="action_pdc_due_calendar" sequence="10"/>
+    <menuitem id="menu_pdc_analysis" name="Cheque Analysis" parent="menu_pdc_reporting"
+              action="action_pdc_analysis" sequence="20"/>
+
+    <menuitem id="menu_pdc_configuration" name="Configuration" parent="menu_pdc_root" sequence="90"
+              groups="base.group_system"/>
+    <menuitem id="menu_pdc_settings" name="Settings" parent="menu_pdc_configuration"
+              action="account.action_account_config" sequence="10"/>
+</odoo>

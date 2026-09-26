@@ -1,0 +1,213 @@
+// PDC Cheques - backend styling
+$pdc-navy: #1e3a8a;
+$pdc-blue: #2563eb;
+$pdc-teal: #0f766e;
+$pdc-radius: 14px;
+
+// ---------- shared ----------
+.o_pdc_kicker {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $gray-600;
+    margin-bottom: 0.25rem;
+}
+
+// Big editable amount: the input grows with the number (field-sizing) and sits
+// right-aligned next to its currency symbol, instead of stretching across the
+// header and pushing the symbol away from the figures.
+.o_pdc_amount_input {
+    > div { justify-content: flex-end; }
+    input.o_input {
+        flex-grow: 0 !important;  // beats Bootstrap's .flex-grow-1 (!important) on the widget input
+        flex-shrink: 0 !important;
+        width: auto;
+        min-width: 6ch;
+        field-sizing: content;
+    }
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: $pdc-navy;
+    line-height: 1.2;
+    input {
+        font-size: 1.9rem;
+        font-weight: 700;
+        color: $pdc-navy;
+        text-align: right;
+    }
+    .o_input { border-bottom-width: 2px; }
+}
+
+.o_pdc_groups .o_horizontal_separator {
+    color: $pdc-navy;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 2px solid rgba($pdc-blue, 0.15);
+    padding-bottom: 0.4rem;
+}
+
+// ---------- form hero ----------
+.o_pdc_form {
+    .o_pdc_hero {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1rem 2rem;
+        margin: 0 0 1.5rem;
+        padding: 1.25rem 1.5rem;
+        border-radius: $pdc-radius;
+        background: linear-gradient(135deg, rgba($pdc-blue, 0.08) 0%, rgba($pdc-teal, 0.08) 100%);
+        border: 1px solid rgba($pdc-blue, 0.15);
+        position: relative;
+        overflow: hidden;
+        &::after {
+            content: "";
+            position: absolute;
+            right: -60px;
+            top: -60px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba($pdc-blue, 0.06);
+            pointer-events: none;
+        }
+    }
+    // keep the header content clear of a status ribbon (Cleared, Bounced, ...)
+    .o_form_sheet:has(.ribbon) .o_pdc_hero { padding-right: 130px; }
+    .o_pdc_hero_main { min-width: 0; }
+    .o_pdc_hero_title {
+        margin: 0;
+        font-weight: 700;
+        color: $gray-900;
+    }
+    .o_pdc_hero_due {
+        margin-top: 0.4rem;
+        color: $gray-700;
+        font-weight: 500;
+        .o_field_widget { display: inline-block; margin-left: 0.25rem; }
+    }
+    .o_pdc_hero_amount {
+        text-align: right;
+        min-width: 260px;
+        position: relative;
+        z-index: 1;
+    }
+    .o_form_statusbar .btn-danger { box-shadow: none; }
+}
+
+// ---------- wizard ----------
+.o_pdc_wizard {
+    .o_pdc_banner {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.25rem;
+        border-radius: $pdc-radius;
+        color: #fff;
+        background: linear-gradient(135deg, $pdc-navy 0%, $pdc-blue 55%, $pdc-teal 100%);
+        box-shadow: 0 10px 24px -12px rgba($pdc-navy, 0.6);
+        .o_pdc_kicker { color: rgba(#fff, 0.75); }
+    }
+    .o_pdc_banner_icon {
+        flex: 0 0 auto;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(#fff, 0.18);
+        font-size: 1.35rem;
+    }
+    .o_pdc_banner_main { flex: 1 1 auto; min-width: 0; }
+    .o_pdc_banner_partner {
+        font-size: 1.25rem;
+        font-weight: 700;
+        &, span, a { color: #fff !important; }
+    }
+    .o_pdc_banner_amount {
+        text-align: right;
+        flex: 0 0 auto;
+        min-width: 260px;
+        .o_pdc_amount_input, .o_pdc_amount_input input {
+            color: #fff;
+            background: transparent;
+        }
+        .o_pdc_amount_input .o_input {
+            border-color: rgba(#fff, 0.5);
+        }
+    }
+    .o_pdc_section {
+        margin: 1.25rem 0 0.5rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: $pdc-navy;
+    }
+    .o_field_radio .o_radio_item {
+        padding: 0.45rem 0.9rem 0.45rem 2.1rem;
+        border: 1px solid $border-color;
+        border-radius: 999px;
+        margin-right: 0.5rem;
+    }
+    .o_pdc_hint {
+        margin-top: 0.6rem;
+        padding: 0.6rem 0.9rem;
+        border-radius: 10px;
+        background: rgba($pdc-blue, 0.07);
+        color: $gray-700;
+        font-size: 0.9rem;
+    }
+}
+
+// ---------- list ----------
+.o_pdc_list {
+    .o_data_row td { vertical-align: middle; }
+    .o_field_badge .badge { font-weight: 600; letter-spacing: 0.02em; }
+}
+
+// ---------- kanban ----------
+.o_pdc_kanban {
+    .o_pdc_card_top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+    .o_pdc_card_partner {
+        font-weight: 600;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .o_pdc_card_amount {
+        margin: 0.55rem 0 0.35rem;
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: $pdc-navy;
+    }
+    .o_pdc_card_meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem 0.9rem;
+        color: $gray-600;
+        font-size: 0.85rem;
+    }
+    .o_pdc_card_bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 0.7rem;
+        padding-top: 0.55rem;
+        border-top: 1px dashed $border-color;
+        font-size: 0.85rem;
+    }
+    .o_pdc_card_ref { color: $gray-600; font-weight: 600; }
+}

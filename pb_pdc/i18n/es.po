@@ -1,0 +1,364 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pb_pdc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.1alpha1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-24 06:40+0000\n"
+"PO-Revision-Date: 2020-10-24 06:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pb_pdc
+#: model_terms:ir.actions.act_window,help:pb_pdc.pb_pdc_action_move_journal_line
+msgid ""
+"A journal entry consists of several journal items, each of\n"
+"                which is either a debit or a credit transaction."
+msgstr ""
+"Una entrada de diario consta de varios elementos de diario, cada uno de \ n"
+"que es una transacción de débito o crédito".
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__agent
+msgid "Agent"
+msgstr "Agente"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_ir_attachment
+msgid "Attachment"
+msgstr "Adjunto archivo"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__attachment_ids
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Attachments"
+msgstr "Archivos adjuntos"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__bank_id
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Bank"
+msgstr "Banco"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Bounce"
+msgstr "Rebotar"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__bounced
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Bounced"
+msgstr "Rebotada"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_wizard_form_wizard
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__cancel
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Cancelled"
+msgstr "Cancelada"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__reference
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+msgid "Cheque Reference"
+msgstr "Consultar referencia"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes de configuración"
+
+#. module: pb_pdc
+#: model_terms:ir.actions.act_window,help:pb_pdc.pb_pdc_action_move_journal_line
+msgid "Create a journal entry"
+msgstr "Crear una entrada de diario"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Deposit"
+msgstr "Depositar"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__deposited
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Deposited"
+msgstr "Depositada"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move__display_name
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:pb_pdc.field_ir_attachment__display_name
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__display_name
+#: model:ir.model.fields,field_description:pb_pdc.field_res_company__display_name
+#: model:ir.model.fields,field_description:pb_pdc.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__done
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Done"
+msgstr "Hecho"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__draft
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Draft"
+msgstr "Sequía"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__due_date
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Due Date"
+msgstr "Fecha de vencimiento"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move__id
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move_line__id
+#: model:ir.model.fields,field_description:pb_pdc.field_ir_attachment__id
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__id
+#: model:ir.model.fields,field_description:pb_pdc.field_res_company__id
+#: model:ir.model.fields,field_description:pb_pdc.field_res_config_settings__id
+msgid "ID"
+msgstr "CARNÉ DE IDENTIDAD"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__invoice_id
+msgid "Invoice/Bill"
+msgstr "Factura / Factura"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Journal"
+msgstr "diario"
+
+#. module: pb_pdc
+#: model:ir.actions.act_window,name:pb_pdc.pb_pdc_action_move_journal_line
+msgid "Journal Entries"
+msgstr "Entradas de diario"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_account_move
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Journal Entry"
+msgstr "Entrada de diario"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_account_move_line
+msgid "Journal Item"
+msgstr "Artículo de diario"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Journal Items"
+msgstr "Artículos de diario"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move____last_update
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:pb_pdc.field_ir_attachment____last_update
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard____last_update
+#: model:ir.model.fields,field_description:pb_pdc.field_res_company____last_update
+#: model:ir.model.fields,field_description:pb_pdc.field_res_config_settings____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Actualizado por última vez por"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualización en"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__memo
+msgid "Memo"
+msgstr "Memorándum"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__name
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Name"
+msgstr "Nombre"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_res_company__pdc_vendor
+#: model:ir.model.fields,field_description:pb_pdc.field_res_config_settings__pdc_vendor
+msgid "PDC Account for Vendor"
+msgstr "Cuenta PDC para proveedor"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_res_company__pdc_customer
+#: model:ir.model.fields,field_description:pb_pdc.field_res_config_settings__pdc_customer
+msgid "PDC Account for customer"
+msgstr "Cuenta PDC para la cliente"
+
+#. module: pb_pdc
+#: model:ir.actions.act_window,name:pb_pdc.pb_pdc_payment_menu_action
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_tree_form
+msgid "PDC Cheque Payment"
+msgstr "Pago con cheque PDC"
+
+#. module: pb_pdc
+#: model:ir.actions.act_window,name:pb_pdc.pb_pdc_wizard_action
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_account_setting_inherit
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_wizard_form_wizard
+msgid "PDC Payment"
+msgstr "Pago PDC"
+
+#. module: pb_pdc
+#: model:ir.actions.report,name:pb_pdc.action_report_pdc_payment
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+msgid "PDC Payment Report"
+msgstr "Informe de pago de PDC"
+
+#. module: pb_pdc
+#: model:ir.model,name:pb_pdc.model_pdc_wizard
+msgid "PDC Wizard"
+msgstr "Asistente de PDC"
+
+#. module: pb_pdc
+#: model:ir.ui.menu,name:pb_pdc.menu_pdc_payment
+msgid "PDC payment"
+msgstr "Pago PDC"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__partner_id
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Partner"
+msgstr "Compañera"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__payment_amount
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+msgid "Payment Amount"
+msgstr "Monto del pago"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__payment_date
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Payment Date"
+msgstr "Fecha de pago"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__journal_id
+msgid "Payment Journal"
+msgstr "Diario de pagos"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__payment_type
+msgid "Payment Type"
+msgstr "Tipo de pago"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_account_bank_statement_line__pdc_id
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move__pdc_id
+#: model:ir.model.fields,field_description:pb_pdc.field_account_move_line__pdc_id
+#: model:ir.model.fields,field_description:pb_pdc.field_account_payment__pdc_id
+#: model:ir.model.fields,field_description:pb_pdc.field_ir_attachment__pdc_id
+#: model:ir.model.fields,field_description:pb_pdc.field_mrp_document__pdc_id
+msgid "Pdc"
+msgstr "Pdc"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__payment_type__receive_money
+msgid "Receive Money"
+msgstr "Recibir dinero"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Register"
+msgstr "Registrarse"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_move_form_inherit
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_wizard_form_wizard
+msgid "Register PDC Cheque"
+msgstr "Registro de verificación de PDC"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__registered
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Registered"
+msgstr "Registrada"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.pb_pdc_payment_form_view
+msgid "Return"
+msgstr "Regreso"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__state__returned
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Returned"
+msgstr "Devuelto"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Search PDC Payment"
+msgstr "Buscar pago PDC"
+
+#. module: pb_pdc
+#: model:ir.model.fields.selection,name:pb_pdc.selection__pdc_wizard__payment_type__send_money
+msgid "Send Money"
+msgstr "Enviar dinero"
+
+#. module: pb_pdc
+#: model:ir.model.fields,field_description:pb_pdc.field_pdc_wizard__state
+msgid "State"
+msgstr "Estado"
+
+#. module: pb_pdc
+#: model_terms:ir.ui.view,arch_db:pb_pdc.report_pdc_payment
+#: model_terms:ir.ui.view,arch_db:pb_pdc.view_pb_pdc_filter
+msgid "Status"
+msgstr "Estado"

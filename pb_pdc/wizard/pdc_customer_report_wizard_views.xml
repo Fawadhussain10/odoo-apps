@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pdc_customer_report_wizard_form" model="ir.ui.view">
+        <field name="name">pdc.customer.report.wizard.form</field>
+        <field name="model">pdc.customer.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="PDC Cheque Report" class="o_pdc_wizard">
+                <sheet>
+                    <div class="o_pdc_banner">
+                        <div class="o_pdc_banner_icon"><i class="fa fa-file-text-o" title="Report"/></div>
+                        <div class="o_pdc_banner_main">
+                            <div class="o_pdc_kicker">Reporting</div>
+                            <div class="o_pdc_banner_partner">PDC Cheque Report</div>
+                        </div>
+                    </div>
+                    <group class="o_pdc_groups">
+                        <group string="Filters">
+                            <field name="partner_ids" widget="many2many_tags_avatar"
+                                   placeholder="All partners" options="{'no_create': True}"/>
+                            <field name="state" placeholder="All statuses"/>
+                        </group>
+                    </group>
+                    <div class="o_pdc_hint">
+                        <i class="fa fa-info-circle me-1"/>Leave <b>Partners</b> empty to include every partner,
+                        and <b>Status</b> empty to include cheques in every stage.
+                    </div>
+                </sheet>
+                <footer>
+                    <button name="action_print" string="Print" type="object" class="btn-primary"
+                            icon="fa-print" data-hotkey="q"/>
+                    <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pdc_customer_report_wizard" model="ir.actions.act_window">
+        <field name="name">PDC Cheque Report</field>
+        <field name="res_model">pdc.customer.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="pdc_customer_report_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>
