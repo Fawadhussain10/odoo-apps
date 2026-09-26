@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <!--  Add Button for register PDC Payment -->
+    <record id="pb_move_form_inherit" model="ir.ui.view">
+        <field name="name">Sh move form Inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <button name="action_register_payment" position="after">
+                <button
+                        name="%(pb_pdc_wizard_action)d"
+                        type="action"
+                        string="Register PDC Cheque"
+                        icon="payments"
+                        invisible="state != 'posted' or payment_state  == 'paid' or move_type not in ('out_invoice','in_invoice')"
+                        groups="account.group_account_invoice"
+                        class="oe_highlight"
+                />
+            </button>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="open_pdc_payment"
+                        class="oe_stat_button"
+                        type="object"
+                        icon="payments"
+                        invisible="pdc_payment_count == 0">
+                    <field name="pdc_payment_count" widget="statinfo" string="PDC Payments"/>
+                </button>
+            </xpath>
+            <xpath expr='//page[@name="other_info"]' position='after'>
+                <page name='pdc_payment' string='PDC Payment' invisible="not pdc_payment_ids">
+                    <field name='pdc_payment_ids'>
+                        <list decoration-success="state =='done'" decoration-info="state == 'draft'"
+                              decoration-danger="state == 'bounced'" decoration-muted="state == 'cancel'">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="payment_date"/>
+                            <field name="name"/>
+                            <field name="journal_id"/>
+                            <field name="partner_id"/>
+                            <field name="reference" optional="show"/>
+                            <field name="due_date" widget="relative_date" invisible="state in ('done', 'cancel')"/>
+                            <field name="payment_amount" sum="Total" decoration-bf="1"/>
+                            <field name="state" widget="badge"
+                                   decoration-muted="state in ('draft', 'cancel')"
+                                   decoration-info="state in ('registered', 'deposited')"
+                                   decoration-warning="state == 'returned'"
+                                   decoration-danger="state == 'bounced'"
+                                   decoration-success="state == 'done'"/>
+                        </list>
+                        <form>
+                            <header>
+                                <button name="action_register" class="oe_highlight" invisible="state != 'draft'" string="Register"
+                                        type="object"/>
+                                <button name="action_returned" class="oe_highlight" invisible="state != 'registered'" string="Return"
+                                        type="object"/>
+                                <button name="action_deposited" class="oe_highlight"
+                                        invisible="state not in ['registered', 'returned', 'bounced']" string="Deposit" type="object"/>
+                                <button name="action_bounced" class="oe_highlight" invisible="state != 'deposited'" string="Bounce"
+                                        type="object"/>
+                                <button name="action_done" class="oe_highlight" invisible="state != 'deposited'" string="Done"
+                                        type="object"/>
+                                <button name="action_cancel" class="oe_highlight" invisible="state not in ['registered', 'returned', 'bounced']"
+                                        string="Cancel" type="object"/>
+
+                                <field name="state" widget="statusbar"/>
+                            </header>
+                            <sheet>
+                                <div name="button_box" class="oe_button_box">
+                                    <button name="open_attachments"
+                                            class="oe_stat_button"
+                                            icon="cloud_upload"
+                                            type="object"
+                                            string="Attachments">
+                                    </button>
+                                    <button name="open_journal_items"
+                                            class="oe_stat_button"
+                                            icon="format_list_bulleted"
+                                            type="object"
+                                            string="Journal Items">
+                                    </button>
+                                    <button name="open_journal_entry"
+                                            class="oe_stat_button"
+                                            icon="format_list_bulleted"
+                                            type="object"
+                                            string="Journal Entry">
+                                    </button>
+                                </div>
+
+                                <group>
+                                    <group>
+                                        <field name="name" readonly="1"/>
+                                        <field name="payment_type"
+                                               readonly="state not in ['draft','bounced']" widget="radio"/>
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="partner_id" readonly="state not in ['draft','bounced']"/>
+                                        <field name="payment_amount" widget="monetary"
+                                               readonly="state not in ['draft','bounced']"/>
+                                        <field name="reference" readonly="state not in ['draft','bounced']"/>
+                                        <field name="journal_id" options="{'no_create':1,'no_create_edit':1}"
+                                               readonly="state not in ['draft','bounced']"/>
+                                    </group>
+                                    <group>
+                                        <field name="payment_date" readonly="state not in ['draft','bounced']"/>
+                                        <field name="due_date" readonly="state not in ['draft','bounced']"/>
+                                        <field name="memo" readonly="state not in ['draft','bounced']"/>
+                                        <field name="agent" readonly="state not in ['draft','bounced']"/>
+                                        <field name="bank_name" readonly="state not in ['draft','bounced']"/>
+                                    </group>
+                                </group>
+                                <notebook>
+                                    <page string="Attachments">
+                                        <field name="attachment_ids" widget="many2many_binary"/>
+                                    </page>
+                                </notebook>
+                            </sheet>
+                        </form>
+                    </field>
+                    <group class="oe_subtotal_footer">
+                        <field name="total_pdc_received"/>
+                        <field name="total_pdc_pending"/>
+                        <field name="total_pdc_cancel" invisible="total_pdc_cancel == 0"/>
+                        <field name="total_pdc_payment" class="oe_subtotal_footer_separator"/>
+                    </group>
+                </page>
+            </xpath>
+            <field name="payment_reference" position="after">
+                <field name="is_boolean" invisible="1"/>
+            </field>
+<!--            <xpath expr="//sheet//widget[2]" position="attributes">-->
+<!--                <attribute name="invisible">not is_boolean or payment_state != 'in_payment' or move_type not in (-->
+<!--                'out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')</attribute>-->
+<!--            </xpath>-->
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_pb_pdc_cancel" model="res.groups">
+        <field name="name">PDC Cancel Feature</field>
+    </record>
+</odoo>

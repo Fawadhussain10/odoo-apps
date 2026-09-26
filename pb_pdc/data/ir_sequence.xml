@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- noupdate: sequences keep their counters across module upgrades
+     (without it every upgrade reset number_next to 1 and reissued numbers) -->
+<odoo noupdate="1">
+    <!--  Sequence for PDC Payment -->
+    <record id="sequence_cust_pdc_payment_seq" model="ir.sequence">
+        <field name="name">PDC Customer Payment sequence</field>
+        <field name="code">pdc.payment.customer</field>
+        <field name="prefix">CUST.IN/PDC/</field>
+        <field eval="1" name="number_next" />
+        <field eval="3" name="padding" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+    <record id="sequence_supp_pdc_payment_seq" model="ir.sequence">
+        <field name="name">PDC Vendor Payment sequence</field>
+        <field name="code">pdc.payment.vendor</field>
+        <field name="prefix">SUPP.OUT/PDC/</field>
+        <field eval="1" name="number_next" />
+        <field eval="3" name="padding" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_pdc_wizard,access_pdc_wizard,pdc.wizard,base.group_user,crud,
+access_pdc_wizard_line,access_pdc_wizard_line,pdc.wizard.line,base.group_user,crud,
+access_pdc_customer_report_wizard,access_pdc_customer_report_wizard,pdc.customer.report.wizard,account.group_account_invoice,crud,

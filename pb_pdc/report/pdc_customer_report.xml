@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- one cheque line of the PDC Cheque Report; expects `line` and `sr` -->
+    <template id="report_pdc_customer_row">
+        <tr t-att-class="'row-in' if line['cheque'].payment_type == 'receive_money' else 'row-out'">
+            <t t-set="doc" t-value="line['cheque']"/>
+            <td style="text-align:center;" t-out="sr"/>
+            <td class="strong" t-out="doc.partner_id.name"/>
+            <td>
+                <span t-if="doc.payment_type == 'receive_money'" class="pdc-badge pt-in">Receive Money</span>
+                <span t-else="" class="pdc-badge pt-out">Send Money</span>
+            </td>
+            <td t-out="line['label'] or ''"/>
+            <td t-out="doc.bank_name or ''"/>
+            <td t-out="doc.journal_id.name or ''"/>
+            <td t-out="doc.reference or ''"/>
+            <td><span t-field="doc.due_date"/></td>
+            <td class="r strong"><span t-field="doc.payment_amount"/></td>
+            <td style="text-align:center;">
+                <t t-set="rd" t-value="line['remaining_days']"/>
+                <span t-if="rd is not False"
+                      t-attf-class="rd #{'rd-neg' if rd &lt; 0 else ('rd-soon' if rd &lt;= 7 else 'rd-ok')}"
+                      t-out="rd"/>
+            </td>
+            <td style="text-align:center;">
+                <span t-attf-class="pdc-badge st-#{doc.state}" t-out="line['state_label']"/>
+            </td>
+            <td>
+                <t t-if="doc.done_date" t-out="doc.done_date" t-options="{'widget': 'date'}"/>
+            </td>
+            <td>
+                <t t-foreach="line['jvs']" t-as="jv">
+                    <div t-out="jv[0]"/>
+                </t>
+            </td>
+            <td>
+                <t t-foreach="line['jvs']" t-as="jv">
+                    <div t-attf-class="jv-#{jv[1]}" t-out="jv[2]"/>
+                </t>
+            </td>
+        </tr>
+    </template>
+
+    <template id="report_pdc_customer_document">
+        <t t-call="web.external_layout">
+            <t t-set="data" t-value="wiz._get_report_sections()"/>
+            <t t-set="totals" t-value="data['totals']"/>
+            <t t-set="currency" t-value="res_company.currency_id"/>
+            <div class="page pdc-r">
+                <t t-call="pb_pdc.pdc_report_styles"/>
+                <style>
+                    .pdc-r table.pdc-cust th, .pdc-r table.pdc-cust td { font-size: 10px; padding: 6px 6px; }
+                    .pdc-r .rd { display: inline-block; min-width: 38px; padding: 2px 6px; border-radius: 6px !important;
+                                 font-weight: 700; text-align: center; }
+                    .pdc-r .rd-neg { background: #fecaca !important; color: #991b1b !important; }
+                    .pdc-r .rd-soon { background: #fef3c7 !important; color: #92400e !important; }
+                    .pdc-r .rd-ok { background: #dcfce7 !important; color: #166534 !important; }
+                    .pdc-r .jv-posted { color: #15803d !important; font-weight: 700; }
+                    .pdc-r .jv-draft { color: #b45309 !important; font-weight: 700; }
+                    .pdc-r .jv-cancel { color: #94a3b8 !important; font-weight: 700; }
+                    /* row colours: receive money green, send money red */
+                    .pdc-r table.pdc-grid tr.row-in td { background-color: #ecfdf5 !important; }
+                    .pdc-r table.pdc-grid tr.row-out td { background-color: #fef2f2 !important; }
+                    /* section bands and section totals */
+                    .pdc-r table.pdc-grid tr.sec td { font-weight: 700; font-size: 11px; letter-spacing: .6px; text-transform: uppercase; padding: 7px 8px; }
+                    .pdc-r table.pdc-grid tr.sec-in td { background-color: #15803d !important; color: #fff !important; }
+                    .pdc-r table.pdc-grid tr.sec-out td { background-color: #b91c1c !important; color: #fff !important; border-top: 10px solid #fff !important; }
+                    .pdc-r table.pdc-grid tr.sec-total td { font-weight: 700; font-size: 11px; padding: 7px 6px; border-top: 2px solid #0f172a !important; }
+                    .pdc-r table.pdc-grid tr.sec-total-in td { background-color: #dcfce7 !important; color: #14532d !important; }
+                    .pdc-r table.pdc-grid tr.sec-total-out td { background-color: #fee2e2 !important; color: #7f1d1d !important; }
+                    .pdc-r table.pdc-grid td.amt-in { color: #15803d !important; font-weight: 700; }
+                    .pdc-r table.pdc-grid td.amt-out { color: #b91c1c !important; font-weight: 700; }
+                    .pdc-r .sec-title { font-size: 11px; font-weight: 700; color: #1e3a8a !important; text-transform: uppercase; letter-spacing: 1.2px; margin: 18px 0 6px 0; }
+                    .pdc-r table.pdc-sum { width: 65%; }
+                    .pdc-r table.pdc-sum th, .pdc-r table.pdc-sum td { font-size: 11px; padding: 6px 8px; }
+                    /* overall totals */
+                    .pdc-r table.pdc-grid tr.grand td { background-color: #0f172a !important; color: #fff !important; font-weight: 700; font-size: 12px; border-bottom: 0 none !important; padding: 8px; }
+                    .pdc-r .flt { display: inline-block; margin: 0 6px 4px 0; padding: 3px 10px; border-radius: 10px !important;
+                                  background: #eef2ff !important; color: #3730a3 !important; font-size: 10px; font-weight: 600; }
+                </style>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <div class="pdc-sub">Post-Dated Cheques</div>
+                            <h1 class="pdc-title">PDC Cheque Report</h1>
+                            <div class="muted" style="font-size:11px; margin-top:2px;">
+                                Printed on <t t-out="context_timestamp(datetime.datetime.now()).strftime('%d %b %Y, %H:%M')"/>
+                            </div>
+                        </td>
+                        <td style="text-align:right; vertical-align:bottom;">
+                            <span class="flt">Partners:
+                                <t t-if="wiz.partner_ids" t-out="', '.join(wiz.partner_ids.mapped('name'))"/>
+                                <t t-else="">All</t>
+                            </span>
+                            <span class="flt">Status:
+                                <t t-if="wiz.state" t-out="dict(wiz._fields['state']._description_selection(wiz.env)).get(wiz.state)"/>
+                                <t t-else="">All</t>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+                <div class="pdc-accent"/>
+
+                <table class="pdc-grid pdc-cust">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;">Sr No</th>
+                            <th>Partner</th>
+                            <th>Payment Type</th>
+                            <th>PO/Inv/Narration/Label</th>
+                            <th>Bank</th>
+                            <th>Type</th>
+                            <th>Cheque No</th>
+                            <th>Date (Cheque)</th>
+                            <th class="r">Amount</th>
+                            <th style="text-align:center;">Remaining Days</th>
+                            <th style="text-align:center;">Status</th>
+                            <th>Clearing Date</th>
+                            <th>JV No</th>
+                            <th>JV Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Receive Money section -->
+                        <t t-if="data['receive_lines']">
+                            <tr class="sec sec-in">
+                                <td colspan="14">Receive Money &#183; <t t-out="totals['receive_count']"/> cheque(s)</td>
+                            </tr>
+                            <t t-foreach="data['receive_lines']" t-as="line">
+                                <t t-set="sr" t-value="line_index + 1"/>
+                                <t t-call="pb_pdc.report_pdc_customer_row"/>
+                            </t>
+                            <tr class="sec-total sec-total-in">
+                                <td colspan="8">Receive Money total</td>
+                                <td class="r"><span t-out="totals['receive_total']" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                                <td colspan="5"/>
+                            </tr>
+                        </t>
+                        <!-- Send Money section -->
+                        <t t-if="data['send_lines']">
+                            <tr class="sec sec-out">
+                                <td colspan="14">Send Money &#183; <t t-out="totals['send_count']"/> cheque(s)</td>
+                            </tr>
+                            <t t-foreach="data['send_lines']" t-as="line">
+                                <t t-set="sr" t-value="totals['receive_count'] + line_index + 1"/>
+                                <t t-call="pb_pdc.report_pdc_customer_row"/>
+                            </t>
+                            <tr class="sec-total sec-total-out">
+                                <td colspan="8">Send Money total</td>
+                                <td class="r"><span t-out="totals['send_total']" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                                <td colspan="5"/>
+                            </tr>
+                        </t>
+                        <tr t-if="not totals['count']">
+                            <td colspan="14" style="text-align:center; padding:24px;" class="muted">
+                                No cheques match the selected filters.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Partner by partner totals, then the overall totals -->
+                <!-- title and table kept on the same page -->
+                <div t-if="data['partner_totals']" style="page-break-inside: avoid;">
+                    <div class="sec-title">Totals by Partner</div>
+                    <table class="pdc-grid pdc-sum">
+                        <thead>
+                            <tr>
+                                <th style="width:40%;">Partner</th>
+                                <th class="r" style="width:20%;">Receive Money</th>
+                                <th class="r" style="width:20%;">Send Money</th>
+                                <th class="r" style="width:20%;">Net (Receive &#8722; Send)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="data['partner_totals']" t-as="pt" t-att-class="'alt' if pt_index % 2 else ''">
+                                <td class="strong" t-out="pt['partner'].name"/>
+                                <td class="r amt-in"><span t-out="pt['receive_total']" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                                <td class="r amt-out"><span t-out="pt['send_total']" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                                <td t-attf-class="r strong #{'amt-out' if pt['net'] &lt; 0 else 'amt-in'}"><span t-out="pt['net']" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                            </tr>
+                            <tr class="grand">
+                                <td>Overall (<t t-out="totals['count']"/> cheques)</td>
+                                <td class="r"><span t-out="totals['receive_total']" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                                <td class="r"><span t-out="totals['send_total']" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                                <td class="r"><span t-out="totals['net']" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_pdc_customer">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="wiz">
+                <t t-call="pb_pdc.report_pdc_customer_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="paperformat_pdc_landscape" model="report.paperformat">
+        <field name="name">PDC Landscape</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">58</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">38</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_pdc_customer" model="ir.actions.report">
+        <field name="name">PDC Cheque Report</field>
+        <field name="model">pdc.customer.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pb_pdc.report_pdc_customer</field>
+        <field name="print_report_name">'PDC Cheque Report'</field>
+        <field name="paperformat_id" ref="pb_pdc.paperformat_pdc_landscape"/>
+    </record>
+</odoo>
