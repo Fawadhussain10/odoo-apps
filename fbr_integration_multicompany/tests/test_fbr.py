@@ -5,7 +5,7 @@ from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase, tagged
 
 REQUESTS_POST = 'odoo.addons.fbr_integration_multicompany.models.fbr_api.requests.post'
-SALE_TYPE = 'Goods at Standard Rate (default)'
+SALE_TYPE = 'standard'
 
 
 @tagged('post_install', '-at_install')
@@ -77,6 +77,7 @@ class TestFbrIntegration(TransactionCase):
         self.assertEqual(sent['buyerNTNCNIC'], '7654321-0')
         self.assertEqual(sent['buyerRegistrationType'], 'Registered')
         self.assertEqual(sent['scenarioId'], 'SN001')
+        self.assertEqual(sent['items'][0]['saleType'], 'Goods at standard rate (default)')
         self.assertEqual(sent['invoiceType'], 'Sale Invoice')
         item = sent['items'][0]
         self.assertEqual(item['hsCode'], '8471.3010')
@@ -91,6 +92,16 @@ class TestFbrIntegration(TransactionCase):
         self.assertEqual(invoice.fbr_invoice_number, 'FBR-INV-0001')
         self.assertEqual(invoice.fbr_status, 'verified')
         self.assertTrue(invoice.fbr_post_successful)
+
+    def test_zero_rate_sale_type_sends_zero_rate(self):
+        self.tax.amount = 0
+        invoice = self._invoice()
+        invoice.invoice_line_ids.sale_type = 'zero_rate'
+        with patch(REQUESTS_POST, return_value=self._fbr_reply()):
+            invoice.action_post_data_to_fbr()
+        item = json.loads(invoice.fbr_request)['items'][0]
+        self.assertEqual(item['saleType'], 'Goods at zero-rate')
+        self.assertEqual(item['rate'], '0%')
 
     def test_production_uses_live_gateway(self):
         self.company.fbr_mode = 'production'

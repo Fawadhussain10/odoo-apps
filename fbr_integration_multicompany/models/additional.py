@@ -1,5 +1,7 @@
 from odoo import fields, models, api, _
 
+from .fbr_api import SALE_TYPE_SELECTION
+
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
@@ -20,7 +22,7 @@ class ProductTempExt(models.Model):
     # Mandatory in the product form (see views), not in the database: a NOT NULL column
     # would also break every record created without them (e.g. other apps' products).
     pct_code = fields.Char("PCT/HS Code")
-    sale_type = fields.Char(string='Sale Type')
+    sale_type = fields.Selection(SALE_TYPE_SELECTION, string='Sale Type', default='standard')
     sro_schedule = fields.Char(string='SRO Schedule No')
     sro_item = fields.Char(string='SRO Item No')
     fed_duty = fields.Many2one('account.tax', string='FED Duty')
