@@ -8,6 +8,44 @@ import qrcode
 import base64
 from io import BytesIO
 
+SCENARIO_SELECTION = [('SN%03d' % i, 'SN%03d' % i) for i in range(1, 29)]
+
+SALE_TYPE_SELECTION = [
+    ('standard', 'Goods at standard rate (default)'),
+    ('steel', 'Steel Melting and re-rolling'),
+    ('ship_breaking', 'Ship breaking'),
+    ('reduced_rate', 'Goods at Reduced Rate'),
+    ('exempt', 'Exempt goods'),
+    ('zero_rate', 'Goods at zero-rate'),
+    ('third_schedule', '3rd Schedule Goods'),
+    ('cotton_ginners', 'Cotton Ginners'),
+    ('telecommunication', 'Telecommunication services'),
+    ('toll_manufacturing', 'Toll Manufacturing'),
+    ('petroleum', 'Petroleum Products'),
+    ('electricity_retailers', 'Electricity Supply to Retailers'),
+    ('gas_cng', 'Gas to CNG stations'),
+    ('mobile_phones', 'Mobile Phones'),
+    ('processing_conversion', 'Processing/Conversion of Goods'),
+    ('goods_fed_st', 'Goods (FED in ST Mode)'),
+    ('services_fed_st', 'Services (FED in ST Mode)'),
+    ('services', 'Services'),
+    ('electric_vehicle', 'Electric Vehicle'),
+    ('cement_concrete', 'Cement /Concrete Block'),
+    ('potassium_chlorate', 'Potassium Chlorate'),
+    ('cng_sales', 'CNG Sales'),
+    ('sro_297_2023', 'Goods as per SRO.297(|)/2023'),
+    ('non_adjustable', 'Non-Adjustable Supplies'),
+]
+
+
+def get_sale_type_key(value):
+    """Resolve a sale type given as key or FBR label (case-insensitive) to its selection key."""
+    value = (value or '').strip().lower()
+    for key, label in SALE_TYPE_SELECTION:
+        if value in (key, label.lower()):
+            return key
+    return False
+
 
 def generate_qr_code(value):
     qr = qrcode.QRCode(
@@ -28,7 +66,7 @@ class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
     pct_code = fields.Char("PCT/HS Code", required=True)
-    sale_type = fields.Char(string='Sale Type', required=True)
+    sale_type = fields.Selection(SALE_TYPE_SELECTION, string='Sale Type', required=True)
     sro_schedule = fields.Char(string='SRO Schedule No')
     sro_item = fields.Char(string='SRO Item No')
     fed_duty = fields.Many2one('account.tax', string='FED Duty')
@@ -36,6 +74,11 @@ class AccountMoveLine(models.Model):
     extra_tax = fields.Many2one('account.tax', string='Extra Tax')
     other_tax = fields.Char(string='Other Type Tax (e.g. Exempt)')
     withholding_tax = fields.Many2one('account.tax', string='Withholding Tax')
+
+    def _get_fbr_sale_type_label(self):
+        """FBR expects the sale type description text, not the selection key."""
+        self.ensure_one()
+        return dict(SALE_TYPE_SELECTION).get(self.sale_type, '')
 
     @api.onchange('product_id')
     def _onchange_product_id_custom_fields(self):
@@ -116,7 +159,7 @@ class AccountMove(models.Model):
     ], string="FBR Status", default="draft", copy=False)
     fbr_invoice_number = fields.Char("FBR Invoice Number", copy=False)
     fbr_post_successful = fields.Boolean("FBR Data Posted", copy=False)
-    scenario_id = fields.Char(string='Scenario ID')
+    scenario_id = fields.Selection(SCENARIO_SELECTION, string='Scenario ID')
     fbr_qr_image = fields.Binary(string="QR Code", compute='_generate_qr_code', copy=False)
     qr_in_report = fields.Boolean(string='Display QRCode in Report?', compute='_qr_in_report', copy=False)
     display_scenario = fields.Boolean(string='Display Scenario', compute='_display_scenario_field')
@@ -231,14 +274,14 @@ class AccountMove(models.Model):
                         "hsCode": line.pct_code,
                         "productDescription": line.product_id.name or "",
                         "ProductCode": line.product_id.default_code or "",
-                        "rate": f"{int(tax_rate)}%" if tax_rate > 0.0 or line.sale_type == 'Goods at zero-rate' else line.other_tax,
+                        "rate": f"{int(tax_rate)}%" if tax_rate > 0.0 or line.sale_type == 'zero_rate' else line.other_tax,
                         "uoM": line.product_uom_id.name or "",
                         "quantity": abs(line.quantity),
                         "totalValues": price_total,
                         "valueSalesExcludingST": price_subtotal,
                         "salesTaxApplicable": tax_charged,
                         "fixedNotifiedValueOrRetailPrice": (
-                            line.price_subtotal if fbr_mode == 'sandbox' and (invoice.scenario_id == "SN008" or invoice.scenario_id == "SN027") else 0
+                            line.price_subtotal if fbr_mode == 'sandbox' and invoice.scenario_id in ('SN008', 'SN027') else 0
                         ),
                         "salesTaxWithheldAtSource": abs(withholding_tax_amount) or 0,
                         "extraTax": f"{extra_tax_amount}" if extra_tax_amount > 0.0 else "",
@@ -246,7 +289,7 @@ class AccountMove(models.Model):
                         "sroScheduleNo": line.sro_schedule or "",
                         "fedPayable": fed_duty_amount,
                         "discount": discount_amount,
-                        "saleType": line.sale_type,
+                        "saleType": line._get_fbr_sale_type_label(),
                         "sroItemSerialNo": line.sro_item or ""
                     })
 
