@@ -1,6 +1,6 @@
 {
     "name": "FBR Integration Multi Company",
-    "version": "19.0.0.1",
+    "version": "19.0.0.2",
     "summary": "Send invoices to FBR (Federal Board of Revenue Pakistan)",
     "description": "Integrate Odoo invoices with FBR's real-time invoice reporting system.",
     "category": "Accounting",
