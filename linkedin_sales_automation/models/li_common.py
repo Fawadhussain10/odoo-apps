@@ -197,6 +197,20 @@ def one_paragraph(text):
 
 # The same working order in one line: tool descriptions, tool answers, li_overview, prompts.
 WRITE_ORDER = ('For each person, in this order: (1) read who they are in prospect.profile (role, company, about, '
-               'experience); (2) read their last reply and judge its nature (interested, curious, neutral, busy, '
-               'sceptical, objection, question, not interested); (3) only then analyse or write, so the text fits '
-               'their real role and what they said and moves toward the objective of the step.')
+               'experience); (2) read the whole conversation so far: what we already said and asked, what they '
+               'answered, and the topic being discussed now; (3) read their last reply and judge its nature '
+               '(interested, curious, neutral, busy, sceptical, objection, question, not interested); (4) only then '
+               'analyse or write, so the text fits their real role and what they said, continues the current topic, '
+               'never repeats something we already said or asks something they already answered, and moves toward '
+               'the objective of the step.')
+
+
+def similar_text(a, b):
+    """0..1: how alike two messages are, ignoring case, spacing and punctuation."""
+    import difflib
+    import re
+    clean = lambda t: re.sub(r'[^\w]+', ' ', (t or '').lower()).strip()
+    a, b = clean(a), clean(b)
+    if not a or not b:
+        return 0.0
+    return 1.0 if a == b else difflib.SequenceMatcher(None, a, b).ratio()

@@ -159,10 +159,12 @@ out?".
 * A person LinkedIn only lets you invite with their email address is followed
   instead (or flagged), without retries.
 * Before writing, Claude gets each person's LinkedIn profile from Odoo and is
-  told to work in a fixed order: read the profile, read the last reply and
+  told to work in a fixed order: read the profile, read the conversation so far
+  (the last 30 messages, with where it stands now), read the last reply and
   judge its nature, and only then write so the text fits the person's real role
-  and what they said. The same order is in the tool descriptions, in every
-  item and in the prompts.
+  and what they said, without repeating what was already said. The same order
+  is in the tool descriptions, in every item and in the prompts. Odoo also
+  refuses a text that repeats a message already sent to that person.
 * Every message is sent only after a fresh read of its conversation: a new
   reply drops the queued text (stale), and a message you write by hand on
   LinkedIn takes the prospect over. LinkedIn's own interface text (banners,

@@ -190,6 +190,24 @@ class LiProspect(models.Model):
             'profile': self.profile_text or '',
         }
 
+    def _situation_payload(self):
+        """Where the conversation stands: who spoke last, what we already sent,
+        the last analysis. Claude reads it with the conversation before writing."""
+        self.ensure_one()
+        msgs = self.message_ids_li.sorted(lambda m: (m.date or m.create_date, m.id))
+        ours = msgs.filtered(lambda m: m.direction == 'out' and m.kind != 'note')
+        theirs = msgs.filtered(lambda m: m.direction == 'in')
+        return {
+            'messages_from_us': len(ours),
+            'replies_from_prospect': len(theirs),
+            'last_message_from': ('us' if msgs[-1].direction == 'out' else 'prospect') if msgs else 'nobody',
+            'our_last_message': ours[-1].body if ours else '',
+            'their_last_reply': theirs[-1].body if theirs else '',
+            'last_reply_nature': self.last_sentiment or '',
+            'summary_so_far': self.ai_summary or '',
+            'current_step': self.current_step_id.name or '',
+        }
+
     def _conversation_payload(self, limit=30):
         self.ensure_one()
         msgs = self.message_ids_li.sorted(lambda m: (m.date or m.create_date, m.id))

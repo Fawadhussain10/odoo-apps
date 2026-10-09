@@ -74,6 +74,32 @@ class TestWritingItems(BackgroundCase):
             self.call('li_submit_text', work_id=item['work_id'], text='again')
 
     @freeze_time(MONDAY_10_UTC)
+    def test_history_comes_first_and_a_repeat_is_refused(self):
+        persona = self._persona(run=('chat',))
+        prospect = self._accepted(persona)
+        Message = self.env['li.message']
+        Message.create({'prospect_id': prospect.id, 'direction': 'out', 'kind': 'message', 'ai_generated': True,
+                        'state': 'sent', 'body': 'Hi Ali, thanks for connecting! Always good to meet founders.'})
+        Message.create({'prospect_id': prospect.id, 'direction': 'in', 'kind': 'reply',
+                        'body': 'Thanks. We run on Shopify and spreadsheets.'})
+        prospect.write({'last_sentiment': 'positive', 'ai_summary': 'Runs on Shopify.'})
+        item = self._items('message')[0]
+        # the item says where the conversation stands, and tells Claude to read all of it first
+        self.assertEqual(item['situation']['last_message_from'], 'prospect')
+        self.assertEqual(item['situation']['their_last_reply'], 'Thanks. We run on Shopify and spreadsheets.')
+        self.assertEqual((item['situation']['messages_from_us'], item['situation']['summary_so_far']),
+                         (1, 'Runs on Shopify.'))
+        self.assertIn('read the whole conversation', item['instructions'])
+        self.assertIn('Never repeat a sentence', item['instructions'])
+        # a text we already sent to this person is not queued again
+        with self.assertRaisesRegex(ToolError, 'repeats a message already sent to Ali Raza'):
+            self.call('li_submit_text', work_id=item['work_id'],
+                      text='Hi Ali, thanks for connecting!  Always good to meet founders')
+        result = self.call('li_submit_text', work_id=item['work_id'],
+                           text='Good to know, Ali. Which part of the spreadsheets takes your team the most time?')
+        self.assertTrue(result['queued'])
+
+    @freeze_time(MONDAY_10_UTC)
     def test_submit_text_is_stale_when_the_conversation_changed(self):
         persona = self._persona(run=('chat',))
         prospect = self._accepted(persona)

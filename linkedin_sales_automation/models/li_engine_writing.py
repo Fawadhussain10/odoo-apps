@@ -93,7 +93,8 @@ class LiMcpWriting(models.AbstractModel):
                 'Write the handoff message from the draft, fitted to the conversation; keep the meeting link exactly. '
                 + CHAT_METHOD + ' ' + GUARDRAILS,
                 {'draft': draft, 'meeting_link': chat.meeting_link or '',
-                 'conversation': prospect._conversation_payload()}))
+                 'conversation': prospect._conversation_payload(),
+                 'situation': prospect._situation_payload()}))
         return items
 
     def _gen_w_message(self, profile, ctx):
@@ -127,6 +128,7 @@ class LiMcpWriting(models.AbstractModel):
                               ai_personalise=step.ai_personalise),
                  'draft': self._render(step.template, prospect),
                  'conversation': prospect._conversation_payload(),
+                 'situation': prospect._situation_payload(),
                  'answers_so_far': prospect._answers_dict()},
                 step_id=step.id))
         return items
@@ -161,7 +163,8 @@ class LiMcpWriting(models.AbstractModel):
                 {'followup': {'number': number, 'name': step.name, 'template': step.template or '',
                               'ai_personalise': step.ai_personalise, 'days_without_reply': silent_days},
                  'draft': self._render(step.template, prospect),
-                 'conversation': prospect._conversation_payload()},
+                 'conversation': prospect._conversation_payload(),
+                 'situation': prospect._situation_payload()},
                 followup_step_id=step.id))
         return items
 

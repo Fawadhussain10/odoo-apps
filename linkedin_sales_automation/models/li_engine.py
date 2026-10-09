@@ -18,8 +18,8 @@ from datetime import datetime, time, timedelta
 from odoo import _, api, fields, models
 
 from .li_common import (
-    CLOSED_STAGES, NOTE_MAX_CHARS, SEND_TYPES, WORK_TYPES, format_hour, in_window, iso_utc,
-    linkedin_username, local_now, normalize_profile_url, normalize_text, safe_zone, unfilled_placeholders, utc_now,
+    CLOSED_STAGES, NOTE_MAX_CHARS, SEND_TYPES, WORK_TYPES, format_hour, in_window, iso_utc, linkedin_username,
+    local_now, normalize_profile_url, normalize_text, safe_zone, similar_text, unfilled_placeholders, utc_now,
 )
 from .li_engine_parse import people_search_url
 from .li_mcp_tools import ToolError
@@ -56,17 +56,24 @@ ONE_PARAGRAPH = 'One paragraph, no line breaks.'
 MESSAGE_MAX_CHARS = 8000
 SEARCH_COOLDOWN = timedelta(minutes=60)
 MAX_SEND_FAILURES = 3
+DUPLICATE_RATIO = 0.9           # a new message this close to one already sent is a repeat
+DUPLICATE_MIN_CHARS = 25
 LOCK_KEY = 74218301  # pg advisory lock serialising quota decisions
 
 GUARDRAILS = ('Never mention prices, discounts or promises that are not in the persona/service data. '
               'Stop with anyone who says no or asks to stop.')
 CHAT_METHOD = (
     'Before you write, in this order: (1) read who this person is in prospect.profile (headline, current role and '
-    'company, about, experience) and decide what they actually do and what would matter to them; (2) read their '
+    'company, about, experience) and decide what they actually do and what would matter to them; (2) read the '
+    'whole conversation in the item, oldest to newest: list for yourself what we already said and asked, what '
+    'they answered (answers_so_far), and the topic being discussed right now (situation); (3) read their '
     'last reply in the conversation and judge its nature (interested, curious, neutral, busy, sceptical, an '
-    'objection, a question, not interested); (3) only then write: speak to their real role and company, answer '
-    'what they said, match their tone and length, and move toward the objective of this step. Never write '
-    'something that does not fit their profile (for example treating an employee or a consultant as the owner or '
+    'objection, a question, not interested); (4) only then write: speak to their real role and company, answer '
+    'what they said, continue the topic under discussion, match their tone and length, and move toward the '
+    'objective of this step. Never repeat a sentence, an introduction or a question we already sent, never ask '
+    'for something they already answered, and never change the subject away from what they just raised; if the '
+    'step\'s question was already answered, acknowledge the answer and take the next useful step instead. Never '
+    'write something that does not fit their profile (for example treating an employee or a consultant as the owner or '
     'buyer); if the step\'s question does not fit this person, reshape it to what is relevant for them while '
     'keeping the objective. If prospect.profile is empty, use the headline, title and company.')
 CHAT_METHOD_CHROME = ('First open the prospect\'s LinkedIn profile (linkedin_url) and read the headline, current '
@@ -501,6 +508,21 @@ class LiMcpEngine(models.AbstractModel):
         placeholders = unfilled_placeholders(text)
         if placeholders:
             return 'fill the placeholders before sending: %s' % ', '.join('{%s}' % p for p in placeholders)
+        return self._repeats_sent_message(item, text)
+
+    def _repeats_sent_message(self, item, text):
+        """An error when the text repeats a message this person already got from us."""
+        if item.work_type == 'invite' or len(text) < DUPLICATE_MIN_CHARS:
+            return None
+        sent = self.env['li.message'].sudo().search([
+            ('prospect_id', '=', item.prospect_id.id), ('direction', '=', 'out'), ('state', '=', 'sent'),
+            ('kind', '!=', 'note'), ('work_item_id', '!=', item.id)])
+        for message in sent:
+            if similar_text(message.body, text) >= DUPLICATE_RATIO:
+                return ('this repeats a message already sent to %s on %s ("%s…"). Read the conversation and write '
+                        'something new that continues it' % (item.prospect_id.name,
+                                                             (message.date or message.create_date).date(),
+                                                             (message.body or '')[:60]))
         return None
 
     def _send_verdict(self, item, text, dry=False):

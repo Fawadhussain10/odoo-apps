@@ -142,6 +142,7 @@ class LiMcpEngineChat(models.AbstractModel):
             pivot_allowed = number >= (chat.pivot_min_step or 0)
             items.append(self._create_item('analyse', 'chat', profile, prospect.persona_id, prospect, payload={
                 'conversation': prospect._conversation_payload(),
+                'situation': prospect._situation_payload(),
                 'current_step': self._step_payload(prospect.current_step_id, number) if prospect.current_step_id else None,
                 'questions_asked': asked,
                 'remaining_question_steps': remaining,
@@ -205,6 +206,7 @@ class LiMcpEngineChat(models.AbstractModel):
                 'text': text,
                 'meeting_link': chat.meeting_link or '',
                 'conversation': prospect._conversation_payload(),
+                'situation': prospect._situation_payload(),
                 'instructions': 'Send this handoff message (you may adjust the wording to the conversation, keep '
                                 'the meeting link exactly). ' + SEND_IN_CHROME + ' ' + GUARDRAILS,
             }))
@@ -237,6 +239,7 @@ class LiMcpEngineChat(models.AbstractModel):
                              ai_personalise=step.ai_personalise),
                 'draft': self._render(step.template, prospect),
                 'conversation': prospect._conversation_payload(),
+                'situation': prospect._situation_payload(),
                 'answers_so_far': prospect._answers_dict(),
                 'instructions': 'Write step %s (%s) for this prospect from the objective and template%s, in the '
                                 'persona\'s tone and language, following the conversation so far. No placeholders '
