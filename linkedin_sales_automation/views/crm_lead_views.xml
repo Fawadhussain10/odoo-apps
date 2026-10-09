@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_lead_view_form_inherit_li" model="ir.ui.view">
+        <field name="name">crm.lead.form.li</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_li_prospect" type="object" class="oe_stat_button" icon="fa-linkedin"
+                        invisible="not li_prospect_id" string="LinkedIn"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="LinkedIn" name="linkedin" invisible="not li_prospect_id and not li_persona_id">
+                    <group>
+                        <field name="li_prospect_id"/>
+                        <field name="li_persona_id"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_view_search_inherit_li" model="ir.ui.view">
+        <field name="name">crm.lead.search.li</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_leads_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="li_persona_id"/>
+                <filter name="from_linkedin" string="From LinkedIn agents" domain="[('li_prospect_id', '!=', False)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_view_search_opp_inherit_li" model="ir.ui.view">
+        <field name="name">crm.lead.search.opportunity.li</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="li_persona_id"/>
+                <filter name="from_linkedin" string="From LinkedIn agents" domain="[('li_prospect_id', '!=', False)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

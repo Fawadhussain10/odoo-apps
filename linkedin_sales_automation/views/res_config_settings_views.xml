@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_li" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.li</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="LinkedIn Sales" string="LinkedIn Sales" name="linkedin_sales_automation"
+                     groups="linkedin_sales_automation.group_li_admin">
+                    <block title="Odoo MCP endpoint" name="li_mcp">
+                        <setting string="MCP endpoint" help="Claude connects through a connector URL: press New connector URL below and copy the full URL it shows (it holds the token). Clients that send headers can use this address with Authorization: Bearer.">
+                            <field name="li_mcp_enabled"/>
+                            <div class="mt8 w-100" invisible="not li_mcp_enabled">
+                                <field name="li_mcp_url" readonly="1" widget="CopyClipboardChar" class="w-100"/>
+                            </div>
+                        </setting>
+                        <setting string="Connector URLs (tokens)" help="Each connector URL holds one token, shown once: paste it in Claude › Settings › Connectors › Add custom connector. Revoke one by archiving its token. Tools run as the technical user &quot;LinkedIn MCP Agent&quot;.">
+                            <div class="d-flex gap-2 align-items-center">
+                                <field name="li_mcp_token_count" class="w-auto"/> <span>active token(s)</span>
+                            </div>
+                            <div class="mt8">
+                                <button name="action_li_new_token" type="object" string="New connector URL" class="btn-primary me-2"/>
+                                <button name="action_li_manage_tokens" type="object" string="Manage tokens" class="btn-link"/>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="LinkedIn engine" name="li_engine">
+                        <setting string="Built-in engine" help="Runs the LinkedIn browser for the profiles in Built-in engine mode. Prepared once per server; takes a few minutes and downloads about 300 MB.">
+                            <div class="d-flex flex-column gap-2">
+                                <div><b><field name="li_engine_state" class="d-inline"/></b></div>
+                                <field name="li_engine_detail" class="text-muted small" invisible="not li_engine_detail"/>
+                                <div invisible="li_is_odoo_sh">
+                                    <button name="action_li_prepare_engine" type="object" string="Prepare engine" class="btn-primary me-2"
+                                            invisible="li_engine_preparing" groups="linkedin_sales_automation.group_li_admin"
+                                            confirm="Install (or update) the LinkedIn engine on this server now? It runs in the background."/>
+                                    <button name="action_li_refresh_engine" type="object" string="Refresh status" class="btn-link"/>
+                                </div>
+                                <div invisible="not li_engine_admin_commands" class="alert alert-warning mb-0 p-2" role="status">
+                                    <div>One-time step for a server administrator (needs root):</div>
+                                    <field name="li_engine_admin_commands" class="font-monospace small"/>
+                                </div>
+                                <field name="li_is_odoo_sh" invisible="1"/>
+                                <field name="li_engine_preparing" invisible="1"/>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Built-in engine: background work" name="li_background" invisible="li_is_odoo_sh">
+                        <setting string="Daily read budget" help="LinkedIn pages each engine profile may read per day: people searches, inbox, threads and acceptance checks together. A fifth is kept for re-reading a thread right before each message.">
+                            <field name="li_read_budget"/> pages per profile
+                        </setting>
+                        <setting string="Acceptance checks" help="While invites are pending, the newest connections are read in one page and every invited person found there is marked Accepted. If that page cannot be read, invites are checked one by one in small batches instead (each at most twice a day).">
+                            Recent connections every <field name="li_connections_every"/> minutes
+                            <div class="mt-1">fallback: <field name="li_acceptance_per_run"/> invites every <field name="li_acceptance_every"/> minutes</div>
+                        </setting>
+                        <setting string="Engine action timeout" help="The engine gives up on one LinkedIn action after this time. A send that times out has an unknown outcome: it is never repeated and the prospect is flagged for a person to check. Applies after an engine restart.">
+                            <field name="li_engine_tool_timeout"/> seconds
+                        </setting>
+                    </block>
+                    <block title="Runs" name="li_runs">
+                        <setting string="Check inbox every" help="How often the LinkedIn inbox of a profile is read: by the engine in the background, or as a check_inbox item for Claude in Chrome. Only changed threads are opened.">
+                            <field name="li_inbox_interval"/> minutes
+                        </setting>
+                        <setting string="Max items per li_get_work" help="Claude in Chrome: keep it moderate (15–25), each LinkedIn action takes seconds up to a few minutes.">
+                            <field name="li_max_items_per_run"/>
+                        </setting>
+                        <setting string="Max sends per profile" help="Send items (invite, message, follow-up, handoff) one li_get_work may hold claimed per LinkedIn profile. The random delay gap is enforced by li_confirm_send.">
+                            <field name="li_max_sends_per_account"/>
+                        </setting>
+                        <setting string="Claim timeout" help="A released item not reported within this time expires and returns its quota.">
+                            <field name="li_claim_timeout"/> minutes
+                        </setting>
+                        <setting string="Check acceptance every" help="A check_acceptance item per LinkedIn account is released at most this often.">
+                            <field name="li_acceptance_interval"/> hours
+                        </setting>
+                    </block>
+                    <block title="Prompts for Claude" name="li_prompts">
+                        <setting string="Run now" help="Paste in a Claude chat (with the Odoo connector on) to run the agents once. Built-in engine: any computer, Claude only writes. Claude in Chrome: in Chrome signed in to that LinkedIn account, one profile per chat.">
+                            <div class="w-100">
+                                <div class="fw-bold mt-1" invisible="li_is_odoo_sh">Built-in engine</div>
+                                <field name="li_prompt_run_engine" widget="CopyClipboardText" class="w-100" invisible="li_is_odoo_sh"/>
+                                <div class="fw-bold mt-2" invisible="li_is_odoo_sh">Send connections now – built-in engine</div>
+                                <field name="li_prompt_send_now_engine" widget="CopyClipboardText" class="w-100" invisible="li_is_odoo_sh"/>
+                                <div class="fw-bold mt-2" invisible="li_is_odoo_sh">Answer replies now – built-in engine</div>
+                                <field name="li_prompt_reply_now_engine" widget="CopyClipboardText" class="w-100" invisible="li_is_odoo_sh"/>
+                                <div class="fw-bold mt-2">Claude in Chrome</div>
+                                <field name="li_prompt_run_chrome" widget="CopyClipboardText" class="w-100"/>
+                            </div>
+                        </setting>
+                        <setting string="Scheduled run" help="For a Claude scheduled task, 1 to 3 times a day. The engine sends and reads all day by itself; Claude only needs to write in time. Claude in Chrome works only while that computer and Chrome are on.">
+                            <div class="w-100">
+                                <div class="fw-bold mt-1" invisible="li_is_odoo_sh">Built-in engine</div>
+                                <field name="li_prompt_scheduled_engine" widget="CopyClipboardText" class="w-100" invisible="li_is_odoo_sh"/>
+                                <div class="fw-bold mt-2">Claude in Chrome</div>
+                                <field name="li_prompt_scheduled_chrome" widget="CopyClipboardText" class="w-100"/>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Server instructions" name="li_instructions">
+                        <setting string="Instructions returned by initialize" help="Claude reads this text when it connects.">
+                            <field name="li_mcp_instructions" class="w-100"/>
+                            <button name="action_li_reset_instructions" type="object" string="Reset to default" class="btn-link ps-0"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_li_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'linkedin_sales_automation', 'bin_size': False}</field>
+    </record>
+</odoo>

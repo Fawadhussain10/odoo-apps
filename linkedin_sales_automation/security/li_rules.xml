@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Multi-company: global rules (apply to every user) -->
+    <record id="rule_li_profile_company" model="ir.rule">
+        <field name="name">LinkedIn profile: multi-company</field>
+        <field name="model_id" ref="model_li_profile"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_li_persona_company" model="ir.rule">
+        <field name="name">LinkedIn persona: multi-company</field>
+        <field name="model_id" ref="model_li_persona"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_li_prospect_company" model="ir.rule">
+        <field name="name">LinkedIn prospect: multi-company</field>
+        <field name="model_id" ref="model_li_prospect"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_li_event_company" model="ir.rule">
+        <field name="name">LinkedIn event: multi-company</field>
+        <field name="model_id" ref="model_li_event"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_li_work_item_company" model="ir.rule">
+        <field name="name">LinkedIn work item: multi-company</field>
+        <field name="model_id" ref="model_li_work_item"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_li_engine_action_company" model="ir.rule">
+        <field name="name">LinkedIn engine action: multi-company</field>
+        <field name="model_id" ref="model_li_engine_action"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_li_post_company" model="ir.rule">
+        <field name="name">LinkedIn post: multi-company</field>
+        <field name="model_id" ref="model_li_post"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_li_post_user" model="ir.rule">
+        <field name="name">LinkedIn post: own profiles</field>
+        <field name="model_id" ref="model_li_post"/>
+        <field name="domain_force">[('linkedin_profile_id.owner_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_li_user'))]"/>
+    </record>
+    <record id="rule_li_post_manager" model="ir.rule">
+        <field name="name">LinkedIn post: all</field>
+        <field name="model_id" ref="model_li_post"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_li_manager'))]"/>
+    </record>
+
+    <record id="rule_li_work_item_user" model="ir.rule">
+        <field name="name">LinkedIn work item: own profiles</field>
+        <field name="model_id" ref="model_li_work_item"/>
+        <field name="domain_force">[('linkedin_profile_id.owner_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_li_user'))]"/>
+    </record>
+    <record id="rule_li_work_item_manager" model="ir.rule">
+        <field name="name">LinkedIn work item: all</field>
+        <field name="model_id" ref="model_li_work_item"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_li_manager'))]"/>
+    </record>
+
+    <!-- Users see personas and prospects of profiles they own unless Manager (section 9). -->
+    <record id="rule_li_persona_user" model="ir.rule">
+        <field name="name">LinkedIn persona: own profiles</field>
+        <field name="model_id" ref="model_li_persona"/>
+        <field name="domain_force">[('linkedin_profile_id.owner_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_li_user'))]"/>
+    </record>
+    <record id="rule_li_persona_manager" model="ir.rule">
+        <field name="name">LinkedIn persona: all</field>
+        <field name="model_id" ref="model_li_persona"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_li_manager'))]"/>
+    </record>
+
+    <record id="rule_li_prospect_user" model="ir.rule">
+        <field name="name">LinkedIn prospect: own profiles</field>
+        <field name="model_id" ref="model_li_prospect"/>
+        <field name="domain_force">['|', ('linkedin_profile_id.owner_id', '=', user.id), ('taken_over_by', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_li_user'))]"/>
+    </record>
+    <record id="rule_li_prospect_manager" model="ir.rule">
+        <field name="name">LinkedIn prospect: all</field>
+        <field name="model_id" ref="model_li_prospect"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_li_manager'))]"/>
+    </record>
+
+    <record id="rule_li_message_user" model="ir.rule">
+        <field name="name">LinkedIn message: own profiles</field>
+        <field name="model_id" ref="model_li_message"/>
+        <field name="domain_force">['|', ('prospect_id.linkedin_profile_id.owner_id', '=', user.id), ('prospect_id.taken_over_by', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_li_user'))]"/>
+    </record>
+    <record id="rule_li_message_manager" model="ir.rule">
+        <field name="name">LinkedIn message: all</field>
+        <field name="model_id" ref="model_li_message"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_li_manager'))]"/>
+    </record>
+
+    <record id="rule_li_event_user" model="ir.rule">
+        <field name="name">LinkedIn event: own profiles</field>
+        <field name="model_id" ref="model_li_event"/>
+        <field name="domain_force">['|', ('linkedin_profile_id', '=', False), ('linkedin_profile_id.owner_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_li_user'))]"/>
+    </record>
+    <record id="rule_li_event_manager" model="ir.rule">
+        <field name="name">LinkedIn event: all</field>
+        <field name="model_id" ref="model_li_event"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_li_manager'))]"/>
+    </record>
+
+    <record id="rule_li_connection_agent_user" model="ir.rule">
+        <field name="name">Connection Agent: own profiles</field>
+        <field name="model_id" ref="model_li_connection_agent"/>
+        <field name="domain_force">[('persona_id.linkedin_profile_id.owner_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_li_user'))]"/>
+    </record>
+    <record id="rule_li_connection_agent_manager" model="ir.rule">
+        <field name="name">Connection Agent: all</field>
+        <field name="model_id" ref="model_li_connection_agent"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_li_manager'))]"/>
+    </record>
+    <record id="rule_li_chat_agent_user" model="ir.rule">
+        <field name="name">Chat Agent: own profiles</field>
+        <field name="model_id" ref="model_li_chat_agent"/>
+        <field name="domain_force">[('persona_id.linkedin_profile_id.owner_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_li_user'))]"/>
+    </record>
+    <record id="rule_li_chat_agent_manager" model="ir.rule">
+        <field name="name">Chat Agent: all</field>
+        <field name="model_id" ref="model_li_chat_agent"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_li_manager'))]"/>
+    </record>
+</odoo>

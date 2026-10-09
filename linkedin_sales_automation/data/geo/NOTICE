@@ -1,0 +1,11 @@
+Map data used by the prospects map (offline, nothing is sent to a map service)
+
+places.tsv.gz  Cities with 15,000+ inhabitants and their first-level regions, from GeoNames
+               (https://www.geonames.org), licensed under Creative Commons Attribution 4.0
+               (https://creativecommons.org/licenses/by/4.0/). Reduced to name, country, region,
+               coordinates and population.
+countries.tsv  Country names from GeoNames (CC BY 4.0); centre points computed from Natural Earth
+               1:110m (public domain).
+static/src/dashboard/li_world.js
+               Country outlines from Natural Earth 1:110m (public domain, https://www.naturalearthdata.com)
+               via the world-atlas package 2.0.2 (ISC licence), projected with the Natural Earth projection.

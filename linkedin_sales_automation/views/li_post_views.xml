@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="li_post_view_list" model="ir.ui.view">
+        <field name="name">li.post.list</field>
+        <field name="model">li.post</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'idea'" decoration-danger="state == 'failed'"
+                  decoration-success="state == 'published'">
+                <field name="name"/>
+                <field name="linkedin_profile_id"/>
+                <field name="execution_mode" optional="hide"/>
+                <field name="scheduled_local" string="Publish at"/>
+                <field name="state" widget="badge" decoration-info="state in ('draft', 'approved', 'scheduled')"
+                       decoration-warning="state == 'publishing'" decoration-success="state == 'published'"
+                       decoration-danger="state == 'failed'"/>
+                <field name="published_at" optional="show"/>
+                <field name="reactions" optional="show" sum="Reactions"/>
+                <field name="comments" optional="show" sum="Comments"/>
+                <field name="reposts" optional="hide" sum="Reposts"/>
+                <field name="post_url" widget="url" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="li_post_view_form" model="ir.ui.view">
+        <field name="name">li.post.form</field>
+        <field name="model">li.post</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary"
+                            invisible="state not in ('draft', 'failed')"/>
+                    <button name="action_back_to_draft" type="object" string="Back to draft"
+                            invisible="state not in ('approved', 'scheduled', 'failed')"/>
+                    <button name="action_back_to_idea" type="object" string="Ask Claude for a new draft"
+                            invisible="state not in ('draft', 'failed')"
+                            confirm="Send the post back to Claude? Claude writes a new draft from the idea at its next run."/>
+                    <button name="action_open_post" type="object" string="Open on LinkedIn" invisible="not post_url"/>
+                    <field name="state" widget="statusbar" statusbar_visible="idea,draft,scheduled,published"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="alert" invisible="state != 'idea'">
+                        Claude writes the draft from this idea at its next run. You approve it before anything is published.
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="state != 'draft'">
+                        Draft ready: read it, edit if needed, then press <b>Approve</b>.
+                    </div>
+                    <div class="alert alert-danger" role="alert" invisible="not error">
+                        <field name="error" nolabel="1"/>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Why stock sync matters for Shopify brands"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="linkedin_profile_id"/>
+                            <field name="execution_mode" string="Published by"/>
+                            <field name="service_id"/>
+                        </group>
+                        <group>
+                            <field name="scheduled_at"/>
+                            <field name="schedule_tz"/>
+                            <field name="scheduled_local" invisible="not scheduled_at"/>
+                            <field name="approved_by" invisible="not approved_by"/>
+                            <field name="approved_at" invisible="not approved_at"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Post" name="post">
+                            <field name="text" placeholder="Claude writes the draft here from the idea."
+                                   readonly="state in ('approved', 'scheduled', 'publishing', 'published')"/>
+                            <div class="text-muted small"><field name="char_count" class="d-inline"/> / 3000 characters</div>
+                            <field name="image" widget="image" class="mt-3"
+                                   readonly="state in ('approved', 'scheduled', 'publishing', 'published')"/>
+                        </page>
+                        <page string="Idea" name="idea">
+                            <field name="idea" placeholder="Topic, angle, key points, call to action…"/>
+                        </page>
+                        <page string="Results" name="results" invisible="state != 'published'">
+                            <group>
+                                <group>
+                                    <field name="post_url" widget="url"/>
+                                    <field name="published_at"/>
+                                    <field name="stats_checked_at"/>
+                                </group>
+                                <group>
+                                    <field name="reactions"/>
+                                    <field name="comments"/>
+                                    <field name="reposts"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="li_post_view_kanban" model="ir.ui.view">
+        <field name="name">li.post.kanban</field>
+        <field name="model">li.post</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" quick_create="false">
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <field name="name" class="fw-bold"/>
+                        <field name="linkedin_profile_id" class="text-muted small"/>
+                        <field name="scheduled_local" class="small"/>
+                        <div class="small" invisible="state != 'published'">
+                            <field name="reactions"/> reactions · <field name="comments"/> comments
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="li_post_view_search" model="ir.ui.view">
+        <field name="name">li.post.search</field>
+        <field name="model">li.post</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="linkedin_profile_id"/>
+                <filter name="to_approve" string="To approve" domain="[('state', '=', 'draft')]"/>
+                <filter name="queued" string="Waiting to publish" domain="[('state', 'in', ('approved', 'scheduled'))]"/>
+                <filter name="published" string="Published" domain="[('state', '=', 'published')]"/>
+                <filter name="failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_profile" string="LinkedIn Profile" context="{'group_by': 'linkedin_profile_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_li_post" model="ir.actions.act_window">
+        <field name="name">Posts</field>
+        <field name="res_model">li.post</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('state', '!=', 'idea')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No posts yet</p>
+            <p>Add a post idea; Claude drafts it, you approve, Odoo publishes at the chosen time.</p>
+        </field>
+    </record>
+
+    <record id="action_li_post_idea" model="ir.actions.act_window">
+        <field name="name">Post ideas</field>
+        <field name="res_model">li.post</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '=', 'idea')]</field>
+        <field name="context">{'default_state': 'idea'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a post idea</p>
+            <p>Give a title and the idea. At its next run Claude writes the draft, which you approve before it is published.</p>
+        </field>
+    </record>
+
+    <record id="li_claude_run_view_list" model="ir.ui.view">
+        <field name="name">li.claude.run.list</field>
+        <field name="model">li.claude.run</field>
+        <field name="arch" type="xml">
+            <list create="false" edit="false" decoration-danger="errors">
+                <field name="date"/>
+                <field name="linkedin_profile_ids" widget="many2many_tags"/>
+                <field name="written"/>
+                <field name="done"/>
+                <field name="errors"/>
+                <field name="summary" optional="show"/>
+                <field name="error_text" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_li_claude_run" model="ir.actions.act_window">
+        <field name="name">Claude runs</field>
+        <field name="res_model">li.claude.run</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

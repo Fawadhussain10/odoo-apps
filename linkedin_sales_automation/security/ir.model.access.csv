@@ -1,0 +1,67 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_li_profile_user,li_profile group_li_user,model_li_profile,group_li_user,1,0,0,0
+access_li_profile_manager,li_profile group_li_manager,model_li_profile,group_li_manager,1,0,0,0
+access_li_profile_admin,li_profile group_li_admin,model_li_profile,group_li_admin,1,1,1,1
+access_li_service_user,li_service group_li_user,model_li_service,group_li_user,1,0,0,0
+access_li_service_manager,li_service group_li_manager,model_li_service,group_li_manager,1,1,1,1
+access_li_weekday_user,li_weekday group_li_user,model_li_weekday,group_li_user,1,0,0,0
+access_li_weekday_admin,li_weekday group_li_admin,model_li_weekday,group_li_admin,1,1,1,1
+access_li_target_tag_user,li_target_tag group_li_user,model_li_target_tag,group_li_user,1,0,0,0
+access_li_target_tag_manager,li_target_tag group_li_manager,model_li_target_tag,group_li_manager,1,1,1,1
+access_li_company_size_user,li_company_size group_li_user,model_li_company_size,group_li_user,1,0,0,0
+access_li_company_size_manager,li_company_size group_li_manager,model_li_company_size,group_li_manager,1,1,1,1
+access_li_message_template_user,li_message_template group_li_user,model_li_message_template,group_li_user,1,0,0,0
+access_li_message_template_manager,li_message_template group_li_manager,model_li_message_template,group_li_manager,1,1,1,1
+access_li_persona_user,li_persona group_li_user,model_li_persona,group_li_user,1,0,0,0
+access_li_persona_manager,li_persona group_li_manager,model_li_persona,group_li_manager,1,1,1,1
+access_li_connection_agent_user,li_connection_agent group_li_user,model_li_connection_agent,group_li_user,1,0,0,0
+access_li_connection_agent_manager,li_connection_agent group_li_manager,model_li_connection_agent,group_li_manager,1,1,1,0
+access_li_chat_agent_user,li_chat_agent group_li_user,model_li_chat_agent,group_li_user,1,0,0,0
+access_li_chat_agent_manager,li_chat_agent group_li_manager,model_li_chat_agent,group_li_manager,1,1,1,0
+access_li_chat_step_user,li_chat_step group_li_user,model_li_chat_step,group_li_user,1,0,0,0
+access_li_chat_step_manager,li_chat_step group_li_manager,model_li_chat_step,group_li_manager,1,1,1,1
+access_li_prospect_user,li_prospect group_li_user,model_li_prospect,group_li_user,1,1,0,0
+access_li_prospect_manager,li_prospect group_li_manager,model_li_prospect,group_li_manager,1,1,1,1
+access_li_message_user,li_message group_li_user,model_li_message,group_li_user,1,0,0,0
+access_li_message_manager,li_message group_li_manager,model_li_message,group_li_manager,1,1,1,0
+access_li_message_admin,li_message group_li_admin,model_li_message,group_li_admin,1,1,1,1
+access_li_event_user,li_event group_li_user,model_li_event,group_li_user,1,0,0,0
+access_li_event_admin,li_event group_li_admin,model_li_event,group_li_admin,1,1,1,1
+access_li_work_item_user,li_work_item group_li_user,model_li_work_item,group_li_user,1,0,0,0
+access_li_work_item_admin,li_work_item group_li_admin,model_li_work_item,group_li_admin,1,1,1,1
+access_li_mcp_log_manager,li_mcp_log group_li_manager,model_li_mcp_log,group_li_manager,1,0,0,0
+access_li_mcp_log_admin,li_mcp_log group_li_admin,model_li_mcp_log,group_li_admin,1,1,1,1
+access_li_followup_agent_user,li_followup_agent group_li_user,model_li_followup_agent,group_li_user,1,0,0,0
+access_li_followup_agent_manager,li_followup_agent group_li_manager,model_li_followup_agent,group_li_manager,1,1,0,0
+access_li_followup_step_user,li_followup_step group_li_user,model_li_followup_step,group_li_user,1,0,0,0
+access_li_followup_step_manager,li_followup_step group_li_manager,model_li_followup_step,group_li_manager,1,1,1,1
+access_li_activity_agent_user,li_activity_agent group_li_user,model_li_activity_agent,group_li_user,1,0,0,0
+access_li_activity_agent_manager,li_activity_agent group_li_manager,model_li_activity_agent,group_li_manager,1,1,0,0
+access_li_profile_mcp,li_profile mcp agent,model_li_profile,group_li_mcp_agent,1,1,0,0
+access_li_service_mcp,li_service mcp agent,model_li_service,group_li_mcp_agent,1,0,0,0
+access_li_weekday_mcp,li_weekday mcp agent,model_li_weekday,group_li_mcp_agent,1,0,0,0
+access_li_target_tag_mcp,li_target_tag mcp agent,model_li_target_tag,group_li_mcp_agent,1,0,0,0
+access_li_company_size_mcp,li_company_size mcp agent,model_li_company_size,group_li_mcp_agent,1,0,0,0
+access_li_persona_mcp,li_persona mcp agent,model_li_persona,group_li_mcp_agent,1,1,0,0
+access_li_connection_agent_mcp,li_connection_agent mcp agent,model_li_connection_agent,group_li_mcp_agent,1,1,0,0
+access_li_chat_agent_mcp,li_chat_agent mcp agent,model_li_chat_agent,group_li_mcp_agent,1,1,0,0
+access_li_chat_step_mcp,li_chat_step mcp agent,model_li_chat_step,group_li_mcp_agent,1,0,0,0
+access_li_prospect_mcp,li_prospect mcp agent,model_li_prospect,group_li_mcp_agent,1,1,1,0
+access_li_message_mcp,li_message mcp agent,model_li_message,group_li_mcp_agent,1,1,1,0
+access_li_event_mcp,li_event mcp agent,model_li_event,group_li_mcp_agent,1,1,1,0
+access_li_work_item_mcp,li_work_item mcp agent,model_li_work_item,group_li_mcp_agent,1,1,1,0
+access_li_mcp_log_mcp,li_mcp_log mcp agent,model_li_mcp_log,group_li_mcp_agent,1,0,1,0
+access_li_followup_agent_mcp,li_followup_agent mcp agent,model_li_followup_agent,group_li_mcp_agent,1,1,0,0
+access_li_followup_step_mcp,li_followup_step mcp agent,model_li_followup_step,group_li_mcp_agent,1,0,0,0
+access_li_activity_agent_mcp,li_activity_agent mcp agent,model_li_activity_agent,group_li_mcp_agent,1,1,0,0
+access_li_mcp_token_admin,li_mcp_token admin,model_li_mcp_token,group_li_admin,1,1,1,1
+access_li_mcp_token_wizard_admin,li_mcp_token_wizard admin,model_li_mcp_token_wizard,group_li_admin,1,1,1,1
+access_li_engine_action_manager,li_engine_action group_li_manager,model_li_engine_action,group_li_manager,1,0,0,0
+access_li_engine_action_admin,li_engine_action group_li_admin,model_li_engine_action,group_li_admin,1,1,1,1
+access_li_post_user,li_post group_li_user,model_li_post,group_li_user,1,1,1,1
+access_li_post_manager,li_post group_li_manager,model_li_post,group_li_manager,1,1,1,1
+access_li_post_mcp,li_post mcp agent,model_li_post,group_li_mcp_agent,1,1,0,0
+access_li_claude_run_manager,li_claude_run group_li_manager,model_li_claude_run,group_li_manager,1,0,0,0
+access_li_claude_run_admin,li_claude_run group_li_admin,model_li_claude_run,group_li_admin,1,1,1,1
+access_li_claude_run_mcp,li_claude_run mcp agent,model_li_claude_run,group_li_mcp_agent,1,1,1,0
+access_li_engine_action_mcp,li_engine_action mcp agent,model_li_engine_action,group_li_mcp_agent,1,1,1,0

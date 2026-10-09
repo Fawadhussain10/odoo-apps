@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="linkedin_sales_automation.Connect">
+        <div class="o_li_connect p-3">
+            <!-- choose a way -->
+            <div t-if="!state.token" class="o_li_connect_choose">
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item"><a href="#" class="nav-link" t-att-class="state.tab === 'login' ? 'active' : ''" t-on-click.prevent="() => this.setTab('login')">Log in here</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" t-att-class="state.tab === 'import' ? 'active' : ''" t-on-click.prevent="() => this.setTab('import')">Import session</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" t-att-class="state.tab === 'cookie' ? 'active' : ''" t-on-click.prevent="() => this.setTab('cookie')">Paste cookie</a></li>
+                </ul>
+                <div t-if="state.tab === 'login'">
+                    <p>The LinkedIn sign-in page opens in a browser on the server and is shown here. Sign in as you do on
+                        linkedin.com; a 2-step check or a security check appears in the same window.</p>
+                    <p class="text-muted small">What you type goes straight to that browser: Odoo does not keep or log it.
+                        You have 10 minutes. <t t-if="!xvfb">The server has no virtual screen, so the browser runs without a
+                        window (headless); if LinkedIn refuses the sign-in, use Import session.</t></p>
+                    <button class="btn btn-primary" t-att-disabled="state.busy" t-on-click="startLogin">Open LinkedIn sign-in</button>
+                </div>
+                <div t-if="state.tab === 'import'">
+                    <p>Use this when signing in here does not work. On your own computer:</p>
+                    <ol class="small">
+                        <li>Install uv: <code>curl -LsSf https://astral.sh/uv/install.sh | sh</code> (on Windows: <code>powershell -c "irm https://astral.sh/uv/install.ps1 | iex"</code>).</li>
+                        <li>Run <code>uvx mcp-server-linkedin@4.26.2 --login</code>. A browser opens: sign in to LinkedIn and wait until the command finishes.</li>
+                        <li>Zip the session file: in the folder <code>~/.linkedin-mcp</code> (Windows: <code>%USERPROFILE%\.linkedin-mcp</code>), put <code>cookies.json</code> and <code>source-state.json</code> into a zip.</li>
+                        <li>Choose that zip below. Delete it from your computer afterwards: it opens your LinkedIn account.</li>
+                    </ol>
+                    <input type="file" accept=".zip" class="form-control mb-2" t-ref="file"/>
+                    <button class="btn btn-primary" t-att-disabled="state.busy" t-on-click="importSession">Import and check</button>
+                </div>
+                <div t-if="state.tab === 'cookie'">
+                    <p>On a computer where you are signed in to LinkedIn, in Chrome: open linkedin.com, press F12, go to
+                        Application › Cookies › https://www.linkedin.com and copy the value of <b>li_at</b>.</p>
+                    <input type="password" class="form-control mb-2" placeholder="li_at value" autocomplete="off"
+                           t-model="state.liAt"/>
+                    <p class="text-muted small">The value is checked with LinkedIn once and kept only in this account's
+                        private session folder on the server, like a normal sign-in.</p>
+                    <button class="btn btn-primary" t-att-disabled="state.busy or !state.liAt" t-on-click="sendCookie">Connect</button>
+                </div>
+                <div t-if="state.error" class="alert alert-danger mt-3 mb-0" t-esc="state.error"/>
+            </div>
+
+            <!-- running / finished -->
+            <div t-else="">
+                <div class="alert mb-2" t-att-class="state.state === 'connected' ? 'alert-success' : state.state === 'failed' ? 'alert-danger' : (state.state === 'two_step' or state.state === 'captcha') ? 'alert-warning' : 'alert-info'">
+                    <i t-if="active" class="fa fa-circle-o-notch fa-spin me-2"/>
+                    <b t-esc="state.message"/>
+                </div>
+                <div t-if="showScreen" class="o_li_screen_wrap">
+                    <img t-if="state.frameUrl" t-att-src="state.frameUrl" class="o_li_screen" tabindex="0" t-ref="screen"
+                         alt="LinkedIn sign-in" t-on-click="onClick" t-on-dblclick="onDblClick" t-on-wheel="onWheel"
+                         t-on-keydown="onKeyDown" t-on-paste="onPaste"/>
+                    <div t-else="" class="o_li_screen_wait text-muted">Opening the sign-in page…</div>
+                    <div class="text-muted small mt-1">Click in the page, then type. Paste works too.</div>
+                </div>
+                <div t-if="state.error" class="alert alert-danger mt-2" t-esc="state.error"/>
+            </div>
+
+            <div class="d-flex gap-2 mt-3">
+                <button t-if="state.state === 'connected'" class="btn btn-primary" t-on-click="done">Done</button>
+                <button t-if="state.state === 'failed'" class="btn btn-primary" t-on-click="restart">Try again</button>
+                <button t-if="active" class="btn btn-secondary" t-on-click="cancel">Cancel sign-in</button>
+                <button class="btn btn-link ms-auto" t-on-click="close">Close</button>
+            </div>
+        </div>
+    </t>
+</templates>

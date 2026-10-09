@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_li_root" name="LinkedIn Sales" sequence="45"
+              web_icon="linkedin_sales_automation,static/description/icon.png"
+              groups="group_li_user" action="action_li_dashboard"/>
+
+    <menuitem id="menu_li_dashboard" name="Dashboard" parent="menu_li_root" sequence="1"
+              action="action_li_dashboard"/>
+    <menuitem id="menu_li_persona" name="Personas" parent="menu_li_root" sequence="2" action="action_li_persona"/>
+    <menuitem id="menu_li_prospect_root" name="Prospects" parent="menu_li_root" sequence="3"/>
+    <menuitem id="menu_li_prospect" name="Prospects" parent="menu_li_prospect_root" sequence="1"
+              action="action_li_prospect"/>
+    <menuitem id="menu_li_reply_activities" name="Reply activities" parent="menu_li_prospect_root" sequence="2"
+              action="action_li_prospect_reply_activities"/>
+    <menuitem id="menu_li_event" name="Agent activity log" parent="menu_li_prospect_root" sequence="3"
+              action="action_li_event"/>
+    <menuitem id="menu_li_post_root" name="Posts" parent="menu_li_root" sequence="3"/>
+    <menuitem id="menu_li_post_idea" name="Post ideas" parent="menu_li_post_root" sequence="1" action="action_li_post_idea"/>
+    <menuitem id="menu_li_post" name="Posts" parent="menu_li_post_root" sequence="2" action="action_li_post"/>
+    <menuitem id="menu_li_profile" name="LinkedIn Profiles" parent="menu_li_root" sequence="4"
+              action="action_li_profile"/>
+
+    <menuitem id="menu_li_config" name="Configuration" parent="menu_li_root" sequence="5"/>
+    <menuitem id="menu_li_service" name="Services" parent="menu_li_config" sequence="1" action="action_li_service"/>
+    <menuitem id="menu_li_followup_agent" name="Follow-up Agent" parent="menu_li_config" sequence="2"
+              action="action_li_followup_agent"/>
+    <menuitem id="menu_li_activity_agent" name="Activity Agent" parent="menu_li_config" sequence="3"
+              action="action_li_activity_agent"/>
+    <menuitem id="menu_li_template" name="Message Templates" parent="menu_li_config" sequence="4"
+              action="action_li_message_template" groups="group_li_manager"/>
+    <menuitem id="menu_li_target_tag" name="Targeting tags" parent="menu_li_config" sequence="5"
+              action="action_li_target_tag" groups="group_li_manager"/>
+    <menuitem id="menu_li_settings" name="Settings" parent="menu_li_config" sequence="6"
+              action="action_li_settings" groups="group_li_admin"/>
+    <menuitem id="menu_li_technical" name="Technical" parent="menu_li_config" sequence="20" groups="group_li_admin"/>
+    <menuitem id="menu_li_work_item" name="Work items" parent="menu_li_technical" sequence="1" action="action_li_work_item"/>
+    <menuitem id="menu_li_mcp_token" name="MCP tokens" parent="menu_li_technical" sequence="0" action="action_li_mcp_token"/>
+    <menuitem id="menu_li_mcp_log" name="MCP call log" parent="menu_li_technical" sequence="2" action="action_li_mcp_log"/>
+    <menuitem id="menu_li_claude_run" name="Claude runs" parent="menu_li_technical" sequence="4" action="action_li_claude_run"/>
+    <menuitem id="menu_li_engine_action" name="Engine actions" parent="menu_li_technical" sequence="3" action="action_li_engine_action"/>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Technical user the MCP tools run as. Archived and without password:
+             nobody can log in with it; it is reached only through /li_sales/mcp
+             with an li.mcp.token. -->
+        <record id="user_li_mcp_agent" model="res.users">
+            <field name="name">LinkedIn MCP Agent</field>
+            <field name="login">li_mcp_agent</field>
+            <field name="active" eval="False"/>
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_user'), ref('sales_team.group_sale_salesman_all_leads'), ref('linkedin_sales_automation.group_li_mcp_agent')])]"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="linkedin_sales_automation.MultiFilter">
+        <div class="o_li_filter position-relative">
+            <button class="o_li_pill" t-on-click.stop="() => f.toggle()" t-att-class="f.selected.length ? 'o_li_pill_on' : ''">
+                <span class="o_li_pill_title" t-esc="f.title"/>
+                <span class="o_li_pill_value" t-esc="f.label"/>
+                <i class="fa fa-angle-down"/>
+            </button>
+            <div t-if="f.open" class="o_li_menu" t-on-click.stop="keepOpen">
+                <button class="o_li_menu_item o_li_menu_all" t-on-click="() => f.clear()">
+                    <i class="fa fa-undo"/> All
+                </button>
+                <t t-foreach="f.options" t-as="opt" t-key="opt.id">
+                    <label class="o_li_menu_item">
+                        <input type="checkbox" t-att-checked="f.selected.includes(opt.id)" t-on-change="() => f.pick(opt.id)"/>
+                        <span t-esc="opt.name"/>
+                    </label>
+                </t>
+                <div t-if="!f.options.length" class="o_li_menu_empty">Nothing to choose</div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="linkedin_sales_automation.Dashboard">
+        <div class="o_li_dashboard o_action h-100 overflow-auto" t-on-click="closeMenus">
+            <!-- Hero header with filters -->
+            <header class="o_li_hero">
+                <div class="o_li_hero_glow"/>
+                <div class="o_li_hero_top">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="o_li_logo"><i class="fa fa-linkedin"/></div>
+                        <div>
+                            <h1 class="o_li_title">LinkedIn Sales</h1>
+                            <div class="o_li_subtitle">
+                                <t t-if="state.data" t-esc="rangeLabel"/>
+                                <span t-if="state.loading" class="ms-2"><i class="fa fa-circle-o-notch fa-spin"/></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <button t-if="state.data" class="o_li_alert" t-on-click="() => this.openTile(overdueTile)"
+                            t-att-class="state.data.kpis.overdue_replies ? 'o_li_alert_on' : ''"
+                            title="Reply activities past their deadline (live, not date-filtered)">
+                        <i t-att-class="'fa ' + (state.data.kpis.overdue_replies ? 'fa-exclamation-circle' : 'fa-check-circle')"/>
+                        <b t-esc="state.data.kpis.overdue_replies"/> overdue repl<t t-esc="state.data.kpis.overdue_replies === 1 ? 'y' : 'ies'"/>
+                    </button>
+                    <div class="o_li_segment" role="group" aria-label="Execution mode">
+                        <button t-foreach="[['all', 'All modes'], ['engine', 'Engine'], ['chrome', 'Chrome']]" t-as="m" t-key="m[0]"
+                                t-att-class="state.filters.execution_mode === m[0] ? 'o_li_segment_on' : ''"
+                                t-on-click="() => this.setMode(m[0])" t-esc="m[1]"/>
+                    </div>
+                    <div class="o_li_segment" role="group" aria-label="Agent">
+                        <button t-foreach="[['both', 'Both agents'], ['connection', 'Connection'], ['chat', 'Chat']]" t-as="a" t-key="a[0]"
+                                t-att-class="state.filters.agent === a[0] ? 'o_li_segment_on' : ''"
+                                t-on-click="() => this.setAgent(a[0])" t-esc="a[1]"/>
+                    </div>
+                    </div>
+                </div>
+                <div class="o_li_filters">
+                    <label class="o_li_pill o_li_pill_select">
+                        <i class="fa fa-calendar-o"/>
+                        <select t-on-change="setPreset" aria-label="Date range">
+                            <t t-foreach="presets" t-as="p" t-key="p[0]">
+                                <option t-att-value="p[0]" t-att-selected="state.filters.date_preset === p[0]" t-esc="p[1]"/>
+                            </t>
+                        </select>
+                    </label>
+                    <t t-if="state.filters.date_preset === 'custom'">
+                        <input type="date" class="o_li_pill o_li_date" t-att-value="state.filters.date_from"
+                               t-on-change="(ev) => this.setDate('date_from', ev)" aria-label="From"/>
+                        <span class="o_li_hero_sep">→</span>
+                        <input type="date" class="o_li_pill o_li_date" t-att-value="state.filters.date_to"
+                               t-on-change="(ev) => this.setDate('date_to', ev)" aria-label="To"/>
+                    </t>
+                    <t t-if="state.data">
+                        <t t-call="linkedin_sales_automation.MultiFilter">
+                            <t t-set="f" t-value="{
+                                title: 'Profile', options: state.data.options.profiles,
+                                selected: state.filters.profile_ids, open: state.openMenu === 'profiles',
+                                label: menuLabel('profile_ids', state.data.options.profiles, 'All'),
+                                toggle: () => this.toggleMenu('profiles'), clear: () => this.clearIds('profile_ids'),
+                                pick: (id) => this.toggleId('profile_ids', id)}"/>
+                        </t>
+                        <t t-call="linkedin_sales_automation.MultiFilter">
+                            <t t-set="f" t-value="{
+                                title: 'Persona', options: personaOptions,
+                                selected: state.filters.persona_ids, open: state.openMenu === 'personas',
+                                label: menuLabel('persona_ids', personaOptions, 'All'),
+                                toggle: () => this.toggleMenu('personas'), clear: () => this.clearIds('persona_ids'),
+                                pick: (id) => this.toggleId('persona_ids', id)}"/>
+                        </t>
+                        <t t-call="linkedin_sales_automation.MultiFilter">
+                            <t t-set="f" t-value="{
+                                title: 'Service', options: state.data.options.services,
+                                selected: state.filters.service_ids, open: state.openMenu === 'services',
+                                label: menuLabel('service_ids', state.data.options.services, 'All'),
+                                toggle: () => this.toggleMenu('services'), clear: () => this.clearIds('service_ids'),
+                                pick: (id) => this.toggleId('service_ids', id)}"/>
+                        </t>
+                    </t>
+                </div>
+            </header>
+
+            <div t-if="state.data" class="o_li_body" t-att-class="state.loading ? 'o_li_loading' : ''">
+                <!-- Account health -->
+                <div t-if="state.data.health.length" class="o_li_health">
+                    <button t-foreach="state.data.health" t-as="h" t-key="h.id" class="o_li_health_card"
+                            t-att-class="'o_li_health_' + h.tone" t-on-click="() => this.openProfile(h)"
+                            t-att-title="'Open ' + h.name">
+                        <div class="o_li_health_top">
+                            <span class="o_li_health_dot"/>
+                            <span class="o_li_health_name" t-esc="h.name"/>
+                            <span class="o_li_tag" t-esc="h.mode === 'engine' ? 'Engine' : 'Chrome'"/>
+                        </div>
+                        <div class="o_li_health_state" t-esc="h.state"/>
+                        <div class="o_li_health_hint">
+                            <t t-if="h.paused_until">until <t t-esc="shortDate(h.paused_until)"/> · </t>
+                            last action <t t-esc="shortDate(h.last_action)"/>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Work queue, posts and the last Claude run -->
+                <div class="o_li_ops">
+                    <div class="o_li_tiles o_li_tiles_ops">
+                        <t t-foreach="opsTiles" t-as="tile" t-key="tile.key">
+                            <button class="o_li_tile" t-on-click="() => this.openOps(tile)" t-att-title="'Open ' + tile.label">
+                                <div class="o_li_tile_head">
+                                    <span t-att-class="'o_li_chip o_li_chip_' + tile.tone"><i t-att-class="'fa ' + tile.icon"/></span>
+                                    <span class="o_li_tile_label" t-esc="tile.label"/>
+                                    <i class="fa fa-arrow-right o_li_tile_go"/>
+                                </div>
+                                <div class="o_li_tile_value" t-esc="tile.value"/>
+                                <div class="o_li_tile_hint" t-esc="tile.hint"/>
+                            </button>
+                        </t>
+                    </div>
+                    <section class="o_li_card o_li_run_card">
+                        <header class="o_li_card_head">
+                            <div>
+                                <h3 class="o_li_card_title">Last Claude run</h3>
+                                <div class="o_li_card_sub" t-if="state.data.last_run" t-esc="shortDate(state.data.last_run.date)"/>
+                            </div>
+                        </header>
+                        <div t-if="!state.data.last_run" class="o_li_empty"><i class="fa fa-moon-o"/><div>No run recorded yet</div></div>
+                        <div t-else="" class="o_li_run">
+                            <div class="o_li_run_profiles" t-esc="state.data.last_run.profiles or '—'"/>
+                            <div class="o_li_run_stats">
+                                <span><b t-esc="state.data.last_run.written"/> written</span>
+                                <span><b t-esc="state.data.last_run.done"/> done</span>
+                                <span t-att-class="state.data.last_run.errors ? 'o_li_run_err' : ''"><b t-esc="state.data.last_run.errors"/> errors</span>
+                            </div>
+                            <div t-if="state.data.last_run.error_text" class="o_li_run_errors" t-esc="state.data.last_run.error_text"/>
+                            <div t-if="state.data.last_run.summary" class="o_li_muted small" t-esc="state.data.last_run.summary"/>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- KPI tiles -->
+                <div class="o_li_tiles">
+                    <t t-foreach="tiles" t-as="tile" t-key="tile.key">
+                        <button class="o_li_tile" t-on-click="() => this.openTile(tile)"
+                                t-att-class="(tile.key === 'overdue_replies' and state.data.kpis.overdue_replies) ? 'o_li_tile_alert' : ''"
+                                t-att-title="'Open the matching ' + (tile.pct or tile.live ? 'prospects' : 'events')">
+                            <div class="o_li_tile_head">
+                                <span t-att-class="'o_li_chip o_li_chip_' + tile.tone"><i t-att-class="'fa ' + tile.icon"/></span>
+                                <span class="o_li_tile_label" t-esc="tile.label"/>
+                                <i class="fa fa-arrow-right o_li_tile_go"/>
+                            </div>
+                            <div class="o_li_tile_value" t-esc="formatTile(tile)"/>
+                            <div t-if="tile.pct" class="o_li_meter"><span t-att-style="'width:' + ratePct(tile)"/></div>
+                            <div class="o_li_tile_hint" t-esc="tileHint(tile)"/>
+                        </button>
+                    </t>
+                </div>
+
+                <!-- Prospects map -->
+                <LiProspectMap map="state.data.map" filters="state.filters"/>
+
+                <div class="o_li_grid2">
+                    <!-- Daily bars: invites sent vs accepted -->
+                    <section class="o_li_card">
+                        <header class="o_li_card_head">
+                            <div>
+                                <h3 class="o_li_card_title">Invites sent vs accepted</h3>
+                                <div class="o_li_card_sub">per <t t-esc="state.data.daily.granularity"/>, your time zone</div>
+                            </div>
+                            <div class="o_li_legend">
+                                <span><i class="o_li_swatch o_li_s1"/>Sent</span>
+                                <span><i class="o_li_swatch o_li_s2"/>Accepted</span>
+                            </div>
+                        </header>
+                        <t t-set="d" t-value="daily"/>
+                        <div t-if="!d.bars.length" class="o_li_empty">
+                            <i class="fa fa-bar-chart"/>
+                            <div>No invites in this range yet</div>
+                        </div>
+                        <div t-else="" class="position-relative">
+                            <svg t-att-viewBox="'0 0 ' + chart.width + ' ' + chart.height" class="o_li_svg" role="img"
+                                 aria-label="Daily invites sent and accepted" t-on-mouseleave="() => this.hoverBar(null)">
+                                <t t-foreach="d.ticks" t-as="tick" t-key="tick.value">
+                                    <line t-att-x1="chart.left" t-att-x2="d.plotRight" t-att-y1="tick.y" t-att-y2="tick.y" class="o_li_gridline"/>
+                                    <text t-att-x="chart.left - 8" t-att-y="tick.y + 4" text-anchor="end" class="o_li_axis" t-esc="tick.value"/>
+                                </t>
+                                <t t-foreach="d.bars" t-as="bar" t-key="bar.date">
+                                    <rect t-att-x="bar.slotX" t-att-y="chart.top" t-att-width="bar.slotW" t-att-height="d.baseline - chart.top"
+                                          class="o_li_hit" t-att-class="state.hover and state.hover.date === bar.date ? 'o_li_hit_on' : ''"
+                                          t-on-mouseenter="() => this.hoverBar(bar)"/>
+                                    <rect t-if="bar.sentH" t-att-x="bar.sentX" t-att-y="bar.sentY" t-att-width="d.barW" t-att-height="bar.sentH"
+                                          rx="3" class="o_li_s1 o_li_bar"/>
+                                    <rect t-if="bar.accH" t-att-x="bar.accX" t-att-y="bar.accY" t-att-width="d.barW" t-att-height="bar.accH"
+                                          rx="3" class="o_li_s2 o_li_bar"/>
+                                    <text t-if="bar.label" t-att-x="bar.centerX" t-att-y="chart.height - 6" text-anchor="middle" class="o_li_axis" t-esc="bar.label"/>
+                                </t>
+                                <line t-att-x1="chart.left" t-att-x2="d.plotRight" t-att-y1="d.baseline" t-att-y2="d.baseline" class="o_li_baseline"/>
+                            </svg>
+                            <div t-if="state.hover" class="o_li_tooltip" t-att-style="'left:' + Math.min(90, Math.max(10, 100 * state.hover.centerX / chart.width)) + '%'">
+                                <div class="o_li_tooltip_date" t-esc="state.hover.date"/>
+                                <div><i class="o_li_swatch o_li_s1"/>Sent <b t-esc="state.hover.sent"/></div>
+                                <div><i class="o_li_swatch o_li_s2"/>Accepted <b t-esc="state.hover.accepted"/></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Funnel -->
+                    <section class="o_li_card">
+                        <header class="o_li_card_head">
+                            <div>
+                                <h3 class="o_li_card_title">Funnel</h3>
+                                <div class="o_li_card_sub">sent → meeting, step conversion</div>
+                            </div>
+                        </header>
+                        <div class="o_li_funnel">
+                            <t t-foreach="funnel" t-as="stage" t-key="stage.key">
+                                <div class="o_li_funnel_row" t-att-title="stage.label + ': ' + stage.value">
+                                    <div class="o_li_funnel_meta">
+                                        <span class="o_li_funnel_label" t-esc="stage.label"/>
+                                        <span class="o_li_funnel_value" t-esc="stage.value"/>
+                                    </div>
+                                    <div class="o_li_funnel_track"><span class="o_li_funnel_bar" t-att-style="'width:' + stage.width"/></div>
+                                    <div t-if="stage.conversion" class="o_li_funnel_conv"><i class="fa fa-long-arrow-down"/> <t t-esc="stage.conversion"/> of previous step</div>
+                                </div>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Table by persona -->
+                <section class="o_li_card o_li_table_card">
+                    <header class="o_li_card_head">
+                        <div>
+                            <h3 class="o_li_card_title">By persona</h3>
+                            <div class="o_li_card_sub">click a column to sort, a row to open the persona</div>
+                        </div>
+                    </header>
+                    <div class="table-responsive">
+                        <table class="o_li_table">
+                            <thead>
+                                <tr>
+                                    <th t-foreach="columns" t-as="col" t-key="col.key" t-att-class="col.num ? 'o_li_num' : ''"
+                                        role="button" t-on-click="() => this.sortBy(col.key)">
+                                        <t t-esc="col.label"/>
+                                        <i t-if="state.sort.key === col.key" t-att-class="'fa ms-1 fa-caret-' + (state.sort.asc ? 'up' : 'down')"/>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="personaRows" t-as="row" t-key="row.id" role="button" t-on-click="() => this.openPersona(row)">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="o_li_avatar" t-esc="initials(row.name)"/>
+                                            <span class="fw-semibold" t-esc="row.name"/>
+                                        </div>
+                                    </td>
+                                    <td class="o_li_muted" t-esc="row.profile"/>
+                                    <td><span class="o_li_tag" t-esc="row.service"/></td>
+                                    <td class="o_li_num" t-esc="row.invite_sent"/>
+                                    <td class="o_li_num"><span class="o_li_ratepill" t-esc="row.acceptance_rate + '%'"/></td>
+                                    <td class="o_li_num"><span class="o_li_ratepill" t-esc="row.reply_rate + '%'"/></td>
+                                    <td class="o_li_num" t-esc="row.warm_lead"/>
+                                    <td class="o_li_num" t-esc="row.meeting_booked"/>
+                                </tr>
+                                <tr t-if="!personaRows.length">
+                                    <td t-att-colspan="columns.length" class="o_li_muted text-center py-4">No activity in this range.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </t>
+</templates>

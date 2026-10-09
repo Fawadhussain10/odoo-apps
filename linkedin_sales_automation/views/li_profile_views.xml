@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="li_profile_view_list" model="ir.ui.view">
+        <field name="name">li.profile.list</field>
+        <field name="model">li.profile</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="owner_id" widget="many2one_avatar_user"/>
+                <field name="execution_mode" widget="badge"/>
+                <field name="account_type" optional="hide"/>
+                <field name="connection_state" string="LinkedIn" widget="badge"
+                       decoration-success="connection_state == 'connected'"
+                       decoration-danger="connection_state == 'reconnect_needed'"
+                       decoration-muted="connection_state == 'not_connected'"/>
+                <field name="engine_state" string="Engine" widget="badge" invisible="execution_mode != 'engine'"
+                       decoration-success="engine_state == 'running'" decoration-info="engine_state == 'starting'"
+                       decoration-danger="engine_state == 'failed'" decoration-muted="engine_state == 'stopped'"/>
+                <field name="active_persona_count"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                <field name="account_key" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="li_profile_view_form" model="ir.ui.view">
+        <field name="name">li.profile.form</field>
+        <field name="model">li.profile</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open_connect" type="object" string="Connect LinkedIn" class="btn-primary"
+                            invisible="execution_mode != 'engine' or is_odoo_sh or connection_state == 'connected'"/>
+                    <button name="action_open_connect" type="object" string="Reconnect LinkedIn"
+                            invisible="execution_mode != 'engine' or is_odoo_sh or connection_state != 'connected'"/>
+                    <button name="action_disconnect" type="object" string="Disconnect"
+                            invisible="execution_mode != 'engine' or is_odoo_sh or connection_state == 'not_connected'"
+                            confirm="Disconnect this LinkedIn account? The engine stops and the session is deleted from this server."/>
+                    <button name="action_engine_start" type="object" string="Start engine"
+                            invisible="execution_mode != 'engine' or is_odoo_sh or engine_state in ('running', 'starting')"
+                            groups="linkedin_sales_automation.group_li_manager"/>
+                    <button name="action_engine_stop" type="object" string="Stop engine"
+                            invisible="execution_mode != 'engine' or is_odoo_sh or engine_state == 'stopped'"
+                            groups="linkedin_sales_automation.group_li_manager"/>
+                    <button name="action_engine_status" type="object" string="Engine status"
+                            invisible="execution_mode != 'engine' or is_odoo_sh"/>
+                    <button name="action_test_connection" type="object" string="Test connection"
+                            invisible="execution_mode != 'engine' or is_odoo_sh or connection_state != 'connected' or engine_state != 'running'"/>
+                    <button name="action_pause_agents" type="object" string="Pause all agents"
+                            groups="linkedin_sales_automation.group_li_manager"/>
+                    <field name="connection_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_personas" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="persona_count" widget="statinfo" string="Personas"/>
+                        </button>
+                        <button name="action_open_engine_actions" type="object" class="oe_stat_button" icon="fa-cogs"
+                                invisible="execution_mode != 'engine'" groups="linkedin_sales_automation.group_li_manager">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="reads_today" nolabel="1" class="d-inline"/> / <field name="read_budget" nolabel="1" class="d-inline"/></span>
+                                <span class="o_stat_text">Pages read today</span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="alert alert-danger" role="alert"
+                         invisible="connection_state != 'reconnect_needed' or execution_mode != 'engine'">
+                        The LinkedIn session expired: its agents are paused. Press Reconnect LinkedIn.
+                    </div>
+                    <div class="alert alert-danger" role="alert"
+                         invisible="connection_state != 'reconnect_needed' or execution_mode != 'chrome'">
+                        Chrome is not signed in to this LinkedIn account: its agents are paused. Sign in to LinkedIn
+                        in Chrome as this account; Claude checks the account at the start of its next run.
+                    </div>
+                    <div class="alert alert-danger" role="alert" invisible="connection_state != 'restricted'">
+                        LinkedIn restricted this account and asks for identity verification: nothing is done on it.
+                        Resolve it on linkedin.com in your own browser, then
+                        <span invisible="execution_mode != 'engine'">press Reconnect LinkedIn.</span>
+                        <span invisible="execution_mode != 'chrome'">let Claude check the account again.</span>
+                    </div>
+                    <div class="alert alert-danger" role="alert"
+                         invisible="interface_language != 'other' or execution_mode != 'engine'">
+                        <b>Set LinkedIn's language to English.</b> Odoo reads LinkedIn pages by their English labels, so
+                        background work on this profile is paused. On LinkedIn: Settings › Account preferences ›
+                        Language › English. Then press <b>Test connection</b>.
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="not bg_paused_until or execution_mode != 'engine'">
+                        LinkedIn asked to slow down: background work paused until <field name="bg_paused_until" class="d-inline"/>.
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="execution_mode != 'engine' or is_odoo_sh or connection_state != 'not_connected'">
+                        Not connected yet: press <b>Connect LinkedIn</b> and sign in to this account.
+                    </div>
+                    <div class="alert alert-info" role="alert" invisible="execution_mode != 'chrome'">
+                        <b>Claude in Chrome:</b> on the computer that does the LinkedIn work, use Chrome with the
+                        Claude in Chrome extension, signed in to this LinkedIn account. Use one Chrome profile per
+                        LinkedIn account, and keep the computer on during runs.
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Taha Sohail – Main"/></h1>
+                    </div>
+                    <group>
+                        <group string="Account">
+                            <field name="linkedin_url" widget="url"/>
+                            <field name="owner_id" widget="many2one_avatar_user"/>
+                            <field name="my_display_name" placeholder="Filled after connecting"/>
+                            <field name="account_type"/>
+                            <field name="home_timezone"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="How LinkedIn work is done">
+                            <field name="execution_mode" widget="radio" readonly="is_odoo_sh"/>
+                            <field name="account_key"/>
+                            <field name="is_odoo_sh" invisible="1"/>
+                            <field name="engine_state" invisible="execution_mode != 'engine'" widget="badge"
+                                   decoration-success="engine_state == 'running'" decoration-info="engine_state == 'starting'"
+                                   decoration-danger="engine_state == 'failed'"/>
+                            <field name="engine_started" invisible="execution_mode != 'engine' or not engine_started"/>
+                            <field name="engine_headless" invisible="execution_mode != 'engine' or engine_state == 'stopped'"/>
+                            <field name="connected_date" invisible="not connected_date"/>
+                            <field name="login_state" invisible="login_state == 'none'" string="Last sign-in"/>
+                            <field name="login_message" invisible="not login_message" string="Sign-in result"/>
+                            <field name="engine_error" invisible="not engine_error"/>
+                            <field name="last_success_at" invisible="not last_success_at"/>
+                            <field name="interface_language" invisible="execution_mode != 'engine' or not interface_language"
+                                   widget="badge" decoration-success="interface_language == 'en'"
+                                   decoration-danger="interface_language == 'other'"/>
+                            <field name="bg_last_run" invisible="execution_mode != 'engine' or not bg_last_run"/>
+                            <field name="chrome_verified_at" string="Account checked in Chrome"
+                                   invisible="execution_mode != 'chrome' or not chrome_verified_at"/>
+                        </group>
+                    </group>
+                    <group string="Signature">
+                        <field name="signature" nolabel="1" colspan="2" placeholder="Optional sign-off appended to messages"/>
+                    </group>
+                    <notebook groups="linkedin_sales_automation.group_li_admin">
+                        <page string="Engine (technical)" name="engine" invisible="execution_mode != 'engine'">
+                            <group>
+                                <group>
+                                    <field name="engine_pid"/>
+                                    <field name="engine_port"/>
+                                    <field name="engine_host"/>
+                                </group>
+                                <group>
+                                    <field name="engine_wanted"/>
+                                    <field name="engine_restarts"/>
+                                    <field name="last_send_at"/>
+                                </group>
+                            </group>
+                            <field name="engine_log_tail" class="font-monospace small" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="li_profile_view_search" model="ir.ui.view">
+        <field name="name">li.profile.search</field>
+        <field name="model">li.profile</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="owner_id"/>
+                <field name="account_key"/>
+                <filter name="engine_mode" string="Built-in engine" domain="[('execution_mode', '=', 'engine')]"/>
+                <filter name="chrome_mode" string="Claude in Chrome" domain="[('execution_mode', '=', 'chrome')]"/>
+                <separator/>
+                <filter name="connected" string="Connected" domain="[('connection_state', '=', 'connected')]"/>
+                <filter name="reconnect" string="Reconnect needed" domain="[('connection_state', '=', 'reconnect_needed')]"/>
+                <filter name="restricted" string="Restricted" domain="[('connection_state', '=', 'restricted')]"/>
+                <filter name="mine" string="My profiles" domain="[('owner_id', '=', uid)]"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_li_profile" model="ir.actions.act_window">
+        <field name="name">LinkedIn Profiles</field>
+        <field name="res_model">li.profile</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Register a LinkedIn account</p>
+            <p>Register every LinkedIn account here before creating personas. Only Connected profiles can run personas.</p>
+        </field>
+    </record>
+</odoo>

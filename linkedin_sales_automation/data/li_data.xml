@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="weekday_0" model="li.weekday">
+            <field name="name">Monday</field>
+            <field name="code">0</field>
+        </record>
+        <record id="weekday_1" model="li.weekday">
+            <field name="name">Tuesday</field>
+            <field name="code">1</field>
+        </record>
+        <record id="weekday_2" model="li.weekday">
+            <field name="name">Wednesday</field>
+            <field name="code">2</field>
+        </record>
+        <record id="weekday_3" model="li.weekday">
+            <field name="name">Thursday</field>
+            <field name="code">3</field>
+        </record>
+        <record id="weekday_4" model="li.weekday">
+            <field name="name">Friday</field>
+            <field name="code">4</field>
+        </record>
+        <record id="weekday_5" model="li.weekday">
+            <field name="name">Saturday</field>
+            <field name="code">5</field>
+        </record>
+        <record id="weekday_6" model="li.weekday">
+            <field name="name">Sunday</field>
+            <field name="code">6</field>
+        </record>
+    </data>
+
+    <!-- every install / upgrade: refresh untouched default server instructions -->
+    <function model="res.config.settings" name="_li_upgrade_default_instructions"/>
+    <function model="li.prospect" name="_li_repair_mojibake"/>
+    <function model="li.prospect" name="_li_repair_ui_messages"/>
+    <function model="res.config.settings" name="_li_remove_duplicate_medium"/>
+
+    <data noupdate="1">
+        <record id="company_size_0" model="li.company.size">
+            <field name="name">1–10</field>
+            <field name="sequence">0</field>
+        </record>
+        <record id="company_size_1" model="li.company.size">
+            <field name="name">11–50</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="company_size_2" model="li.company.size">
+            <field name="name">51–200</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="company_size_3" model="li.company.size">
+            <field name="name">201–500</field>
+            <field name="sequence">3</field>
+        </record>
+        <record id="company_size_4" model="li.company.size">
+            <field name="name">500+</field>
+            <field name="sequence">4</field>
+        </record>
+        <record id="seniority_owner" model="li.target.tag">
+            <field name="name">Owner</field>
+            <field name="kind">seniority</field>
+        </record>
+        <record id="seniority_cxo" model="li.target.tag">
+            <field name="name">CXO</field>
+            <field name="kind">seniority</field>
+        </record>
+        <record id="seniority_director" model="li.target.tag">
+            <field name="name">Director</field>
+            <field name="kind">seniority</field>
+        </record>
+        <record id="seniority_manager" model="li.target.tag">
+            <field name="name">Manager</field>
+            <field name="kind">seniority</field>
+        </record>
+
+        <record id="partner_ai_agent" model="res.partner" context="{'no_phone_required': True}">
+            <field name="name">AI Agent</field>
+            <field name="comment">Author of the LinkedIn Sales agents' chatter notes.</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="mail_activity_type_li_reply" model="mail.activity.type">
+            <field name="name">Reply on LinkedIn</field>
+            <field name="summary">Reply on LinkedIn</field>
+            <field name="icon">fa-linkedin</field>
+            <field name="delay_count">2</field>
+            <field name="delay_unit">days</field>
+            <field name="category">default</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <record id="crm_tag_linkedin_ai" model="crm.tag">
+            <field name="name">LinkedIn AI</field>
+        </record>
+        <record id="utm_source_li_automation" model="utm.source">
+            <field name="name">LinkedIn Automation</field>
+        </record>
+
+        <record id="followup_agent_main" model="li.followup.agent">
+            <field name="name">Follow-up Agent</field>
+        </record>
+        <record id="followup_step_1" model="li.followup.step">
+            <field name="agent_id" ref="followup_agent_main"/>
+            <field name="sequence">1</field>
+            <field name="name">Gentle nudge</field>
+            <field name="wait_days">3</field>
+            <field name="template">Hi {first_name}, just bumping this in case it got buried.</field>
+        </record>
+        <record id="followup_step_2" model="li.followup.step">
+            <field name="agent_id" ref="followup_agent_main"/>
+            <field name="sequence">2</field>
+            <field name="name">Value reminder</field>
+            <field name="wait_days">5</field>
+            <field name="template">Hi {first_name}, we recently helped a similar business with {service}. Happy to share how if useful.</field>
+        </record>
+        <record id="followup_step_3" model="li.followup.step">
+            <field name="agent_id" ref="followup_agent_main"/>
+            <field name="sequence">3</field>
+            <field name="name">Last check-in</field>
+            <field name="wait_days">7</field>
+            <field name="template">Hi {first_name}, happy to leave it here if the timing is off. All the best with {company}.</field>
+        </record>
+
+        <record id="activity_agent_main" model="li.activity.agent">
+            <field name="name">Activity Agent</field>
+            <field name="reply_activity_type_id" ref="mail_activity_type_li_reply"/>
+        </record>
+
+        <record id="config_mcp_enabled" model="ir.config_parameter">
+            <field name="key">li_sales.mcp_enabled</field>
+            <field name="value">True</field>
+        </record>
+        <record id="config_max_items" model="ir.config_parameter">
+            <field name="key">li_sales.max_items_per_run</field>
+            <field name="value">20</field>
+        </record>
+        <record id="config_claim_timeout" model="ir.config_parameter">
+            <field name="key">li_sales.claim_timeout</field>
+            <field name="value">15</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+// Dark mode: own surfaces, the dark steps of the same validated data slots.
+.o_li_dashboard {
+    --li-bg: #0b1020;
+    --li-surface: #121a2e;
+    --li-ink: #f1f5f9;
+    --li-ink-2: #cbd5e1;
+    --li-muted: #8391a7;
+    --li-line: #223050;
+    --li-grid: #1b2640;
+    --li-s1: #3987e5;
+    --li-s2: #d95926;
+    --li-critical: #e66767;
+    --li-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+
+    .o_li_tile_alert { background: linear-gradient(180deg, var(--li-surface) 0%, #2a1520 100%); }
+    .o_li_table tbody tr:hover { background: #18223a; }
+    .o_li_chip_blue { background: #13284a; color: #86b6ef; }
+    .o_li_chip_orange { background: #3a1e12; color: #f0a07c; }
+    .o_li_chip_aqua { background: #0f2f27; color: #6fd3ad; }
+    .o_li_chip_violet { background: #221d47; color: #b3abf2; }
+    .o_li_chip_red { background: #3a1717; color: #f0a0a0; }
+    .o_li_tag { background: #221d47; color: #b3abf2; }
+}
+
+.o_li_dashboard {
+    .o_li_health_card { background: #1f2430; border-color: rgba(255, 255, 255, 0.08); }
+    .o_li_health_hint { color: #9aa4b2; }
+}

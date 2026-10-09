@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="linkedin_sales_automation.ProspectMap">
+        <section class="o_li_map_card">
+            <header class="o_li_map_head">
+                <div>
+                    <h3 class="o_li_map_title"><i class="fa fa-globe me-2"/>Where your prospects are</h3>
+                    <div class="o_li_map_sub">
+                        <b t-esc="props.map.located"/> of <t t-esc="props.map.total"/> prospects on the map ·
+                        <t t-esc="props.map.places.length"/> places · <t t-esc="props.map.countries"/> countries
+                    </div>
+                </div>
+                <div class="o_li_map_legend">
+                    <span t-foreach="tones" t-as="tone" t-key="tone[0]">
+                        <i t-att-class="'o_li_map_swatch o_li_tone_' + tone[0]"/><t t-esc="tone[1]"/>
+                    </span>
+                </div>
+            </header>
+            <div class="o_li_map_box" t-ref="box" t-on-wheel="onWheel" t-on-pointerdown="onPointerDown"
+                 t-on-pointermove="onPointerMove" t-on-pointerup="onPointerUp" t-on-pointerleave="onPointerUp"
+                 t-on-click="closePopup" t-att-class="state.zoom > 1 ? 'o_li_map_grab' : ''">
+                <svg t-att-viewBox="viewBox" class="o_li_map_svg" preserveAspectRatio="xMidYMid meet" role="img"
+                     aria-label="Map of the prospects by location">
+                    <defs>
+                        <radialGradient id="liMapSea" cx="50%" cy="45%" r="75%">
+                            <stop offset="0%" stop-color="#14213d"/>
+                            <stop offset="100%" stop-color="#070b16"/>
+                        </radialGradient>
+                        <linearGradient id="liMapLand" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#22324f"/>
+                            <stop offset="100%" stop-color="#1a2640"/>
+                        </linearGradient>
+                        <filter id="liMapGlow" x="-200%" y="-200%" width="500%" height="500%">
+                            <feGaussianBlur t-att-stdDeviation="3 / state.zoom"/>
+                        </filter>
+                    </defs>
+                    <rect x="0" y="0" t-att-width="width" t-att-height="height" fill="url(#liMapSea)"/>
+                    <g class="o_li_map_grid" t-att-stroke-width="strokeWidth">
+                        <path t-foreach="graticule" t-as="g" t-key="g_index" t-att-d="g"/>
+                    </g>
+                    <g class="o_li_map_land" fill="url(#liMapLand)" t-att-stroke-width="strokeWidth">
+                        <path t-foreach="paths" t-as="p" t-key="p_index" t-att-d="p"/>
+                    </g>
+                    <t t-set="mapDots" t-value="dots"/>
+                    <g class="o_li_map_halos" filter="url(#liMapGlow)">
+                        <circle t-foreach="mapDots" t-as="dot" t-key="dot.key" t-att-cx="dot.x" t-att-cy="dot.y"
+                                t-att-r="dot.r * 2.4" t-att-class="'o_li_map_halo o_li_tone_' + dot.tone"/>
+                    </g>
+                    <g class="o_li_map_pulses">
+                        <circle t-foreach="mapDots" t-as="dot" t-key="dot.key" t-att-cx="dot.x" t-att-cy="dot.y"
+                                t-att-r="dot.r * 1.2" t-att-style="'animation-delay:' + dot.delay"
+                                t-att-class="'o_li_map_pulse o_li_tone_' + dot.tone"/>
+                    </g>
+                    <g class="o_li_map_dots">
+                        <g t-foreach="mapDots" t-as="dot" t-key="dot.key" class="o_li_map_dot"
+                           t-att-class="state.popup and state.popup.dot.key === dot.key ? 'o_li_map_dot_on' : ''"
+                           t-on-click="(ev) => this.openPlace(dot, ev)"
+                           t-on-mouseenter="() => this.setHover(dot)" t-on-mouseleave="() => this.setHover(null)">
+                            <circle t-att-cx="dot.x" t-att-cy="dot.y" t-att-r="dot.r * 1.9" class="o_li_map_hit"/>
+                            <circle t-att-cx="dot.x" t-att-cy="dot.y" t-att-r="dot.r"
+                                    t-att-class="'o_li_map_core o_li_tone_' + dot.tone"/>
+                            <circle t-att-cx="dot.x" t-att-cy="dot.y" t-att-r="dot.r * 0.38" class="o_li_map_spark"/>
+                        </g>
+                    </g>
+                </svg>
+
+                <div t-if="state.hover and !state.popup" class="o_li_map_tip">
+                    <b t-esc="state.hover.place"/> · <t t-esc="state.hover.count"/>
+                    prospect<t t-if="state.hover.count !== 1">s</t>
+                </div>
+
+                <div class="o_li_map_tools" t-on-click="keep">
+                    <button t-on-click="zoomIn" title="Zoom in"><i class="fa fa-plus"/></button>
+                    <button t-on-click="zoomOut" title="Zoom out"><i class="fa fa-minus"/></button>
+                    <button t-on-click="reset" title="Whole world"><i class="fa fa-globe"/></button>
+                </div>
+
+                <div t-if="!props.map.places.length" class="o_li_map_empty">
+                    <i class="fa fa-map-marker"/>
+                    <div>No prospect with a known location yet</div>
+                </div>
+
+                <div t-if="state.popup" class="o_li_map_popup" t-on-click="keep" t-on-wheel.stop="() => {}"
+                     t-att-class="state.popup.above ? 'o_li_map_popup_above' : ''"
+                     t-att-style="'left:' + state.popup.left + 'px;top:' + state.popup.top + 'px'">
+                    <div class="o_li_map_popup_head">
+                        <span t-att-class="'o_li_map_swatch o_li_tone_' + state.popup.dot.tone"/>
+                        <div class="flex-grow-1">
+                            <div class="o_li_map_popup_place" t-esc="state.popup.dot.place"/>
+                            <div class="o_li_map_popup_count">
+                                <t t-esc="state.popup.dot.count"/> prospect<t t-if="state.popup.dot.count !== 1">s</t>
+                                <t t-if="state.popup.dot.hot"> · <t t-esc="state.popup.dot.hot"/> warm</t>
+                            </div>
+                        </div>
+                        <button class="o_li_map_close" t-on-click="closeNow" title="Close">×</button>
+                    </div>
+                    <div t-if="state.popup.loading" class="o_li_map_popup_loading"><i class="fa fa-circle-o-notch fa-spin"/></div>
+                    <div t-else="" class="o_li_map_popup_list">
+                        <button t-foreach="state.popup.data.prospects" t-as="p" t-key="p.id" class="o_li_map_person"
+                                t-on-click="() => this.openProspect(p)" t-att-title="'Open ' + p.name">
+                            <span t-att-class="'o_li_map_avatar o_li_tone_' + stageTone(p.stage)" t-esc="initials(p.name)"/>
+                            <span class="o_li_map_person_text">
+                                <span class="o_li_map_person_name" t-esc="p.name"/>
+                                <span class="o_li_map_person_line" t-if="p.headline" t-esc="p.headline"/>
+                                <span class="o_li_map_person_meta">
+                                    <t t-if="p.company"><t t-esc="p.company"/> · </t><t t-esc="p.persona"/>
+                                </span>
+                            </span>
+                            <span t-att-class="'o_li_map_stage o_li_tone_' + stageTone(p.stage)" t-esc="p.stage_label"/>
+                        </button>
+                    </div>
+                    <button t-if="state.popup.data and state.popup.data.count > state.popup.data.prospects.length"
+                            class="o_li_map_all" t-on-click="() => this.openAll(state.popup.dot)">
+                        Show all <t t-esc="state.popup.data.count"/> prospects <i class="fa fa-arrow-right"/>
+                    </button>
+                    <button t-elif="state.popup.data" class="o_li_map_all" t-on-click="() => this.openAll(state.popup.dot)">
+                        Open as a list <i class="fa fa-arrow-right"/>
+                    </button>
+                </div>
+            </div>
+            <div class="o_li_map_foot">Drag to move, scroll or +/− to zoom, click a glowing spot for its prospects.
+                Map: Natural Earth · places: GeoNames (CC BY 4.0). Nothing is sent to a map service.</div>
+        </section>
+    </t>
+</templates>

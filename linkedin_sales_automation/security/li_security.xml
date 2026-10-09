@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_li_sales" model="ir.module.category">
+        <field name="name">LinkedIn Sales</field>
+        <field name="description">Access to LinkedIn Sales Automation.</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <record id="group_li_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_li_sales"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="comment">View dashboard, personas and prospects of their own LinkedIn profiles; read-only on profiles and configuration.</field>
+    </record>
+
+    <record id="group_li_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_li_sales"/>
+        <field name="implied_ids" eval="[(4, ref('group_li_user'))]"/>
+        <field name="comment">Create and edit personas, run / pause / stop agents, manage services.</field>
+    </record>
+
+    <record id="group_li_admin" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="category_id" ref="module_category_li_sales"/>
+        <field name="implied_ids" eval="[(4, ref('group_li_manager'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        <field name="comment">Register LinkedIn profiles, edit connector tokens and global limits.</field>
+    </record>
+
+    <record id="module_category_li_sales_mcp" model="ir.module.category">
+        <field name="name">LinkedIn Sales (MCP)</field>
+        <field name="description">Technical access for the Claude connector user.</field>
+        <field name="sequence">31</field>
+    </record>
+
+    <!-- Technical group of the user whose API key Claude uses. It has no menu
+         and no model access of its own: it may only call the MCP tools. -->
+    <record id="group_li_mcp_agent" model="res.groups">
+        <field name="name">MCP Agent</field>
+        <field name="category_id" ref="module_category_li_sales_mcp"/>
+        <field name="comment">Technical group for the user whose API key Claude uses. May only call the MCP tools of /li_sales/mcp.</field>
+    </record>
+</odoo>

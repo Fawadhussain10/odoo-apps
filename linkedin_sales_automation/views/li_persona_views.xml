@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="li_persona_view_list" model="ir.ui.view">
+        <field name="name">li.persona.list</field>
+        <field name="model">li.persona</field>
+        <field name="arch" type="xml">
+            <list>
+                <header>
+                    <button name="action_pause_all" type="object" string="Pause all agents"
+                            groups="linkedin_sales_automation.group_li_manager"/>
+                    <button name="action_stop_all" type="object" string="Stop all agents"
+                            groups="linkedin_sales_automation.group_li_manager"
+                            confirm="Stop every agent of the selected personas? Queued prospects not yet invited return to the pool."/>
+                </header>
+                <field name="name" string="Persona"/>
+                <field name="linkedin_profile_id" optional="hide"/>
+                <field name="service_id"/>
+                <field name="connection_state" string="Connection Agent" widget="badge"
+                       decoration-success="connection_state == 'running'"
+                       decoration-warning="connection_state == 'paused'"
+                       decoration-muted="connection_state == 'stopped'"/>
+                <field name="chat_state" string="Chat Agent" widget="badge"
+                       decoration-success="chat_state == 'running'"
+                       decoration-warning="chat_state == 'paused'"
+                       decoration-muted="chat_state == 'stopped'"/>
+                <field name="target_timezone" optional="hide"/>
+                <field name="invites_today" optional="hide"/>
+                <field name="accepted_count" optional="hide"/>
+                <field name="lead_count" optional="hide"/>
+                <field name="meeting_count" optional="hide"/>
+                <field name="state" string="Status" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-warning="state == 'paused'"
+                       decoration-info="state == 'stopped'"
+                       decoration-muted="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="li_persona_view_form" model="ir.ui.view">
+        <field name="name">li.persona.form</field>
+        <field name="model">li.persona</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,paused,stopped"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_prospects" type="object" class="oe_stat_button" icon="fa-user-plus">
+                            <field name="prospect_count" widget="statinfo" string="Prospects"/>
+                        </button>
+                        <button name="action_open_accepted" type="object" class="oe_stat_button" icon="fa-handshake-o">
+                            <field name="accepted_count" widget="statinfo" string="Accepted"/>
+                        </button>
+                        <button name="action_open_leads" type="object" class="oe_stat_button" icon="fa-star">
+                            <field name="lead_count" widget="statinfo" string="Warm leads"/>
+                        </button>
+                        <button name="action_open_meetings" type="object" class="oe_stat_button" icon="fa-calendar">
+                            <field name="meeting_count" widget="statinfo" string="Meetings"/>
+                        </button>
+                        <button name="action_open_events" type="object" class="oe_stat_button" icon="fa-list-ul">
+                            <field name="event_count" widget="statinfo" string="Activity"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Fashion brand founders – PK"/></h1>
+                        <span class="text-muted">Status is computed from the two agents</span>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="linkedin_profile_id" options="{'no_create': True}"/>
+                            <field name="service_id" options="{'no_create': True}"/>
+                            <field name="salesperson_id" widget="many2one_avatar_user"/>
+                            <field name="crm_team_id"/>
+                            <field name="target_timezone"/>
+                            <field name="target_working_days" widget="many2many_checkboxes"/>
+                        </group>
+                        <group>
+                            <field name="industry_ids" widget="many2many_tags" context="{'default_kind': 'industry'}"/>
+                            <field name="job_titles" placeholder="Founder, CEO, Director"/>
+                            <field name="seniority_ids" widget="many2many_tags" context="{'default_kind': 'seniority'}"/>
+                            <field name="location_ids" widget="many2many_tags" context="{'default_kind': 'location'}"/>
+                            <field name="company_size_ids" widget="many2many_tags"/>
+                            <field name="include_keywords"/>
+                            <field name="exclude_keywords"/>
+                            <field name="search_url" widget="url"/>
+                            <field name="tone"/>
+                            <field name="language"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="icp_description" string="Ideal customer (sent to Claude)"
+                               placeholder="Founders of Pakistani fashion brands selling on Shopify…"/>
+                        <field name="pain_points" placeholder="What hurts this audience (sent to Claude)"/>
+                    </group>
+                    <notebook>
+                        <page string="Connection Agent" name="connection_agent">
+                            <div class="d-flex align-items-center gap-2 mb-3" invisible="not id">
+                                <field name="connection_state" widget="badge" nolabel="1"
+                                       decoration-success="connection_state == 'running'"
+                                       decoration-warning="connection_state == 'paused'"
+                                       decoration-muted="connection_state == 'stopped'"/>
+                                <button name="action_connection_run" type="object" string="Run" class="btn-primary"
+                                        invisible="connection_state == 'running'"
+                                        groups="linkedin_sales_automation.group_li_manager"/>
+                                <button name="action_connection_pause" type="object" string="Pause" class="btn-secondary"
+                                        invisible="connection_state != 'running'"
+                                        groups="linkedin_sales_automation.group_li_manager"/>
+                                <button name="action_connection_stop" type="object" string="Stop" class="btn-secondary"
+                                        invisible="connection_state == 'stopped'"
+                                        groups="linkedin_sales_automation.group_li_manager"
+                                        confirm="Stop the Connection Agent? Its queue is cleared (queued prospects return to the pool); prospects and history are kept."/>
+                                <span class="ms-auto text-muted">Last run <field name="con_last_run" nolabel="1" class="d-inline"/></span>
+                            </div>
+                            <div class="alert alert-warning" role="alert" invisible="not con_paused_until">
+                                <field name="con_pause_reason" nolabel="1" class="d-inline"/> — runs again by itself on
+                                <field name="con_paused_until" nolabel="1" class="d-inline"/>.
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="con_daily_limit" string="Daily limit"/>
+                                    <label for="con_send_window_from" string="Send window"/>
+                                    <div class="o_row">
+                                        <field name="con_send_window_from" widget="float_time" nolabel="1"/>
+                                        <span>–</span>
+                                        <field name="con_send_window_to" widget="float_time" nolabel="1"/>
+                                        <span class="text-muted">target time</span>
+                                    </div>
+                                    <label for="con_delay_min" string="Delay between sends (s)"/>
+                                    <div class="o_row">
+                                        <field name="con_delay_min" nolabel="1"/>
+                                        <span>–</span>
+                                        <field name="con_delay_max" nolabel="1"/>
+                                    </div>
+                                    <field name="con_send_note" string="Send note with invite"/>
+                                </group>
+                                <group>
+                                    <field name="con_weekly_limit" string="Weekly limit"/>
+                                    <field name="con_stop_tracking_after_days" string="Withdraw pending after (days)"/>
+                                    <field name="con_skip_if_contacted" string="Skip contacted people"/>
+                                    <field name="con_follow_if_no_connect" string="Follow when no Connect"/>
+                                    <field name="con_total_target" string="Stop after total"/>
+                                </group>
+                            </group>
+                            <group invisible="not con_send_note">
+                                <field name="con_note_instructions" string="Note instructions"
+                                       required="con_send_note"
+                                       placeholder="Mention their brand and one line on Shopify + Odoo sync. Max 200 chars."/>
+                            </group>
+                        </page>
+                        <page string="Chat Agent" name="chat_agent">
+                            <div class="d-flex align-items-center gap-2 mb-3" invisible="not id">
+                                <field name="chat_state" widget="badge" nolabel="1"
+                                       decoration-success="chat_state == 'running'"
+                                       decoration-warning="chat_state == 'paused'"
+                                       decoration-muted="chat_state == 'stopped'"/>
+                                <button name="action_chat_run" type="object" string="Run" class="btn-primary"
+                                        invisible="chat_state == 'running'"
+                                        groups="linkedin_sales_automation.group_li_manager"/>
+                                <button name="action_chat_pause" type="object" string="Pause" class="btn-secondary"
+                                        invisible="chat_state != 'running'"
+                                        groups="linkedin_sales_automation.group_li_manager"/>
+                                <button name="action_chat_stop" type="object" string="Stop" class="btn-secondary"
+                                        invisible="chat_state == 'stopped'"
+                                        groups="linkedin_sales_automation.group_li_manager"
+                                        confirm="Stop the Chat Agent? Scheduled messages are cancelled; conversations in progress are left for the salesperson."/>
+                                <span class="ms-auto text-muted">Sent today <field name="messages_today" nolabel="1" class="d-inline"/> / <field name="chat_daily_limit" nolabel="1" readonly="1" class="d-inline"/></span>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="chat_daily_limit" string="Daily limit"/>
+                                    <field name="chat_first_message_delay" string="First message delay (h after accept)"/>
+                                    <label for="chat_send_window_from" string="Send window"/>
+                                    <div class="o_row">
+                                        <field name="chat_send_window_from" widget="float_time" nolabel="1"/>
+                                        <span>–</span>
+                                        <field name="chat_send_window_to" widget="float_time" nolabel="1"/>
+                                        <span class="text-muted">target time</span>
+                                    </div>
+                                </group>
+                                <group>
+                                    <field name="chat_stop_on_negative" string="Stop on negative"/>
+                                    <field name="chat_pivot_min_step" string="Pivot from step"/>
+                                    <field name="chat_meeting_link" string="Meeting link" widget="url"/>
+                                </group>
+                            </group>
+                            <separator string="Questionnaire sequence"/>
+                            <field name="chat_step_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name" string="Step"/>
+                                    <field name="trigger"/>
+                                    <field name="wait_days" string="Wait (days)"/>
+                                    <field name="is_question" string="Question"/>
+                                    <field name="objective"/>
+                                    <field name="template" optional="show"/>
+                                    <field name="ai_personalise" optional="hide"/>
+                                    <field name="template_id" optional="hide"/>
+                                </list>
+                            </field>
+                            <group>
+                                <field name="chat_pivot_criteria" string="Pivot criteria (when to push to CRM)"
+                                       placeholder="Confirms they sell online and want stock or order sync, or asks for a call, a demo or pricing."/>
+                                <field name="chat_handoff_message" string="Handoff message"
+                                       placeholder="Happy to show how this works on a 20-min call: {meeting_link}"/>
+                            </group>
+                        </page>
+                        <page string="Targeting notes" name="targeting_notes">
+                            <field name="targeting_notes" placeholder="Internal notes for the team (not sent to Claude)"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="li_persona_view_kanban" model="ir.ui.view">
+        <field name="name">li.persona.kanban</field>
+        <field name="model">li.persona</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="card">
+                        <field name="name" class="fw-bold"/>
+                        <field name="service_id"/>
+                        <field name="linkedin_profile_id" class="text-muted"/>
+                        <field name="state" widget="badge"/>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="li_persona_view_search" model="ir.ui.view">
+        <field name="name">li.persona.search</field>
+        <field name="model">li.persona</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="service_id"/>
+                <field name="linkedin_profile_id"/>
+                <filter name="active_state" string="Active" domain="[('state', '=', 'active')]"/>
+                <filter name="paused" string="Paused" domain="[('state', '=', 'paused')]"/>
+                <filter name="stopped" string="Stopped" domain="[('state', '=', 'stopped')]"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <separator/>
+                <filter name="my_profiles" string="My profiles" domain="[('linkedin_profile_id.owner_id', '=', uid)]"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_profile" string="LinkedIn Profile" context="{'group_by': 'linkedin_profile_id'}"/>
+                    <filter name="group_service" string="Service" context="{'group_by': 'service_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_li_persona" model="ir.actions.act_window">
+        <field name="name">Personas</field>
+        <field name="res_model">li.persona</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_group_profile': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a persona</p>
+            <p>A persona is a target audience + service + LinkedIn profile + target time zone, with a Connection Agent and a Chat Agent.</p>
+        </field>
+    </record>
+</odoo>

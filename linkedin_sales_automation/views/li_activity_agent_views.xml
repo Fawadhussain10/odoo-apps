@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="li_activity_agent_view_form" model="ir.ui.view">
+        <field name="name">li.activity.agent.form</field>
+        <field name="model">li.activity.agent</field>
+        <field name="arch" type="xml">
+            <form create="false" delete="false">
+                <header>
+                    <button name="action_run" type="object" string="Run" class="btn-primary"
+                            invisible="state == 'running'" groups="linkedin_sales_automation.group_li_manager"/>
+                    <button name="action_pause" type="object" string="Pause"
+                            invisible="state != 'running'" groups="linkedin_sales_automation.group_li_manager"/>
+                    <button name="action_stop" type="object" string="Stop"
+                            invisible="state == 'stopped'" groups="linkedin_sales_automation.group_li_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                        <span class="text-muted">Every reply after takeover gets a reply activity with a deadline.</span>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="reply_activity_type_id" string="Activity type"/>
+                            <field name="assign_to"/>
+                        </group>
+                        <group>
+                            <field name="deadline_hours" string="Deadline (hours)"/>
+                            <field name="auto_done" string="Mark done automatically on reply"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note_template"/>
+                    </group>
+                    <separator string="Reply activities (standard Odoo activities)"/>
+                    <field name="reply_prospect_ids" readonly="1" nolabel="1">
+                        <list decoration-danger="reply_overdue">
+                            <field name="name" string="Prospect"/>
+                            <field name="taken_over_by" string="Assigned to" widget="many2one_avatar_user"/>
+                            <field name="reply_due_at" string="Due"/>
+                            <field name="reply_overdue" string="Overdue"/>
+                            <field name="reply_activity_id" string="Open activity"/>
+                            <field name="crm_lead_id"/>
+                        </list>
+                    </field>
+                    <p class="text-muted">Red = deadline passed with no reply. It stays in Odoo's activity views until the salesperson answers.</p>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_li_activity_agent" model="ir.actions.act_window">
+        <field name="name">Activity Agent</field>
+        <field name="res_model">li.activity.agent</field>
+        <field name="view_mode">form</field>
+        <field name="res_id" ref="activity_agent_main"/>
+    </record>
+</odoo>

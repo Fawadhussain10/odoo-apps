@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="li_message_template_view_list" model="ir.ui.view">
+        <field name="name">li.message.template.list</field>
+        <field name="model">li.message.template</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="trigger"/>
+                <field name="is_question"/>
+                <field name="objective"/>
+                <field name="template"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_li_message_template" model="ir.actions.act_window">
+        <field name="name">Message Templates</field>
+        <field name="res_model">li.message.template</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="li_target_tag_view_list" model="ir.ui.view">
+        <field name="name">li.target.tag.list</field>
+        <field name="model">li.target.tag</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="kind"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="li_target_tag_view_search" model="ir.ui.view">
+        <field name="name">li.target.tag.search</field>
+        <field name="model">li.target.tag</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <group expand="1" string="Group By">
+                    <filter name="group_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_li_target_tag" model="ir.actions.act_window">
+        <field name="name">Targeting tags</field>
+        <field name="res_model">li.target.tag</field>
+        <field name="view_mode">list</field>
+        <field name="context">{'search_default_group_kind': 1}</field>
+    </record>
+</odoo>

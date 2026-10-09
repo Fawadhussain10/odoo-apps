@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="li_followup_agent_view_form" model="ir.ui.view">
+        <field name="name">li.followup.agent.form</field>
+        <field name="model">li.followup.agent</field>
+        <field name="arch" type="xml">
+            <form create="false" delete="false">
+                <header>
+                    <button name="action_run" type="object" string="Run" class="btn-primary"
+                            invisible="state == 'running'" groups="linkedin_sales_automation.group_li_manager"/>
+                    <button name="action_pause" type="object" string="Pause"
+                            invisible="state != 'running'" groups="linkedin_sales_automation.group_li_manager"/>
+                    <button name="action_stop" type="object" string="Stop"
+                            invisible="state == 'stopped'" groups="linkedin_sales_automation.group_li_manager"
+                            confirm="Stop the Follow-up Agent? Released follow-ups are cancelled."/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                        <span class="text-muted">One agent shared by every persona. Sent (last 24 h): <field name="sent_today" class="d-inline"/> / <field name="daily_limit" readonly="1" class="d-inline"/></span>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="daily_limit"/>
+                            <field name="persona_ids" widget="many2many_tags" placeholder="All active personas"/>
+                            <field name="on_reply" string="When they reply"/>
+                        </group>
+                        <group>
+                            <label for="send_window_from" string="Sending hours"/>
+                            <div class="o_row">
+                                <field name="send_window_from" widget="float_time" nolabel="1"/>
+                                <span>–</span>
+                                <field name="send_window_to" widget="float_time" nolabel="1"/>
+                                <span class="text-muted">local (each persona's target time zone)</span>
+                            </div>
+                            <field name="max_followups" string="Max follow-ups per prospect"/>
+                            <div class="text-muted" colspan="2">Taken-over prospects are always skipped.</div>
+                        </group>
+                    </group>
+                    <separator string="Follow-up message sequence"/>
+                    <field name="step_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name" string="Follow-up"/>
+                            <field name="wait_days" string="Send after no reply for (days)"/>
+                            <field name="template" string="Message"/>
+                            <field name="ai_personalise"/>
+                        </list>
+                    </field>
+                    <p class="text-muted">Counted from the last unanswered agent message. Local time = each persona's target time zone.</p>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_li_followup_agent" model="ir.actions.act_window">
+        <field name="name">Follow-up Agent</field>
+        <field name="res_model">li.followup.agent</field>
+        <field name="view_mode">form</field>
+        <field name="res_id" ref="followup_agent_main"/>
+    </record>
+</odoo>

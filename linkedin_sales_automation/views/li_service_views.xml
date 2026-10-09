@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="li_service_view_list" model="ir.ui.view">
+        <field name="name">li.service.list</field>
+        <field name="model">li.service</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="value_points" optional="show"/>
+                <field name="crm_team_id"/>
+                <field name="crm_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="li_service_view_form" model="ir.ui.view">
+        <field name="name">li.service.form</field>
+        <field name="model">li.service</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="e.g. Odoo"/></h1></div>
+                    <group>
+                        <field name="description" placeholder="Short pitch the AI uses — written as sales copy"/>
+                        <field name="value_points" placeholder="Proof points / case studies"/>
+                        <field name="crm_team_id"/>
+                        <field name="crm_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_li_service" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">li.service</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add the services you sell</p>
+            <p>Odoo, Bookkeeping, Advisory… The description and value points are fed to Claude.</p>
+        </field>
+    </record>
+</odoo>

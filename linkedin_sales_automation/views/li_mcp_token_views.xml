@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="li_mcp_token_view_list" model="ir.ui.view">
+        <field name="name">li.mcp.token.list</field>
+        <field name="model">li.mcp.token</field>
+        <field name="arch" type="xml">
+            <list create="false" editable="bottom" decoration-muted="not active">
+                <field name="name"/>
+                <field name="token_hint" readonly="1"/>
+                <field name="create_date" string="Created"/>
+                <field name="create_uid" string="By" widget="many2one_avatar_user"/>
+                <field name="last_used"/>
+                <field name="expiry"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="li_mcp_token_view_search" model="ir.ui.view">
+        <field name="name">li.mcp.token.search</field>
+        <field name="model">li.mcp.token</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="inactive" string="Revoked" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_li_mcp_token" model="ir.actions.act_window">
+        <field name="name">MCP tokens</field>
+        <field name="res_model">li.mcp.token</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No MCP token yet</p>
+            <p>Generate one from Configuration › Settings › LinkedIn Sales › New token. Untick Active to revoke a token.</p>
+        </field>
+    </record>
+
+    <record id="li_mcp_token_wizard_view_form" model="ir.ui.view">
+        <field name="name">li.mcp.token.wizard.form</field>
+        <field name="model">li.mcp.token.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group invisible="token_id">
+                    <field name="name"/>
+                    <field name="expiry"/>
+                </group>
+                <div invisible="not token_id">
+                    <div class="alert alert-warning" role="alert">
+                        Copy it now. It is shown only once; Odoo keeps only a hash. Treat the URL like a password.
+                    </div>
+                    <label for="connector_url" string="Connector URL for Claude"/>
+                    <field name="connector_url" widget="CopyClipboardChar" class="font-monospace"/>
+                    <p class="text-muted mt-2">In Claude: Settings › Connectors › Add custom connector › paste this URL.
+                        Nothing else is needed.</p>
+                    <label for="plain_token" string="Token alone (for clients that send a header)"/>
+                    <field name="plain_token" widget="CopyClipboardChar" class="font-monospace"/>
+                    <p class="text-muted mt-2">Header: <code>Authorization: Bearer &lt;token&gt;</code> on
+                        <code>/li_sales/mcp</code>.</p>
+                </div>
+                <field name="token_id" invisible="1"/>
+                <footer>
+                    <button name="action_generate" type="object" string="Generate" class="btn-primary" invisible="token_id"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary" invisible="token_id"/>
+                    <button name="action_done" type="object" string="I copied it" class="btn-primary" invisible="not token_id"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="cron_expire_claims" model="ir.cron">
+            <field name="name">LinkedIn Sales: expire unused work claims</field>
+            <field name="model_id" ref="model_li_work_item"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_expire_claims()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+        </record>
+        <record id="cron_purge_mcp_log" model="ir.cron">
+            <field name="name">LinkedIn Sales: purge MCP call log (30 days)</field>
+            <field name="model_id" ref="model_li_mcp_log"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_purge(30)</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
+        <record id="cron_withdraw_old_invites" model="ir.cron">
+            <field name="name">LinkedIn Sales: stop tracking old pending invites</field>
+            <field name="model_id" ref="model_li_mcp_tools"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_withdraw_old_invites()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
+        <record id="cron_close_no_response" model="ir.cron">
+            <field name="name">LinkedIn Sales: close prospects with no response after the last follow-up</field>
+            <field name="model_id" ref="model_li_mcp_tools"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_close_no_response()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+        </record>
+        <record id="cron_reply_overdue" model="ir.cron">
+            <field name="name">LinkedIn Sales: log overdue reply activities</field>
+            <field name="model_id" ref="model_li_mcp_tools"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_reply_overdue()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+        </record>
+        <record id="cron_engine_watchdog" model="ir.cron">
+            <field name="name">LinkedIn Sales: restart stopped engines</field>
+            <field name="model_id" ref="model_li_profile"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_engine_watchdog()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+        </record>
+        <record id="cron_background_work" model="ir.cron">
+            <field name="name">LinkedIn Sales: background LinkedIn work (built-in engine)</field>
+            <field name="model_id" ref="model_li_mcp_tools"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_background_work()</field>
+            <field name="interval_number">2</field>
+            <field name="interval_type">minutes</field>
+        </record>
+        <record id="cron_purge_engine_actions" model="ir.cron">
+            <field name="name">LinkedIn Sales: purge engine action log (60 days)</field>
+            <field name="model_id" ref="model_li_engine_action"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_purge(60)</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
+    </data>
+</odoo>
