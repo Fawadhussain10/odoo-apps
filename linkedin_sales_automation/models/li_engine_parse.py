@@ -301,6 +301,55 @@ def parse_thread(text, my_name, other_name):
     return messages if groups else None
 
 
+_JOB_WORDS = re.compile(
+    r'\b(ceo|cto|cfo|coo|founder|co-?founder|owner|director|manager|head|lead|chief|officer|president|partner|'
+    r'consultant|developer|engineer|architect|analyst|specialist|expert|executive|accountant|designer|trainer|'
+    r'freelancer|student|intern|odoo|erp|helping|we|i)\b', re.I)
+
+
+def looks_like_headline(text):
+    """True when a text reads like a job headline rather than a place."""
+    text = (text or '').strip()
+    if not text:
+        return False
+    return bool(len(text) > 70 or re.search(r'\s(at|@)\s|[|@*™]', text, re.I) or _JOB_WORDS.search(text))
+
+
+def split_headline(headline):
+    """(title, company) from a LinkedIn headline: "CEO at Odoo Concepts",
+    "MD @ HLC Solutions | Odoo", "Founder & CEO, AV ASCENT | ...". Only the first
+    part of a long headline is used; company is '' when none is named."""
+    text = re.sub(r'\s{2,}(?=\*)', ' | ', headline or '')         # "… Enterprises  **Odoo Developer"
+    text = re.sub(r'\s+', ' ', re.sub(r'[*“”"]', '', text)).strip()
+    first = re.split(r'\s*[|•·]\s*', text)[0].strip()
+    if not first:
+        return '', ''
+    match = re.match(r'^(?P<title>.+?)\s*(?:\bat\b|@)\s*(?P<company>.+)$', first, re.I)
+    if not match:
+        match = re.match(r'^(?P<title>[^,]{2,60}),\s*(?P<company>[^,]{2,60})$', first)
+    if match:
+        return match.group('title').strip(' -–,')[:120], match.group('company').strip(' -–,.')[:120]
+    return first[:120], ''
+
+
+def profile_top_fields(text, name=''):
+    """(headline, location) from the top of a profile page text: the lines
+    between the person's name and "Contact info"."""
+    lines = [l.strip() for l in (text or '').splitlines() if l.strip()]
+    key = normalize_name(name)
+    start = next((i for i, l in enumerate(lines[:12]) if key and normalize_name(l) == key), -1)
+    end = next((i for i, l in enumerate(lines[:30]) if l.lower().lstrip('·• ') == 'contact info'), None)
+    if end is None:
+        return '', ''
+    top = [l for l in lines[start + 1:end]
+           if l.strip('·• ') and not _DEGREE_RE.match(l.lstrip('·• ')) and not re.match(r'^\(?(he|she|they)/', l, re.I)]
+    if not top:
+        return '', ''
+    if len(top) == 1:
+        return (top[0], '') if looks_like_headline(top[0]) else ('', top[0])
+    return ' '.join(top[:-1])[:250], top[-1][:120]
+
+
 # Headings that end the top card of a profile page (LinkedIn in English).
 _TOP_CARD_END = {'about', 'activity', 'highlights', 'experience', 'featured', 'services', 'education',
                  'analytics', 'suggested for you', 'more profiles for you', 'people you may know',

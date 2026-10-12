@@ -88,6 +88,25 @@ class TestEngineParse(BaseCase):
         self.assertEqual(top_card_state('Hadi Saeed\nMessage\nMore\nAbout\nx\nMore profiles for you\nConnect'), '')
         self.assertEqual(top_card_state(''), '')
 
+    def test_title_and_company_from_the_headline(self):
+        from odoo.addons.linkedin_sales_automation.models.li_engine_parse import (
+            looks_like_headline, profile_top_fields, split_headline)
+        self.assertEqual(split_headline('Founder at Odoo Concepts'), ('Founder', 'Odoo Concepts'))
+        self.assertEqual(split_headline('Managing Director @ Prodo | Odoo Expert'), ('Managing Director', 'Prodo'))
+        self.assertEqual(split_headline('CEO@GetOdooAI | E-commerce'), ('CEO', 'GetOdooAI'))
+        self.assertEqual(split_headline('CEO  at the odoo'), ('CEO', 'the odoo'))
+        self.assertEqual(split_headline('Founder & CEO, AV ASCENT | I run audits'), ('Founder & CEO', 'AV ASCENT'))
+        self.assertEqual(split_headline('**Chief Executive Officer at Hafiz Enterprises  **Odoo Developer'),
+                         ('Chief Executive Officer', 'Hafiz Enterprises'))
+        self.assertEqual(split_headline('Founder & CEO'), ('Founder & CEO', ''))
+        self.assertEqual(split_headline(''), ('', ''))
+        self.assertTrue(looks_like_headline('CEO at Odoo Steer'))
+        self.assertFalse(looks_like_headline('Karāchi, Sindh, Pakistan'))
+        self.assertFalse(looks_like_headline('United Arab Emirates'))
+        page = 'Hadi Saeed\n· 3rd\nCEO at Odoo Concepts\nKarāchi, Sindh, Pakistan\n·\nContact info\nOdoo Concepts'
+        self.assertEqual(profile_top_fields(page, 'Hadi Saeed'), ('CEO at Odoo Concepts', 'Karāchi, Sindh, Pakistan'))
+        self.assertEqual(profile_top_fields('no such page', 'Hadi Saeed'), ('', ''))
+
     def test_thread_unreadable_and_empty(self):
         self.assertIsNone(parse_thread('Some page text without any sender', 'Taha Sohail', 'Ali Raza'))
         self.assertIsNone(parse_thread('', 'Taha Sohail', 'Ali Raza'))

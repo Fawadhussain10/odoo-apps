@@ -776,6 +776,25 @@ class TestBackgroundWork(BackgroundCase):
             self._run()
             self.assertEqual(len(self._calls(tool='connect_with_person')), 4)   # normal sending again
 
+    def test_prospect_fields_are_filled_and_misplaced_headlines_go_back(self):
+        persona = self._persona()
+        Prospect = self.env['li.prospect']
+        mk = lambda key, **vals: Prospect.create(dict(
+            {'name': key.title(), 'persona_id': persona.id, 'linkedin_url': 'https://www.linkedin.com/in/%s/' % key},
+            **vals))
+        plain = mk('plain', headline='Founder at Odoo Concepts', location='Pakistan')
+        swapped = mk('swapped', location='CEO at Odoo Steer', profile_text=(
+            'Swapped\n· 2nd\nODOO EXPERT\nIslamabad, Pakistan\n·\nContact info\nPAF College'))
+        no_page = mk('nopage', location='Founder and CEO at Deploy Systems')
+        typed = mk('typed', headline='CEO at Brand X', title='Chief of everything', company='My own name')
+        self.assertEqual(Prospect._li_repair_prospect_fields() >= 4, True)
+        self.assertEqual((plain.title, plain.company, plain.location), ('Founder', 'Odoo Concepts', 'Pakistan'))
+        self.assertEqual((swapped.headline, swapped.location, swapped.title, swapped.company),
+                         ('CEO at Odoo Steer', 'Islamabad, Pakistan', 'CEO', 'Odoo Steer'))
+        self.assertEqual((no_page.headline, no_page.location, no_page.title, no_page.company),
+                         ('Founder and CEO at Deploy Systems', False, 'Founder and CEO', 'Deploy Systems'))
+        self.assertEqual((typed.title, typed.company), ('Chief of everything', 'My own name'))    # kept
+
     # ------------------------------------------------------------------
     # Prospect profiles
     # ------------------------------------------------------------------

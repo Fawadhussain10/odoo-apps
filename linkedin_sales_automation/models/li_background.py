@@ -255,7 +255,42 @@ class LiProspectBackground(models.Model):
         text = '\n'.join(line.strip() for line in (text or '').splitlines() if line.strip())[:PROFILE_MAX_CHARS]
         if text:
             self.sudo().write({'profile_text': text, 'profile_read_at': utc_now()})
+            self.sudo()._li_fill_fields()
         return bool(text)
+
+    def _li_fill_fields(self):
+        """Headline, location, title and company from what Odoo already knows:
+        a headline that landed in Location goes back, the saved profile page
+        fills what is missing, and title and company come from the headline.
+        Values a person typed are kept."""
+        from .li_engine_parse import looks_like_headline, profile_top_fields, split_headline
+        for prospect in self:
+            vals = {}
+            headline, location = prospect.headline or '', prospect.location or ''
+            if not headline and looks_like_headline(location):
+                headline, location = location, ''
+            page_headline, page_location = profile_top_fields(prospect.profile_text, prospect.name)
+            headline = headline or page_headline
+            if not location or looks_like_headline(location):
+                location = page_location if not looks_like_headline(page_location) else ''
+            if headline != (prospect.headline or ''):
+                vals['headline'] = headline[:250] or False
+            if location != (prospect.location or ''):
+                vals['location'] = location[:120] or False
+            title, company = split_headline(headline)
+            if not prospect.title and title:
+                vals['title'] = title
+            if not prospect.company and company:
+                vals['company'] = company
+            if vals:
+                prospect.write(vals)
+
+    @api.model
+    def _li_repair_prospect_fields(self):
+        """On upgrade: fill title and company and put misplaced headlines back."""
+        prospects = self.sudo().with_context(active_test=False).search([])
+        prospects._li_fill_fields()
+        return len(prospects)
 
     def _profile_pending(self):
         """True while the engine still has to read this person's profile."""

@@ -21,7 +21,7 @@ from .li_common import (
     CLOSED_STAGES, NOTE_MAX_CHARS, SEND_TYPES, WORK_TYPES, format_hour, in_window, iso_utc, linkedin_username,
     local_now, normalize_profile_url, normalize_text, safe_zone, similar_text, unfilled_placeholders, utc_now,
 )
-from .li_engine_parse import people_search_url
+from .li_engine_parse import people_search_url, split_headline
 from .li_mcp_tools import ToolError
 
 _logger = logging.getLogger(__name__)
@@ -912,11 +912,12 @@ class LiMcpEngine(models.AbstractModel):
             if others and agent.skip_if_contacted:
                 counts['contacted_elsewhere'] += 1
                 continue
+            title, company = split_headline(person.get('headline'))
             Prospect.create({
                 'name': person['name'].strip(),
                 'headline': person.get('headline') or False,
-                'title': person.get('title') or False,
-                'company': person.get('company') or False,
+                'title': person.get('title') or title or False,
+                'company': person.get('company') or company or False,
                 'location': person.get('location') or False,
                 'linkedin_url': normalize_profile_url(person.get('linkedin_url'), username),
                 'persona_id': persona.id,
