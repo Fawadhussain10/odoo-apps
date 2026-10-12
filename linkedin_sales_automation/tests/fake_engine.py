@@ -9,9 +9,9 @@ import time
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-TOOLS = ['check_invite_dialog', 'connect_with_person', 'create_post', 'follow_person', 'get_conversation', 'get_inbox',
-         'get_my_profile', 'get_person_profile', 'get_post_stats', 'get_recent_connections', 'search_people',
-         'send_message']
+TOOLS = ['check_connection_state', 'check_invite_dialog', 'connect_with_person', 'create_post', 'follow_person',
+         'get_conversation', 'get_inbox', 'get_my_profile', 'get_person_profile', 'get_post_stats',
+         'get_recent_connections', 'search_people', 'send_message']
 DEFAULTS = {
     'connect_with_person': {'status': 'connected', 'message': 'Connection request sent. State after send: pending.'},
     'send_message': {'status': 'sent', 'message': 'Message sent.', 'sent': True, 'retry_safe': False},
@@ -20,6 +20,7 @@ DEFAULTS = {
     'get_person_profile': {'url': 'https://www.linkedin.com/in/x/', 'sections': {
         'main_profile': 'Ali Raza\nFounder at Brand X\nLahore\nAbout\nI run a fashion brand on Shopify.'}},
     'search_people': {'url': 'https://www.linkedin.com/search/results/people/', 'sections': {'search_results': ''}},
+    'check_connection_state': {'status': 'pending', 'seen': ['pending', 'pending'], 'retry_safe': True},
     'check_invite_dialog': {'status': 'dialog', 'text': 'Add a note to your invitation?', 'retry_safe': True},
     'follow_person': {'status': 'followed', 'message': 'Now following.', 'retry_safe': True},
     'get_recent_connections': {'url': 'https://www.linkedin.com/mynetwork/invite-connect/connections/',

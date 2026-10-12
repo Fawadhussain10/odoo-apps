@@ -8,6 +8,8 @@ with the engine's tools.
 * get_recent_connections - the newest 1st-degree connections, one page read
 * check_invite_dialog - open one person's invite dialog WITHOUT sending and say
   what LinkedIn asks there (e.g. the person's email address)
+* check_connection_state - open one person's profile and say what it shows now:
+  pending (invited), connectable (Connect is offered: not invited), connected
 
 install_invite_notices() also makes connect_with_person report what LinkedIn
 says in its pop-up when an invitation is not recorded (e.g. the weekly limit).
@@ -300,6 +302,28 @@ async def read_notice(page, seconds=4.0):
     return ''
 
 
+REFUSAL_NOTICE = re.compile(r'not sent|was(n.t| not) sent|weekly limit|limit for connection invitations|'
+                            r'invitation limit|too many (pending )?invitations|unable to (send|connect)', re.I)
+
+
+async def connection_state_flow(extractor, username):
+    """Open the profile and read its action area with the engine's own detection.
+    Read twice a few seconds apart: right after loading, LinkedIn can still be
+    drawing the buttons."""
+    from linkedin_mcp_server.linkedin import connection
+    actions = extractor._connection
+    await actions._read_main_profile(username)
+    await _session_of(extractor).check_rate_limit()
+    states = []
+    for _i in range(2):
+        await asyncio.sleep(2.5)
+        states.append(connection.detect_connection_state(await actions._read_action_signals(username)))
+    state = states[-1]
+    if 'connectable' in states:
+        state = 'connectable'                   # Connect was offered at some point: not invited
+    return {'status': state, 'seen': states, 'retry_safe': True}
+
+
 def install_invite_notices():
     """Wrap the engine's invite flow in memory (no engine file is changed): keep
     the notice LinkedIn shows after the invite dialog is submitted, and add it
@@ -320,8 +344,13 @@ def install_invite_notices():
         self._odoo_notice = ''
         result = await connect(self, *args, **kwargs)
         notice = getattr(self, '_odoo_notice', '')
-        if notice and isinstance(result, dict) and result.get('status') == 'send_failed':
-            result['message'] = '%s LinkedIn says: %s' % (result.get('message') or '', notice)
+        if notice and isinstance(result, dict):
+            if result.get('status') == 'send_failed':
+                result['message'] = '%s LinkedIn says: %s' % (result.get('message') or '', notice)
+            elif result.get('status') == 'connected' and REFUSAL_NOTICE.search(notice):
+                # LinkedIn said no in its pop-up: its word counts, whatever the page showed right after
+                result['status'] = 'send_failed'
+                result['message'] = 'LinkedIn did not send the invitation. LinkedIn says: %s' % notice
         return result
 
     ConnectionActions._submit_invite_dialog = _submit_invite_dialog
@@ -330,6 +359,27 @@ def install_invite_notices():
 
 
 def register_odoo_tools(mcp: FastMCP, *, tool_timeout: float) -> None:
+
+    @mcp.tool(timeout=tool_timeout, title='Check Connection State',
+              annotations={'readOnlyHint': True, 'openWorldHint': True}, tags={'person'})
+    async def check_connection_state(linkedin_username: str, ctx: Context) -> dict[str, Any]:
+        """Open one member's profile and report what it offers now (Odoo add-on tool):
+        pending (an invitation is outstanding), connectable (Connect is offered, so no
+        invitation is outstanding), already_connected, follow_only, incoming_request
+        or unavailable."""
+        username = re.sub(r'^.*linkedin\.com/in/', '', (linkedin_username or '').strip()).strip('/').split('/')[0]
+        if not re.match(r'^[A-Za-z0-9%_.-]{2,120}$', username):
+            return {'status': 'invalid_username', 'retry_safe': True}
+        try:
+            extractor = await get_ready_extractor(ctx, tool_name='check_connection_state')
+            return await connection_state_flow(extractor, username)
+        except AuthenticationError as e:
+            try:
+                await handle_auth_error(e, ctx)
+            except Exception as relogin_exc:
+                raise_tool_error(relogin_exc, 'check_connection_state')
+        except Exception as e:
+            raise_tool_error(e, 'check_connection_state')
 
     @mcp.tool(timeout=tool_timeout, title='Check Invite Dialog',
               annotations={'readOnlyHint': True, 'openWorldHint': True}, tags={'person'})

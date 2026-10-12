@@ -47,6 +47,10 @@ BACKGROUND_SHARE = 0.8          # background reading may use 80% of the read bud
 THREADS_PER_RUN = 3
 MAX_RUN_SECONDS = 240
 ACCEPTANCE_RECHECK = timedelta(hours=12)
+INVITE_VERIFY_AFTER = timedelta(minutes=10)     # LinkedIn has settled by then
+INVITE_VERIFY_WITHIN = timedelta(days=7)
+INVITE_VERIFY_PER_RUN = 3
+INVITE_VERIFY_TRIES = 2
 PROFILE_READ_TRIES = 2
 PROFILES_PER_RUN = 2
 PROFILE_MAX_CHARS = 4000
@@ -61,6 +65,7 @@ ACTIONS = [
     ('thread', 'Read thread'),
     ('acceptance', 'Check acceptance'),
     ('person', 'Read prospect profile'),
+    ('invite_verify', 'Verify invite'),
     ('invite_check', 'Check invite dialog'),
     ('invite', 'Send invite'),
     ('message', 'Send message'),
@@ -229,6 +234,10 @@ class LiProspectBackground(models.Model):
                                          help='The inbox row changed: the thread is read in the background.')
     last_thread_read = fields.Datetime(readonly=True, copy=False)
     last_acceptance_check = fields.Datetime(readonly=True, copy=False)
+    invite_verified_at = fields.Datetime(readonly=True, copy=False,
+                                         help='Some minutes after an invite Odoo opens the profile again and '
+                                              'checks that LinkedIn shows the invitation as pending.')
+    invite_verify_tries = fields.Integer(readonly=True, copy=False)
     profile_text = fields.Text('LinkedIn profile', readonly=True, copy=False,
                                help='The person\'s LinkedIn profile as read by the engine (headline, about, '
                                     'experience). Claude reads it before writing to this person.')
@@ -498,7 +507,7 @@ class LiBackgroundWork(models.AbstractModel):
 
     def _bg_profile(self, profile, deadline):
         calls = 0
-        for step in (self._bg_send, self._bg_publish, self._bg_inbox, self._bg_threads, self._bg_profiles, self._bg_acceptance,
+        for step in (self._bg_send, self._bg_publish, self._bg_inbox, self._bg_threads, self._bg_verify_invites, self._bg_profiles, self._bg_acceptance,
                      self._bg_post_stats, self._bg_search):
             if profile.connection_state != 'connected' or (profile.bg_paused_until
                                                              and profile.bg_paused_until > utc_now()):
@@ -606,6 +615,8 @@ class LiBackgroundWork(models.AbstractModel):
             return calls
         if verdict != 'go':
             return calls
+        if item.work_type == 'invite' and self._bg_invites_on_probation(profile):
+            return calls                        # the last invite is verified first
         item.write({'state': 'sending', 'quota_consumed': True})
         self._bg_commit()                       # from here a crash means "outcome unknown", never a resend
         prospect = item.prospect_id
@@ -697,7 +708,8 @@ class LiBackgroundWork(models.AbstractModel):
             self._bg_enter_to_send(profile)
             status = 'failed'
         if item.work_type == 'invite' and kind is None:
-            if status == 'sent':
+            if status == 'sent' and profile.invites_not_recorded < INVITES_REFUSED_AFTER:
+                # a single earlier glitch is over; after real refusals only a verified invite clears it
                 profile.sudo().write({'invites_not_recorded': 0, 'invite_refused_prospect_id': False})
             elif status == 'failed' and (data.get('status') or '').strip().lower() == 'send_failed' \
                     and self._bg_invite_not_recorded(profile, item, detail):
@@ -739,6 +751,13 @@ class LiBackgroundWork(models.AbstractModel):
         else:
             item._close('failed', result_status='invite_not_recorded', quota_consumed=False, retry_safe=True,
                         error=detail)
+        self._bg_pause_invites(profile)
+        return True
+
+    def _bg_pause_invites(self, profile):
+        """LinkedIn is not recording this account's invitations: pause its
+        Connection Agents for a day (they try again by themselves)."""
+        profile = profile.sudo()
         until = utc_now() + INVITES_REFUSED_PAUSE
         reason = _('LinkedIn is not recording invitations from %(profile)s (sent, but the profile still shows '
                    'Connect) — usually LinkedIn\'s invitation limit for the account; invites are paused for a day',
@@ -749,11 +768,82 @@ class LiBackgroundWork(models.AbstractModel):
             if agent.state == 'running':
                 paused |= agent._pause_until(until, reason)
                 agent.consecutive_errors = 0
-        profile.message_post(body=reason, author_id=self.env['li.event']._ai_partner().id,
-                             subtype_xmlid='mail.mt_note')
+        if paused:
+            profile.message_post(body=reason, author_id=self.env['li.event']._ai_partner().id,
+                                 subtype_xmlid='mail.mt_note')
         for agent in paused:
             self.env['li.event']._log('error', 'connection', persona=agent.persona_id, detail=reason)
-        return True
+        return paused
+
+    # ------------------------------------------------------------------
+    # Invite verification
+    # ------------------------------------------------------------------
+    def _bg_unverified_invites(self, profile, settled=False):
+        domain = [('linkedin_profile_id', '=', profile.id), ('stage', '=', 'invited'),
+                  ('invite_verified_at', '=', False), ('invite_verify_tries', '<', INVITE_VERIFY_TRIES),
+                  ('date_invited', '>=', utc_now() - INVITE_VERIFY_WITHIN), ('linkedin_username', '!=', False)]
+        if settled:
+            domain.append(('date_invited', '<=', utc_now() - INVITE_VERIFY_AFTER))
+        return self.env['li.prospect'].sudo().search(domain, order='date_invited asc, id asc')
+
+    def _bg_invites_on_probation(self, profile):
+        """After LinkedIn refused invitations, send one at a time: the next one
+        waits until the last one was verified as pending."""
+        return (profile.invites_not_recorded >= INVITES_REFUSED_AFTER
+                and bool(self._bg_unverified_invites(profile)))
+
+    def _bg_verify_invites(self, profile, deadline):
+        """About ten minutes after an invite, open the person's profile again
+        (check_connection_state, an Odoo tool added to the engine). Pending: the
+        invitation exists. Connect offered again: LinkedIn never recorded it, so
+        the prospect goes back to the queue, the invite is not counted and the
+        account's invites pause. This does not rely on what the page showed in
+        the seconds after the click."""
+        calls = 0
+        for prospect in self._bg_unverified_invites(profile, settled=True)[:INVITE_VERIFY_PER_RUN]:
+            if not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
+                break
+            data, kind, _text = self._bg_call(profile, 'check_connection_state',
+                                              {'linkedin_username': prospect.linkedin_username}, 'invite_verify',
+                                              reads=1, prospect=prospect)
+            calls += 1
+            if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+                break
+            state = (data or {}).get('status') if kind is None else None
+            if state == 'pending':
+                prospect.invite_verified_at = utc_now()
+                profile.sudo().write({'invites_not_recorded': 0, 'invite_refused_prospect_id': False})
+            elif state == 'already_connected':
+                prospect.invite_verified_at = utc_now()
+                self._accept(prospect, note=_('found connected when the invite was verified'))
+            elif state == 'connectable':
+                self._invite_was_not_recorded(profile, prospect)
+            else:                                   # the page could not be judged: try once more, then let it be
+                prospect.invite_verify_tries += 1
+            self._bg_commit()
+        return calls
+
+    def _invite_was_not_recorded(self, profile, prospect):
+        """LinkedIn shows Connect again for someone recorded as invited."""
+        invited_on = prospect.date_invited
+        items = self.env['li.work.item'].sudo().search([
+            ('prospect_id', '=', prospect.id), ('work_type', '=', 'invite'), ('state', '=', 'done')],
+            order='id desc', limit=1)
+        items.write({'quota_consumed': False, 'result_status': 'invite_not_recorded',
+                     'error': _('LinkedIn did not record this invitation.')})
+        self.env['li.event'].sudo().search([('prospect_id', '=', prospect.id), ('event_type', '=', 'invite_sent'),
+                                            ('date', '>=', invited_on - timedelta(minutes=5))]).unlink()
+        self.env['li.message'].sudo().search([('prospect_id', '=', prospect.id), ('kind', '=', 'note'),
+                                              ('work_item_id', 'in', items.ids)]).unlink()
+        prospect.write({'stage': 'queued', 'date_invited': False, 'invite_verify_tries': 0, 'send_attempts': 0})
+        line = _('LinkedIn did not record the invitation to %(name)s sent on %(date)s UTC (the profile shows '
+                 'Connect again) — back in the queue, not counted as invited',
+                 name=prospect.name, date=fields.Datetime.to_string(invited_on)[:16])
+        self.env['li.event']._log('error', 'connection', persona=prospect.persona_id, prospect=prospect,
+                                  detail=line, prospect_body=line)
+        profile.sudo().write({'invites_not_recorded': max(profile.invites_not_recorded, INVITES_REFUSED_AFTER),
+                              'invite_refused_prospect_id': prospect.id})
+        self._bg_pause_invites(profile)
 
     def _bg_enter_to_send(self, profile):
         summary = _('Switch LinkedIn to "Click Send to send" (%s)', profile.account_key)

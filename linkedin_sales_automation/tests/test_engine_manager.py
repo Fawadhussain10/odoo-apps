@@ -89,7 +89,7 @@ class TestEngineManager(LiTransactionCase):
         self.assertNotEqual(a.engine_pid, b.engine_pid)
         self.assertNotEqual(a._profile_dir(), b._profile_dir())
         for profile in (a, b):
-            self.assertEqual(len(profile._engine_tools()), 12)
+            self.assertEqual(len(profile._engine_tools()), 13)
 
     def test_engine_answers_only_on_its_secret_path(self):
         self.profile._engine_start()
@@ -106,7 +106,7 @@ class TestEngineManager(LiTransactionCase):
             response = requests.post(base + wrong, json={'jsonrpc': '2.0', 'id': 1, 'method': 'initialize'},
                                      timeout=5)
             self.assertEqual(response.status_code, 404, wrong)
-        self.assertEqual(len(profile._engine_tools()), 12)
+        self.assertEqual(len(profile._engine_tools()), 13)
         with self.assertRaises(AccessError):
             self.profile.with_user(self.manager).read(['engine_secret_path'])
         first = secret

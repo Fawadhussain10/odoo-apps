@@ -243,14 +243,18 @@ class TestBackgroundWork(BackgroundCase):
         self.assertEqual((second.stage, second.needs_check, second.send_attempts), ('queued', False, 0))
         self._run()
         self.assertEqual(len(self._calls(tool='connect_with_person')), 3)   # nothing more is tried
-        # a day later the agent runs again; a recorded invite clears the count
+        # a day later the agent runs again; only an invite verified as pending clears the count
         with freeze_time('2026-10-13 10:01:00'):
             self.env['li.connection.agent']._resume_due()
             self.assertEqual(agent.state, 'running')
             self._run()
             self.assertEqual(second.stage, 'invited')
-            self.assertEqual(self.profile.invites_not_recorded, 0)
+            self.assertEqual(self.profile.invites_not_recorded, 2)
         self.assertEqual(third.stage, 'queued')
+        with freeze_time('2026-10-13 10:12:00'):
+            self._run()
+            self.assertTrue(second.invite_verified_at)
+            self.assertEqual(self.profile.invites_not_recorded, 0)
 
     @freeze_time(MONDAY_10_UTC)
     def test_invite_needing_an_email_address_is_the_person_not_the_account(self):
@@ -527,6 +531,66 @@ class TestBackgroundWork(BackgroundCase):
         self.assertFalse(taken.is_taken_over)
         self.assertEqual(replied.message_ids_li.mapped('body'), ['Thanks, Taha'])
         self.assertEqual(self.env['li.prospect']._li_repair_ui_messages(), 0)
+
+    # ------------------------------------------------------------------
+    # Invite verification
+    # ------------------------------------------------------------------
+    @freeze_time(MONDAY_10_UTC)
+    def test_invite_is_verified_ten_minutes_later(self):
+        self._start()
+        persona = self._persona()
+        prospect = self._prospect(persona)
+        self._run()
+        self.assertEqual(prospect.stage, 'invited')
+        self._run()
+        self.assertEqual(self._calls(tool='check_connection_state'), [])       # not settled yet
+        with freeze_time('2026-10-12 10:11:00'):
+            self._run()
+        self.assertEqual(self._calls(tool='check_connection_state')[0]['args'], {'linkedin_username': 'ali-raza'})
+        self.assertTrue(prospect.invite_verified_at)
+        self.assertEqual(prospect.stage, 'invited')
+        with freeze_time('2026-10-12 10:14:00'):
+            self._run()
+        self.assertEqual(len(self._calls(tool='check_connection_state')), 1)   # once per invite
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_invite_linkedin_never_recorded_goes_back_to_the_queue(self):
+        # the engine said "sent", LinkedIn shows Connect again: nothing was sent
+        self._start()
+        persona = self._persona()
+        first = self._prospect(persona)
+        second = self._prospect(persona, 'sara-khan', 'Sara Khan')
+        agent = persona.connection_agent_id
+        self._run()
+        with freeze_time('2026-10-12 10:02:00'):
+            self._run()
+        self.assertEqual((first.stage, second.stage), ('invited', 'invited'))
+        self.assertEqual(self.env['li.event'].search_count([('event_type', '=', 'invite_sent')]), 2)
+        offered = {'data': {'status': 'connectable', 'seen': ['connectable', 'connectable'], 'retry_safe': True}}
+        self._script(check_connection_state=[offered, offered])
+        with freeze_time('2026-10-12 10:13:00'):
+            self._run()
+        self.assertEqual((first.stage, second.stage), ('queued', 'queued'))
+        self.assertFalse(first.date_invited)
+        self.assertEqual(self.env['li.event'].search_count([('event_type', '=', 'invite_sent')]), 0)
+        self.assertEqual(self.env['li.work.item'].search_count([('quota_consumed', '=', True)]), 0)
+        self.assertEqual(agent.state, 'paused')
+        self.assertIn('not recording invitations', agent.pause_reason)
+        self.assertIn('did not record the invitation', first.message_ids[0].body)
+        # a day later: one invite at a time until LinkedIn shows one as pending again
+        with freeze_time('2026-10-13 10:14:00'):
+            self.env['li.connection.agent']._resume_due()
+            self._run()
+            self.assertEqual(len(self._calls(tool='connect_with_person')), 3)
+        with freeze_time('2026-10-13 10:16:00'):
+            self._run()
+            self.assertEqual(len(self._calls(tool='connect_with_person')), 3)   # waits for the verification
+        with freeze_time('2026-10-13 10:25:00'):
+            self._run()                                                        # verified pending (default)
+            self.assertEqual(self.profile.invites_not_recorded, 0)
+        with freeze_time('2026-10-13 10:27:00'):
+            self._run()
+            self.assertEqual(len(self._calls(tool='connect_with_person')), 4)   # normal sending again
 
     # ------------------------------------------------------------------
     # Prospect profiles
