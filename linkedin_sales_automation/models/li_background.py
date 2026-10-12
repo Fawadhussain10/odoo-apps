@@ -656,6 +656,11 @@ class LiBackgroundWork(models.AbstractModel):
                 'Engine: %(status)s. LinkedIn confirmed: %(confirmed)s. Notice: %(notice)s. Dialog: %(dialog)s',
                 status=data.get('status') or '?', confirmed=_('yes') if data.get('confirmed') else _('no'),
                 notice=data.get('linkedin_notice') or '-', dialog=data.get('invite_dialog') or '-'))
+        verified_pending = False
+        if (item.work_type == 'invite' and kind is None and not prospect.date_invited
+                and (data.get('status') or '').strip().lower() == 'pending' and self._bg_time_for(deadline, 2)):
+            data, kind, text, more, verified_pending = self._bg_pending_or_send(profile, item, data)
+            calls += more
         if (item.work_type == 'invite' and kind is None and self._bg_time_for(deadline)
                 and (data.get('status') or '').strip().lower() == 'send_failed'
                 and not is_weekly_limit(data.get('message'))):
@@ -666,7 +671,45 @@ class LiBackgroundWork(models.AbstractModel):
             data, kind, text, follow_calls = self._bg_follow(profile, item, data)
             calls += follow_calls
         self._bg_send_result(profile, item, data, kind, text)
+        if verified_pending and prospect.stage == 'invited':
+            prospect.invite_verified_at = utc_now()         # LinkedIn's Sent list showed it
         return calls
+
+    def _bg_pending_or_send(self, profile, item, connect_data):
+        """The engine says an invitation to this person is already pending, but
+        Odoo never sent one. The engine reads that from the profile's buttons and
+        gets it wrong for some profiles (it then sends nothing). LinkedIn's Sent
+        list decides: on the list, it really is pending; not on it, the invite
+        goes out through LinkedIn's invite link (send_invite_direct).
+        Returns (data, kind, text, calls, verified_pending)."""
+        prospect = item.prospect_id
+        listed, kind, text = self._bg_call(profile, 'get_sent_invitations', {'limit': 300}, 'invite_verify',
+                                           reads=1, prospect=prospect)
+        if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+            return None, kind, text, 1, False
+        names = {unquote(u).strip('/').lower() for u in (listed or {}).get('usernames') or []} if kind is None \
+            else set()
+        self._bg_note_sent_list(profile, prospect, listed, kind)
+        usable = (names and (listed or {}).get('complete')) or (
+            kind is None and not names and NO_SENT_INVITATIONS.search((listed or {}).get('page_text') or ''))
+        if not usable:
+            return connect_data, None, text, 1, False       # cannot tell: the later verification will
+        if (prospect.linkedin_username or '').lower() in names:
+            return connect_data, None, text, 1, True
+        self._bg_pause()
+        arguments = {'linkedin_username': prospect.linkedin_username}
+        if item.with_note and item.text_confirmed:
+            arguments['note'] = item.text_confirmed
+        data, kind, text = self._bg_call(profile, 'send_invite_direct', arguments, 'invite', item=item,
+                                         prospect=prospect)
+        if kind:
+            return None, kind, text, 2, False
+        self._bg_note_action(profile, prospect, 'invite', _(
+            'The engine read "pending" but LinkedIn\'s Sent list had no invitation: sent through the invite link. '
+            'Result: %(status)s. LinkedIn confirmed: %(confirmed)s. Notice: %(notice)s. Dialog: %(dialog)s',
+            status=data.get('status') or '?', confirmed=_('yes') if data.get('confirmed') else _('no'),
+            notice=data.get('linkedin_notice') or '-', dialog=data.get('invite_dialog') or '-'))
+        return data, None, text, 2, False
 
     def _bg_check_invite_dialog(self, profile, item, connect_data):
         """LinkedIn did not record an invitation: open that person's invite dialog
@@ -684,6 +727,16 @@ class LiBackgroundWork(models.AbstractModel):
         if kind is None and is_weekly_limit(data.get('text')):
             return dict(connect_data, message=(data.get('text') or '')[:300]), None, text, 1
         return connect_data, None, text, 1
+
+    def _bg_note_sent_list(self, profile, prospect, data, kind):
+        """Keep what LinkedIn's Sent invitations page showed, for a person to compare."""
+        if kind:
+            return
+        names = [unquote(u).strip('/') for u in (data or {}).get('usernames') or []]
+        self._bg_note_action(profile, prospect, 'invite_verify', _(
+            'LinkedIn Sent list: %(n)s people, whole list loaded: %(complete)s. %(names)s',
+            n=len(names), complete=_('yes') if (data or {}).get('complete') else _('no'),
+            names=', '.join(names[:60]) or ((data or {}).get('page_text') or '')[:200]))
 
     def _bg_note_action(self, profile, prospect, action, text):
         """Add what LinkedIn showed to the last logged action of that kind."""
@@ -875,6 +928,7 @@ class LiBackgroundWork(models.AbstractModel):
             return calls
         sent = {unquote(u).strip('/').lower() for u in (data or {}).get('usernames') or []} if kind is None else set()
         listed_none = kind is None and bool(NO_SENT_INVITATIONS.search((data or {}).get('page_text') or ''))
+        self._bg_note_sent_list(profile, self.env['li.prospect'], data, kind)
         if not ((sent and (data or {}).get('complete')) or (not sent and listed_none)):
             return calls + self._bg_verify_invites_by_profile(profile, prospects, deadline, limit)
         missing = self.env['li.prospect']

@@ -11,7 +11,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 TOOLS = ['check_connection_state', 'check_invite_dialog', 'connect_with_person', 'create_post', 'follow_person',
          'get_conversation', 'get_inbox', 'get_my_profile', 'get_person_profile', 'get_post_stats',
-         'get_recent_connections', 'get_sent_invitations', 'search_people', 'send_message']
+         'get_recent_connections', 'get_sent_invitations', 'search_people', 'send_invite_direct',
+         'send_message']
 DEFAULTS = {
     'connect_with_person': {'status': 'connected', 'message': 'Connection request sent. State after send: pending.'},
     'send_message': {'status': 'sent', 'message': 'Message sent.', 'sent': True, 'retry_safe': False},
@@ -20,6 +21,9 @@ DEFAULTS = {
     'get_person_profile': {'url': 'https://www.linkedin.com/in/x/', 'sections': {
         'main_profile': 'Ali Raza\nFounder at Brand X\nLahore\nAbout\nI run a fashion brand on Shopify.'}},
     'search_people': {'url': 'https://www.linkedin.com/search/results/people/', 'sections': {'search_results': ''}},
+    'send_invite_direct': {'status': 'connected', 'message': 'Invitation submitted through the invite link.',
+                           'confirmed': True, 'linkedin_notice': 'Invitation sent to Ali.', 'invite_dialog': '',
+                           'direct': True},
     'check_connection_state': {'status': 'pending', 'seen': ['pending', 'pending'], 'retry_safe': True},
     'check_invite_dialog': {'status': 'dialog', 'text': 'Add a note to your invitation?', 'retry_safe': True},
     'follow_person': {'status': 'followed', 'message': 'Now following.', 'retry_safe': True},

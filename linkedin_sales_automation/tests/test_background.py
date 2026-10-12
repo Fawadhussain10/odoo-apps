@@ -627,6 +627,29 @@ class TestBackgroundWork(BackgroundCase):
         self.assertTrue(prospect.invite_verified_at)
 
     @freeze_time(MONDAY_10_UTC)
+    def test_engine_says_pending_but_nothing_was_ever_sent(self):
+        # the engine misreads some profiles as "already pending" and sends nothing
+        self._start()
+        persona = self._persona()
+        misread = self._prospect(persona)
+        really_pending = self._prospect(persona, 'sara-khan', 'Sara Khan')
+        pending = {'data': {'status': 'pending', 'message': 'An invitation is already pending.'}}
+        self._script(connect_with_person=[pending, pending],
+                     get_sent_invitations=[sent_list('someone-else'), sent_list('sara-khan', 'someone-else')])
+        self._run()
+        # not on LinkedIn's Sent list: Odoo sends it through the invite link
+        self.assertEqual(self._calls(tool='send_invite_direct')[0]['args'], {'linkedin_username': 'ali-raza'})
+        self.assertEqual(misread.stage, 'invited')
+        self.assertTrue(any('sent through the invite link' in (a.detail or '')
+                            for a in self._actions(action='invite')))
+        with freeze_time('2026-10-12 10:02:00'):
+            self._run()
+        # on the list: it really was pending already, nothing is sent twice
+        self.assertEqual(len(self._calls(tool='send_invite_direct')), 1)
+        self.assertEqual(really_pending.stage, 'invited')
+        self.assertTrue(really_pending.invite_verified_at)
+
+    @freeze_time(MONDAY_10_UTC)
     def test_invite_that_fails_for_one_person_does_not_pause_the_account(self):
         self._start()
         persona = self._persona()

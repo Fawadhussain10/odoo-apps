@@ -8,6 +8,8 @@ with the engine's tools.
 * get_recent_connections - the newest 1st-degree connections, one page read
 * check_invite_dialog - open one person's invite dialog WITHOUT sending and say
   what LinkedIn asks there (e.g. the person's email address)
+* send_invite_direct - send an invitation through LinkedIn's invite link, for a
+  profile the engine misreads as "already pending" (Odoo checks the Sent list first)
 * get_sent_invitations - LinkedIn's own list of invitations that are pending
   (My Network > Manage > Sent): the authority on whether an invite exists
 * check_connection_state - open one person's profile and say what it shows now:
@@ -351,6 +353,38 @@ REFUSAL_NOTICE = re.compile(r'not sent|was(n.t| not) sent|weekly limit|limit for
                             r'invitation limit|too many (pending )?invitations|unable to (send|connect)', re.I)
 
 
+async def send_invite_direct_flow(extractor, username, note):
+    """Open LinkedIn's invite link for this member and submit the dialog with the
+    engine's own dialog handling. What LinkedIn shows (dialog, pop-up) decides
+    the answer; Odoo still verifies it against the Sent list afterwards."""
+    session = _session_of(extractor)
+    actions = extractor._connection
+    url = 'https://www.linkedin.com/in/%s/' % quote(username)
+    await PageNavigator(session)._navigate_to_page(
+        'https://www.linkedin.com/preload/custom-invite/?vanityName=%s' % quote(username))
+    await session.check_rate_limit()
+    submitted, note_sent, limit_message = await actions._submit_invite_dialog(note)
+    notice = getattr(actions, '_odoo_notice', '') or ''
+    dialog = getattr(actions, '_odoo_dialog', None) or {}
+    answer = {'url': url, 'note_sent': bool(note_sent), 'linkedin_notice': notice,
+              'invite_dialog': (dialog.get('text') or '')[:400], 'confirmed': bool(SENT_NOTICE.search(notice)),
+              'direct': True}
+    if limit_message is not None:
+        return dict(answer, status='custom_note_limit_reached', message=limit_message)
+    if REFUSAL_NOTICE.search(notice):
+        return dict(answer, status='send_failed',
+                    message='LinkedIn did not send the invitation. LinkedIn says: %s' % notice)
+    if not submitted or not dialog.get('open'):
+        return dict(answer, status='connect_unavailable',
+                    message='LinkedIn did not open a usable invite dialog for this profile.')
+    if dialog.get('email') and not answer['confirmed']:
+        return dict(answer, status='connect_unavailable',
+                    message='LinkedIn asks for this member\'s email address to connect.')
+    return dict(answer, status='connected',
+                message='Invitation submitted through the invite link.' + (
+                    ' LinkedIn confirmed it.' if answer['confirmed'] else ' LinkedIn showed no confirmation.'))
+
+
 async def connection_state_flow(extractor, username):
     """Open the profile and read its action area with the engine's own detection.
     Read twice a few seconds apart: right after loading, LinkedIn can still be
@@ -418,6 +452,27 @@ def install_invite_notices():
 
 
 def register_odoo_tools(mcp: FastMCP, *, tool_timeout: float) -> None:
+
+    @mcp.tool(timeout=tool_timeout, title='Send Invite Direct',
+              annotations={'destructiveHint': True, 'openWorldHint': True}, tags={'person', 'actions'})
+    async def send_invite_direct(linkedin_username: str, ctx: Context, note: str | None = None) -> dict[str, Any]:
+        """Send a connection invitation through LinkedIn's invite link (Odoo add-on
+        tool), for a member whose profile the engine reads as "pending" although
+        no invitation exists. Returns status connected, send_failed,
+        connect_unavailable or custom_note_limit_reached, with what LinkedIn showed."""
+        username = re.sub(r'^.*linkedin\.com/in/', '', (linkedin_username or '').strip()).strip('/').split('/')[0]
+        if not re.match(r'^[A-Za-z0-9%_.-]{2,120}$', username):
+            return {'status': 'invalid_username', 'message': 'Not a LinkedIn username.', 'retry_safe': True}
+        try:
+            extractor = await get_ready_extractor(ctx, tool_name='send_invite_direct')
+            return await send_invite_direct_flow(extractor, username, (note or '').strip() or None)
+        except AuthenticationError as e:
+            try:
+                await handle_auth_error(e, ctx)
+            except Exception as relogin_exc:
+                raise_tool_error(relogin_exc, 'send_invite_direct')
+        except Exception as e:
+            raise_tool_error(e, 'send_invite_direct')
 
     @mcp.tool(timeout=tool_timeout, title='Get Sent Invitations',
               annotations={'readOnlyHint': True, 'openWorldHint': True}, tags={'person'})
