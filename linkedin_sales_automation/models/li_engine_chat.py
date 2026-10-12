@@ -7,8 +7,8 @@ from odoo import _, fields, models
 
 from .li_common import CLOSED_STAGES, linkedin_username, normalize_message, normalize_name, utc_now
 from .li_engine import (
-    BROWSER_RULES, CHAT_METHOD_CHROME, CONTACT_RULE, FREE_REPLY, GUARDRAILS, HANDOVER_ACK, HANDOVER_RULE,
-    PORTFOLIO_RULE,
+    ANSWER_NOW, BROWSER_RULES, CHAT_METHOD_CHROME, CLOSING, CONTACT_RULE, FREE_REPLY, GUARDRAILS, HANDOVER_ACK,
+    HANDOVER_RULE, PORTFOLIO_RULE, REPLY_NOW_RULE,
     REPLY_DECISION, WROTE_FIRST,
 )
 from .li_mcp_tools import ToolError
@@ -176,7 +176,8 @@ class LiMcpEngineChat(models.AbstractModel):
                                 'if the pivot criteria are met%s, a one-line pivot_reason and a 2–3 sentence '
                                 'summary. %s Send nothing.' % (
                                     '' if pivot_allowed else
-                                    ' (pivot is not allowed before step %s)' % chat.pivot_min_step, HANDOVER_RULE),
+                                    ' (pivot is not allowed before step %s)' % chat.pivot_min_step,
+                                    HANDOVER_RULE + ' ' + REPLY_NOW_RULE),
             }))
         return items
 
@@ -243,6 +244,18 @@ class LiMcpEngineChat(models.AbstractModel):
     def _gen_message(self, profile, ctx):
         items = []
         now = utc_now()
+        busy_closing = self.env['li.work.item'].sudo().search([
+            ('linkedin_profile_id', '=', profile.id), ('state', 'in', ('released', 'queued', 'sending'))]
+        ).mapped('prospect_id')
+        for prospect in self._closing_prospects(profile) - busy_closing:
+            if min(ctx['left'], ctx['sends'][profile.id]) - len(items) <= 0:
+                break
+            items.append(self._create_item('message', 'chat', profile, prospect.persona_id, prospect, quota=True,
+                                           closing=True, payload={
+                'conversation': prospect._conversation_payload(),
+                'situation': prospect._situation_payload(),
+                'instructions': '%s %s %s' % (CLOSING, SEND_IN_CHROME, GUARDRAILS),
+            }))
         prospects, quota = self._chat_candidates(profile, ctx, [
             ('linkedin_profile_id', '=', profile.id), ('stage', 'in', CHAT_STAGES),
             ('is_taken_over', '=', False), ('do_not_contact', '=', False), ('needs_check', '=', False),
@@ -253,8 +266,9 @@ class LiMcpEngineChat(models.AbstractModel):
             if quota[prospect.persona_id.id] <= 0:
                 continue
             step = self._next_step(prospect)
-            if not step:
-                if self._free_reply_due(prospect):
+            answer = self._answer_mode(prospect, step, now)
+            if answer or not step:
+                if answer:
                     quota[prospect.persona_id.id] -= 1
                     items.append(self._create_item('message', 'chat', profile, prospect.persona_id, prospect,
                                                    quota=True, payload={
@@ -263,8 +277,8 @@ class LiMcpEngineChat(models.AbstractModel):
                         'answers_so_far': prospect._answers_dict(),
                         'portfolio': prospect._portfolio_payload(),
                      'contact': prospect._contact_payload(),
-                        'instructions': '%s %s %s %s %s' % (FREE_REPLY, CHAT_METHOD_CHROME,
-                                                            self._reply_guidance(prospect, step), SEND_IN_CHROME,
+                        'instructions': '%s %s %s %s %s' % (answer, CHAT_METHOD_CHROME,
+                                                            self._reply_guidance(prospect, False), SEND_IN_CHROME,
                                                             GUARDRAILS),
                     }))
                 continue
@@ -301,13 +315,15 @@ class LiMcpEngineChat(models.AbstractModel):
     def _send_specific_block(self, item):
         prospect = item.prospect_id
         if item.work_type == 'message':
+            if item.closing:
+                return None
             if prospect.sequence_stopped:
                 return 'the sequence is stopped for this prospect'
             if prospect.needs_analysis:
                 return 'a new reply must be analysed first'
-            if self._next_step(prospect) != item.step_id:
+            if item.step_id and self._next_step(prospect) != item.step_id:
                 return 'step %s is no longer the next step' % item.step_id.name
-            return None
+            return None                 # an answer without a step: the fresh read before sending guards it
         return super()._send_specific_block(item)
 
     def _record_out(self, item, text, kind, **vals):
@@ -317,7 +333,7 @@ class LiMcpEngineChat(models.AbstractModel):
                   'sender_name': item.linkedin_profile_id.my_display_name}
         values.update(vals)
         prospect = item.prospect_id.sudo()
-        prospect.awaiting_reply = True
+        prospect.write({'awaiting_reply': True, 'answer_due': False})
         link = prospect.service_id.portfolio_link
         if link and link in (text or ''):
             prospect.portfolio_sent_at = now
@@ -357,6 +373,12 @@ class LiMcpEngineChat(models.AbstractModel):
         self._record_out(item, text, 'message')
         now = utc_now()
         vals = {'last_outbound_date': now, 'next_message_date': False}
+        if item.closing:                        # the conversation is closed: nothing more is expected or sent
+            prospect.write(dict(vals, closing_pending=False, awaiting_reply=False))
+            line = _('Closing message sent to %s', prospect.name)
+            self.env['li.event']._log('message_sent', 'chat', persona=prospect.persona_id, prospect=prospect,
+                                      detail=text, persona_body=line, prospect_body=_('Closing message sent: %s', text))
+            return 'Closing message to %s recorded.' % prospect.name
         if prospect.stage in ('accepted', 'replied'):
             vals['stage'] = 'messaged'
         if not prospect.date_first_message:
@@ -369,12 +391,31 @@ class LiMcpEngineChat(models.AbstractModel):
                                   detail=text, persona_body=short, prospect_body=full)
         return 'Answer to %s recorded; the questionnaire step stays open.' % prospect.name
 
-    def _free_reply_due(self, prospect):
-        """The questionnaire is over (no next step) and the prospect wrote again:
-        their analysed message is the latest one, so Claude may answer it."""
-        return bool(prospect.last_inbound_date and not prospect.awaiting_reply and not prospect.needs_analysis
-                    and not prospect.handoff_pending and prospect.stage in ('replied', 'messaged')
-                    and not self._next_step(prospect))
+    def _closing_prospects(self, profile):
+        """People who said they need nothing and still get one warm last message."""
+        return self.env['li.prospect'].search([
+            ('linkedin_profile_id', '=', profile.id), ('closing_pending', '=', True), ('do_not_contact', '=', False),
+            ('is_taken_over', '=', False), ('needs_check', '=', False),
+            ('persona_id.chat_agent_id.state', '=', 'running')], limit=20)
+
+    def _answer_mode(self, prospect, step, now):
+        """Instruction for a message that only answers the prospect, or '' when
+        the normal step logic applies. Their analysed message must be the latest
+        one. Two cases: the questionnaire is over (FREE_REPLY), or the next step
+        is not due yet but their message expects an answer now (ANSWER_NOW: the
+        analysis said so, or they asked a question)."""
+        if not (prospect.last_inbound_date and not prospect.awaiting_reply and not prospect.needs_analysis
+                and not prospect.handoff_pending and prospect.stage in ('replied', 'messaged')):
+            return ''
+        if not step:
+            return FREE_REPLY
+        if self._step_due(prospect, step, now)[0]:
+            return ''
+        last = prospect.message_ids_li.filtered(lambda m: m.direction == 'in').sorted(
+            lambda m: (m.date or m.create_date, m.id))[-1:]
+        if prospect.answer_due or '?' in (last.body or ''):
+            return ANSWER_NOW
+        return ''
 
     def _reply_guidance(self, prospect, step):
         """Extra instructions and data for a chat message item."""
@@ -580,7 +621,7 @@ class LiMcpEngineChat(models.AbstractModel):
     # li_record_analysis
     # ------------------------------------------------------------------
     def _tool_li_record_analysis(self, work_id, sentiment, pivot, summary, answers=None, pivot_reason=None,
-                                 handover=None, handover_request=None, handover_instruction=None):
+                                 handover=None, handover_request=None, handover_instruction=None, reply_now=None):
         self._lock()
         item = self._get_item(work_id, ['analyse'])
         if item.state not in ('released', 'expired'):
@@ -592,7 +633,7 @@ class LiMcpEngineChat(models.AbstractModel):
         merged = prospect._answers_dict()
         merged.update({k: v for k, v in (answers or {}).items() if v})
         prospect.write({'answers': json.dumps(merged, ensure_ascii=False), 'ai_summary': summary,
-                        'last_sentiment': sentiment, 'needs_analysis': False})
+                        'last_sentiment': sentiment, 'needs_analysis': False, 'answer_due': bool(reply_now)})
         item._close('done', result_status=sentiment)
         Event = self.env['li.event']
         if sentiment == 'opt_out':
@@ -604,7 +645,8 @@ class LiMcpEngineChat(models.AbstractModel):
                 record.message_post(body=line, author_id=Event._ai_partner().id, subtype_xmlid='mail.mt_note')
             return {'stage': prospect.stage, 'do_not_contact': True, 'message': line}
         if sentiment == 'negative' and chat.stop_on_negative:
-            prospect.write({'stage': 'not_interested', 'sequence_stopped': True})
+            prospect.write({'stage': 'not_interested', 'sequence_stopped': True, 'closing_pending': True,
+                            'answer_due': False})
             line = _('%s is not interested — sequence stopped', prospect.name)
             for record in (prospect, prospect.persona_id):
                 record.message_post(body=line, author_id=Event._ai_partner().id, subtype_xmlid='mail.mt_note')

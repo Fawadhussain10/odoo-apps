@@ -159,6 +159,52 @@ class TestWritingItems(BackgroundCase):
         self.assertEqual(self._items('message')[0]['step']['name'], second.name)
 
     @freeze_time(MONDAY_10_UTC)
+    def test_question_is_answered_now_even_when_the_next_step_waits(self):
+        self._start()
+        persona = self._persona(run=('chat',))
+        first, second = persona.chat_step_ids.sorted('sequence')[:2]
+        second.wait_days = 1                                           # next step: a day after their reply
+        prospect = self._replied(persona, 'What are the services you are offering?')
+        item = self._items('message')[0]                               # not tomorrow: now
+        self.assertNotIn('step', item)
+        self.assertIn('expects an answer now', item['instructions'])
+        self.assertIn('Do not ask the next questionnaire question', item['instructions'])
+        self.call('li_submit_text', work_id=item['work_id'],
+                  text='We implement, customise and support Odoo, Ali. Would any of that help you right now?')
+        self._script(get_conversation=[thread_data('')])
+        self._run()
+        self.assertEqual(len(self._calls(tool='send_message')), 1)     # really sent, although it has no step
+        self.assertEqual(prospect.current_step_id, first)              # the questionnaire did not move
+        self.assertTrue(prospect.awaiting_reply)
+        self.assertEqual(self._items('message'), [])
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_plain_answer_waits_for_the_step_unless_the_analysis_says_reply_now(self):
+        persona = self._persona(run=('chat',))
+        persona.chat_step_ids.sorted('sequence')[1].wait_days = 1
+        prospect = self._replied(persona, 'We use spreadsheets for everything.')
+        self.assertEqual(self._items('message'), [])                   # an answer, no question: the step waits
+        prospect.answer_due = True                                     # li_record_analysis reply_now=true
+        self.assertIn('expects an answer now', self._items('message')[0]['instructions'])
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_not_interested_gets_one_warm_closing_message(self):
+        self._start()
+        persona = self._persona(run=('chat',))
+        prospect = self._replied(persona, 'I am fine, I do not need anything.')
+        prospect.write({'stage': 'not_interested', 'sequence_stopped': True, 'closing_pending': True})
+        item = self._items('message')[0]
+        self.assertIn('Write one warm last message', item['instructions'])
+        self.call('li_submit_text', work_id=item['work_id'],
+                  text='Good to hear, Ali. Best of luck with your projects, and we are around if you ever need Odoo help.')
+        self._script(get_conversation=[thread_data('')])
+        self._run()
+        self.assertEqual(len(self._calls(tool='send_message')), 1)
+        self.assertEqual((prospect.stage, prospect.closing_pending, prospect.awaiting_reply),
+                         ('not_interested', False, False))
+        self.assertEqual(self._items('message'), [])                   # one closing message, never a second
+
+    @freeze_time(MONDAY_10_UTC)
     def test_free_reply_after_the_questionnaire(self):
         persona = self._persona(run=('chat',))
         prospect = self._replied(persona, 'One more thing: do you also do payroll?')

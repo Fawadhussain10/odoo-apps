@@ -179,6 +179,14 @@ out?".
   work, examples), or continue the questionnaire. An answer does not use up the
   step; it comes back after their next reply. When the questionnaire is over
   and they write again, Claude still answers.
+* Every message a prospect sends gets an answer. A question is answered right
+  away, without waiting for the delay of the next questionnaire step. Someone
+  who says they are fine or need nothing gets one warm closing message, and
+  then the sequence stops. Only "do not contact me" gets no reply.
+* The steps, templates and notes are guidelines, not a script: Claude is told to
+  think about what a thoughtful salesperson would naturally say next to this
+  person and write that. Only the limits are fixed (nothing invented, stop on
+  a no, daily limits, send windows).
 * A prospect who writes before our first message is answered about 10 minutes
   after their message (not after the first-message delay), and Claude answers
   what they wrote instead of sending the opening template.

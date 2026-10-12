@@ -199,6 +199,12 @@ class TestChatAgent(LiTransactionCase):
                   summary='Not interested.')
         self.assertEqual((ali.stage, ali.do_not_contact), ('not_interested', True))
         self.assertEqual((sara.stage, sara.do_not_contact), ('not_interested', False))
+        # "not interested" gets one warm closing message; "do not contact me" gets nothing at all
+        closing = self._items('message')
+        self.assertEqual([i['prospect']['id'] for i in closing], [sara.id])
+        self.assertIn('Write one warm last message', closing[0]['instructions'])
+        self._send(closing[0], 'Good to hear, Sara. Best of luck, and we are around if you ever need Odoo help.')
+        self.assertFalse(sara.closing_pending)
         self.assertFalse(self._items('message'))
         # never contacted again by any persona
         other = self._persona('Other persona', profile=self.profile2)

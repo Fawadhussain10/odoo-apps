@@ -51,6 +51,11 @@ class LiProspect(models.Model):
         ('human_message', 'Message written by hand'),
         ('contact_request', 'Asked for a person (call, email, meeting)'),
     ], readonly=True)
+    closing_pending = fields.Boolean(readonly=True, copy=False,
+                                     help='They said they need nothing: one warm last message is still to be sent.')
+    answer_due = fields.Boolean(readonly=True, copy=False,
+                                help='Their last message expects an answer now: Claude writes one without waiting '
+                                     'for the delay of the next questionnaire step.')
     handover_request = fields.Text('What they asked for', readonly=True, copy=False,
                                    help='The prospect asked to be called, emailed or contacted by a person.')
     handover_instruction = fields.Text('Instruction for the salesperson', readonly=True, copy=False)

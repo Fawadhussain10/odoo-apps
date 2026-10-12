@@ -232,6 +232,8 @@ TOOLS = [
             'pivot': BOOL,
             'pivot_reason': STR,
             'summary': STR,
+            'reply_now': {'type': 'boolean', 'description': 'true when their last message asks something or expects '
+                                                            'an answer now; false when it only answers our question.'},
             'handover': {'type': 'boolean', 'description': 'true when they ask for a person: a call, an email, a '
                                                            'meeting, a quote, or give a number, address or time.'},
             'handover_request': {'type': 'string', 'description': 'What they asked, one line, with the details '

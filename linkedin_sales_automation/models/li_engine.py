@@ -62,6 +62,13 @@ LOCK_KEY = 74218301  # pg advisory lock serialising quota decisions
 
 GUARDRAILS = ('Never mention prices, discounts or promises that are not in the persona/service data. '
               'Stop with anyone who says no or asks to stop.')
+JUDGEMENT = (
+    'Treat the step, the template and these notes as guidelines, not a script. Think for yourself about what a '
+    'thoughtful, experienced salesperson would naturally say next to this particular person at this point of '
+    'this conversation, and write that in a natural, human voice: no stiff or repeated formulas, no forcing a '
+    'question that does not fit. When the guidance and the situation disagree, follow the situation and the aim '
+    'behind the guidance. Only the limits are fixed: nothing invented (prices, promises, numbers, addresses, '
+    'facts about us), stop when they say no, and one paragraph.')
 CHAT_METHOD = (
     'Before you write, in this order: (1) read who this person is in prospect.profile (headline, current role and '
     'company, about, experience) and decide what they actually do and what would matter to them; (2) read the '
@@ -75,7 +82,7 @@ CHAT_METHOD = (
     'step\'s question was already answered, acknowledge the answer and take the next useful step instead. Never '
     'write something that does not fit their profile (for example treating an employee or a consultant as the owner or '
     'buyer); if the step\'s question does not fit this person, reshape it to what is relevant for them while '
-    'keeping the objective. If prospect.profile is empty, use the headline, title and company.')
+    'keeping the objective. If prospect.profile is empty, use the headline, title and company. ' + JUDGEMENT)
 REPLY_DECISION = (
     'Decide what their last message needs before you use the template. (a) They asked a question or raised a '
     'topic (what we do, our services, how we work, pricing, examples, timing, or anything else): answer that '
@@ -115,6 +122,20 @@ CONTACT_RULE = (
     'Our contact details: when they ask for our phone number, how to call us or our email address, give '
     'contact.phone or contact.email exactly as written, and nothing else. Never invent a number or an address; '
     'when the one they ask for is empty, say a colleague will share it. Do not offer them unasked.')
+ANSWER_NOW = (
+    'Their last message expects an answer now (a question, or a remark that closes the topic), and the next '
+    'questionnaire step is not due yet. Answer what they wrote, helpfully and briefly, from the service and '
+    'persona data and the conversation so far: if they ask what we offer, say it plainly and ask whether any of '
+    'it would help them; if they say they are fine or need nothing, close warmly and leave the door open. Do '
+    'not ask the next questionnaire question in this message.')
+CLOSING = (
+    'This person said they are fine or do not need anything, and the sequence has stopped. Write one warm last '
+    'message that ends the conversation well: good to hear, best of luck with their work, and one short line '
+    'that we are around if they ever need help with what we do. No question, no pitch, no request.')
+REPLY_NOW_RULE = (
+    'reply_now: true when their last message asks us something or clearly expects an answer now (for example '
+    'they ask what we do or offer, or they politely close the topic); false when it only answers our question, '
+    'so the next step can wait its normal delay. No message of theirs should stay unanswered.')
 FREE_REPLY = (
     'The questionnaire is finished for this person and they wrote again. Answer what they wrote, helpfully and '
     'briefly, from the service and persona data and the conversation so far; if they now show buying intent, '
@@ -662,6 +683,8 @@ class LiMcpEngine(models.AbstractModel):
             return None
         if prospect.is_taken_over:
             return 'prospect taken over'
+        if item.work_type == 'message' and item.closing:
+            return None if prospect.closing_pending else 'the closing message is no longer needed'
         if item.work_type == 'invite':
             if prospect.stage != 'queued':
                 return 'prospect is no longer queued (stage %s)' % prospect.stage

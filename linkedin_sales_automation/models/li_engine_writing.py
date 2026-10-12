@@ -18,7 +18,7 @@ from .li_common import (
     NOTE_MAX_CHARS, SEND_TYPES, WRITE_ORDER, format_hour, in_window, iso_utc, local_now, one_paragraph,
     unfilled_placeholders, utc_now,
 )
-from .li_engine import BROWSER_RULES, CHAT_METHOD, FREE_REPLY, GUARDRAILS, HANDOVER_ACK, ONE_PARAGRAPH
+from .li_engine import BROWSER_RULES, CHAT_METHOD, CLOSING, GUARDRAILS, HANDOVER_ACK, ONE_PARAGRAPH
 from .li_engine_chat import CHAT_STAGES
 from .li_mcp_tools import ToolError
 from .li_post import POST_MAX_CHARS, parse_post_stats
@@ -109,6 +109,17 @@ class LiMcpWriting(models.AbstractModel):
     def _gen_w_message(self, profile, ctx):
         items = []
         now = utc_now()
+        closing = self._closing_prospects(profile)
+        busy_closing = self._busy_prospects(closing)
+        for prospect in closing.filtered(lambda p: p.id not in busy_closing):
+            if ctx['left'] - len(items) <= 0:
+                break
+            items.append(self._writing_item(
+                'message', 'message', 'chat', profile, prospect.persona_id, prospect,
+                CLOSING + ' ' + GUARDRAILS,
+                {'conversation': prospect._conversation_payload(),
+                 'situation': prospect._situation_payload()},
+                closing=True))
         personas = profile.persona_ids.filtered(lambda p: p.chat_agent_id.state == 'running')
         prospects = self.env['li.prospect'].search([
             ('persona_id', 'in', personas.ids), ('stage', 'in', CHAT_STAGES), ('is_taken_over', '=', False),
@@ -122,11 +133,12 @@ class LiMcpWriting(models.AbstractModel):
             if room[prospect.persona_id.id] <= 0 or prospect._profile_pending():
                 continue                        # the profile is read first (next background run)
             step = self._next_step(prospect)
-            if not step and self._free_reply_due(prospect):
+            answer = self._answer_mode(prospect, step, now)
+            if answer:
                 room[prospect.persona_id.id] -= 1
                 items.append(self._writing_item(
                     'message', 'message', 'chat', profile, prospect.persona_id, prospect,
-                    '%s %s %s %s' % (FREE_REPLY, CHAT_METHOD, self._reply_guidance(prospect, step), GUARDRAILS),
+                    '%s %s %s %s' % (answer, CHAT_METHOD, self._reply_guidance(prospect, False), GUARDRAILS),
                     {'conversation': prospect._conversation_payload(),
                      'situation': prospect._situation_payload(),
                      'answers_so_far': prospect._answers_dict(),
