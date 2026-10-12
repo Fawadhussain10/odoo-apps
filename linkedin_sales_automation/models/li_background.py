@@ -901,7 +901,6 @@ class LiBackgroundWork(models.AbstractModel):
                     break
                 is_connection = prospect.linkedin_username in connected_usernames(found)
             if is_connection:
-                prospect.invite_verified_at = utc_now()
                 self._accept(prospect, note=_('found connected when the invite was verified'))
             else:
                 self._invite_was_not_recorded(profile, prospect)
@@ -924,7 +923,6 @@ class LiBackgroundWork(models.AbstractModel):
                 break
             state = (data or {}).get('status') if kind is None else None
             if state == 'already_connected':
-                prospect.invite_verified_at = utc_now()
                 self._accept(prospect, note=_('found connected when the invite was verified'))
             elif state == 'connectable':
                 self._invite_was_not_recorded(profile, prospect)

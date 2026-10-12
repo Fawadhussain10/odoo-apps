@@ -777,7 +777,8 @@ class LiMcpEngine(models.AbstractModel):
     def _apply_sent_invite(self, item, text, note_sent):
         prospect = item.prospect_id.sudo()
         now = utc_now()
-        prospect.write({'stage': 'invited', 'date_invited': now, 'invite_without_note': False})
+        prospect.write({'stage': 'invited', 'date_invited': now, 'invite_without_note': False,
+                        'invite_verified_at': False, 'invite_verify_tries': 0})   # a new invite is checked anew
         note = text if (note_sent or item.with_note) and text else ''
         if note:
             self.env['li.message'].sudo().create({
