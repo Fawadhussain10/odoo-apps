@@ -326,20 +326,22 @@ async def sent_invitations_flow(extractor, limit):
     await session.check_rate_limit()
     await asyncio.sleep(2.5)
     usernames = await page.evaluate(CONNECTION_LINKS_JS)
-    complete = False
-    for _i in range(25):
+    complete, stalls = False, 0
+    for _i in range(40):
         if len(usernames) >= limit:
             break
         await page.mouse.wheel(0, 6000)
         await asyncio.sleep(1.2)
-        clicked = await page.evaluate(MORE_BUTTON_JS)
-        if clicked:
+        if await page.evaluate(MORE_BUTTON_JS):
             await asyncio.sleep(1.8)
         more = await page.evaluate(CONNECTION_LINKS_JS)
-        if len(more) <= len(usernames) and not clicked:
-            complete = True                     # nothing more loads: the whole list is here
+        if len(more) > len(usernames):
+            usernames, stalls = more, 0
+            continue
+        stalls += 1
+        if stalls >= 2:
+            complete = True                     # two rounds without a new name: the whole list is here
             break
-        usernames = more
     return {'url': SENT_INVITATIONS_URL, 'usernames': usernames[:limit], 'count': min(len(usernames), limit),
             'complete': complete, 'page_text': await page.evaluate(MAIN_TEXT_JS)}
 

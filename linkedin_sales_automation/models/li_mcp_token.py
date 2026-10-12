@@ -32,14 +32,18 @@ class LiMcpToken(models.Model):
     active = fields.Boolean(default=True)
     last_used = fields.Datetime(readonly=True, copy=False)
     expiry = fields.Datetime(help='Optional. After this date the token is refused.')
+    profile_ids = fields.Many2many('li.profile', string='LinkedIn profiles',
+                                   help='Limit this connector to these LinkedIn profiles: it then sees and works on '
+                                        'nothing else. Empty: all profiles.')
 
     _sql_constraints = [('token_hash_uniq', 'unique(token_hash)', 'Token collision, generate again.')]
 
     @api.model
-    def _generate(self, name, expiry=False):
+    def _generate(self, name, expiry=False, profiles=None):
         """Create a token and return (record, plain value)."""
         plain = TOKEN_PREFIX + secrets.token_urlsafe(32)
         token = self.sudo().create({'name': name, 'token_hash': _hash(plain), 'expiry': expiry,
+                                    'profile_ids': [(6, 0, profiles.ids if profiles else [])],
                                     'token_hint': plain[:len(TOKEN_PREFIX) + 6] + '…'})
         return token, plain
 
@@ -74,6 +78,8 @@ class LiMcpTokenWizard(models.TransientModel):
 
     name = fields.Char(required=True, default='Claude')
     expiry = fields.Datetime()
+    profile_ids = fields.Many2many('li.profile', string='LinkedIn profiles',
+                                   help='Limit this connector to these profiles. Empty: all profiles.')
     plain_token = fields.Char(readonly=True)
     connector_url = fields.Char('Connector URL', readonly=True,
                                 help='Paste this URL in Claude (Settings > Connectors > Add custom connector). It '
@@ -84,7 +90,7 @@ class LiMcpTokenWizard(models.TransientModel):
         self.ensure_one()
         if self.token_id:
             raise UserError(_('This token was already generated.'))
-        token, plain = self.env['li.mcp.token']._generate(self.name, self.expiry)
+        token, plain = self.env['li.mcp.token']._generate(self.name, self.expiry, self.profile_ids)
         base = self.env['ir.config_parameter'].sudo().get_param('web.base.url', '').rstrip('/')
         self.write({'token_id': token.id, 'plain_token': plain, 'connector_url': '%s/li_sales/mcp/%s' % (base, plain)})
         return {

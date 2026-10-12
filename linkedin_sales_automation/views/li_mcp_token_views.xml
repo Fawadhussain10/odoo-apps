@@ -7,6 +7,7 @@
             <list create="false" editable="bottom" decoration-muted="not active">
                 <field name="name"/>
                 <field name="token_hint" readonly="1"/>
+                <field name="profile_ids" widget="many2many_tags" placeholder="All profiles"/>
                 <field name="create_date" string="Created"/>
                 <field name="create_uid" string="By" widget="many2one_avatar_user"/>
                 <field name="last_used"/>
@@ -44,6 +45,7 @@
             <form>
                 <group invisible="token_id">
                     <field name="name"/>
+                    <field name="profile_ids" widget="many2many_tags" options="{'no_create': True}" placeholder="All profiles"/>
                     <field name="expiry"/>
                 </group>
                 <div invisible="not token_id">

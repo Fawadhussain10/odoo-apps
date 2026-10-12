@@ -83,6 +83,10 @@
                         Taken over by <field name="taken_over_by" readonly="1" class="d-inline fw-bold"/>
                         on <field name="date_taken_over" readonly="1" class="d-inline"/>
                         (<field name="takeover_reason" readonly="1" class="d-inline"/>). Agents stopped for this prospect only.
+                        <div invisible="not handover_request" class="mt-2">
+                            <b>They asked:</b> <field name="handover_request" readonly="1" class="d-inline"/>
+                            <br/><b>What to do:</b> <field name="handover_instruction" readonly="1" class="d-inline"/>
+                        </div>
                     </div>
                     <div class="alert alert-secondary" role="alert" invisible="not do_not_contact">
                         On the do-not-contact list: no persona will contact this person again.

@@ -100,6 +100,116 @@ class TestWritingItems(BackgroundCase):
         self.assertTrue(result['queued'])
 
     @freeze_time(MONDAY_10_UTC)
+    def test_prospect_who_writes_first_is_answered_soon(self):
+        persona = self._persona(run=('chat',), chat_first_message_delay=2)
+        prospect = self._accepted(persona)
+        self.assertEqual(self._items('message'), [])                    # normally: 2 hours after accept
+        self.env['li.message'].create({'prospect_id': prospect.id, 'direction': 'in', 'kind': 'reply',
+                                       'body': 'Hi, what exactly do you offer for Odoo?'})
+        prospect.write({'last_inbound_date': fields.Datetime.now(), 'needs_analysis': True})
+        step = persona.chat_step_ids.sorted('sequence')[0]
+        self.assertEqual(self.Tools._step_due(prospect, step, fields.Datetime.now() + timedelta(hours=1)),
+                         (False, 'reply not analysed yet'))             # Claude analyses their message first
+        prospect.needs_analysis = False
+        with freeze_time('2026-10-12 10:05:00'):
+            self.assertEqual(self._items('message'), [])                # 10 minutes after their message
+        with freeze_time('2026-10-12 10:11:00'):
+            item = self._items('message')[0]
+        self.assertTrue(item['situation']['prospect_wrote_first'])
+        self.assertIn('wrote to us before our first message', item['instructions'])
+        self.assertIn('Do not send the template as if they had not written', item['instructions'])
+
+    def _replied(self, persona, text, **vals):
+        """A prospect who got step 1 and answered it (analysed)."""
+        prospect = self._accepted(persona, **vals)
+        Message = self.env['li.message']
+        Message.create({'prospect_id': prospect.id, 'direction': 'out', 'kind': 'message', 'ai_generated': True,
+                        'state': 'sent', 'body': 'Hi Ali, thanks for connecting!',
+                        'date': fields.Datetime.now() - timedelta(hours=3)})
+        Message.create({'prospect_id': prospect.id, 'direction': 'in', 'kind': 'reply', 'body': text,
+                        'date': fields.Datetime.now() - timedelta(hours=1)})
+        prospect.write({'stage': 'replied', 'current_step_id': persona.chat_step_ids.sorted('sequence')[0].id,
+                        'last_outbound_date': fields.Datetime.now() - timedelta(hours=3),
+                        'last_inbound_date': fields.Datetime.now() - timedelta(hours=1),
+                        'awaiting_reply': False, 'needs_analysis': False})
+        return prospect
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_answer_only_keeps_the_questionnaire_step_open(self):
+        self._start()
+        persona = self._persona(run=('chat',))
+        prospect = self._replied(persona, 'Thanks. What exactly do you do for Odoo users?')
+        first, second = persona.chat_step_ids.sorted('sequence')[:2]
+        item = self._items('message')[0]
+        self.assertEqual(item['step']['name'], second.name)
+        self.assertIn('Decide what their last message needs', item['instructions'])
+        self.assertIn('step_done', item['instructions'])
+        self.call('li_submit_text', work_id=item['work_id'], step_done=False,
+                  text='We implement and support Odoo for growing companies, Ali: setup, accounting and custom apps.')
+        self._script(get_conversation=[thread_data('')])
+        self._run()
+        self.assertEqual(prospect.current_step_id, first)              # step 2 was not asked: still open
+        self.assertEqual(prospect.stage, 'messaged')
+        self.assertTrue(prospect.awaiting_reply)
+        self.assertEqual(self._items('message'), [])                   # their turn
+        # they answer: the same step comes back
+        self.env['li.message'].create({'prospect_id': prospect.id, 'direction': 'in', 'kind': 'reply',
+                                       'body': 'Good to know.'})
+        prospect.write({'last_inbound_date': fields.Datetime.now(), 'awaiting_reply': False, 'stage': 'replied'})
+        self.assertEqual(self._items('message')[0]['step']['name'], second.name)
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_free_reply_after_the_questionnaire(self):
+        persona = self._persona(run=('chat',))
+        prospect = self._replied(persona, 'One more thing: do you also do payroll?')
+        prospect.current_step_id = persona.chat_step_ids.sorted('sequence')[-1]     # every step was sent
+        item = self._items('message')[0]
+        self.assertNotIn('step', item)
+        self.assertIn('The questionnaire is finished', item['instructions'])
+        self.assertEqual(item['situation']['their_last_reply'], 'One more thing: do you also do payroll?')
+        result = self.call('li_submit_text', work_id=item['work_id'],
+                           text='Yes Ali, payroll is part of what we set up in Odoo, including local rules.')
+        self.assertTrue(result['queued'])
+        prospect.awaiting_reply = True                                 # (set when it is sent)
+        self.env['li.work.item'].browse(item['work_id'])._close('done')
+        self.assertEqual(self._items('message'), [])                   # no second answer until they write
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_portfolio_link_is_offered_and_remembered(self):
+        self._start()
+        persona = self._persona(run=('chat',))
+        persona.service_id.portfolio_url = 'https://example.com/our-work'
+        prospect = self._replied(persona, 'Can you send me your portfolio?')
+        item = self._items('message')[0]
+        self.assertEqual(item['portfolio'], {'available': True, 'link': 'https://example.com/our-work',
+                                             'already_sent': False})
+        persona.service_id.write({'contact_phone': '+92 300 1234567', 'contact_email': False})
+        self.assertEqual(prospect._contact_payload(), {'phone': '+92 300 1234567', 'email': ''})
+        self.assertEqual(item['contact'], {'phone': '', 'email': ''})          # as it was when the item was made
+        self.assertIn('give contact.phone or contact.email exactly as written', item['instructions'])
+        self.assertIn('Never invent a number', item['instructions'])
+        self.assertIn('include portfolio.link exactly once', item['instructions'])
+        self.call('li_submit_text', work_id=item['work_id'], step_done=False,
+                  text='Sure Ali, here are a few projects: https://example.com/our-work')
+        self._script(get_conversation=[thread_data('')])
+        self._run()
+        self.assertTrue(prospect.portfolio_sent_at)
+        self.assertTrue(prospect._portfolio_payload()['already_sent'])
+
+    def test_portfolio_file_gets_a_private_link(self):
+        service = self.env['li.service'].create({'name': 'Advisory', 'description': 'Advice.'})
+        self.assertFalse(service.portfolio_link)
+        service.write({'portfolio_file': PNG, 'portfolio_filename': 'work.png'})
+        first = service.portfolio_link
+        self.assertRegex(first, r'/li_sales/portfolio/[\w-]{20,}$')
+        service.write({'portfolio_file': PNG})                          # a new file: a new link
+        self.assertNotEqual(service.portfolio_link, first)
+        service.portfolio_url = 'https://example.com/portfolio'         # your own link wins
+        self.assertEqual(service.portfolio_link, 'https://example.com/portfolio')
+        service.write({'portfolio_url': False, 'portfolio_file': False})
+        self.assertFalse(service.portfolio_link)
+
+    @freeze_time(MONDAY_10_UTC)
     def test_submit_text_is_stale_when_the_conversation_changed(self):
         persona = self._persona(run=('chat',))
         prospect = self._accepted(persona)

@@ -242,7 +242,8 @@ class LiSendNow(models.AbstractModel):
         if not username:
             raise ToolError('Give a LinkedIn profile link like https://www.linkedin.com/in/<name>/')
         Profile = self.env['li.profile']
-        profiles = self._profile_for(linkedin_profile) if linkedin_profile else Profile.search([])
+        profiles = (self._profile_for(linkedin_profile) if linkedin_profile
+                    else Profile.search(self._profile_scope()))
         if not profiles:
             raise ToolError('No LinkedIn profile in Odoo yet.')
         if len(profiles) > 1 and len(profiles.filtered('persona_ids')) == 1:

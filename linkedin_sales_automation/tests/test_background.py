@@ -601,6 +601,20 @@ class TestBackgroundWork(BackgroundCase):
         self.assertEqual((looks_pending.stage, bool(looks_pending.invite_verified_at)), ('invited', False))
         self.assertEqual(offered.stage, 'queued')
 
+    @freeze_time(MONDAY_10_UTC)
+    def test_fallback_tries_never_block_the_sent_list_check(self):
+        self._start()
+        persona = self._persona()
+        prospect = self._prospect(persona, stage='invited', date_invited=fields.Datetime.now() - timedelta(hours=2),
+                                  invite_verify_tries=2)          # the profile fallback gave up on this person
+        self._script(get_sent_invitations=[sent_list(complete=False, text='loading'), sent_list('someone-else')],
+                     get_recent_connections=[{'data': {'usernames': ['old-friend'], 'count': 1}}])
+        self.Tools._cron_verify_invites()
+        self.assertEqual(self._calls(tool='check_connection_state'), [])       # no third profile try
+        self.assertEqual(prospect.stage, 'invited')
+        self.Tools._cron_verify_invites()                                       # the list loads: it decides
+        self.assertEqual(prospect.stage, 'queued')
+
     def test_earlier_profile_only_verifications_are_checked_again_once(self):
         persona = self._persona()
         prospect = self._prospect(persona, stage='invited', date_invited=fields.Datetime.now(),

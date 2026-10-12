@@ -22,6 +22,17 @@ class TestPostImageLink(HttpCase, LiCommon):
                                               'text': 'Hello LinkedIn', 'state': 'approved', 'image': PNG})
         cls.base = cls.env['ir.config_parameter'].sudo().get_param('web.base.url').rstrip('/')
 
+    def test_portfolio_link_serves_the_file_without_login(self):
+        service = self.env['li.service'].create({'name': 'Advisory', 'description': 'Advice.',
+                                                 'portfolio_file': PNG, 'portfolio_filename': 'our-work.png'})
+        response = self._get(service.portfolio_link)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, base64.b64decode(PNG))
+        self.assertIn('our-work.png', response.headers['Content-Disposition'])
+        self.assertEqual(self._get(self.base + '/li_sales/portfolio/' + 'x' * 32).status_code, 404)
+        service.portfolio_file = False
+        self.assertEqual(self._get(self.base + '/li_sales/portfolio/' + 'y' * 32).status_code, 404)
+
     def _item(self):
         items = self.env['li.mcp.tools'].call_tool('li_get_work', {'linkedin_profile': 'taha'})['items']
         return [i for i in items if i['type'] == 'publish_post'][0]

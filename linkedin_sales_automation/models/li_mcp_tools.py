@@ -73,6 +73,8 @@ TOOLS = [
             'work_id': INT,
             'status': STR,
             'text_sent': STR,
+            'step_done': {'type': 'boolean', 'description': 'message items: false when the message only answered '
+                                                            'the prospect and did not cover the step.'},
             'note_sent': BOOL,
             'retry_safe': BOOL,
             'linkedin_profile': STR,
@@ -197,6 +199,9 @@ TOOLS = [
         'inputSchema': {'type': 'object', 'properties': {
             'work_id': INT,
             'text': STR,
+            'step_done': {'type': 'boolean', 'description': 'message items: true (default) when the text covers the '
+                                                            'objective of the step; false when it only answers the '
+                                                            'prospect, so the step comes back after their reply.'},
         }, 'required': ['work_id', 'text'], 'additionalProperties': False},
         'annotations': REPORT,
     },
@@ -217,7 +222,9 @@ TOOLS = [
         'title': 'Record a conversation analysis',
         'description': 'Answer an analyse item: sentiment, answers per question step, whether the pivot '
                        'criteria are met, and a short summary. Read prospect.profile first, then the reply, and '
-                       'judge the nature of the reply in the light of who the person is.',
+                       'judge the nature of the reply in the light of who the person is. When they ask for a '
+                       'call, an email, a meeting or a quote, set handover with handover_request and '
+                       'handover_instruction: Odoo moves them to CRM for the salesperson.',
         'inputSchema': {'type': 'object', 'properties': {
             'work_id': INT,
             'sentiment': {'type': 'string', 'enum': ['positive', 'neutral', 'negative', 'opt_out']},
@@ -225,6 +232,12 @@ TOOLS = [
             'pivot': BOOL,
             'pivot_reason': STR,
             'summary': STR,
+            'handover': {'type': 'boolean', 'description': 'true when they ask for a person: a call, an email, a '
+                                                           'meeting, a quote, or give a number, address or time.'},
+            'handover_request': {'type': 'string', 'description': 'What they asked, one line, with the details '
+                                                                  'they gave.'},
+            'handover_instruction': {'type': 'string', 'description': 'For the salesperson: what was said so far, '
+                                                                      'what they asked, what to do next.'},
         }, 'required': ['work_id', 'sentiment', 'pivot', 'summary'], 'additionalProperties': False},
         'annotations': REPORT,
     },
@@ -429,10 +442,33 @@ class LiMcpTools(models.AbstractModel):
     # ------------------------------------------------------------------
     # li_overview
     # ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+    # A connector (token) may be limited to some LinkedIn profiles
+    # ------------------------------------------------------------------
+    def _allowed_profile_ids(self):
+        """Ids of the profiles this connector may use, or None for all."""
+        allowed = self.env.context.get('li_allowed_profile_ids')
+        return list(allowed) if allowed else None
+
+    def _profile_scope(self):
+        """Search domain on li.profile for this connector."""
+        allowed = self._allowed_profile_ids()
+        return [('id', 'in', allowed)] if allowed is not None else []
+
+    def _check_profile_allowed(self, profile):
+        allowed = self._allowed_profile_ids()
+        for record in profile:
+            if allowed is not None and record.id not in allowed:
+                names = ', '.join(self.env['li.profile'].sudo().browse(allowed).mapped('account_key'))
+                raise ToolError('This connector is limited to the LinkedIn profile(s) %s: "%s" is not one of '
+                                'them. Nothing was done.' % (names, record.account_key),
+                                {'allowed_linkedin_profiles': names})
+        return profile
+
     def _tool_li_overview(self):
         WorkItem = self.env['li.work.item']
         profiles = []
-        for profile in self.env['li.profile'].search([]):
+        for profile in self.env['li.profile'].search(self._profile_scope()):
             profiles.append({
                 'name': profile.name,
                 'linkedin_profile': profile.account_key,
@@ -441,7 +477,9 @@ class LiMcpTools(models.AbstractModel):
                 'account_type': profile.account_type,
             })
         personas = []
-        for persona in self.env['li.persona'].search([]):
+        allowed = self._allowed_profile_ids()
+        for persona in self.env['li.persona'].search(
+                [('linkedin_profile_id', 'in', allowed)] if allowed is not None else []):
             con, chat = persona.connection_agent_id, persona.chat_agent_id
             now = local_now(persona.target_timezone)
             personas.append({

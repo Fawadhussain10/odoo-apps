@@ -798,8 +798,9 @@ class LiBackgroundWork(models.AbstractModel):
     # Invite verification
     # ------------------------------------------------------------------
     def _bg_unverified_invites(self, profile, settled=False):
+        # invite_verify_tries only limits the profile fallback: LinkedIn's Sent list always decides
         domain = [('linkedin_profile_id', '=', profile.id), ('stage', '=', 'invited'),
-                  ('invite_verified_at', '=', False), ('invite_verify_tries', '<', INVITE_VERIFY_TRIES),
+                  ('invite_verified_at', '=', False),
                   ('date_invited', '>=', utc_now() - INVITE_VERIFY_WITHIN), ('linkedin_username', '!=', False)]
         if settled:
             domain.append(('date_invited', '<=', utc_now() - INVITE_VERIFY_AFTER))
@@ -911,6 +912,7 @@ class LiBackgroundWork(models.AbstractModel):
         """Fallback when the Sent invitations list cannot be read: look at each
         person's profile (check_connection_state)."""
         calls = 0
+        prospects = prospects.filtered(lambda p: p.invite_verify_tries < INVITE_VERIFY_TRIES)
         for prospect in prospects[:limit or INVITE_VERIFY_PER_RUN]:
             if not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
                 break

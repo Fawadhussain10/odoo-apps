@@ -6,7 +6,11 @@ from datetime import timedelta
 from odoo import _, fields, models
 
 from .li_common import CLOSED_STAGES, linkedin_username, normalize_message, normalize_name, utc_now
-from .li_engine import BROWSER_RULES, CHAT_METHOD_CHROME, GUARDRAILS
+from .li_engine import (
+    BROWSER_RULES, CHAT_METHOD_CHROME, CONTACT_RULE, FREE_REPLY, GUARDRAILS, HANDOVER_ACK, HANDOVER_RULE,
+    PORTFOLIO_RULE,
+    REPLY_DECISION, WROTE_FIRST,
+)
 from .li_mcp_tools import ToolError
 
 TRACKED_STAGES = ('accepted', 'messaged', 'replied', 'warm', 'meeting')
@@ -61,6 +65,14 @@ class LiMcpEngineChat(models.AbstractModel):
                 if not prospect.date_accepted:
                     return False, 'not accepted yet'
                 due = prospect.date_accepted + timedelta(hours=chat.first_message_delay or 0) + wait
+                if prospect.last_inbound_date and prospect.last_inbound_date >= prospect.date_accepted:
+                    # they wrote before our first message: answer soon, not after the first-message delay
+                    if prospect.needs_analysis:
+                        return False, 'reply not analysed yet'
+                    if prospect.awaiting_reply:
+                        return False, 'waiting for a reply'     # we answered them: their turn
+                    due = min(due, prospect.last_inbound_date
+                              + timedelta(minutes=self._param('first_reply_delay', 10)))
             else:
                 due = (prospect.last_outbound_date or prospect.date_accepted or now) + wait
             return now >= due, 'due at %s' % due
@@ -71,6 +83,10 @@ class LiMcpEngineChat(models.AbstractModel):
             return False, 'reply not analysed yet'
         due = prospect.last_inbound_date + wait
         return now >= due, 'due at %s' % due
+
+    def _wrote_first_note(self, prospect):
+        """Extra instruction when the prospect wrote before our first message."""
+        return (' ' + WROTE_FIRST) if prospect._situation_payload()['prospect_wrote_first'] else ''
 
     def _render(self, template, prospect):
         values = {'first_name': prospect._first_name(), 'company': prospect.company or '',
@@ -158,8 +174,9 @@ class LiMcpEngineChat(models.AbstractModel):
                                 'neutral, negative, or opt_out when they ask not to be contacted), answers as '
                                 '{question step name: answer} for every question answered so far, pivot true only '
                                 'if the pivot criteria are met%s, a one-line pivot_reason and a 2–3 sentence '
-                                'summary. Send nothing.' % ('' if pivot_allowed else
-                                                            ' (pivot is not allowed before step %s)' % chat.pivot_min_step),
+                                'summary. %s Send nothing.' % (
+                                    '' if pivot_allowed else
+                                    ' (pivot is not allowed before step %s)' % chat.pivot_min_step, HANDOVER_RULE),
             }))
         return items
 
@@ -197,6 +214,17 @@ class LiMcpEngineChat(models.AbstractModel):
             if quota[prospect.persona_id.id] <= 0:
                 continue
             chat = prospect.persona_id.chat_agent_id
+            if prospect.takeover_reason == 'contact_request':
+                quota[prospect.persona_id.id] -= 1
+                items.append(self._create_item('handoff', 'chat', profile, prospect.persona_id, prospect,
+                                               quota=True, payload={
+                    'handover': prospect._handover_payload(),
+                    'contact': prospect._contact_payload(),
+                    'conversation': prospect._conversation_payload(),
+                    'situation': prospect._situation_payload(),
+                    'instructions': '%s %s %s' % (HANDOVER_ACK, SEND_IN_CHROME, GUARDRAILS),
+                }))
+                continue
             text = self._render(chat.handoff_message, prospect)
             if chat.meeting_link and chat.meeting_link not in text:
                 text = '%s %s' % (text.rstrip(), chat.meeting_link)
@@ -226,6 +254,19 @@ class LiMcpEngineChat(models.AbstractModel):
                 continue
             step = self._next_step(prospect)
             if not step:
+                if self._free_reply_due(prospect):
+                    quota[prospect.persona_id.id] -= 1
+                    items.append(self._create_item('message', 'chat', profile, prospect.persona_id, prospect,
+                                                   quota=True, payload={
+                        'conversation': prospect._conversation_payload(),
+                        'situation': prospect._situation_payload(),
+                        'answers_so_far': prospect._answers_dict(),
+                        'portfolio': prospect._portfolio_payload(),
+                     'contact': prospect._contact_payload(),
+                        'instructions': '%s %s %s %s %s' % (FREE_REPLY, CHAT_METHOD_CHROME,
+                                                            self._reply_guidance(prospect, step), SEND_IN_CHROME,
+                                                            GUARDRAILS),
+                    }))
                 continue
             due, _why = self._step_due(prospect, step, now)
             if not due:
@@ -241,13 +282,16 @@ class LiMcpEngineChat(models.AbstractModel):
                 'conversation': prospect._conversation_payload(),
                 'situation': prospect._situation_payload(),
                 'answers_so_far': prospect._answers_dict(),
+                'portfolio': prospect._portfolio_payload(),
+                     'contact': prospect._contact_payload(),
                 'instructions': 'Write step %s (%s) for this prospect from the objective and template%s, in the '
                                 'persona\'s tone and language, following the conversation so far. No placeholders '
-                                'left. %s %s %s' % (
+                                'left. %s %s %s %s' % (
                                     number, step.name, ' (rewrite it for this person)' if step.ai_personalise
                                     else ' (keep the template wording, fill the placeholders)',
-                                    CHAT_METHOD_CHROME if step.ai_personalise else '', SEND_IN_CHROME,
-                                    GUARDRAILS),
+                                    (CHAT_METHOD_CHROME + self._wrote_first_note(prospect))
+                                    if step.ai_personalise else '', self._reply_guidance(prospect, step),
+                                    SEND_IN_CHROME, GUARDRAILS),
             }))
         return items
 
@@ -272,7 +316,11 @@ class LiMcpEngineChat(models.AbstractModel):
                   'ai_generated': True, 'date': now, 'state': 'sent', 'work_item_id': item.id,
                   'sender_name': item.linkedin_profile_id.my_display_name}
         values.update(vals)
-        item.prospect_id.sudo().awaiting_reply = True
+        prospect = item.prospect_id.sudo()
+        prospect.awaiting_reply = True
+        link = prospect.service_id.portfolio_link
+        if link and link in (text or ''):
+            prospect.portfolio_sent_at = now
         message = self.env['li.message'].sudo().create(values)
         self._on_our_message(item.prospect_id.sudo())
         return message
@@ -280,6 +328,8 @@ class LiMcpEngineChat(models.AbstractModel):
     def _apply_sent_message(self, item, text, note_sent):
         prospect = item.prospect_id.sudo()
         step = item.step_id
+        if not step or item.keep_step:
+            return self._apply_sent_answer(item, text)
         number = self._steps(prospect.persona_id).ids.index(step.id) + 1 if step else 0
         self._record_out(item, text, 'message', step_id=step.id)
         now = utc_now()
@@ -298,6 +348,43 @@ class LiMcpEngineChat(models.AbstractModel):
         self.env['li.event']._log('message_sent', 'chat', persona=prospect.persona_id, prospect=prospect,
                                   detail=text, persona_body=short, prospect_body=full)
         return 'Step %s sent to %s recorded.' % (number, prospect.name)
+
+    def _apply_sent_answer(self, item, text):
+        """A message that only answered the prospect (their question, or a reply
+        after the questionnaire ended): recorded, but no questionnaire step is
+        counted as done, so the pending step comes back after their next reply."""
+        prospect = item.prospect_id.sudo()
+        self._record_out(item, text, 'message')
+        now = utc_now()
+        vals = {'last_outbound_date': now, 'next_message_date': False}
+        if prospect.stage in ('accepted', 'replied'):
+            vals['stage'] = 'messaged'
+        if not prospect.date_first_message:
+            vals['date_first_message'] = now
+        prospect.write(vals)
+        self._after_outbound(prospect)
+        full = _('Answer sent: %s', text)
+        short = _('Answer sent to %s', prospect.name)
+        self.env['li.event']._log('message_sent', 'chat', persona=prospect.persona_id, prospect=prospect,
+                                  detail=text, persona_body=short, prospect_body=full)
+        return 'Answer to %s recorded; the questionnaire step stays open.' % prospect.name
+
+    def _free_reply_due(self, prospect):
+        """The questionnaire is over (no next step) and the prospect wrote again:
+        their analysed message is the latest one, so Claude may answer it."""
+        return bool(prospect.last_inbound_date and not prospect.awaiting_reply and not prospect.needs_analysis
+                    and not prospect.handoff_pending and prospect.stage in ('replied', 'messaged')
+                    and not self._next_step(prospect))
+
+    def _reply_guidance(self, prospect, step):
+        """Extra instructions and data for a chat message item."""
+        notes = []
+        if step and step.ai_personalise and (prospect.last_inbound_date or step.trigger == 'after_reply'):
+            notes.append(REPLY_DECISION)
+        if prospect.service_id.portfolio_link:
+            notes.append(PORTFOLIO_RULE)
+        notes.append(CONTACT_RULE)
+        return ' '.join(notes)
 
     def _apply_sent_handoff(self, item, text, note_sent):
         prospect = item.prospect_id.sudo()
@@ -492,7 +579,8 @@ class LiMcpEngineChat(models.AbstractModel):
     # ------------------------------------------------------------------
     # li_record_analysis
     # ------------------------------------------------------------------
-    def _tool_li_record_analysis(self, work_id, sentiment, pivot, summary, answers=None, pivot_reason=None):
+    def _tool_li_record_analysis(self, work_id, sentiment, pivot, summary, answers=None, pivot_reason=None,
+                                 handover=None, handover_request=None, handover_instruction=None):
         self._lock()
         item = self._get_item(work_id, ['analyse'])
         if item.state not in ('released', 'expired'):
@@ -521,6 +609,16 @@ class LiMcpEngineChat(models.AbstractModel):
             for record in (prospect, prospect.persona_id):
                 record.message_post(body=line, author_id=Event._ai_partner().id, subtype_xmlid='mail.mt_note')
             return {'stage': prospect.stage, 'message': line}
+        if handover:
+            request = (handover_request or pivot_reason or summary or '').strip()
+            instruction = (handover_instruction or summary or request).strip()
+            lead = prospect._handover(request, instruction)
+            return {'stage': prospect.stage, 'crm_lead_id': lead.id, 'handover': True,
+                    'handoff_pending': prospect.handoff_pending,
+                    'message': '%s asked for a person: CRM lead #%s carries the instruction, the salesperson has an '
+                               'activity and the agents stopped for this person.%s' % (
+                                   prospect.name, lead.id,
+                                   ' One acknowledgement item follows.' if prospect.handoff_pending else '')}
         number = self._step_number(prospect)
         if pivot:
             if number >= (chat.pivot_min_step or 0):

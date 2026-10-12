@@ -52,6 +52,8 @@ class LiWorkItem(models.Model):
     quota_date = fields.Date(index=True, help='Local day (persona target time zone) the quota is counted on.')
     quota_consumed = fields.Boolean(index=True)
     with_note = fields.Boolean()
+    keep_step = fields.Boolean(help='The message only answered the prospect: the questionnaire step is not '
+                                    'counted as done and comes back after their next reply.')
     confirmed = fields.Boolean(help='li_confirm_send answered go.')
     date_confirmed = fields.Datetime()
     result_status = fields.Char()

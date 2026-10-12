@@ -20,7 +20,7 @@ from odoo.addons.linkedin_sales_automation.models.li_misc import DEFAULT_INSTRUC
 
 _logger = logging.getLogger(__name__)
 
-_TOKEN_IN_PATH = re.compile(r'(/li_sales/(?:mcp|post_image/\d+)/)[^\s/?"]+')
+_TOKEN_IN_PATH = re.compile(r'(/li_sales/(?:mcp|portfolio|post_image/\d+)/)[^\s/?"]+')
 
 
 class _HideConnectorToken(logging.Filter):
@@ -186,7 +186,8 @@ class LiSalesMcpController(http.Controller):
             return _rpc_error(req_id, INVALID_PARAMS, 'params.name is required'), False, 'no tool name'
         name = params['name']
         arguments = params.get('arguments') or {}
-        tools = request.env['li.mcp.tools']
+        token = request.env['li.mcp.token'].sudo().browse(getattr(request, 'li_mcp_token_id', False)).exists()
+        tools = request.env['li.mcp.tools'].with_context(li_allowed_profile_ids=token.profile_ids.ids or False)
         try:
             with request.env.cr.savepoint():
                 result = tools.call_tool(name, arguments)

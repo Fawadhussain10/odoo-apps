@@ -76,6 +76,54 @@ CHAT_METHOD = (
     'write something that does not fit their profile (for example treating an employee or a consultant as the owner or '
     'buyer); if the step\'s question does not fit this person, reshape it to what is relevant for them while '
     'keeping the objective. If prospect.profile is empty, use the headline, title and company.')
+REPLY_DECISION = (
+    'Decide what their last message needs before you use the template. (a) They asked a question or raised a '
+    'topic (what we do, our services, how we work, pricing, examples, timing, or anything else): answer that '
+    'directly and helpfully from the service and persona data, and add the question of this step only if it '
+    'follows naturally. (b) They simply answered, agreed or made small talk: continue with this step. (c) They say '
+    'they are not the right person for this: thank them and ask once, politely, who the right person is (name '
+    'and role) and whether they could introduce you; step_done false. Do not ask this twice. Report '
+    'which one it was with step_done: true when your message covers the objective of this step, false when it '
+    'only answers them (the step then comes back after their next reply).')
+PORTFOLIO_RULE = (
+    'Portfolio: if portfolio.available is true and they ask for a portfolio, examples, case studies or past work, '
+    'or it clearly helps to convince right now, include portfolio.link exactly once in your message; otherwise '
+    'leave it out. Never include it when portfolio.already_sent is true unless they ask for it again.')
+HANDOVER_RULE = (
+    'Handover: set handover true when they ask for a person or for something only a person can do: a call, a '
+    'meeting, to be emailed or phoned, a quote or proposal, a demo, or they give a phone number, an email '
+    'address or a time. Then also give handover_request (what they asked, in one line, with the number, address '
+    'or time they gave) and handover_instruction (for the salesperson: what we told them so far, what they '
+    'asked, and exactly what to do next and by which channel). Odoo then creates the CRM lead with that '
+    'instruction, hands the person to the salesperson and stops the agents; you get one item to acknowledge '
+    'it. Do not set it for a general question you can answer from the service data. '
+    'Not the right person: when they say so for the first time, do not hand over yet (sentiment neutral, never '
+    'negative): the next message asks who the right person is. Hand over once that was asked: if they named '
+    'someone, handover_request is "Referred to <name, role, how to reach them>" and the instruction tells the '
+    'salesperson to contact that person and mention who referred us; if they did not name anyone, '
+    'handover_request is "Not the right person, no referral" and the instruction says what was asked and '
+    'answered so the salesperson decides how to continue.')
+HANDOVER_ACK = (
+    'This person is being handed to a salesperson (handover.request). Write one short closing message. If they '
+    'asked for a call, an email, a meeting or a quote: confirm that we will get back to them by that channel, '
+    'repeat the detail they gave (number, address, time) so they can correct it, and ask only for a detail that '
+    'is missing (for example the best number or time). If they referred us to someone or said they are not the '
+    'right person: thank them warmly and, when they named someone, say we will reach out to that person. '
+    'Promise no time they did not propose, no prices, and do not ask another questionnaire question. '
+    'If they asked for our number or address, give contact.phone or contact.email exactly as written.')
+CONTACT_RULE = (
+    'Our contact details: when they ask for our phone number, how to call us or our email address, give '
+    'contact.phone or contact.email exactly as written, and nothing else. Never invent a number or an address; '
+    'when the one they ask for is empty, say a colleague will share it. Do not offer them unasked.')
+FREE_REPLY = (
+    'The questionnaire is finished for this person and they wrote again. Answer what they wrote, helpfully and '
+    'briefly, from the service and persona data and the conversation so far; if they now show buying intent, '
+    'propose the next concrete step (a short call). Do not restart the questionnaire.')
+WROTE_FIRST = (
+    'This person wrote to us before our first message (situation.prospect_wrote_first). Answer what they wrote '
+    'first: greet back naturally for a hello; for a question about what we do or offer, answer it briefly from the '
+    'service and persona data (no prices or promises that are not there). Then continue with the aim of this step '
+    'in the same message, for example one relevant question. Do not send the template as if they had not written.')
 CHAT_METHOD_CHROME = ('First open the prospect\'s LinkedIn profile (linkedin_url) and read the headline, current '
                       'role, about and experience. ' + CHAT_METHOD)
 BROWSER_RULES = ('Work only in the Chrome tab of LinkedIn signed in as this profile. If LinkedIn shows a sign-in '
@@ -119,8 +167,8 @@ class LiMcpEngine(models.AbstractModel):
         profile = Profile._find_by_account(account)
         if not profile:
             raise ToolError('Unknown LinkedIn profile "%s". Known: %s' % (
-                account, ', '.join(Profile.search([]).mapped('account_key'))))
-        return profile
+                account, ', '.join(Profile.search(self._profile_scope()).mapped('account_key'))))
+        return self._check_profile_allowed(profile)
 
     def _check_chrome(self, profile):
         """The browser report tools serve Claude in Chrome profiles only."""
@@ -135,6 +183,7 @@ class LiMcpEngine(models.AbstractModel):
         if types and item.work_type not in types:
             raise ToolError('Work item %s is a %s item; this tool reports %s items' % (
                 work_id, item.work_type, '/'.join(types)))
+        self._check_profile_allowed(item.linkedin_profile_id)
         return item
 
     def _check_connector(self, item, account, required=False):
@@ -608,7 +657,7 @@ class LiMcpEngine(models.AbstractModel):
             return 'prospect is flagged for a person to check'
         if item.work_type == 'handoff':
             # the pivot itself takes the prospect over; a later manual takeover cancels the handoff
-            if prospect.takeover_reason not in ('pivot', False) or not prospect.handoff_pending:
+            if prospect.takeover_reason not in ('pivot', 'contact_request', False) or not prospect.handoff_pending:
                 return 'handoff no longer pending'
             return None
         if prospect.is_taken_over:
@@ -968,6 +1017,9 @@ class LiMcpEngine(models.AbstractModel):
             prospects = Prospect.search([('name', 'ilike', name), ('stage', 'not in', CLOSED_STAGES)])
         else:
             raise ToolError('Give prospect_id, linkedin_url or name')
+        allowed = self._allowed_profile_ids()
+        if allowed is not None:
+            prospects = prospects.filtered(lambda p: p.linkedin_profile_id.id in allowed)
         if not prospects:
             raise ToolError('No matching prospect')
         if name and not prospect_id and not linkedin_url and len(prospects) > 1:
@@ -986,7 +1038,9 @@ class LiMcpEngine(models.AbstractModel):
         icp = self.env['ir.config_parameter'].sudo()
         WorkItem = self.env['li.work.item'].sudo()
         # release still-claimed items that were never sent; their quota comes back
-        open_items = WorkItem.search([('state', '=', 'released'), ('confirmed', '=', False)])
+        open_items = WorkItem.search([('state', '=', 'released'), ('confirmed', '=', False)] + (
+            [('linkedin_profile_id', 'in', self._allowed_profile_ids())]
+            if self._allowed_profile_ids() is not None else []))
         open_items._close('cancelled', cancel_reason='released by li_finish_run')
         now = utc_now()
         last = icp.get_param('li_sales.last_run_finished')
@@ -1000,7 +1054,7 @@ class LiMcpEngine(models.AbstractModel):
                 'followup_sent': 'followups', 'reply_received': 'replies', 'warm_lead': 'warm_leads',
                 'error': 'errors'}
         accounts = {}
-        for profile in self.env['li.profile'].search([]):
+        for profile in self.env['li.profile'].search(self._profile_scope()):
             accounts[profile.id] = dict({v: 0 for v in keys.values()}, linkedin_profile=profile.account_key,
                                         execution_mode=profile.execution_mode)
         per_persona = {}

@@ -39,6 +39,7 @@ class LiProspect(models.Model):
     answers = fields.Text(help='JSON: {step name: answer} extracted by Claude.')
     answers_display = fields.Text('Extracted answers', compute='_compute_answers_display')
     ai_summary = fields.Text('AI summary')
+    portfolio_sent_at = fields.Datetime('Portfolio sent on', readonly=True, copy=False)
     crm_lead_id = fields.Many2one('crm.lead', 'CRM lead', ondelete='set null', index=True)
     message_ids_li = fields.One2many('li.message', 'prospect_id', 'Conversation')
     is_taken_over = fields.Boolean('Taken over', readonly=True, index=True, tracking=True)
@@ -48,7 +49,11 @@ class LiProspect(models.Model):
         ('manual', 'Take over button'),
         ('pivot', 'Pivot'),
         ('human_message', 'Message written by hand'),
+        ('contact_request', 'Asked for a person (call, email, meeting)'),
     ], readonly=True)
+    handover_request = fields.Text('What they asked for', readonly=True, copy=False,
+                                   help='The prospect asked to be called, emailed or contacted by a person.')
+    handover_instruction = fields.Text('Instruction for the salesperson', readonly=True, copy=False)
     followup_count = fields.Integer(readonly=True)
     last_outbound_date = fields.Datetime(readonly=True)
     last_inbound_date = fields.Datetime(readonly=True)
@@ -190,6 +195,45 @@ class LiProspect(models.Model):
             'profile': self.profile_text or '',
         }
 
+    def _contact_payload(self):
+        self.ensure_one()
+        service = self.service_id
+        return {'phone': service.contact_phone or '', 'email': service.contact_email or ''}
+
+    def _handover_payload(self):
+        self.ensure_one()
+        return {'request': self.handover_request or '', 'instruction': self.handover_instruction or ''}
+
+    def _handover_lead(self, lead, created, fallback_owner):
+        """Tell the salesperson what was said, what the prospect asked and what to do."""
+        prospect = self.sudo()
+        persona = prospect.persona_id
+        Event = self.env['li.event']
+        owner = lead.user_id or fallback_owner or self.env.user
+        request, instruction = prospect.handover_request or '', prospect.handover_instruction or ''
+        line = _('%(name)s asks for a person: %(request)s. %(lead)s, assigned to %(user)s',
+                 name=prospect.name, request=request,
+                 lead=_('CRM lead #%s created', lead.id) if created else _('Logged on CRM lead #%s', lead.id),
+                 user=owner.name or _('nobody'))
+        Event._log('warm_lead', 'chat', persona=persona, prospect=prospect, lead=lead, detail=line,
+                   persona_body=line, prospect_body=line)
+        lead.message_post(
+            body=Markup('<p><b>%s</b></p><p>%s</p><p><b>%s</b><br/>%s</p>') % (
+                _('LinkedIn: %s asks to be contacted by a person', prospect.name), request,
+                _('What to do'), instruction),
+            author_id=Event._ai_partner().id, subtype_xmlid='mail.mt_note')
+        lead.activity_schedule('mail.mail_activity_data_todo', user_id=owner.id,
+                               summary=_('LinkedIn: contact %s (%s)', prospect.name, request)[:120],
+                               note=Markup('<p>%s</p><p>%s</p>') % (instruction, _(
+                                   'The AI agents have stopped for this person: continue yourself.')))
+        prospect._take_over(user=owner, reason='contact_request')
+        return lead
+
+    def _portfolio_payload(self):
+        self.ensure_one()
+        link = self.service_id.portfolio_link or ''
+        return {'available': bool(link), 'link': link, 'already_sent': bool(self.portfolio_sent_at)}
+
     def _situation_payload(self):
         """Where the conversation stands: who spoke last, what we already sent,
         the last analysis. Claude reads it with the conversation before writing."""
@@ -201,6 +245,8 @@ class LiProspect(models.Model):
             'messages_from_us': len(ours),
             'replies_from_prospect': len(theirs),
             'last_message_from': ('us' if msgs[-1].direction == 'out' else 'prospect') if msgs else 'nobody',
+            'prospect_wrote_first': bool(theirs) and not ours,
+            'portfolio_already_sent': bool(self.portfolio_sent_at),
             'our_last_message': ours[-1].body if ours else '',
             'their_last_reply': theirs[-1].body if theirs else '',
             'last_reply_nature': self.last_sentiment or '',
@@ -235,7 +281,8 @@ class LiProspect(models.Model):
                                    ('work_type', 'in', ('invite', 'message', 'followup', 'analyse'))],
                                   reason=_('prospect taken over'), stale=True)
             why = {'manual': '', 'pivot': _(' at pivot'),
-                   'human_message': _(' (a message written by hand was detected)')}[reason]
+                   'human_message': _(' (a message written by hand was detected)'),
+                   'contact_request': _(' (they asked for a person)')}[reason]
             line = _('%(user)s took over %(name)s%(why)s — agents stopped for this prospect',
                      user=user.name, name=prospect.name, why=why)
             Event._log('taken_over', 'system', persona=prospect.persona_id, prospect=prospect,
@@ -318,7 +365,15 @@ class LiProspect(models.Model):
             parts.append(Markup('<p><b>%s</b></p><ul>%s</ul>') % (_('Last messages'), rows))
         return Markup('').join(parts)
 
-    def _pivot(self, reason, manual=False):
+    def _handover(self, request, instruction):
+        """The prospect asked for a person (a call, an email, a meeting, a quote):
+        CRM lead with the instruction for the salesperson, takeover, and one short
+        acknowledgement on LinkedIn. Returns the lead."""
+        self.ensure_one()
+        self.sudo().write({'handover_request': request, 'handover_instruction': instruction})
+        return self._pivot(request, contact_request=True)
+
+    def _pivot(self, reason, manual=False, contact_request=False):
         """Warm lead: create (or reuse) the CRM lead, take the prospect over and
         queue the handoff message. Returns the lead."""
         self.ensure_one()
@@ -335,8 +390,9 @@ class LiProspect(models.Model):
         profile_owner = profile_owner if in_company(profile_owner) else self.env['res.users']
         if lead:
             created = False
-            line = _('Pivot reached again (%(persona)s): %(reason)s', persona=persona.name, reason=reason)
-            lead.message_post(body=line, author_id=Event._ai_partner().id, subtype_xmlid='mail.mt_note')
+            if not contact_request:
+                line = _('Pivot reached again (%(persona)s): %(reason)s', persona=persona.name, reason=reason)
+                lead.message_post(body=line, author_id=Event._ai_partner().id, subtype_xmlid='mail.mt_note')
         else:
             created = True
             team = persona.crm_team_id or service.crm_team_id
@@ -365,8 +421,11 @@ class LiProspect(models.Model):
             'stage': prospect.stage if already_warm else 'warm',
             'date_warm': prospect.date_warm or utc_now(),
             'needs_analysis': False,
-            'handoff_pending': bool(chat.handoff_message) and not already_warm and not prospect.is_taken_over,
+            'handoff_pending': (not prospect.is_taken_over) if contact_request else (
+                bool(chat.handoff_message) and not already_warm and not prospect.is_taken_over),
         })
+        if contact_request:
+            return prospect._handover_lead(lead, created, salesperson or profile_owner)
         owner = lead.user_id or salesperson or profile_owner or self.env.user
         if created:
             line = _('Pivot reached: %(reason)s. CRM lead #%(id)s created, assigned to %(user)s',

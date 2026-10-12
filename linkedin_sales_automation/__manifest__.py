@@ -33,7 +33,7 @@ Customers are responsible for using LinkedIn in line with LinkedIn's terms.
     'website': 'https://packbytes.com',
     'support': 'sales@packbytes.com',
     'license': 'OPL-1',
-    'price': 780.0,
+    'price': 2000.0,
     'currency': 'EUR',
     'images': ['static/description/banner.png'],
     'depends': ['base', 'mail', 'crm', 'calendar', 'sales_team'],

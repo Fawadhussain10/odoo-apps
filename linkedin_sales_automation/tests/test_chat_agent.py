@@ -211,6 +211,74 @@ class TestChatAgent(LiTransactionCase):
         self.assertEqual(result['contacted_elsewhere'], 1)
 
     @freeze_time(T0)
+    def test_call_or_email_request_goes_to_crm_with_an_instruction(self):
+        persona = self._persona(chat_first_message_delay=0, salesperson_id=self.rep.id)
+        prospect = self._accepted(persona)
+        self._send(self._items('message')[0], 'Hi Ali, thanks for connecting!')
+        self._thread(prospect, [('Taha Sohail', 'Hi Ali, thanks for connecting!'),
+                                ('Ali Raza', 'Please call me tomorrow at 3 pm on 0300 1234567.')])
+        analyse = self._items('analyse')[0]
+        self.assertIn('set handover true when they ask for a person', analyse['instructions'])
+        # allowed at step 1: they asked for a person, the pivot step does not matter
+        result = self.call(
+            'li_record_analysis', work_id=analyse['work_id'], sentiment='positive', pivot=False,
+            summary='Asked to be called.', handover=True,
+            handover_request='Call tomorrow 3 pm on 0300 1234567',
+            handover_instruction='We only thanked him for connecting. He asked for a call: phone 0300 1234567 '
+                                 'tomorrow at 3 pm and introduce our Odoo services.')
+        lead = prospect.crm_lead_id
+        self.assertTrue(lead and result['handover'])
+        self.assertEqual(lead.user_id, self.rep)
+        self.assertEqual((prospect.stage, prospect.is_taken_over, prospect.takeover_reason),
+                         ('warm', True, 'contact_request'))
+        activity = lead.activity_ids
+        self.assertEqual(activity.user_id, self.rep)
+        self.assertIn('Call tomorrow 3 pm', activity.summary)
+        self.assertIn('phone 0300 1234567 tomorrow at 3 pm', str(activity.note))
+        self.assertTrue(any('What to do' in str(m.body) and 'introduce our Odoo services' in str(m.body)
+                            for m in lead.message_ids))
+        # no more questionnaire for this person; one closing message is written
+        items = self.work_all()['items']
+        self.assertEqual([i for i in items if i['type'] == 'message' and i['prospect']['id'] == prospect.id], [])
+        ack = [i for i in items if i['type'] == 'handoff'][0]
+        self.assertEqual(ack['handover']['request'], 'Call tomorrow 3 pm on 0300 1234567')
+        self.assertIn('Write one short closing message', ack['instructions'])
+        self.assertNotIn('text', ack)                     # not the standard handoff draft
+        self._send(ack, 'Sure Ali, we will call you tomorrow at 3 pm on 0300 1234567.')
+        self.assertFalse(prospect.handoff_pending)
+        self.assertEqual(self._items('handoff'), [])
+
+    @freeze_time(T0)
+    def test_not_the_right_person_is_asked_once_then_handed_over(self):
+        persona = self._persona(chat_first_message_delay=0, salesperson_id=self.rep.id)
+        prospect = self._accepted(persona)
+        self._send(self._items('message')[0], 'Hi Ali, thanks for connecting!')
+        self._thread(prospect, [('Taha Sohail', 'Hi Ali, thanks for connecting!'),
+                                ('Ali Raza', 'I am not the right person for this.')])
+        analyse = self._items('analyse')[0]
+        self.assertIn('Not the right person', analyse['instructions'])
+        self.call('li_record_analysis', work_id=analyse['work_id'], sentiment='neutral', pivot=False,
+                  summary='Says he is not the right person.')
+        self.assertFalse(prospect.crm_lead_id)                       # not handed over yet: we ask first
+        ask = self._items('message')[0]
+        self.assertIn('ask once, politely, who the right person is', ask['instructions'])
+        go = self.call('li_confirm_send', work_id=ask['work_id'], text='No problem Ali. Who would be the right person?')
+        self.assertTrue(go['go'])
+        self.call('li_report_result', work_id=ask['work_id'], status='sent', linkedin_profile='taha', step_done=False,
+                  text_sent='No problem Ali. Who would be the right person?', retry_safe=True)
+        self._thread(prospect, [('Ali Raza', 'Talk to Sara Khan, our COO.')])
+        self.call('li_record_analysis', work_id=self._items('analyse')[0]['work_id'], sentiment='neutral',
+                  pivot=False, summary='Referred us to the COO.', handover=True,
+                  handover_request='Referred to Sara Khan, COO of Brand X',
+                  handover_instruction='Ali said he is not the right person and named Sara Khan (COO). Contact her '
+                                       'and mention that Ali referred us.')
+        lead = prospect.crm_lead_id
+        self.assertTrue(lead)
+        self.assertEqual(prospect.takeover_reason, 'contact_request')
+        self.assertIn('Referred to Sara Khan', lead.activity_ids.summary)
+        self.assertIn('mention that Ali referred us', str(lead.activity_ids.note))
+
+    @freeze_time(T0)
     def test_pivot_lead_handoff_and_single_lead_per_url(self):
         persona = self._persona(chat_first_message_delay=0, salesperson_id=self.rep.id)
         prospect = self._accepted(persona)

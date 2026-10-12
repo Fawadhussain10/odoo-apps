@@ -158,6 +158,11 @@ out?".
   account and tells the owner.
 * A person LinkedIn only lets you invite with their email address is followed
   instead (or flagged), without retries.
+* Every invite is verified about 10 minutes later against LinkedIn's own Sent
+  invitations list. On the list: it is real. Not on the list and not a
+  connection: LinkedIn never recorded it, so the person goes back to Queued,
+  the invite is not counted and that account's invites pause for a day. A
+  verified invite is not checked again; a person invited again is.
 * Before writing, Claude gets each person's LinkedIn profile from Odoo and is
   told to work in a fixed order: read the profile, read the conversation so far
   (the last 30 messages, with where it stands now), read the last reply and
@@ -169,8 +174,22 @@ out?".
   reply drops the queued text (stale), and a message you write by hand on
   LinkedIn takes the prospect over. LinkedIn's own interface text (banners,
   quick-reply suggestions) is never read as a message.
-* Manual takeover (button, message written by hand, or pivot) stops every agent
-  for that prospect only.
+* Replies are answered, not just followed by the next question. For each reply
+  Claude decides: answer their question or topic directly (services, how we
+  work, examples), or continue the questionnaire. An answer does not use up the
+  step; it comes back after their next reply. When the questionnaire is over
+  and they write again, Claude still answers.
+* A prospect who writes before our first message is answered about 10 minutes
+  after their message (not after the first-message delay), and Claude answers
+  what they wrote instead of sending the opening template.
+* Handover to a person: when someone asks for a call, an email, a meeting or a
+  quote, gives a number, address or time, or says they are not the right person
+  (Claude first asks once who is), Odoo creates the CRM lead with an
+  instruction for the salesperson (what was said, what they asked, what to do),
+  schedules an activity, takes the prospect over and sends one short closing
+  message.
+* Manual takeover (button, message written by hand, pivot, or a request for a
+  person) stops every agent for that prospect only.
 * Do-not-contact list across all personas; "not interested" stops the sequence.
 * A send whose outcome is unknown is never repeated; the prospect is flagged for
   a person to check.
@@ -185,6 +204,12 @@ out?".
   Odoo publishes it at the chosen time (engine) or hands Claude a
   `publish_post` item (Chrome). The post URL is saved and reactions, comments
   and reposts are re-read weekly.
+* **Portfolio and contact details per service**: on each Service you can upload
+  a portfolio file (Odoo gives it a private link) or paste your own link, and
+  set the phone number and email address to give. Claude adds the portfolio
+  link when a prospect asks for a portfolio, examples or past work, and gives
+  the phone number or email only when asked. LinkedIn messages are text only,
+  so the portfolio goes out as a link.
 * **Prospect profile**: each prospect has a **LinkedIn profile** tab with the
   text of their profile page, saved when they are invited (or read once when
   they reach the Chat Agent). Claude reads it from there, not from LinkedIn.
@@ -210,10 +235,18 @@ out?".
   accounts. Odoo reads LinkedIn's notice, pauses that account's Connection
   Agents until next Monday and resumes them by itself. Messages to people who
   accepted keep going out.
+* **People went from Invited back to Queued.** LinkedIn's Sent invitations list
+  did not show their invitation, so it was never sent (usually LinkedIn's
+  invitation limit). They are invited again later; nobody can be invited
+  twice. The scheduled action "LinkedIn Sales: verify sent invites" does this
+  check every 5 minutes.
 * **Invites are paused for a day.** LinkedIn did not record invitations to two
-  different people in a row and gave no reason. Odoo pauses that account's
+  different people in a row and gave no reason, or the check above found an
+  invite that was never recorded. Odoo pauses that account's
   invites for 24 hours and tries again by itself; leave it paused.
-* **A prospect shows Taken over although I did not press the button.** Someone
+* **A prospect shows Taken over although I did not press the button.** Either
+  they asked for a person (a call, an email, a meeting, a quote, or a
+  referral): the CRM lead and its activity say what to do. Or someone
   wrote to that person by hand on LinkedIn from the account. Odoo stops the
   agents for that person only. A manager can press **Return to agents**.
 * **Replies are picked up slowly.** The inbox is read every 60 minutes by
@@ -253,6 +286,13 @@ out?".
 * The connector URL holds a random token (stored hashed, shown once, revocable;
   blanked out of Odoo's request log). Tools run as a technical user with its
   own group.
+* A token can be limited to some LinkedIn profiles (**LinkedIn profiles** on the
+  token). That connector then sees and works on those profiles only, whatever
+  Claude is told: one Claude per account, each with its own token.
+* The portfolio link of a service opens without a login for anyone who has it
+  (the prospect must be able to open it). It holds a long random code, is not
+  listed anywhere, changes when a new file is uploaded and ends when the file
+  is removed.
 * LinkedIn passwords and codes typed in the sign-in dialog are never logged or
   stored; the session stays in the engine's own folder on your server
   (permissions 700). Each engine listens on 127.0.0.1 only, on a random secret

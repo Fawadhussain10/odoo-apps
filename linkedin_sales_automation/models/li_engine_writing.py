@@ -18,7 +18,7 @@ from .li_common import (
     NOTE_MAX_CHARS, SEND_TYPES, WRITE_ORDER, format_hour, in_window, iso_utc, local_now, one_paragraph,
     unfilled_placeholders, utc_now,
 )
-from .li_engine import BROWSER_RULES, CHAT_METHOD, GUARDRAILS, ONE_PARAGRAPH
+from .li_engine import BROWSER_RULES, CHAT_METHOD, FREE_REPLY, GUARDRAILS, HANDOVER_ACK, ONE_PARAGRAPH
 from .li_engine_chat import CHAT_STAGES
 from .li_mcp_tools import ToolError
 from .li_post import POST_MAX_CHARS, parse_post_stats
@@ -85,6 +85,15 @@ class LiMcpWriting(models.AbstractModel):
             if ctx['left'] - len(items) <= 0:
                 break
             chat = prospect.persona_id.chat_agent_id
+            if prospect.takeover_reason == 'contact_request':
+                items.append(self._writing_item(
+                    'handoff', 'handoff', 'chat', profile, prospect.persona_id, prospect,
+                    HANDOVER_ACK + ' ' + GUARDRAILS,
+                    {'handover': prospect._handover_payload(),
+                    'contact': prospect._contact_payload(),
+                     'conversation': prospect._conversation_payload(),
+                     'situation': prospect._situation_payload()}))
+                continue
             draft = self._render(chat.handoff_message, prospect)
             if chat.meeting_link and chat.meeting_link not in draft:
                 draft = '%s %s' % (draft.rstrip(), chat.meeting_link)
@@ -113,6 +122,17 @@ class LiMcpWriting(models.AbstractModel):
             if room[prospect.persona_id.id] <= 0 or prospect._profile_pending():
                 continue                        # the profile is read first (next background run)
             step = self._next_step(prospect)
+            if not step and self._free_reply_due(prospect):
+                room[prospect.persona_id.id] -= 1
+                items.append(self._writing_item(
+                    'message', 'message', 'chat', profile, prospect.persona_id, prospect,
+                    '%s %s %s %s' % (FREE_REPLY, CHAT_METHOD, self._reply_guidance(prospect, step), GUARDRAILS),
+                    {'conversation': prospect._conversation_payload(),
+                     'situation': prospect._situation_payload(),
+                     'answers_so_far': prospect._answers_dict(),
+                     'portfolio': prospect._portfolio_payload(),
+                     'contact': prospect._contact_payload()}))
+                continue
             if not step or not self._step_due(prospect, step, now)[0]:
                 continue
             number = self._steps(prospect.persona_id).ids.index(step.id) + 1
@@ -120,16 +140,19 @@ class LiMcpWriting(models.AbstractModel):
             items.append(self._writing_item(
                 'message', 'message', 'chat', profile, prospect.persona_id, prospect,
                 'Write step %s (%s) for this prospect from the objective and template%s, in the persona\'s tone and '
-                'language, following the conversation so far. No placeholders left. %s %s' % (
+                'language, following the conversation so far. No placeholders left. %s %s %s' % (
                     number, step.name, ' (rewrite it for this person)' if step.ai_personalise
                     else ' (keep the template wording, fill the placeholders)',
-                    CHAT_METHOD if step.ai_personalise else '', GUARDRAILS),
+                    (CHAT_METHOD + self._wrote_first_note(prospect)) if step.ai_personalise else '',
+                    self._reply_guidance(prospect, step), GUARDRAILS),
                 {'step': dict(self._step_payload(step, number), template=step.template or '',
                               ai_personalise=step.ai_personalise),
                  'draft': self._render(step.template, prospect),
                  'conversation': prospect._conversation_payload(),
                  'situation': prospect._situation_payload(),
-                 'answers_so_far': prospect._answers_dict()},
+                 'answers_so_far': prospect._answers_dict(),
+                 'portfolio': prospect._portfolio_payload(),
+                     'contact': prospect._contact_payload()},
                 step_id=step.id))
         return items
 
@@ -260,7 +283,7 @@ class LiMcpWriting(models.AbstractModel):
     # ------------------------------------------------------------------
     # Tools
     # ------------------------------------------------------------------
-    def _tool_li_submit_text(self, work_id, text):
+    def _tool_li_submit_text(self, work_id, text, step_done=None):
         self._lock()
         item = self._get_item(work_id, SEND_TYPES)
         if not item.writing:
@@ -284,7 +307,8 @@ class LiMcpWriting(models.AbstractModel):
                     'message': 'The conversation changed while you wrote: text dropped. Call li_get_work for a '
                                'fresh item.'}
         now = utc_now()
-        item.write({'state': 'queued', 'text_confirmed': text, 'date_submitted': now, 'expires_at': now})
+        item.write({'state': 'queued', 'text_confirmed': text, 'date_submitted': now, 'expires_at': now,
+                    'keep_step': item.work_type == 'message' and step_done is False})
         agent = self._agent_of(item)
         when = self._window_text(item.persona_id, agent)
         return {'ok': True, 'queued': True, 'work_id': item.id, 'send_window': when,
@@ -341,8 +365,10 @@ class LiMcpWriting(models.AbstractModel):
 
     def _tool_li_report_result(self, work_id, status, linkedin_profile, text_sent=None, note_sent=None,
                                retry_safe=None, error=None, linkedin_url=None, post_url=None, reactions=None,
-                               comments=None, reposts=None):
+                               comments=None, reposts=None, step_done=None):
         item = self._get_item(work_id)
+        if item.work_type == 'message' and step_done is False:
+            item.sudo().keep_step = True
         if item.work_type not in ('publish_post', 'post_stats'):
             return super()._tool_li_report_result(work_id, status, linkedin_profile, text_sent=text_sent,
                                                   note_sent=note_sent, retry_safe=retry_safe, error=error,
@@ -387,6 +413,8 @@ class LiMcpWriting(models.AbstractModel):
         failed = WorkItem.search([('writing', '=', False), ('state', '=', 'failed'), ('date_done', '>=', since)])
         result = super()._tool_li_finish_run(summary=summary)
         profiles = (written | analysed | done | failed).mapped('linkedin_profile_id')
+        if self._allowed_profile_ids() is not None:
+            profiles = profiles.filtered(lambda p: p.id in self._allowed_profile_ids())
         if linkedin_profile:
             profiles |= self._profile_for(linkedin_profile)
         errors = [e for e in (errors or []) if e]
@@ -408,7 +436,7 @@ class LiMcpWriting(models.AbstractModel):
         result = super()._tool_li_overview()
         WorkItem = self.env['li.work.item']
         Post = self.env['li.post']
-        by_key = {p.account_key: p for p in self.env['li.profile'].search([])}
+        by_key = {p.account_key: p for p in self.env['li.profile'].search(self._profile_scope())}
         result['before_writing'] = WRITE_ORDER
         for entry in result['profiles']:
             profile = by_key.get(entry['linkedin_profile'])

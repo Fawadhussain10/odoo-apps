@@ -94,6 +94,35 @@ class TestMcpHttp(HttpCase, LiCommon):
             headers={'Content-Type': 'application/json', 'Authorization': 'Bearer %s' % self.key})
         self.assertIn('error', resp.json())
 
+    def test_token_limited_to_some_linkedin_profiles(self):
+        Token = self.env['li.mcp.token']
+        limited, key = Token._generate('Claude for one account', profiles=self.profile)
+        other = self.profile2.account_key
+
+        def tool(name, **arguments):
+            body = self.post({'jsonrpc': '2.0', 'id': 7, 'method': 'tools/call',
+                              'params': {'name': name, 'arguments': arguments}}, key=key).json()
+            return body['result']
+
+        overview = tool('li_overview')['structuredContent']
+        self.assertEqual([p['linkedin_profile'] for p in overview['profiles']], [self.profile.account_key])
+        self.assertTrue(all(p['linkedin_profile'] == self.profile.name for p in overview['personas']))
+        self.assertFalse(tool('li_get_work', linkedin_profile=self.profile.account_key).get('isError'))
+        refused = tool('li_get_work', linkedin_profile=other)
+        self.assertTrue(refused['isError'])
+        self.assertIn('limited to the LinkedIn profile(s) %s' % self.profile.account_key,
+                      refused['content'][0]['text'])
+        # a work item of another profile cannot be touched either
+        item = self.env['li.work.item'].sudo().create({
+            'work_type': 'analyse', 'agent_type': 'chat', 'linkedin_profile_id': self.profile2.id,
+            'state': 'released', 'expires_at': '2099-01-01 00:00:00'})
+        refused = tool('li_record_analysis', work_id=item.id, sentiment='neutral', pivot=False, summary='x')
+        self.assertTrue(refused['isError'])
+        self.assertIn('Nothing was done', refused['content'][0]['text'])
+        # a token without the limit still reaches every profile
+        full = self.tool('li_overview')['structuredContent']
+        self.assertIn(other, [p['linkedin_profile'] for p in full['profiles']])
+
     def test_get_is_405(self):
         resp = self.url_open('/li_sales/mcp', headers={'Authorization': 'Bearer %s' % self.key})
         self.assertEqual(resp.status_code, 405)
