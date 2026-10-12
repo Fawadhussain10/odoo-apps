@@ -21,8 +21,8 @@ DEFAULTS = {
     'get_person_profile': {'url': 'https://www.linkedin.com/in/x/', 'sections': {
         'main_profile': 'Ali Raza\nFounder at Brand X\nLahore\nAbout\nI run a fashion brand on Shopify.'}},
     'search_people': {'url': 'https://www.linkedin.com/search/results/people/', 'sections': {'search_results': ''}},
-    'send_invite_direct': {'status': 'connected', 'message': 'Invitation submitted through the invite link.',
-                           'confirmed': True, 'linkedin_notice': 'Invitation sent to Ali.', 'invite_dialog': '',
+    'send_invite_direct': {'status': 'connect_unavailable', 'message': 'LinkedIn offers no Connect for this profile.',
+                           'confirmed': False, 'linkedin_notice': '', 'invite_dialog': '', 'route': '',
                            'direct': True},
     'check_connection_state': {'status': 'pending', 'seen': ['pending', 'pending'], 'retry_safe': True},
     'check_invite_dialog': {'status': 'dialog', 'text': 'Add a note to your invitation?', 'retry_safe': True},

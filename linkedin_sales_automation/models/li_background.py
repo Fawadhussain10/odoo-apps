@@ -384,6 +384,27 @@ class LiProspectInviteReverify(models.Model):
         return len(prospects)
 
 
+class LiProspectFollowedRetry(models.Model):
+    _inherit = 'li.prospect'
+
+    @api.model
+    def _li_requeue_followed_once(self):
+        """Once: people who were only followed because the engine saw no Connect
+        go back to the queue, so the wider search for Connect (invite link,
+        Connect button, More menu) gets a try. Still no Connect: followed again."""
+        params = self.env['ir.config_parameter'].sudo()
+        if params.get_param('li_sales.followed_requeued'):
+            return 0
+        prospects = self.sudo().search([('stage', '=', 'followed'), ('do_not_contact', '=', False),
+                                        ('is_taken_over', '=', False)])
+        prospects.write({'stage': 'queued', 'send_attempts': 0})
+        for prospect in prospects:
+            prospect.message_post(body=_('Back in the queue once: Odoo now also looks for Connect in the More menu.'),
+                                  author_id=self.env['li.event']._ai_partner().id, subtype_xmlid='mail.mt_note')
+        params.set_param('li_sales.followed_requeued', '1')
+        return len(prospects)
+
+
 class LiBackgroundWork(models.AbstractModel):
     _inherit = 'li.mcp.tools'
 
@@ -703,6 +724,11 @@ class LiBackgroundWork(models.AbstractModel):
             data, kind, text, check_calls = self._bg_check_invite_dialog(profile, item, data)
             calls += check_calls
         if (item.work_type == 'invite' and kind is None and connect_outcome(data)[0] == 'not_invitable'
+                and self._bg_time_for(deadline, 2)):
+            # the engine found no Connect: try every other route before settling for Follow
+            data, kind, text, more = self._bg_connect_any_way(profile, item, data)
+            calls += more
+        if (item.work_type == 'invite' and kind is None and connect_outcome(data)[0] == 'not_invitable'
                 and item.persona_id.connection_agent_id.follow_if_no_connect and self._bg_time_for(deadline)):
             data, kind, text, follow_calls = self._bg_follow(profile, item, data)
             calls += follow_calls
@@ -710,6 +736,33 @@ class LiBackgroundWork(models.AbstractModel):
         if verified_pending and prospect.stage == 'invited':
             prospect.invite_verified_at = utc_now()         # LinkedIn's Sent list showed it
         return calls
+
+    def _bg_connect_any_way(self, profile, item, connect_data):
+        """The engine saw no Connect on this profile (often Follow is the main
+        button and Connect sits in the "More" menu). send_invite_direct, an Odoo
+        tool added to the engine, tries LinkedIn's invite link, the Connect button
+        and the More menu in turn. Returns (data, kind, text, calls): the engine's
+        own answer again when no route worked, so the person is followed."""
+        prospect = item.prospect_id
+        arguments = {'linkedin_username': prospect.linkedin_username}
+        if item.with_note and item.text_confirmed:
+            arguments['note'] = item.text_confirmed
+        self._bg_pause()
+        data, kind, text = self._bg_call(profile, 'send_invite_direct', arguments, 'invite', item=item,
+                                         prospect=prospect)
+        if kind in ('session', 'restricted', 'rate_limit'):
+            return None, kind, text, 1
+        if kind:
+            return connect_data, None, text, 1          # the extra try failed: as before
+        self._bg_note_action(profile, prospect, 'invite', _(
+            'No Connect found by the engine: tried the invite link, the Connect button and the More menu. '
+            'Result: %(status)s by %(route)s. LinkedIn confirmed: %(confirmed)s. Notice: %(notice)s. '
+            'Dialog: %(dialog)s', status=data.get('status') or '?', route=data.get('route') or '-',
+            confirmed=_('yes') if data.get('confirmed') else _('no'),
+            notice=data.get('linkedin_notice') or '-', dialog=data.get('invite_dialog') or '-'))
+        if (data.get('status') or '').lower() == 'connect_unavailable':
+            return connect_data, None, text, 1          # really no Connect: follow instead
+        return data, None, text, 1
 
     def _bg_pending_or_send(self, profile, item, connect_data):
         """The engine says an invitation to this person is already pending, but

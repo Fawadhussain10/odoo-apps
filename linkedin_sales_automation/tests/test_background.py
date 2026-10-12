@@ -29,6 +29,11 @@ def sent_list(*usernames, complete=True, text=''):
                      'page_text': text or 'Manage invitations Sent'}}
 
 
+DIRECT_OK = {'data': {'status': 'connected', 'message': 'Invitation submitted (More menu). LinkedIn confirmed it.',
+                      'confirmed': True, 'linkedin_notice': 'Invitation sent to Ali.', 'invite_dialog': '',
+                      'route': 'More menu', 'direct': True}}
+
+
 def search_data(*people):
     lines, refs = [], []
     for username, name, headline in people:
@@ -311,6 +316,29 @@ class TestBackgroundWork(BackgroundCase):
         self._run()
         agent = persona.connection_agent_id
         self.assertEqual(agent.paused_until, fields.Datetime.to_datetime('2026-10-19 00:00:00'))
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_connect_hidden_in_the_more_menu_is_used_before_following(self):
+        self._start()
+        persona = self._persona()
+        hidden = self._prospect(persona)
+        self._script(connect_with_person=[{'data': {'status': 'follow_only', 'message': 'Follow only profile.'}}],
+                     send_invite_direct=[DIRECT_OK])
+        self._run()
+        self.assertEqual(self._calls(tool='send_invite_direct')[0]['args'], {'linkedin_username': 'ali-raza'})
+        self.assertEqual(hidden.stage, 'invited')                              # connected, not merely followed
+        self.assertEqual(self._calls(tool='follow_person'), [])
+        self.assertTrue(any('More menu' in (a.detail or '') for a in self._actions(action='invite')))
+
+    def test_followed_people_get_one_more_try_for_connect(self):
+        persona = self._persona()
+        followed = self._prospect(persona, stage='followed')
+        self.env['ir.config_parameter'].sudo().search([('key', '=', 'li_sales.followed_requeued')]).unlink()
+        self.assertEqual(self.env['li.prospect']._li_requeue_followed_once(), 1)
+        self.assertEqual(followed.stage, 'queued')
+        followed.stage = 'followed'
+        self.assertEqual(self.env['li.prospect']._li_requeue_followed_once(), 0)     # once only
+        self.assertEqual(followed.stage, 'followed')
 
     @freeze_time(MONDAY_10_UTC)
     def test_no_connect_follows_instead(self):
@@ -671,7 +699,7 @@ class TestBackgroundWork(BackgroundCase):
         misread = self._prospect(persona)
         really_pending = self._prospect(persona, 'sara-khan', 'Sara Khan')
         pending = {'data': {'status': 'pending', 'message': 'An invitation is already pending.'}}
-        self._script(connect_with_person=[pending, pending],
+        self._script(connect_with_person=[pending, pending], send_invite_direct=[DIRECT_OK],
                      get_sent_invitations=[sent_list('someone-else'), sent_list('sara-khan', 'someone-else')])
         self._run()
         # not on LinkedIn's Sent list: Odoo sends it through the invite link

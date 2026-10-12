@@ -8,8 +8,9 @@ with the engine's tools.
 * get_recent_connections - the newest 1st-degree connections, one page read
 * check_invite_dialog - open one person's invite dialog WITHOUT sending and say
   what LinkedIn asks there (e.g. the person's email address)
-* send_invite_direct - send an invitation through LinkedIn's invite link, for a
-  profile the engine misreads as "already pending" (Odoo checks the Sent list first)
+* send_invite_direct - send an invitation by every route LinkedIn offers (invite
+  link, Connect button, Connect in the "More" menu), for profiles where the
+  engine finds no Connect or misreads the buttons
 * get_sent_invitations - LinkedIn's own list of invitations that are pending
   (My Network > Manage > Sent): the authority on whether an invite exists
 * check_connection_state - open one person's profile and say what it shows now:
@@ -369,36 +370,102 @@ REFUSAL_NOTICE = re.compile(r'not sent|was(n.t| not) sent|weekly limit|limit for
                             r'invitation limit|too many (pending )?invitations|unable to (send|connect)', re.I)
 
 
+# Press a visible Connect control: on the top card of the profile, or inside the
+# open "More" menu. "500+ connections" and "Remove connection" never match.
+CONNECT_CLICK_JS = """(inMenu) => {
+    const label = (b) => ((b.getAttribute('aria-label') || '') + ' ' + (b.innerText || '')).trim().toLowerCase();
+    const visible = (b) => !!(b.offsetWidth || b.offsetHeight || b.getClientRects().length);
+    const scopes = inMenu
+        ? [...document.querySelectorAll('[role="menu"], .artdeco-dropdown__content')]
+        : [document.querySelector('main section')].filter(Boolean);
+    const items = scopes.flatMap((s) => [...s.querySelectorAll('button, a, [role="menuitem"], [role="button"]')]);
+    const hit = items.find((b) => visible(b)
+        && /(^|\\s)connect(\\s|$)|invite .{1,80} to connect/.test(label(b))
+        && !/disconnect|remove connection/.test(label(b)));
+    if (hit) { hit.click(); return true; }
+    return false;
+}"""
+
+
 async def send_invite_direct_flow(extractor, username, note):
-    """Open LinkedIn's invite link for this member and submit the dialog with the
-    engine's own dialog handling. What LinkedIn shows (dialog, pop-up) decides
-    the answer; Odoo still verifies it against the Sent list afterwards."""
+    """Send an invitation by every route LinkedIn offers, in turn: its invite
+    link, the Connect button on the profile, and Connect inside the "More"
+    menu (where it sits when Follow is the main button). The dialog is
+    submitted with the engine's own handling. What LinkedIn shows (dialog,
+    pop-up) decides the answer; Odoo still verifies it against the Sent list."""
     session = _session_of(extractor)
+    page = session.page
     actions = extractor._connection
+    navigator = PageNavigator(session)
     url = 'https://www.linkedin.com/in/%s/' % quote(username)
-    await PageNavigator(session)._navigate_to_page(
+
+    async def submit(route):
+        """Submit the open dialog; None when no dialog opened on this route."""
+        submitted, note_sent, limit_message = await actions._submit_invite_dialog(note)
+        notice = getattr(actions, '_odoo_notice', '') or ''
+        dialog = getattr(actions, '_odoo_dialog', None) or {}
+        answer = {'url': url, 'note_sent': bool(note_sent), 'linkedin_notice': notice, 'route': route,
+                  'invite_dialog': (dialog.get('text') or '')[:400], 'confirmed': bool(SENT_NOTICE.search(notice)),
+                  'direct': True}
+        if limit_message is not None:
+            return dict(answer, status='custom_note_limit_reached', message=limit_message)
+        if REFUSAL_NOTICE.search(notice):
+            return dict(answer, status='send_failed',
+                        message='LinkedIn did not send the invitation. LinkedIn says: %s' % notice)
+        if dialog.get('email') and not answer['confirmed']:
+            return dict(answer, status='connect_unavailable',
+                        message='LinkedIn asks for this member\'s email address to connect.')
+        if not submitted or not dialog.get('open'):
+            return None
+        return dict(answer, status='connected',
+                    message='Invitation submitted (%s).%s' % (route, ' LinkedIn confirmed it.' if answer['confirmed']
+                                                              else ' LinkedIn showed no confirmation.'))
+
+    async def sent_without_dialog(route):
+        """Some profiles send on the click itself: LinkedIn then only shows its pop-up."""
+        notice = await read_notice(page, 3.0)
+        if REFUSAL_NOTICE.search(notice):
+            return {'url': url, 'status': 'send_failed', 'route': route, 'linkedin_notice': notice,
+                    'confirmed': False, 'direct': True, 'note_sent': False, 'invite_dialog': '',
+                    'message': 'LinkedIn did not send the invitation. LinkedIn says: %s' % notice}
+        if SENT_NOTICE.search(notice):
+            return {'url': url, 'status': 'connected', 'route': route, 'linkedin_notice': notice,
+                    'confirmed': True, 'direct': True, 'note_sent': False, 'invite_dialog': '',
+                    'message': 'Invitation sent on the click (%s). LinkedIn confirmed it.' % route}
+        return None
+
+    # 1. LinkedIn's invite link
+    await navigator._navigate_to_page(
         'https://www.linkedin.com/preload/custom-invite/?vanityName=%s' % quote(username))
     await session.check_rate_limit()
-    submitted, note_sent, limit_message = await actions._submit_invite_dialog(note)
-    notice = getattr(actions, '_odoo_notice', '') or ''
-    dialog = getattr(actions, '_odoo_dialog', None) or {}
-    answer = {'url': url, 'note_sent': bool(note_sent), 'linkedin_notice': notice,
-              'invite_dialog': (dialog.get('text') or '')[:400], 'confirmed': bool(SENT_NOTICE.search(notice)),
-              'direct': True}
-    if limit_message is not None:
-        return dict(answer, status='custom_note_limit_reached', message=limit_message)
-    if REFUSAL_NOTICE.search(notice):
-        return dict(answer, status='send_failed',
-                    message='LinkedIn did not send the invitation. LinkedIn says: %s' % notice)
-    if not submitted or not dialog.get('open'):
-        return dict(answer, status='connect_unavailable',
-                    message='LinkedIn did not open a usable invite dialog for this profile.')
-    if dialog.get('email') and not answer['confirmed']:
-        return dict(answer, status='connect_unavailable',
-                    message='LinkedIn asks for this member\'s email address to connect.')
-    return dict(answer, status='connected',
-                message='Invitation submitted through the invite link.' + (
-                    ' LinkedIn confirmed it.' if answer['confirmed'] else ' LinkedIn showed no confirmation.'))
+    answer = await submit('invite link')
+    if answer:
+        return answer
+    # 2. the Connect button on the profile itself
+    await navigator._navigate_to_page(url)
+    await session.check_rate_limit()
+    await asyncio.sleep(1.5)
+    if await page.evaluate(CONNECT_CLICK_JS, False):
+        answer = await submit('Connect button') or await sent_without_dialog('Connect button')
+        if answer:
+            return answer
+    # 3. Connect inside the "More" menu
+    try:
+        opened = await actions._open_more_menu()
+    except Exception:
+        opened = False
+    if opened and await page.evaluate(CONNECT_CLICK_JS, True):
+        answer = await submit('More menu') or await sent_without_dialog('More menu')
+        if answer:
+            return answer
+    try:
+        await page.keyboard.press('Escape')
+    except Exception:
+        pass
+    return {'url': url, 'status': 'connect_unavailable', 'route': '', 'direct': True, 'note_sent': False,
+            'linkedin_notice': '', 'invite_dialog': '', 'confirmed': False,
+            'message': 'LinkedIn offers no Connect for this profile: not by its invite link, not on the profile, '
+                       'not in the More menu.'}
 
 
 async def connection_state_flow(extractor, username):
@@ -432,6 +499,7 @@ def install_invite_notices():
     async def _submit_invite_dialog(self, note):
         self._odoo_notice, self._odoo_dialog = '', {}
         try:                                    # what LinkedIn asks in the dialog, before anything is clicked
+            await self._dialog_is_open(timeout=5000)
             self._odoo_dialog = await self._session.page.evaluate(INVITE_DIALOG_JS)
         except Exception:
             self._odoo_dialog = {}
