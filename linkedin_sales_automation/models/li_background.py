@@ -34,7 +34,7 @@ from .li_engine import SEARCH_COOLDOWN, VERIFY_VALID, ToolError
 from .li_engine_manager import ENGINE_LOCK_NAMESPACE, is_odoo_sh
 from .li_engine_parse import (
     connect_outcome, connected_usernames, error_kind, inbox_preview, inbox_threads, interface_language,
-    is_weekly_limit, message_outcome, parse_search_results, parse_thread, result_data, result_text,
+    is_weekly_limit, message_outcome, top_card_state, parse_search_results, parse_thread, result_data, result_text,
 )
 from .li_mcp_client import McpClientError
 from .li_post import parse_post_stats
@@ -53,7 +53,8 @@ INVITE_VERIFY_WITHIN = timedelta(days=7)
 INVITE_VERIFY_PER_RUN = 3
 NO_SENT_INVITATIONS = re.compile(r'no (sent|pending) invitations|no invitations (sent|pending)|haven.t sent any|have no (sent|pending)', re.I)
 INVITE_VERIFY_PER_CRON = 10
-INVITE_VERIFY_TRIES = 2
+INVITE_VERIFY_TRIES = 3
+SENT_PAGE_SIZE = 10             # LinkedIn's Sent invitations page shows this many before "Show more"
 INVITE_PERSON_TRIES = 2         # invitations LinkedIn did not record for one person before a person is asked
 PROFILE_READ_TRIES = 2
 PROFILES_PER_RUN = 2
@@ -683,19 +684,22 @@ class LiBackgroundWork(models.AbstractModel):
         goes out through LinkedIn's invite link (send_invite_direct).
         Returns (data, kind, text, calls, verified_pending)."""
         prospect = item.prospect_id
+        words = top_card_state(connect_data.get('profile'))
+        if words == 'pending':
+            self._bg_note_action(profile, prospect, 'invite', _(
+                'The profile itself shows "Pending": an invitation to this person already exists.'))
+            return connect_data, None, '', 0, True
         listed, kind, text = self._bg_call(profile, 'get_sent_invitations', {'limit': 300}, 'invite_verify',
                                            reads=1, prospect=prospect)
         if kind in ('session', 'restricted', 'rate_limit', 'refused'):
             return None, kind, text, 1, False
-        names = {unquote(u).strip('/').lower() for u in (listed or {}).get('usernames') or []} if kind is None \
-            else set()
+        names, proven = self._bg_sent_list(listed, kind)
         self._bg_note_sent_list(profile, prospect, listed, kind)
-        usable = (names and (listed or {}).get('complete')) or (
-            kind is None and not names and NO_SENT_INVITATIONS.search((listed or {}).get('page_text') or ''))
-        if not usable:
-            return connect_data, None, text, 1, False       # cannot tell: the later verification will
         if (prospect.linkedin_username or '').lower() in names:
             return connect_data, None, text, 1, True
+        if not (words == 'connectable' or proven):
+            # nothing proves the engine wrong: believe it, the later verification looks again
+            return connect_data, None, text, 1, False
         self._bg_pause()
         arguments = {'linkedin_username': prospect.linkedin_username}
         if item.with_note and item.text_confirmed:
@@ -728,15 +732,33 @@ class LiBackgroundWork(models.AbstractModel):
             return dict(connect_data, message=(data.get('text') or '')[:300]), None, text, 1
         return connect_data, None, text, 1
 
+    def _bg_sent_list(self, data, kind):
+        """(usernames, proven): the people on LinkedIn's Sent invitations page, and
+        whether the list is proven to be whole. Only then does "not on the list"
+        mean "no invitation": the page shows the newest ones first and may stop
+        after a page."""
+        if kind:
+            return set(), False
+        data = data or {}
+        names = {unquote(u).strip('/').lower() for u in data.get('usernames') or []}
+        total = data.get('total') or 0
+        if not names:
+            return names, bool(NO_SENT_INVITATIONS.search(data.get('page_text') or ''))
+        if total:
+            return names, len(names) >= total
+        return names, bool(data.get('complete')) and len(names) < SENT_PAGE_SIZE
+
     def _bg_note_sent_list(self, profile, prospect, data, kind):
         """Keep what LinkedIn's Sent invitations page showed, for a person to compare."""
         if kind:
             return
         names = [unquote(u).strip('/') for u in (data or {}).get('usernames') or []]
         self._bg_note_action(profile, prospect, 'invite_verify', _(
-            'LinkedIn Sent list: %(n)s people, whole list loaded: %(complete)s. %(names)s',
-            n=len(names), complete=_('yes') if (data or {}).get('complete') else _('no'),
-            names=', '.join(names[:60]) or ((data or {}).get('page_text') or '')[:200]))
+            'LinkedIn Sent list: %(n)s people read (LinkedIn says %(total)s), proven whole: %(proven)s. '
+            '%(names)s | page: %(page)s',
+            n=len(names), total=(data or {}).get('total') or '?',
+            proven=_('yes') if self._bg_sent_list(data, kind)[1] else _('no'),
+            names=', '.join(names[:80]) or '-', page=((data or {}).get('page_text') or '')[:300]))
 
     def _bg_note_action(self, profile, prospect, action, text):
         """Add what LinkedIn showed to the last logged action of that kind."""
@@ -875,8 +897,8 @@ class LiBackgroundWork(models.AbstractModel):
     def _bg_invites_on_probation(self, profile):
         """After LinkedIn refused invitations, send one at a time: the next one
         waits until the last one was verified as pending."""
-        return (profile.invites_not_recorded >= INVITES_REFUSED_AFTER
-                and bool(self._bg_unverified_invites(profile)))
+        return (profile.invites_not_recorded >= INVITES_REFUSED_AFTER and bool(
+            self._bg_unverified_invites(profile).filtered(lambda p: p.invite_verify_tries < INVITE_VERIFY_TRIES)))
 
     @api.model
     def _cron_verify_invites(self):
@@ -919,18 +941,16 @@ class LiBackgroundWork(models.AbstractModel):
         the prospect goes back to the queue, the invite is not counted and the
         account's invites pause. When the list cannot be read, the person's
         profile is checked instead."""
-        prospects = self._bg_unverified_invites(profile, settled=True)
+        prospects = self._bg_unverified_invites(profile, settled=True).filtered(
+            lambda p: p.invite_verify_tries < INVITE_VERIFY_TRIES)     # after that a person decides
         if not prospects or not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
             return 0
         data, kind, _text = self._bg_call(profile, 'get_sent_invitations', {'limit': 300}, 'invite_verify', reads=1)
         calls = 1
         if kind in ('session', 'restricted', 'rate_limit', 'refused'):
             return calls
-        sent = {unquote(u).strip('/').lower() for u in (data or {}).get('usernames') or []} if kind is None else set()
-        listed_none = kind is None and bool(NO_SENT_INVITATIONS.search((data or {}).get('page_text') or ''))
+        sent, proven = self._bg_sent_list(data, kind)
         self._bg_note_sent_list(profile, self.env['li.prospect'], data, kind)
-        if not ((sent and (data or {}).get('complete')) or (not sent and listed_none)):
-            return calls + self._bg_verify_invites_by_profile(profile, prospects, deadline, limit)
         missing = self.env['li.prospect']
         for prospect in prospects:
             if (prospect.linkedin_username or '').lower() in sent:
@@ -939,7 +959,12 @@ class LiBackgroundWork(models.AbstractModel):
             else:
                 missing |= prospect
         self._bg_commit()
-        if not missing or not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
+        if not missing:
+            return calls
+        if not proven:
+            # the list may be cut off (newest first): absence proves nothing, so look at each profile
+            return calls + self._bg_verify_invites_by_profile(profile, missing, deadline, limit)
+        if not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
             return calls
         # not pending: either accepted in the meantime, or never recorded. One read of the newest
         # connections settles all of them; only when that list is unreadable, one search per person.
@@ -991,12 +1016,19 @@ class LiBackgroundWork(models.AbstractModel):
             if kind in ('session', 'restricted', 'rate_limit', 'refused'):
                 break
             state = (data or {}).get('status') if kind is None else None
-            if state == 'already_connected':
-                self._accept(prospect, note=_('found connected when the invite was verified'))
-            elif state == 'connectable':
+            words = top_card_state((data or {}).get('top_text')) if kind is None else ''
+            self._bg_note_action(profile, prospect, 'invite_verify', _(
+                'Profile check: engine says %(state)s, the page\'s buttons say %(words)s',
+                state=state or '?', words=words or _('neither Pending nor Connect')))
+            if words == 'pending':
+                prospect.invite_verified_at = utc_now()        # the profile itself shows "Pending"
+                profile.sudo().write({'invites_not_recorded': 0, 'invite_refused_prospect_id': False})
+            elif words == 'connectable' or (not words and state == 'connectable'):
                 self._invite_was_not_recorded(profile, prospect)
+            elif state == 'already_connected':
+                self._accept(prospect, note=_('found connected when the invite was verified'))
             else:
-                # "pending" on the profile is not proof (the buttons can mislead): try again later
+                # the engine's "pending" alone is not proof (it misreads some profiles): try again later
                 prospect.invite_verify_tries += 1
             self._bg_commit()
         return calls

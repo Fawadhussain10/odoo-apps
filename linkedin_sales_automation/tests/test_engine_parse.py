@@ -78,6 +78,16 @@ class TestEngineParse(BaseCase):
         self.assertEqual([m['text'] for m in parse_thread(real, 'Taha Sohail', 'Ali Raza')],
                          ['OK', 'Dismiss the idea, we use Odoo'])
 
+    def test_top_card_state_reads_the_profile_buttons(self):
+        from odoo.addons.linkedin_sales_automation.models.li_engine_parse import top_card_state
+        page = 'Hadi Saeed\n· 3rd\nCEO at Odoo Concepts\nKarachi\nContact info\n500+ connections\nMessage\n%s\nMore\nAbout\nFour years.'
+        self.assertEqual(top_card_state(page % 'Pending'), 'pending')
+        self.assertEqual(top_card_state(page % 'Connect'), 'connectable')
+        self.assertEqual(top_card_state(page % 'Follow'), '')
+        # "Connect" further down (other people's cards) says nothing about this profile
+        self.assertEqual(top_card_state('Hadi Saeed\nMessage\nMore\nAbout\nx\nMore profiles for you\nConnect'), '')
+        self.assertEqual(top_card_state(''), '')
+
     def test_thread_unreadable_and_empty(self):
         self.assertIsNone(parse_thread('Some page text without any sender', 'Taha Sohail', 'Ali Raza'))
         self.assertIsNone(parse_thread('', 'Taha Sohail', 'Ali Raza'))

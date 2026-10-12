@@ -309,14 +309,29 @@ async def read_notice(page, seconds=4.0):
 
 
 # "Show more" / "Load more" at the end of a list (the engine keeps LinkedIn in English).
+# Bring the end of a list into view (window and any scrolling box around it) and
+# press its "Show more" / "Load more" control, whatever element it is.
 MORE_BUTTON_JS = """() => {
     const root = document.querySelector('main') || document;
-    const button = [...root.querySelectorAll('button')].find((b) =>
-        /^(show|load) more/i.test((b.innerText || '').trim()) && (b.offsetWidth || b.offsetHeight));
+    const links = [...root.querySelectorAll('a[href*="/in/"]')];
+    const last = links[links.length - 1];
+    if (last) {
+        last.scrollIntoView({block: 'end'});
+        for (let el = last.parentElement; el; el = el.parentElement) {
+            if (el.scrollHeight > el.clientHeight + 20) { el.scrollTop = el.scrollHeight; }
+        }
+    }
+    window.scrollTo(0, document.documentElement.scrollHeight);
+    const label = (b) => ((b.innerText || '') + ' ' + (b.getAttribute('aria-label') || '')).trim();
+    const button = [...document.querySelectorAll('button, [role="button"], a')].find((b) =>
+        /^(show|load|see) more( results| people| invitations)?\\b/i.test(label(b))
+        && !/options|actions|profiles for you/i.test(label(b)) && (b.offsetWidth || b.offsetHeight));
     if (button) { button.click(); return true; }
     return false;
 }"""
-MAIN_TEXT_JS = """() => ((document.querySelector('main') || document.body).innerText || '').trim().slice(0, 600)"""
+MAIN_TEXT_JS = """() => ((document.querySelector('main') || document.body).innerText || '').trim().slice(0, 900)"""
+# "People (23)" on the Sent invitations page: how many there are in all.
+SENT_TOTAL = re.compile(r'People\s*\(?\s*(\d{1,4})\s*\)?', re.I)
 
 
 async def sent_invitations_flow(extractor, limit):
@@ -328,24 +343,25 @@ async def sent_invitations_flow(extractor, limit):
     await session.check_rate_limit()
     await asyncio.sleep(2.5)
     usernames = await page.evaluate(CONNECTION_LINKS_JS)
+    page_text = await page.evaluate(MAIN_TEXT_JS)
     complete, stalls = False, 0
-    for _i in range(40):
+    for _i in range(60):
         if len(usernames) >= limit:
             break
+        clicked = await page.evaluate(MORE_BUTTON_JS)
         await page.mouse.wheel(0, 6000)
-        await asyncio.sleep(1.2)
-        if await page.evaluate(MORE_BUTTON_JS):
-            await asyncio.sleep(1.8)
+        await asyncio.sleep(2.0 if clicked else 1.3)
         more = await page.evaluate(CONNECTION_LINKS_JS)
         if len(more) > len(usernames):
             usernames, stalls = more, 0
             continue
         stalls += 1
-        if stalls >= 2:
-            complete = True                     # two rounds without a new name: the whole list is here
+        if stalls >= 3:
+            complete = True                     # three rounds without a new name: nothing more loads
             break
+    match = SENT_TOTAL.search(page_text or '')
     return {'url': SENT_INVITATIONS_URL, 'usernames': usernames[:limit], 'count': min(len(usernames), limit),
-            'complete': complete, 'page_text': await page.evaluate(MAIN_TEXT_JS)}
+            'complete': complete, 'total': int(match.group(1)) if match else 0, 'page_text': page_text}
 
 
 SENT_NOTICE = re.compile(r'invitation sent|invite sent|request sent', re.I)
@@ -391,7 +407,8 @@ async def connection_state_flow(extractor, username):
     drawing the buttons."""
     from linkedin_mcp_server.linkedin import connection
     actions = extractor._connection
-    await actions._read_main_profile(username)
+    profile = await actions._read_main_profile(username)
+    top_text = ((profile or {}).get('sections') or {}).get('main_profile', '')[:1500]
     await _session_of(extractor).check_rate_limit()
     states = []
     for _i in range(2):
@@ -400,7 +417,7 @@ async def connection_state_flow(extractor, username):
     state = states[-1]
     if 'connectable' in states:
         state = 'connectable'                   # Connect was offered at some point: not invited
-    return {'status': state, 'seen': states, 'retry_safe': True}
+    return {'status': state, 'seen': states, 'top_text': top_text, 'retry_safe': True}
 
 
 def install_invite_notices():

@@ -602,18 +602,55 @@ class TestBackgroundWork(BackgroundCase):
         self.assertEqual(offered.stage, 'queued')
 
     @freeze_time(MONDAY_10_UTC)
-    def test_fallback_tries_never_block_the_sent_list_check(self):
+    def test_cut_off_sent_list_never_proves_an_invite_is_missing(self):
+        # LinkedIn shows the newest 10 first: an older real invitation is not on that page
+        self._start()
+        persona = self._persona()
+        mk = lambda key, name: self._prospect(persona, key, name, stage='invited',
+                                              date_invited=fields.Datetime.now() - timedelta(days=2))
+        older, never_sent, unclear = mk('ali-raza', 'Ali Raza'), mk('sara-khan', 'Sara Khan'), mk('omar-ali', 'Omar Ali')
+        newest_ten = sent_list(*['recent-%s' % i for i in range(10)])
+        top = lambda button: 'Ali Raza\n· 3rd\nFounder\nLahore\nMessage\n%s\nMore\nAbout\nI run a brand.' % button
+        self._script(
+            get_sent_invitations=[newest_ten],
+            check_connection_state=[
+                {'data': {'status': 'pending', 'top_text': top('Pending')}},
+                {'data': {'status': 'pending', 'top_text': top('Connect')}},     # the engine misreads this one
+                {'data': {'status': 'pending', 'top_text': 'Ali Raza\nFollow\nMore\nAbout'}}])
+        agent = persona.connection_agent_id
+        self.Tools._cron_verify_invites()
+        self.assertEqual(self._calls(tool='get_recent_connections'), [])       # absence proved nothing
+        self.assertTrue(older.invite_verified_at)                              # its profile shows "Pending"
+        self.assertEqual(older.stage, 'invited')
+        self.assertEqual(never_sent.stage, 'queued')                           # its profile shows "Connect"
+        self.assertEqual((unclear.stage, bool(unclear.invite_verified_at), unclear.invite_verify_tries),
+                         ('invited', False, 1))                                # neither word: asked again later
+        self.assertEqual(agent.state, 'running')
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_invite_nobody_can_judge_is_left_to_a_person_after_three_tries(self):
         self._start()
         persona = self._persona()
         prospect = self._prospect(persona, stage='invited', date_invited=fields.Datetime.now() - timedelta(hours=2),
-                                  invite_verify_tries=2)          # the profile fallback gave up on this person
-        self._script(get_sent_invitations=[sent_list(complete=False, text='loading'), sent_list('someone-else')],
-                     get_recent_connections=[{'data': {'usernames': ['old-friend'], 'count': 1}}])
-        self.Tools._cron_verify_invites()
-        self.assertEqual(self._calls(tool='check_connection_state'), [])       # no third profile try
+                                  invite_verify_tries=3)
+        self.assertEqual(self.Tools._cron_verify_invites(), 0)                 # no more page reads for it
         self.assertEqual(prospect.stage, 'invited')
-        self.Tools._cron_verify_invites()                                       # the list loads: it decides
-        self.assertEqual(prospect.stage, 'queued')
+        self.assertFalse(self.Tools._bg_invites_on_probation(self.profile))    # and it does not hold invites back
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_engine_pending_and_the_profile_shows_pending(self):
+        # the engine is right: the invitation exists (sent by hand, or by an earlier run)
+        self._start()
+        persona = self._persona()
+        prospect = self._prospect(persona)
+        self._script(connect_with_person=[{'data': {
+            'status': 'pending', 'message': 'Already pending.',
+            'profile': 'Ali Raza\n· 3rd\nFounder\nMessage\nPending\nMore\nAbout\nI run a brand.'}}])
+        self._run()
+        self.assertEqual(prospect.stage, 'invited')
+        self.assertTrue(prospect.invite_verified_at)
+        self.assertEqual(self._calls(tool='send_invite_direct'), [])           # nothing is sent a second time
+        self.assertEqual(self._calls(tool='get_sent_invitations'), [])         # and no page read was needed
 
     def test_earlier_profile_only_verifications_are_checked_again_once(self):
         persona = self._persona()

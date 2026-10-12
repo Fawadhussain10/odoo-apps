@@ -301,6 +301,28 @@ def parse_thread(text, my_name, other_name):
     return messages if groups else None
 
 
+# Headings that end the top card of a profile page (LinkedIn in English).
+_TOP_CARD_END = {'about', 'activity', 'highlights', 'experience', 'featured', 'services', 'education',
+                 'analytics', 'suggested for you', 'more profiles for you', 'people you may know',
+                 'people also viewed', 'sales insights'}
+
+
+def top_card_state(text):
+    """What the buttons at the top of a profile say, from its page text:
+    'pending' (an invitation is outstanding), 'connectable' (Connect is offered)
+    or '' when neither word stands there as a button."""
+    top = []
+    for line in [l.strip().lower() for l in (text or '').splitlines() if l.strip()][:90]:
+        if line in _TOP_CARD_END:
+            break
+        top.append(line)
+    if 'pending' in top:
+        return 'pending'
+    if 'connect' in top:
+        return 'connectable'
+    return ''
+
+
 def people_search_url(keywords, network=None):
     """LinkedIn people search address (what search_people opens)."""
     from urllib.parse import urlencode
