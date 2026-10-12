@@ -4,13 +4,16 @@
         <field name="name">li.service.list</field>
         <field name="model">li.service</field>
         <field name="arch" type="xml">
-            <list editable="bottom">
+            <list>
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="description"/>
                 <field name="value_points" optional="show"/>
                 <field name="crm_team_id"/>
                 <field name="crm_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="portfolio_link" string="Portfolio" optional="show"/>
+                <field name="contact_phone" string="Phone" optional="show"/>
+                <field name="contact_email" string="Email" optional="hide"/>
                 <field name="active" widget="boolean_toggle" optional="hide"/>
             </list>
         </field>
