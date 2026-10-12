@@ -863,31 +863,49 @@ class LiBackgroundWork(models.AbstractModel):
         listed_none = kind is None and bool(NO_SENT_INVITATIONS.search((data or {}).get('page_text') or ''))
         if not ((sent and (data or {}).get('complete')) or (not sent and listed_none)):
             return calls + self._bg_verify_invites_by_profile(profile, prospects, deadline, limit)
-        checked = 0
+        missing = self.env['li.prospect']
         for prospect in prospects:
             if (prospect.linkedin_username or '').lower() in sent:
                 prospect.invite_verified_at = utc_now()            # LinkedIn lists it as pending
                 profile.sudo().write({'invites_not_recorded': 0, 'invite_refused_prospect_id': False})
-                continue
-            if checked >= (limit or INVITE_VERIFY_PER_RUN) or not self._bg_time_for(deadline) \
-                    or self._bg_budget_left(profile) < 1:
-                continue
-            # not pending: either accepted in the last minutes, or never recorded
-            self._bg_pause()
-            found, kind, _text = self._bg_call(profile, 'search_people',
-                                               {'keywords': prospect.name, 'network': ['F']}, 'invite_verify',
-                                               reads=1, prospect=prospect)
-            calls += 1
-            checked += 1
-            if kind:
-                break
-            if prospect.linkedin_username in connected_usernames(found):
+            else:
+                missing |= prospect
+        self._bg_commit()
+        if not missing or not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
+            return calls
+        # not pending: either accepted in the meantime, or never recorded. One read of the newest
+        # connections settles all of them; only when that list is unreadable, one search per person.
+        self._bg_pause()
+        data, kind, _text = self._bg_call(profile, 'get_recent_connections', {'limit': 80}, 'invite_verify', reads=1)
+        calls += 1
+        if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+            return calls
+        connected = {unquote(u).strip('/').lower() for u in (data or {}).get('usernames') or []} if kind is None \
+            else set()
+        checked = 0
+        for prospect in missing:
+            username = (prospect.linkedin_username or '').lower()
+            if connected:
+                is_connection = username in connected
+            else:
+                if checked >= (limit or INVITE_VERIFY_PER_RUN) or not self._bg_time_for(deadline) \
+                        or self._bg_budget_left(profile) < 1:
+                    break
+                self._bg_pause()
+                found, kind, _text = self._bg_call(profile, 'search_people',
+                                                   {'keywords': prospect.name, 'network': ['F']}, 'invite_verify',
+                                                   reads=1, prospect=prospect)
+                calls += 1
+                checked += 1
+                if kind:
+                    break
+                is_connection = prospect.linkedin_username in connected_usernames(found)
+            if is_connection:
                 prospect.invite_verified_at = utc_now()
                 self._accept(prospect, note=_('found connected when the invite was verified'))
             else:
                 self._invite_was_not_recorded(profile, prospect)
             self._bg_commit()
-        self._bg_commit()
         return calls
 
     def _bg_verify_invites_by_profile(self, profile, prospects, deadline, limit=None):

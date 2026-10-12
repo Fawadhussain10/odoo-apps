@@ -571,8 +571,20 @@ class TestBackgroundWork(BackgroundCase):
         accepted, refused = mk('sara-khan', 'Sara Khan'), mk('omar-ali', 'Omar Ali')
         # LinkedIn says there is no pending invitation at all; Sara is found among the connections
         self._script(get_sent_invitations=[sent_list(text='You have no sent invitations')],
+                     get_recent_connections=[{'data': {'usernames': ['Sara-Khan', 'someone'], 'count': 2}}])
+        self.assertEqual(self.Tools._cron_verify_invites(), 2)
+        self.assertEqual((accepted.stage, refused.stage), ('accepted', 'queued'))
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_verify_invites_searches_per_person_when_connections_are_unreadable(self):
+        self._start()
+        persona = self._persona()
+        mk = lambda key, name: self._prospect(persona, key, name, stage='invited',
+                                              date_invited=fields.Datetime.now() - timedelta(hours=2))
+        accepted, refused = mk('sara-khan', 'Sara Khan'), mk('omar-ali', 'Omar Ali')
+        self._script(get_sent_invitations=[sent_list('someone-else')],
                      search_people=[search_data(('sara-khan', 'Sara Khan', 'Founder')), search_data()])
-        self.assertEqual(self.Tools._cron_verify_invites(), 3)
+        self.assertEqual(self.Tools._cron_verify_invites(), 4)     # list, connections (empty), two searches
         self.assertEqual((accepted.stage, refused.stage), ('accepted', 'queued'))
 
     @freeze_time(MONDAY_10_UTC)
@@ -606,11 +618,13 @@ class TestBackgroundWork(BackgroundCase):
         persona = self._persona()
         invited = [self._prospect(persona, 'p%s' % i, 'Person %s' % i, stage='invited',
                                   date_invited=fields.Datetime.now() - timedelta(days=2, minutes=i)) for i in range(6)]
-        self._script(get_sent_invitations=[sent_list('p1', 'p4', 'other')])
+        self._script(get_sent_invitations=[sent_list('p1', 'p4', 'other')],
+                     get_recent_connections=[{'data': {'usernames': ['old-friend', 'colleague'], 'count': 2}}])
         cron = self.env.ref('linkedin_sales_automation.cron_verify_invites')
         self.assertEqual((cron.interval_number, cron.interval_type), (5, 'minutes'))
-        # one read of the Sent list settles all six; the four not on it are looked up among the connections
-        self.assertEqual(self.Tools._cron_verify_invites(), 5)
+        # two page reads settle all six: LinkedIn's Sent list, then the newest connections
+        self.assertEqual(self.Tools._cron_verify_invites(), 2)
+        self.assertEqual(self._calls(tool='search_people'), [])
         self.assertEqual(sorted(p.stage for p in invited), ['invited'] * 2 + ['queued'] * 4)
         self.assertEqual(len([p for p in invited if p.invite_verified_at]), 2)
         self.assertEqual(self.Tools._cron_verify_invites(), 0)                 # nothing left to check
