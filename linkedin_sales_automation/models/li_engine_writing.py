@@ -414,15 +414,20 @@ class LiMcpWriting(models.AbstractModel):
     # ------------------------------------------------------------------
     def _tool_li_finish_run(self, summary=None, errors=None, linkedin_profile=None):
         Run = self.env['li.claude.run'].sudo()
-        last = Run.search([], limit=1)
+        allowed = self._allowed_profile_ids()
+        # a connector limited to some profiles counts, and looks back over, its own profiles only
+        scope = [('linkedin_profile_id', 'in', allowed)] if allowed is not None else []
+        last = Run.search([('linkedin_profile_ids', 'in', allowed)] if allowed is not None else [], limit=1)
         now = utc_now()
         since = max(last.date or now - timedelta(hours=24), now - timedelta(hours=24))
         WorkItem = self.env['li.work.item'].sudo()
-        written = WorkItem.search([('date_submitted', '>=', since)])
-        analysed = WorkItem.search([('work_type', '=', 'analyse'), ('state', '=', 'done'), ('date_done', '>=', since)])
+        written = WorkItem.search([('date_submitted', '>=', since)] + scope)
+        analysed = WorkItem.search([('work_type', '=', 'analyse'), ('state', '=', 'done'),
+                                    ('date_done', '>=', since)] + scope)
         done = WorkItem.search([('writing', '=', False), ('state', '=', 'done'), ('date_done', '>=', since),
-                                ('work_type', 'not in', ('analyse', 'post_draft'))])
-        failed = WorkItem.search([('writing', '=', False), ('state', '=', 'failed'), ('date_done', '>=', since)])
+                                ('work_type', 'not in', ('analyse', 'post_draft'))] + scope)
+        failed = WorkItem.search([('writing', '=', False), ('state', '=', 'failed'), ('date_done', '>=', since)]
+                                 + scope)
         result = super()._tool_li_finish_run(summary=summary)
         profiles = (written | analysed | done | failed).mapped('linkedin_profile_id')
         if self._allowed_profile_ids() is not None:

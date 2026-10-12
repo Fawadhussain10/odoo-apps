@@ -11,9 +11,11 @@ from .li_engine import (
     HANDOVER_RULE, PORTFOLIO_RULE, REPLY_NOW_RULE,
     REPLY_DECISION, WROTE_FIRST,
 )
+from .li_engine_parse import is_attachment_text
 from .li_mcp_tools import ToolError
 
 TRACKED_STAGES = ('accepted', 'messaged', 'replied', 'warm', 'meeting')
+REOPEN_STAGES = ('no_response', 'not_interested', 'withdrawn', 'declined')    # closed, but a later reply is heard
 SEND_IN_CHROME = ('In Chrome open the prospect linkedin_url and click Message; read the open thread first. If it has '
                   'a message that is not in "conversation" above, send nothing: call li_record_conversation with the '
                   'whole thread instead (Odoo plans again). Otherwise call li_confirm_send with work_id and the exact '
@@ -125,17 +127,30 @@ class LiMcpEngineChat(models.AbstractModel):
                 or followup.state == 'running' or activity.state == 'running'):
             return []
         tracked = self._tracked_prospects(profile)
-        if not tracked:
+        closed = self._closed_prospects(profile) - tracked
+        if not (tracked or closed):
             return []
-        return [self._create_item('check_inbox', 'chat', profile, prospect_ids=[(6, 0, tracked.ids)], payload={
+        return [self._create_item('check_inbox', 'chat', profile, prospect_ids=[(6, 0, (tracked | closed).ids)],
+                                  payload={
             'tracked_prospects': [dict(p._payload(), stage=p.stage) for p in tracked],
+            'closed_prospects': [dict(p._payload(), stage=p.stage) for p in closed],
             'my_display_name': profile.my_display_name,
             'instructions': 'In Chrome open https://www.linkedin.com/messaging/ . For every tracked prospect with a '
                             'thread in the inbox (new or not), open the thread and call li_record_conversation once '
                             'per thread with prospect_id, work_id and every message of the thread, oldest first, '
-                            'each with the sender name exactly as shown. Timestamps are optional. Read-only: type '
-                            'and send nothing. ' + BROWSER_RULES,
+                            'each with the sender name exactly as shown. Timestamps are optional. After those, '
+                            'look at closed_prospects (people closed earlier): open a thread of theirs only when '
+                            'the inbox shows a new or unread message from them, and record it the same way. '
+                            'Read-only: type and send nothing. ' + BROWSER_RULES,
         })]
+
+    def _closed_prospects(self, profile, limit=50):
+        """People closed earlier (no response, not interested, withdrawn, invite
+        declined; never do-not-contact) who are still heard when they write."""
+        return self.env['li.prospect'].search([
+            ('linkedin_profile_id', '=', profile.id), ('stage', 'in', REOPEN_STAGES),
+            ('do_not_contact', '=', False), ('linkedin_username', '!=', False),
+            ('persona_id.chat_agent_id.state', '!=', 'stopped')], order='last_activity_date desc', limit=limit)
 
     def _gen_analyse(self, profile, ctx):
         items = []
@@ -413,8 +428,8 @@ class LiMcpEngineChat(models.AbstractModel):
             return ''
         last = prospect.message_ids_li.filtered(lambda m: m.direction == 'in').sorted(
             lambda m: (m.date or m.create_date, m.id))[-1:]
-        if prospect.answer_due or '?' in (last.body or ''):
-            return ANSWER_NOW
+        if prospect.answer_due or '?' in (last.body or '') or is_attachment_text(last.body):
+            return ANSWER_NOW          # a question, or a file they shared: never left unanswered
         return ''
 
     def _reply_guidance(self, prospect, step):
@@ -593,12 +608,20 @@ class LiMcpEngineChat(models.AbstractModel):
         vals = {'last_inbound_date': now}
         if not prospect.date_first_reply:
             vals['date_first_reply'] = now
-        if prospect.stage in ('invited', 'withdrawn', 'queued'):
+        if prospect.stage in ('invited', 'withdrawn', 'queued', 'held', 'declined'):
             self._accept(prospect, note=_('detected from a reply'))
-        if prospect.stage in ('accepted', 'messaged', 'replied', 'no_response'):
+        # someone closed as not interested who writes again is heard again: the reply is analysed like
+        # any other, and the closing message that was still to go out is dropped
+        reopened = prospect.stage == 'not_interested' and not prospect.do_not_contact
+        if prospect.stage in ('accepted', 'messaged', 'replied', 'no_response') or reopened:
             vals['stage'] = 'replied'
+        if reopened:
+            vals['sequence_stopped'] = False
+        if prospect.closing_pending:
+            vals['closing_pending'] = False
         analysable = (not prospect.is_taken_over and not prospect.do_not_contact
-                      and prospect.stage not in ('warm', 'meeting', 'not_interested', 'do_not_contact'))
+                      and vals.get('stage', prospect.stage) not in ('warm', 'meeting', 'not_interested',
+                                                                    'do_not_contact'))
         vals['needs_analysis'] = analysable
         prospect.write(vals)
         # a released message based on the old state must not go out
@@ -644,9 +667,28 @@ class LiMcpEngineChat(models.AbstractModel):
             for record in (prospect, prospect.persona_id):
                 record.message_post(body=line, author_id=Event._ai_partner().id, subtype_xmlid='mail.mt_note')
             return {'stage': prospect.stage, 'do_not_contact': True, 'message': line}
+        if handover and sentiment == 'negative':
+            # not for them, but they named someone or gave an address or number: the salesperson gets the
+            # lead with the details, and this person is closed with one polite acknowledgement
+            request = (handover_request or pivot_reason or summary or '').strip()
+            instruction = (handover_instruction or summary or request).strip()
+            was_warm = prospect.stage in ('warm', 'meeting')
+            lead = prospect._handover(request, instruction)
+            if not was_warm:
+                prospect.write({'stage': 'not_interested', 'sequence_stopped': True, 'date_warm': False,
+                                'answer_due': False})
+            return {'stage': prospect.stage, 'crm_lead_id': lead.id, 'handover': True,
+                    'handoff_pending': prospect.handoff_pending,
+                    'message': '%s is not interested but gave a contact: CRM lead #%s carries it for the '
+                               'salesperson and this person is closed.%s' % (
+                                   prospect.name, lead.id,
+                                   ' One acknowledgement item follows.' if prospect.handoff_pending else '')}
         if sentiment == 'negative' and chat.stop_on_negative:
-            prospect.write({'stage': 'not_interested', 'sequence_stopped': True, 'closing_pending': True,
-                            'answer_due': False})
+            # one closing message per person: someone who answers it is not thanked a second time
+            closed_before = bool(self.env['li.work.item'].sudo().search_count([
+                ('prospect_id', '=', prospect.id), ('closing', '=', True), ('state', '=', 'done')]))
+            prospect.write({'stage': 'not_interested', 'sequence_stopped': True,
+                            'closing_pending': not closed_before, 'answer_due': False})
             line = _('%s is not interested — sequence stopped', prospect.name)
             for record in (prospect, prospect.persona_id):
                 record.message_post(body=line, author_id=Event._ai_partner().id, subtype_xmlid='mail.mt_note')

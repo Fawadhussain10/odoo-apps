@@ -332,14 +332,35 @@ class TestConnectionAgent(LiTransactionCase):
             self._send(item)
         self.assertEqual(persona.connection_agent_id.state, 'stopped')
 
-    def test_stop_clears_queue(self):
+    def test_stop_takes_the_queue_on_hold_and_deletes_nobody(self):
         persona = self._persona()
         self._queue(persona, 3)
+        Prospect = self.env['li.prospect']
+        by_hand = Prospect.create({'name': 'Added By Hand', 'persona_id': persona.id,
+                                   'linkedin_url': 'https://www.linkedin.com/in/added-by-hand/'})
+        by_hand.message_post(body='Met at the trade fair.')
+        invited = Prospect.create({'name': 'Already Invited', 'persona_id': persona.id, 'stage': 'invited',
+                                   'linkedin_url': 'https://www.linkedin.com/in/already-invited/'})
         items = self._of_type(self._work(), 'invite')
         persona.action_connection_stop()
-        self.assertFalse(self.env['li.prospect'].search([('persona_id', '=', persona.id)]))
+        people = Prospect.search([('persona_id', '=', persona.id)])
+        self.assertEqual(len(people), 5)                               # nobody is deleted
+        self.assertEqual(set((people - invited).mapped('stage')), {'held'})
+        self.assertEqual(invited.stage, 'invited')
+        self.assertTrue(any('trade fair' in (m.body or '') for m in by_hand.message_ids))    # history kept
         self.assertEqual(set(self.env['li.work.item'].browse([i['work_id'] for i in items]).mapped('state')),
                          {'cancelled'})
+        self.assertFalse(self._of_type(self._work(), 'invite'))        # out of the queue: nothing is sent
+        persona.action_connection_run()
+        self.assertEqual(set((people - invited).mapped('stage')), {'queued'})      # back when it runs again
+
+    def test_stop_after_total_keeps_the_rest_of_the_queue(self):
+        persona = self._persona(con_total_target=1)
+        self._queue(persona, 3)
+        self._send(self._of_type(self._work(), 'invite')[0])
+        self.assertEqual(persona.connection_agent_id.state, 'stopped')
+        people = self.env['li.prospect'].search([('persona_id', '=', persona.id)])
+        self.assertEqual(sorted(people.mapped('stage')), ['held', 'held', 'invited'])
 
     @freeze_time(MONDAY_10_UTC)
     def test_take_over_tool(self):

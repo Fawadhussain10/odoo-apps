@@ -266,6 +266,10 @@ class LiSendNow(models.AbstractModel):
                                   '|', ('do_not_contact', '=', True), ('stage', '=', 'do_not_contact')]):
             return {'ok': False, 'message': '%s is on the do-not-contact list: no invite.' % username}
         prospect = Prospect.search([('persona_id', '=', personas.id), ('linkedin_username', '=', username)], limit=1)
+        if Prospect.sudo().search_count([('linkedin_username', '=', username), ('stage', '=', 'declined')]):
+            return {'ok': False, 'message': '%s declined an earlier invitation: no new invite.' % username}
+        if prospect.stage == 'held':            # on hold since the agent stopped: asked for by name now
+            prospect.sudo().stage = 'queued'
         if prospect and prospect.stage != 'queued':
             return {'ok': False, 'prospect_id': prospect.id,
                     'message': '%s is already a prospect of %s at stage %s: no new invite.' % (

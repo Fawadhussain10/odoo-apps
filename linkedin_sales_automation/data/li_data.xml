@@ -38,6 +38,7 @@
     <function model="li.prospect" name="_li_reverify_invites"/>
     <function model="li.prospect" name="_li_repair_prospect_fields"/>
     <function model="li.prospect" name="_li_requeue_followed_once"/>
+    <function model="li.prospect" name="_li_merge_attachment_messages"/>
     <function model="res.config.settings" name="_li_remove_duplicate_medium"/>
 
     <data noupdate="1">

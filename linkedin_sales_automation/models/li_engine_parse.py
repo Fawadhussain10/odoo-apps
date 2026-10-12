@@ -82,6 +82,7 @@ CONNECT_STATUS = {
     'unavailable': 'failed',        # the profile page could not be read: nothing sent
     'send_failed': 'failed',
     'outcome_unknown': 'unknown',
+    'maybe_sent': 'unknown',        # Connect was pressed, nothing shows the result
     'followed': 'followed',            # set by Odoo after follow_person
 }
 
@@ -217,10 +218,15 @@ _TIME_RE = re.compile(r'^\d{1,2}:\d{2}\s*(AM|PM)?$', re.I)
 _DATE_RE = re.compile(r'^(today|yesterday|monday|tuesday|wednesday|thursday|friday|saturday|sunday|'
                       r'(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.? \d{1,2}(, \d{4})?)$', re.I)
 _THREAD_NOISE_RE = re.compile(
-    r'^(view .{1,80}profile|seen by .*|sent|delivered|read|edited|\(edited\)|reacted .*|'
-    r'react|reply|more options|open the options list.*|\(?(he|she|they)/(him|her|them)\)?|'
+    r'^(view .{1,80}profile|seen by .*|\(edited\)|reacted .*|'
+    r'more options|open the options list.*|\(?(he|she|they)/(him|her|them)\)?|'
     r'.{1,80} is typing.*|load more messages?|this message has been deleted\.?|'
-    r'.{1,80} • \d{1,2}:\d{2}\s*(am|pm)?|attachment|you)$', re.I)
+    r'.{1,80} • \d{1,2}:\d{2}\s*(am|pm)?)$', re.I)
+# Words LinkedIn prints around messages (delivery marks, button labels) that a
+# person can also send as a whole message. The text alone cannot tell: where
+# the line stands does (see _settle_group).
+_AMBIGUOUS_WORDS = {'sent', 'delivered', 'read', 'edited', 'react', 'reply', 'attachment', 'you'}
+_DELIVERY_MARKS = {'sent', 'delivered', 'read'}        # LinkedIn shows them under our own messages only
 # LinkedIn's own interface text around a conversation: the online-status banner,
 # the message box and its buttons. Never a message.
 _THREAD_UI_RE = re.compile(
@@ -258,6 +264,47 @@ def _drop_suggestions(lines):
     return [line for index, line in enumerate(lines) if index not in drop]
 
 
+# A file shared in the chat shows as three lines: its name, its size and "Download".
+ATTACHMENT_PREFIX = '[Attachment] '
+_FILE_SIZE_RE = re.compile(r'^\d+(?:[.,]\d+)?\s?(?:bytes?|kb|mb|gb)$', re.I)
+_FILE_NAME_RE = re.compile(r'^.{1,200}\.[A-Za-z0-9]{2,5}$')
+
+
+def is_attachment_text(text):
+    return (text or '').startswith(ATTACHMENT_PREFIX)
+
+
+def attachment_run(texts):
+    """How many of the first lines of `texts` are one shared file (3: name, size,
+    Download; 2: name, Download; 0: not a file), and the single line to keep."""
+    first = (texts[0] if texts else '').strip()
+    if not first or is_attachment_text(first):
+        return 0, ''
+    second = (texts[1] if len(texts) > 1 else '').strip()
+    third = (texts[2] if len(texts) > 2 else '').strip()
+    if _FILE_SIZE_RE.match(second) and third.lower() == 'download':
+        return 3, '%s%s (%s)' % (ATTACHMENT_PREFIX, first, second)
+    if second.lower() == 'download' and _FILE_NAME_RE.match(first):
+        return 2, ATTACHMENT_PREFIX + first
+    return 0, ''
+
+
+def _merge_attachments(messages):
+    """A shared file becomes one message "[Attachment] name (size)" instead of
+    three lines read as three messages."""
+    merged, index = [], 0
+    while index < len(messages):
+        same = [m for m in messages[index:index + 3] if m['sender_name'] == messages[index]['sender_name']]
+        count, text = attachment_run([m['text'] for m in same])
+        if count:
+            merged.append(dict(messages[index], text=text))
+            index += count
+        else:
+            merged.append(messages[index])
+            index += 1
+    return merged
+
+
 def _name_time(line, names):
     """'Jane Doe  4:10 PM' or 'Jane Doe' -> the matching known name key, else None."""
     head = re.sub(r'\s+\d{1,2}:\d{2}\s*(AM|PM)?$', '', line, flags=re.I).strip()
@@ -279,26 +326,54 @@ def parse_thread(text, my_name, other_name):
     names = {mine: my_name, other: other_name}
     names.pop('', None)
     has_groups = any(_GROUP_RE.match(line) for line in lines)
-    messages, sender, groups, after_link = [], None, 0, False
+    messages, sender, groups, group = [], None, 0, []
+
+    def settle():
+        messages.extend(_settle_group(sender, group, mine))
+        del group[:]
+
     for line in lines:
         match = _GROUP_RE.match(line)
         if match:
-            sender, groups, after_link = match.group('name').strip(), groups + 1, False
+            settle()
+            sender, groups = match.group('name').strip(), groups + 1
             continue
         known = _name_time(line, names)
         if known:
             if not has_groups:
-                sender, groups, after_link = names[known], groups + 1, False
+                settle()
+                sender, groups = names[known], groups + 1
             continue                      # the name above a group, never a message
         if (sender is None or _TIME_RE.match(line) or _DATE_RE.match(line) or _THREAD_NOISE_RE.match(line)
                 or _THREAD_UI_RE.match(line)):
+            continue
+        group.append(line)
+    settle()
+    return _merge_attachments(messages) if groups else None
+
+
+def _settle_group(sender, lines, mine):
+    """The messages of one group. A line that is only "Sent", "Read", "Reply",
+    "You" ... is LinkedIn's own text when it stands beside real messages of the
+    group. It is a message when nothing else can be: a group always holds at
+    least one message, so a group with nothing but that one word is the person
+    writing it; and delivery marks (Sent, Delivered, Read) only ever stand under
+    our own messages, so in the other person's group they are their words."""
+    theirs = normalize_name(sender) != mine
+    plain = [line for line in lines if normalize_name(line) not in _AMBIGUOUS_WORDS]
+    doubtful = [line for line in lines if normalize_name(line) in _AMBIGUOUS_WORDS]
+    messages, after_link = [], False
+    for line in lines:
+        key = normalize_name(line)
+        if key in _AMBIGUOUS_WORDS and not ((theirs and key in _DELIVERY_MARKS)
+                                             or (not plain and len(doubtful) == 1)):
             continue
         message = {'sender_name': sender, 'text': line}
         if after_link:
             message['after_link'] = True
         messages.append(message)
         after_link = after_link or bool(_LINK_RE.search(line))
-    return messages if groups else None
+    return messages
 
 
 _JOB_WORDS = re.compile(

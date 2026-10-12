@@ -209,3 +209,43 @@ class TestEngineEncoding(BaseCase):
             'sections': {'search_results': 'Hafiz Awan\n· 3rd+\nCEO at Odoo\nLahore'},
             'references': {'search_results': [{'kind': 'person', 'url': '/in/hafiz/', 'text': 'Hafiz Awan'}]},
         })[0]['headline'], 'CEO at Odoo')
+
+
+@tagged('post_install', '-at_install', 'linkedin_sales_automation')
+class TestThreadWordsAndPortfolio(BaseCase):
+
+    def _texts(self, thread):
+        from ..models.li_engine_parse import parse_thread
+        return [(m['sender_name'], m['text']) for m in parse_thread(thread, 'Taha Sohail', 'Ali Raza')]
+
+    def test_one_word_replies_that_look_like_linkedin_text_are_kept(self):
+        thread = ('Taha Sohail sent the following message at 10:05 AM\nTaha Sohail\nDid you send the file?\nSent\n'
+                  'Ali Raza sent the following message at 10:20 AM\nAli Raza\nSent\n'
+                  'Ali Raza sent the following messages at 10:25 AM\nAli Raza\nRead\nI have read it.\n'
+                  'Taha Sohail sent the following message at 10:30 AM\nTaha Sohail\nGreat.\nDelivered\n'
+                  'Ali Raza sent the following message at 10:40 AM\nAli Raza\nReply\n'
+                  'Ali Raza sent the following message at 10:45 AM\nAli Raza\nYou\n'
+                  'Ali Raza sent the following messages at 10:50 AM\nAli Raza\nReply\nSee you then.\nReact')
+        self.assertEqual(self._texts(thread), [
+            ('Taha Sohail', 'Did you send the file?'),     # "Sent" under our own message: LinkedIn's mark
+            ('Ali Raza', 'Sent'),                          # the whole reply
+            ('Ali Raza', 'Read'), ('Ali Raza', 'I have read it.'),     # delivery marks never stand under theirs
+            ('Taha Sohail', 'Great.'),
+            ('Ali Raza', 'Reply'), ('Ali Raza', 'You'),    # alone in a group: nothing else can be the message
+            ('Ali Raza', 'See you then.'),                 # button labels beside a real message
+        ])
+
+    def test_portfolio_is_shown_only_as_pdf_or_image(self):
+        from ..controllers.portfolio import portfolio_headers
+        png = b'\x89PNG\r\n\x1a\n' + b'0' * 20
+        self.assertEqual(portfolio_headers('work.pdf', b'%PDF-1.7 ...'), ('application/pdf', 'inline'))
+        self.assertEqual(portfolio_headers('Logo.PNG', png), ('image/png', 'inline'))
+        self.assertEqual(portfolio_headers('a.jpeg', b'\xff\xd8\xff\xe0rest'), ('image/jpeg', 'inline'))
+        self.assertEqual(portfolio_headers('a.gif', b'GIF89a...'), ('image/gif', 'inline'))
+        self.assertEqual(portfolio_headers('a.webp', b'RIFF0000WEBPVP8 '), ('image/webp', 'inline'))
+        download = ('application/octet-stream', 'attachment')
+        self.assertEqual(portfolio_headers('page.html', b'<html><script>alert(1)</script>'), download)
+        self.assertEqual(portfolio_headers('drawing.svg', b'<svg onload="x()">'), download)
+        self.assertEqual(portfolio_headers('deck.pptx', b'PK\x03\x04'), download)
+        self.assertEqual(portfolio_headers('fake.pdf', b'<html><script>alert(1)</script>'), download)
+        self.assertEqual(portfolio_headers('noextension', b'%PDF-1.7'), download)

@@ -285,6 +285,63 @@ class TestChatAgent(LiTransactionCase):
         self.assertIn('mention that Ali referred us', str(lead.activity_ids.note))
 
     @freeze_time(T0)
+    def test_no_for_themselves_with_a_contact_is_a_handover_and_a_polite_close(self):
+        persona = self._persona(chat_first_message_delay=0, salesperson_id=self.rep.id)
+        prospect = self._accepted(persona)
+        self._send(self._items('message')[0], 'Hi Ali, thanks for connecting!')
+        self._thread(prospect, [('Taha Sohail', 'Hi Ali, thanks for connecting!'),
+                                ('Ali Raza', 'Not for me, but write to my partner sara@brandx.com, she decides.')])
+        analyse = self._items('analyse')[0]
+        self.assertIn('decline for themselves', analyse['instructions'])
+        result = self.call('li_record_analysis', work_id=analyse['work_id'], sentiment='negative', pivot=False,
+                           summary='Not interested himself, referred us to his partner.', handover=True,
+                           handover_request='Write to his partner Sara: sara@brandx.com',
+                           handover_instruction='Ali declined for himself and gave sara@brandx.com (his partner, '
+                                                'she decides). Email her and mention Ali.')
+        lead = prospect.crm_lead_id
+        self.assertTrue(lead and result['handover'])
+        self.assertEqual(prospect.handover_request, 'Write to his partner Sara: sara@brandx.com')   # details kept
+        self.assertIn('sara@brandx.com', lead.activity_ids.summary + str(lead.activity_ids.note))
+        self.assertEqual(lead.activity_ids.user_id, self.rep)
+        self.assertEqual((prospect.stage, prospect.sequence_stopped, prospect.closing_pending),
+                         ('not_interested', True, False))              # closed for this person
+        self.assertFalse(prospect.date_warm)
+        ack = self._items('handoff')[0]                                # one polite last message
+        self.assertIn('thank them warmly', ack['instructions'])
+        self._send(ack, 'Thanks a lot Ali, we will reach out to Sara and mention you. All the best!')
+        self.assertFalse(prospect.handoff_pending)
+        self.assertFalse(self._items('message') + self._items('handoff'))
+
+    @freeze_time(T0)
+    def test_check_inbox_also_lists_closed_people_last_and_hears_them(self):
+        persona = self._persona()
+        active = self._accepted(persona)
+        silent = self._accepted(persona, 'Sara Khan', 'sara-khan')
+        refused = self._accepted(persona, 'Omar Malik', 'omar-malik')
+        withdrawn = self._accepted(persona, 'Zara Ali', 'zara-ali')
+        blocked = self._accepted(persona, 'Bilal Aziz', 'bilal-aziz')
+        silent.stage = 'no_response'
+        refused.write({'stage': 'not_interested', 'sequence_stopped': True, 'closing_pending': True})
+        withdrawn.write({'stage': 'withdrawn', 'date_accepted': False})
+        blocked.write({'stage': 'not_interested', 'do_not_contact': True})
+        inbox = self._items('check_inbox')[0]
+        self.assertEqual([p['id'] for p in inbox['tracked_prospects']], [active.id])
+        self.assertEqual({p['id'] for p in inbox['closed_prospects']}, {silent.id, refused.id, withdrawn.id})
+        self.assertEqual({p['stage'] for p in inbox['closed_prospects']},
+                         {'no_response', 'not_interested', 'withdrawn'})
+        self.assertIn('After those, look at closed_prospects', inbox['instructions'])
+        self.assertLess(inbox['instructions'].index('tracked prospect'), inbox['instructions'].index('closed_prospects'))
+        # a reply from each of them is handled as in engine mode
+        self._thread(silent, [('Sara Khan', 'Sorry for the late answer, tell me more.')])
+        self._thread(refused, [('Omar Malik', 'Actually, what would it cost?')])
+        self._thread(withdrawn, [('Zara Ali', 'Hi, I just saw your request.')])
+        self.assertEqual((silent.stage, silent.needs_analysis), ('replied', True))
+        self.assertEqual((refused.stage, refused.needs_analysis, refused.closing_pending, refused.sequence_stopped),
+                         ('replied', True, False, False))
+        self.assertEqual((withdrawn.stage, withdrawn.needs_analysis), ('replied', True))
+        self.assertEqual(len(self._items('analyse')), 3)
+
+    @freeze_time(T0)
     def test_pivot_lead_handoff_and_single_lead_per_url(self):
         persona = self._persona(chat_first_message_delay=0, salesperson_id=self.rep.id)
         prospect = self._accepted(persona)

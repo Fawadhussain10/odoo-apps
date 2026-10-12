@@ -194,8 +194,8 @@ class TestFollowupActivity(LiTransactionCase):
             self.activity_agent.action_stop()
             self.assertFalse(self._items('check_inbox'))
             self.activity_agent.action_run()
-            prospect.stage = 'not_interested'
-            self.assertFalse(self._items('check_inbox'), 'closed prospects are not tracked')
+            prospect.write({'stage': 'not_interested', 'do_not_contact': True})
+            self.assertFalse(self._items('check_inbox'), 'do-not-contact people are never tracked')
 
     def test_reply_activity_no_stacking_auto_done_and_overdue(self):
         self.activity_agent.action_run()

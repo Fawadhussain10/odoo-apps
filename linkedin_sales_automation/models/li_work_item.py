@@ -69,6 +69,9 @@ class LiWorkItem(models.Model):
     discarded_stale = fields.Boolean(readonly=True, index=True,
                                      help='Discarded right before sending because the conversation changed.')
     send_attempts = fields.Integer(readonly=True, help='Background send attempts of this item.')
+    connect_tried = fields.Boolean(readonly=True,
+                                   help='Every Connect route was tried for this invite and LinkedIn offers '
+                                        'none: only Follow is left.')
     writing = fields.Boolean(readonly=True, index=True,
                              help='Writing item of a built-in engine profile: Claude writes the text '
                                   '(li_submit_text), Odoo sends it.')

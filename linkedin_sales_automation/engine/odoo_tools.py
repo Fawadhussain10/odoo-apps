@@ -290,6 +290,8 @@ NOTICE_JS = """() => {
     for (const node of nodes) {
         if (!(node.offsetWidth || node.offsetHeight || node.getClientRects().length)) { continue; }
         const text = (node.innerText || '').replace(/\\s+/g, ' ').trim();
+        // LinkedIn's own counters and status lines are not messages about this action
+        if (/^\\d+ (new )?notifications?( total)?$|^status is (online|offline)|^\\d+ unread/i.test(text)) { continue; }
         if (text.length > 8 && !seen.some((t) => t.includes(text) || text.includes(t))) { seen.push(text); }
     }
     return seen.join(' | ').slice(0, 400);
@@ -335,6 +337,40 @@ MAIN_TEXT_JS = """() => ((document.querySelector('main') || document.body).inner
 SENT_TOTAL = re.compile(r'People\s*\(?\s*(\d{1,4})\s*\)?', re.I)
 
 
+# The people of the invitation rows only: every pending invitation has a
+# "Withdraw" control, and the row around it links to exactly one person.
+# Suggested people elsewhere on the page have no such control.
+SENT_ROWS_JS = """() => {
+    const root = document.querySelector('main') || document;
+    const label = (b) => ((b.innerText || '') + ' ' + (b.getAttribute('aria-label') || '')).trim();
+    const person = (a) => ((a.getAttribute('href') || '').match(/\\/in\\/([^/?#]+)/) || [])[1];
+    const buttons = [...root.querySelectorAll('button, [role="button"], a')]
+        .filter((b) => /^withdraw\\b/i.test(label(b)));
+    const seen = [];
+    for (const button of buttons) {
+        for (let el = button.parentElement; el && el !== root.parentElement; el = el.parentElement) {
+            const names = [...new Set([...el.querySelectorAll('a[href*="/in/"]')].map(person).filter(Boolean))];
+            if (!names.length) { continue; }
+            if (names.length === 1 && !seen.includes(names[0])) { seen.push(names[0]); }
+            break;                              // a box holding several people is past the row
+        }
+    }
+    return {rows: buttons.length, usernames: seen};
+}"""
+
+
+async def _sent_people(page):
+    """(usernames, rows_only): from the invitation rows when the page has any,
+    else every profile link on the page (then nothing can be proven from it)."""
+    try:
+        found = await page.evaluate(SENT_ROWS_JS)
+    except Exception:
+        found = {'rows': 0, 'usernames': []}
+    if found.get('rows'):
+        return found.get('usernames') or [], True
+    return await page.evaluate(CONNECTION_LINKS_JS), False
+
+
 async def sent_invitations_flow(extractor, limit):
     """Open the Sent invitations page and return the usernames listed there,
     loading the whole list (scroll and "Show more") up to `limit`."""
@@ -343,7 +379,7 @@ async def sent_invitations_flow(extractor, limit):
     await PageNavigator(session)._navigate_to_page(SENT_INVITATIONS_URL)
     await session.check_rate_limit()
     await asyncio.sleep(2.5)
-    usernames = await page.evaluate(CONNECTION_LINKS_JS)
+    usernames, rows_only = await _sent_people(page)
     page_text = await page.evaluate(MAIN_TEXT_JS)
     complete, stalls = False, 0
     for _i in range(60):
@@ -352,7 +388,7 @@ async def sent_invitations_flow(extractor, limit):
         clicked = await page.evaluate(MORE_BUTTON_JS)
         await page.mouse.wheel(0, 6000)
         await asyncio.sleep(2.0 if clicked else 1.3)
-        more = await page.evaluate(CONNECTION_LINKS_JS)
+        more, rows_only = await _sent_people(page)
         if len(more) > len(usernames):
             usernames, stalls = more, 0
             continue
@@ -362,7 +398,8 @@ async def sent_invitations_flow(extractor, limit):
             break
     match = SENT_TOTAL.search(page_text or '')
     return {'url': SENT_INVITATIONS_URL, 'usernames': usernames[:limit], 'count': min(len(usernames), limit),
-            'complete': complete, 'total': int(match.group(1)) if match else 0, 'page_text': page_text}
+            'complete': complete, 'total': int(match.group(1)) if match else 0, 'page_text': page_text,
+            'rows_only': rows_only}
 
 
 SENT_NOTICE = re.compile(r'invitation sent|invite sent|request sent', re.I)
@@ -387,17 +424,31 @@ CONNECT_CLICK_JS = """(inMenu) => {
 }"""
 
 
+# The top card of the profile now shows "Pending": an invitation is outstanding.
+PENDING_SHOWN_JS = """() => {
+    const root = document.querySelector('main section');
+    if (!root) { return false; }
+    const label = (b) => ((b.getAttribute('aria-label') || '') + ' ' + (b.innerText || '')).trim().toLowerCase();
+    const visible = (b) => !!(b.offsetWidth || b.offsetHeight || b.getClientRects().length);
+    return [...root.querySelectorAll('button, a, [role="button"]')]
+        .some((b) => visible(b) && /(^|\\s)pending(\\W|$)/.test(label(b)));
+}"""
+
+
 async def send_invite_direct_flow(extractor, username, note):
     """Send an invitation by every route LinkedIn offers, in turn: its invite
     link, the Connect button on the profile, and Connect inside the "More"
     menu (where it sits when Follow is the main button). The dialog is
     submitted with the engine's own handling. What LinkedIn shows (dialog,
-    pop-up) decides the answer; Odoo still verifies it against the Sent list."""
+    pop-up) decides the answer; Odoo still verifies it against the Sent list.
+    When Connect was pressed but nothing shows what LinkedIn did, the answer is
+    maybe_sent: Odoo then reads the Sent list before it does anything else."""
     session = _session_of(extractor)
     page = session.page
     actions = extractor._connection
     navigator = PageNavigator(session)
     url = 'https://www.linkedin.com/in/%s/' % quote(username)
+    pressed = []                                # routes where Connect was pressed without a visible result
 
     async def submit(route):
         """Submit the open dialog; None when no dialog opened on this route."""
@@ -415,8 +466,13 @@ async def send_invite_direct_flow(extractor, username, note):
         if dialog.get('email') and not answer['confirmed']:
             return dict(answer, status='connect_unavailable',
                         message='LinkedIn asks for this member\'s email address to connect.')
-        if not submitted or not dialog.get('open'):
+        if not submitted:
             return None
+        if not dialog.get('open'):
+            # submitted, but the dialog could not be read beforehand: nothing proves what was sent
+            return dict(answer, status='maybe_sent',
+                        message='The invite dialog was submitted (%s) but could not be read: check the Sent '
+                                'list.' % route)
         return dict(answer, status='connected',
                     message='Invitation submitted (%s).%s' % (route, ' LinkedIn confirmed it.' if answer['confirmed']
                                                               else ' LinkedIn showed no confirmation.'))
@@ -432,6 +488,16 @@ async def send_invite_direct_flow(extractor, username, note):
             return {'url': url, 'status': 'connected', 'route': route, 'linkedin_notice': notice,
                     'confirmed': True, 'direct': True, 'note_sent': False, 'invite_dialog': '',
                     'message': 'Invitation sent on the click (%s). LinkedIn confirmed it.' % route}
+        try:
+            pending = await page.evaluate(PENDING_SHOWN_JS)
+        except Exception:
+            pending = False
+        if pending:
+            return {'url': url, 'status': 'connected', 'route': route, 'linkedin_notice': notice,
+                    'confirmed': False, 'page_pending': True, 'direct': True, 'note_sent': False,
+                    'invite_dialog': '',
+                    'message': 'Invitation sent on the click (%s): the profile now shows Pending.' % route}
+        pressed.append(route)
         return None
 
     # 1. LinkedIn's invite link
@@ -462,6 +528,11 @@ async def send_invite_direct_flow(extractor, username, note):
         await page.keyboard.press('Escape')
     except Exception:
         pass
+    if pressed:
+        return {'url': url, 'status': 'maybe_sent', 'route': ', '.join(pressed), 'direct': True, 'note_sent': False,
+                'linkedin_notice': '', 'invite_dialog': '', 'confirmed': False,
+                'message': 'Connect was pressed (%s) but LinkedIn showed neither a dialog nor a confirmation: '
+                           'check the Sent list.' % ', '.join(pressed)}
     return {'url': url, 'status': 'connect_unavailable', 'route': '', 'direct': True, 'note_sent': False,
             'linkedin_notice': '', 'invite_dialog': '', 'confirmed': False,
             'message': 'LinkedIn offers no Connect for this profile: not by its invite link, not on the profile, '
@@ -544,7 +615,8 @@ def register_odoo_tools(mcp: FastMCP, *, tool_timeout: float) -> None:
         """Send a connection invitation through LinkedIn's invite link (Odoo add-on
         tool), for a member whose profile the engine reads as "pending" although
         no invitation exists. Returns status connected, send_failed,
-        connect_unavailable or custom_note_limit_reached, with what LinkedIn showed."""
+        connect_unavailable, custom_note_limit_reached or maybe_sent (Connect was
+        pressed but nothing shows what LinkedIn did), with what LinkedIn showed."""
         username = re.sub(r'^.*linkedin\.com/in/', '', (linkedin_username or '').strip()).strip('/').split('/')[0]
         if not re.match(r'^[A-Za-z0-9%_.-]{2,120}$', username):
             return {'status': 'invalid_username', 'message': 'Not a LinkedIn username.', 'retry_safe': True}
@@ -564,7 +636,8 @@ def register_odoo_tools(mcp: FastMCP, *, tool_timeout: float) -> None:
     async def get_sent_invitations(ctx: Context, limit: int = 300) -> dict[str, Any]:
         """Usernames of the people who have a pending invitation from the signed-in
         account, from LinkedIn's Sent invitations page (Odoo add-on tool; one page).
-        Returns usernames, count, complete (the whole list was loaded) and the
+        Returns usernames, count, complete (the whole list was loaded), rows_only
+        (the names come from invitation rows, not from other links) and the
         first text of the page."""
         limit = max(1, min(int(limit or 300), MAX_SENT_INVITATIONS))
         try:

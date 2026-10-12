@@ -205,6 +205,57 @@ class TestWritingItems(BackgroundCase):
         self.assertEqual(self._items('message'), [])                   # one closing message, never a second
 
     @freeze_time(MONDAY_10_UTC)
+    def test_reply_after_not_interested_is_analysed_and_closed_only_once(self):
+        self._start()
+        self.profile.my_display_name = 'Taha Sohail'
+        persona = self._persona(run=('chat',))
+        prospect = self._replied(persona, 'I am fine, I do not need anything.')
+        prospect.write({'stage': 'not_interested', 'sequence_stopped': True, 'closing_pending': True})
+        item = self._items('message')[0]
+        self.call('li_submit_text', work_id=item['work_id'], text='Good to hear, Ali. Best of luck with it all.')
+        closing = self.env['li.work.item'].browse(item['work_id'])
+        # they write again before the closing message went out: it is dropped and the reply is analysed
+        self.Tools._record_thread(self.profile, prospect, [
+            {'sender_name': 'Ali Raza', 'text': 'Actually, what would it cost for ten users?'}])
+        self.assertEqual((closing.state, closing.discarded_stale), ('cancelled', True))
+        self.assertEqual((prospect.stage, prospect.closing_pending, prospect.sequence_stopped,
+                          prospect.needs_analysis), ('replied', False, False, True))
+        analyse = self._items('analyse')[0]
+        self.assertEqual(analyse['prospect']['id'], prospect.id)
+        # still not interested: closed again, with the closing message that was never sent
+        self.call('li_record_analysis', work_id=analyse['work_id'], sentiment='negative', pivot=False,
+                  summary='Asked the price out of curiosity, no need.')
+        self.assertEqual((prospect.stage, prospect.closing_pending), ('not_interested', True))
+        item = self._items('message')[0]
+        self.call('li_submit_text', work_id=item['work_id'], text='No problem at all, Ali. All the best.')
+        self._script(get_conversation=[thread_data('')])
+        self._run()
+        self.assertEqual(len(self._calls(tool='send_message')), 1)
+        self.assertFalse(prospect.closing_pending)
+        # they answer the closing message: heard and analysed, but never thanked a second time
+        self.Tools._record_thread(self.profile, prospect, [{'sender_name': 'Ali Raza', 'text': 'Thanks, you too!'}])
+        self.assertEqual((prospect.stage, prospect.needs_analysis), ('replied', True))
+        analyse = self._items('analyse')[0]
+        self.call('li_record_analysis', work_id=analyse['work_id'], sentiment='negative', pivot=False,
+                  summary='Polite goodbye.')
+        self.assertEqual((prospect.stage, prospect.closing_pending), ('not_interested', False))
+        self.assertEqual(self._items('message'), [])
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_shared_file_gets_an_answer_without_waiting_for_the_step(self):
+        persona = self._persona(run=('chat',))
+        persona.chat_step_ids.sorted('sequence')[1].wait_days = 1
+        waiting = self._replied(persona, 'We use spreadsheets for everything.')
+        self.assertEqual(self._items('message'), [])                   # a plain answer: the step waits its day
+        waiting.unlink()
+        prospect = self._replied(persona, '[Attachment] Ali Raza - Resume.pdf (185 KB)')
+        item = self._items('message')[0]
+        self.assertEqual(item['prospect']['id'], prospect.id)
+        self.assertIn('expects an answer now', item['instructions'])
+        self.assertIn('[Attachment]', item['instructions'])
+        self.assertNotIn('step', item)
+
+    @freeze_time(MONDAY_10_UTC)
     def test_free_reply_after_the_questionnaire(self):
         persona = self._persona(run=('chat',))
         prospect = self._replied(persona, 'One more thing: do you also do payroll?')

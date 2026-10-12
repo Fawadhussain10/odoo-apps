@@ -29,6 +29,15 @@ class TestPostImageLink(HttpCase, LiCommon):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, base64.b64decode(PNG))
         self.assertIn('our-work.png', response.headers['Content-Disposition'])
+        self.assertEqual((response.headers['Content-Type'], response.headers['Content-Disposition'][:6]),
+                         ('image/png', 'inline'))
+        page = base64.b64encode(b'<html><script>alert(1)</script></html>')
+        service.write({'portfolio_file': page, 'portfolio_filename': 'portfolio.html'})
+        response = self._get(service.portfolio_link)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers['Content-Type'], 'application/octet-stream')    # never a page of ours
+        self.assertTrue(response.headers['Content-Disposition'].startswith('attachment'))
+        self.assertEqual(response.headers['X-Content-Type-Options'], 'nosniff')
         self.assertEqual(self._get(self.base + '/li_sales/portfolio/' + 'x' * 32).status_code, 404)
         service.portfolio_file = False
         self.assertEqual(self._get(self.base + '/li_sales/portfolio/' + 'y' * 32).status_code, 404)

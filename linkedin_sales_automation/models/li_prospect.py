@@ -325,6 +325,23 @@ class LiProspect(models.Model):
             prospect.message_post(body=_('Checked by %s — automatic sending allowed again.', self.env.user.name))
         return True
 
+    def action_allow_invite_again(self):
+        """A manager decides that someone who declined an invitation may be
+        invited again: back in the queue (on hold while the Connection Agent is
+        stopped), with a note saying who allowed it."""
+        if not self.env.user.has_group('linkedin_sales_automation.group_li_manager'):
+            raise UserError(_('Only a LinkedIn Sales Manager can allow a new invitation.'))
+        for prospect in self.sudo().filtered(lambda p: p.stage == 'declined'):
+            if prospect.do_not_contact:
+                raise UserError(_('%s is on the do-not-contact list.', prospect.name))
+            running = prospect.persona_id.connection_agent_id.state != 'stopped'
+            prospect.write({'stage': 'queued' if running else 'held', 'date_invited': False,
+                            'invite_verified_at': False, 'invite_verify_tries': 0, 'invite_gone_check': False,
+                            'send_attempts': 0, 'needs_check': False, 'needs_check_reason': False})
+            prospect.message_post(body=_('%s allowed a new invitation to this person, who declined or ignored '
+                                         'an earlier one.', self.env.user.name))
+        return True
+
     def action_push_to_crm(self):
         """Manual pivot."""
         for prospect in self:

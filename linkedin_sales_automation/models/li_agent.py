@@ -180,14 +180,24 @@ class LiConnectionAgent(models.Model):
             raise UserError(_('Write the note instructions or untick "Send note with invite".'))
 
     def _on_stop(self):
-        """Stop clears queued prospects not yet invited (they return to the pool)
-        and cancels released invite / search items."""
+        """Stop takes the prospects not yet invited out of the queue and cancels
+        released invite / search items. Nobody is deleted: they wait On hold with
+        their history (also people added by hand) until the agent runs again."""
         self.env['li.work.item'].sudo()._cancel_open(
             [('persona_id', '=', self.persona_id.id), ('agent_type', '=', 'connection')],
             reason=_('Connection Agent stopped'))
         queued = self.env['li.prospect'].sudo().search([('persona_id', '=', self.persona_id.id),
                                                         ('stage', '=', 'queued')])
-        queued.unlink()
+        queued.write({'stage': 'held'})
+
+    def action_run(self):
+        """Running again puts the people On hold back in the queue."""
+        result = super().action_run()
+        for agent in self.filtered(lambda a: a.state == 'running'):
+            self.env['li.prospect'].sudo().search([
+                ('persona_id', '=', agent.persona_id.id), ('stage', '=', 'held'),
+                ('do_not_contact', '=', False)]).write({'stage': 'queued'})
+        return result
 
 
 

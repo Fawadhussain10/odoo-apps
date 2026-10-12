@@ -561,11 +561,11 @@ class TestBackgroundWork(BackgroundCase):
         mk(replied, 'in', 'reply', 'Thanks, Taha')
         mk(replied, 'in', 'reply', 'Reply to conversation with "Thanks Sara"')
         mk(replied, 'in', 'reply', 'Thanks Sara')
-        self.assertEqual(self.env['li.prospect']._li_repair_ui_messages(), 4)
+        self.assertEqual(self.env['li.prospect']._li_repair_ui_messages(force=True), 4)
         self.assertEqual(taken.message_ids_li.mapped('body'), ['Hi Ali, thanks for connecting!'])
         self.assertFalse(taken.is_taken_over)
         self.assertEqual(replied.message_ids_li.mapped('body'), ['Thanks, Taha'])
-        self.assertEqual(self.env['li.prospect']._li_repair_ui_messages(), 0)
+        self.assertEqual(self.env['li.prospect']._li_repair_ui_messages(force=True), 0)
 
     # ------------------------------------------------------------------
     # Invite verification
@@ -599,20 +599,22 @@ class TestBackgroundWork(BackgroundCase):
         accepted, refused = mk('sara-khan', 'Sara Khan'), mk('omar-ali', 'Omar Ali')
         # LinkedIn says there is no pending invitation at all; Sara is found among the connections
         self._script(get_sent_invitations=[sent_list(text='You have no sent invitations')],
-                     get_recent_connections=[{'data': {'usernames': ['Sara-Khan', 'someone'], 'count': 2}}])
-        self.assertEqual(self.Tools._cron_verify_invites(), 2)
+                     get_recent_connections=[{'data': {'usernames': ['Sara-Khan', 'someone'], 'count': 2}}],
+                     check_connection_state=[self.CONNECT_SHOWN])
+        self.assertEqual(self.Tools._cron_verify_invites(), 3)     # list, connections, Omar's own profile
         self.assertEqual((accepted.stage, refused.stage), ('accepted', 'queued'))
 
     @freeze_time(MONDAY_10_UTC)
-    def test_verify_invites_searches_per_person_when_connections_are_unreadable(self):
+    def test_verify_invites_asks_each_profile_when_connections_are_unreadable(self):
         self._start()
         persona = self._persona()
         mk = lambda key, name: self._prospect(persona, key, name, stage='invited',
                                               date_invited=fields.Datetime.now() - timedelta(hours=2))
         accepted, refused = mk('sara-khan', 'Sara Khan'), mk('omar-ali', 'Omar Ali')
         self._script(get_sent_invitations=[sent_list('someone-else')],
-                     search_people=[search_data(('sara-khan', 'Sara Khan', 'Founder')), search_data()])
-        self.assertEqual(self.Tools._cron_verify_invites(), 4)     # list, connections (empty), two searches
+                     check_connection_state=[self.CONNECTED_SHOWN, self.CONNECT_SHOWN])
+        self.assertEqual(self.Tools._cron_verify_invites(), 4)     # list, connections (empty), two profiles
+        self.assertEqual(self._calls(tool='search_people'), [])
         self.assertEqual((accepted.stage, refused.stage), ('accepted', 'queued'))
 
     @freeze_time(MONDAY_10_UTC)
@@ -725,6 +727,7 @@ class TestBackgroundWork(BackgroundCase):
         self._script(
             get_sent_invitations=[sent_list('zara-noor'), sent_list('zara-noor')],
             get_recent_connections=[{'data': {'usernames': ['old-friend'], 'count': 1}}] * 2,
+            check_connection_state=[self.CONNECT_SHOWN] * 3,           # their profiles offer Connect again
             check_invite_dialog=[
                 {'data': {'status': 'email_required', 'text': 'Enter their email to connect'}},
                 {'data': {'status': 'dialog', 'text': 'How do you know Omar?'}},
@@ -753,11 +756,12 @@ class TestBackgroundWork(BackgroundCase):
         invited = [self._prospect(persona, 'p%s' % i, 'Person %s' % i, stage='invited',
                                   date_invited=fields.Datetime.now() - timedelta(days=2, minutes=i)) for i in range(6)]
         self._script(get_sent_invitations=[sent_list('p1', 'p4', 'other')],
-                     get_recent_connections=[{'data': {'usernames': ['old-friend', 'colleague'], 'count': 2}}])
+                     get_recent_connections=[{'data': {'usernames': ['old-friend', 'colleague'], 'count': 2}}],
+                     check_connection_state=[self.CONNECT_SHOWN] * 4)
         cron = self.env.ref('linkedin_sales_automation.cron_verify_invites')
         self.assertEqual((cron.interval_number, cron.interval_type), (5, 'minutes'))
-        # two page reads settle all six: LinkedIn's Sent list, then the newest connections
-        self.assertEqual(self.Tools._cron_verify_invites(), 2)
+        # LinkedIn's Sent list, the newest connections, then the profile of each of the four not found
+        self.assertEqual(self.Tools._cron_verify_invites(), 6)
         self.assertEqual(self._calls(tool='search_people'), [])
         self.assertEqual(sorted(p.stage for p in invited), ['invited'] * 2 + ['queued'] * 4)
         self.assertEqual(len([p for p in invited if p.invite_verified_at]), 2)
@@ -777,11 +781,12 @@ class TestBackgroundWork(BackgroundCase):
         self.assertEqual((first.stage, second.stage), ('invited', 'invited'))
         self.assertEqual(self.env['li.event'].search_count([('event_type', '=', 'invite_sent')]), 2)
         # LinkedIn's Sent list has other people, not these two; neither is a connection
-        self._script(get_sent_invitations=[sent_list('someone-else')])
+        self._script(get_sent_invitations=[sent_list('someone-else')],
+                     check_connection_state=[self.CONNECT_SHOWN] * 2)
         with freeze_time('2026-10-12 10:13:00'):
             self._run()
         self.assertEqual((first.stage, second.stage), ('queued', 'queued'))
-        self.assertEqual(self._calls(tool='check_connection_state'), [])       # the list decides, not the buttons
+        self.assertEqual(len(self._calls(tool='check_connection_state')), 2)   # each profile confirms: Connect again
         self.assertFalse(first.date_invited)
         self.assertEqual(self.env['li.event'].search_count([('event_type', '=', 'invite_sent')]), 0)
         self.assertEqual(self.env['li.work.item'].search_count([('quota_consumed', '=', True)]), 0)
@@ -815,7 +820,7 @@ class TestBackgroundWork(BackgroundCase):
             'Swapped\n· 2nd\nODOO EXPERT\nIslamabad, Pakistan\n·\nContact info\nPAF College'))
         no_page = mk('nopage', location='Founder and CEO at Deploy Systems')
         typed = mk('typed', headline='CEO at Brand X', title='Chief of everything', company='My own name')
-        self.assertEqual(Prospect._li_repair_prospect_fields() >= 4, True)
+        self.assertEqual(Prospect._li_repair_prospect_fields(force=True) >= 4, True)
         self.assertEqual((plain.title, plain.company, plain.location), ('Founder', 'Odoo Concepts', 'Pakistan'))
         self.assertEqual((swapped.headline, swapped.location, swapped.title, swapped.company),
                          ('CEO at Odoo Steer', 'Islamabad, Pakistan', 'CEO', 'Odoo Steer'))
@@ -1052,3 +1057,428 @@ class TestBackgroundWork(BackgroundCase):
         self.profile.execution_mode = 'chrome'
         self._prospect(self._persona())
         self.assertEqual(self._run(), 0)
+
+    # ------------------------------------------------------------------
+    # Closed people who reply later, thread priority and cap
+    # ------------------------------------------------------------------
+    def _reply_thread(self, name, text):
+        return thread_data('%s sent the following message at 11:00 AM\n%s\n%s' % (name, name, text))
+
+    def test_closed_people_who_reply_later_are_heard(self):
+        self._start()
+        self.profile.my_display_name = 'Taha Sohail'
+        persona = self._persona(run=('chat',))
+        silent = self._prospect(persona, stage='no_response')
+        refused = self._prospect(persona, 'sara-khan', 'Sara Khan', stage='not_interested', sequence_stopped=True,
+                                 closing_pending=True)
+        withdrawn = self._prospect(persona, 'omar-malik', 'Omar Malik', stage='withdrawn')
+        quiet = self._prospect(persona, 'zara-ali', 'Zara Ali', stage='no_response')
+        blocked = self._prospect(persona, 'bilal-aziz', 'Bilal Aziz', stage='not_interested', do_not_contact=True)
+        closing = self.Tools._queue_send('message', refused, text='Good to hear, Sara. Best of luck.')
+        closing.closing = True
+        rows = [('Ali Raza', '2-a'), ('Sara Khan', '2-s'), ('Omar Malik', '2-o'), ('Zara Ali', '2-z'),
+                ('Bilal Aziz', '2-b')]
+        inbox = {'data': {'sections': {'inbox': '\n'.join('%s\n11:00 AM\nA new line' % n for n, _t in rows)},
+                          'references': {'inbox': [{'kind': 'conversation', 'url': '/messaging/thread/%s/' % t,
+                                                    'text': n} for n, t in rows]}}}
+        quiet.inbox_preview_hash = inbox_preview(inbox['data'], 'Zara Ali')        # nothing new in her thread
+        sara = self._reply_thread('Sara Khan', 'Actually, what would it cost?')
+        self._script(get_inbox=[inbox], get_conversation=[
+            sara,                                   # the fresh read before her closing message would go out
+            sara,                                   # now a conversation in progress: opened before the closed ones
+            self._reply_thread('Ali Raza', 'Sorry for the late answer, tell me more.'),
+            self._reply_thread('Omar Malik', 'Hi, I just saw your request.')])
+        self._run()
+        # only the three changed threads were opened: the quiet one and the do-not-contact one cost nothing
+        self.assertEqual([c['args'] for c in self._calls(tool='get_conversation')],
+                         [{'linkedin_username': 'sara-khan'}, {'thread_id': '2-s'}, {'thread_id': '2-a'},
+                          {'thread_id': '2-o'}])
+        self.assertEqual(self._calls(tool='send_message'), [])
+        self.assertEqual((silent.stage, silent.needs_analysis), ('replied', True))
+        self.assertEqual((refused.stage, refused.needs_analysis, refused.closing_pending, refused.sequence_stopped),
+                         ('replied', True, False, False))
+        self.assertEqual(closing.state, 'cancelled')                   # the pending closing message is dropped
+        self.assertEqual((withdrawn.stage, withdrawn.needs_analysis), ('replied', True))
+        self.assertTrue(withdrawn.date_accepted)
+        self.assertEqual(quiet.stage, 'no_response')
+        self.assertFalse(blocked.thread_check_needed)
+        self.assertEqual(len(self.env['li.event'].search([('event_type', '=', 'reply_received'),
+                                                          ('persona_id', '=', persona.id)])), 3)
+
+    def test_changed_threads_open_by_priority_and_are_capped_per_run(self):
+        self._start()
+        self.profile.write({'my_display_name': 'Taha Sohail', 'last_inbox_check': fields.Datetime.now()})
+        self.env['ir.config_parameter'].sudo().set_param('li_sales.threads_per_run', 2)
+        persona = self._persona(run=('chat',))
+        read = {'profile_text': 'Founder', 'profile_read_at': fields.Datetime.now(), 'thread_check_needed': True}
+        self._prospect(persona, 'p-closed', 'Closed One', stage='no_response', li_thread_id='t-closed', **read)
+        self._prospect(persona, 'p-new', 'New One', stage='accepted', li_thread_id='t-accepted', **read)
+        self._prospect(persona, 'p-active', 'Active One', stage='replied', li_thread_id='t-replied', **read)
+        self._run()
+        self.assertEqual([c['args']['thread_id'] for c in self._calls(tool='get_conversation')],
+                         ['t-replied', 't-accepted'])                  # the closed one waits for the next run
+        self._run()
+        self.assertEqual([c['args']['thread_id'] for c in self._calls(tool='get_conversation')],
+                         ['t-replied', 't-accepted', 't-closed'])
+
+    def test_failed_thread_read_is_tried_again(self):
+        self._start()
+        self.profile.write({'my_display_name': 'Taha Sohail', 'last_inbox_check': fields.Datetime.now()})
+        persona, prospect = self._chat_prospect()
+        prospect.write({'thread_check_needed': True, 'li_thread_id': '2-abc'})
+        self._script(get_conversation=[{'error': 'Tool get_conversation timed out after 60 seconds'},
+                                       self._reply_thread('Ali Raza', 'Can we talk tomorrow?')])
+        self._run()
+        self.assertEqual((prospect.thread_check_needed, prospect.thread_read_tries, prospect.stage),
+                         (True, 1, 'accepted'))                        # still marked: nothing is lost
+        self._run()
+        self.assertEqual((prospect.thread_check_needed, prospect.thread_read_tries, prospect.stage),
+                         (False, 0, 'replied'))
+        self.assertEqual(prospect.message_ids_li.mapped('body'), ['Can we talk tomorrow?'])
+
+    def test_thread_that_keeps_failing_is_left_alone_after_five_tries(self):
+        self._start()
+        self.profile.write({'my_display_name': 'Taha Sohail', 'last_inbox_check': fields.Datetime.now()})
+        persona, prospect = self._chat_prospect()
+        gone = self._accepted(persona, username='sara-khan', name='Sara Khan', thread_check_needed=True)
+        prospect.write({'thread_check_needed': True, 'li_thread_id': '2-abc', 'thread_read_tries': 4})
+        self._script(get_conversation=[{'error': 'Something went wrong on the page'},
+                                       {'error': 'Profile not found'}])
+        self._run()
+        self.assertEqual((prospect.thread_check_needed, prospect.thread_read_tries), (False, 0))
+        self.assertFalse(gone.thread_check_needed)                     # a profile that no longer exists
+
+    # ------------------------------------------------------------------
+    # Connect before Follow, never Follow while an invitation may exist
+    # ------------------------------------------------------------------
+    FOLLOW_ONLY = {'data': {'status': 'follow_only', 'message': 'Follow only profile.'}}
+
+    def _time_for(self, answers):
+        """_bg_time_for answering from a list, then False."""
+        answers = list(answers)
+        return patch.object(type(self.Tools), '_bg_time_for',
+                            lambda self, deadline, calls=1: answers.pop(0) if answers else False)
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_nobody_is_followed_when_time_is_short_for_the_connect_routes(self):
+        self._start()
+        persona = self._persona()
+        prospect = self._prospect(persona)
+        self._script(connect_with_person=[self.FOLLOW_ONLY, self.FOLLOW_ONLY])
+        with self._time_for([]):
+            self._run()
+        self.assertEqual(self._calls(tool='send_invite_direct'), [])
+        self.assertEqual(self._calls(tool='follow_person'), [])
+        item = self.env['li.work.item'].search([('prospect_id', '=', prospect.id)])
+        self.assertEqual((prospect.stage, prospect.needs_check, item.state, item.quota_consumed),
+                         ('queued', False, 'queued', False))           # skipped for this run only
+        self.profile.last_send_at = False
+        self._run()
+        self.assertEqual(len(self._calls(tool='send_invite_direct')), 1)   # now every route is tried first
+        self.assertEqual(prospect.stage, 'followed')
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_follow_waits_for_the_next_run_without_trying_connect_again(self):
+        self._start()
+        persona = self._persona()
+        prospect = self._prospect(persona)
+        self._script(connect_with_person=[self.FOLLOW_ONLY])
+        with self._time_for([True]):                   # time for the Connect routes, none left for Follow
+            self._run()
+        item = self.env['li.work.item'].search([('prospect_id', '=', prospect.id)])
+        self.assertEqual((item.state, item.connect_tried, prospect.stage), ('queued', True, 'queued'))
+        self.assertEqual(self._calls(tool='follow_person'), [])
+        self.profile.last_send_at = False
+        self._run()
+        self.assertEqual(len(self._calls(tool='connect_with_person')), 1)
+        self.assertEqual(len(self._calls(tool='send_invite_direct')), 1)
+        self.assertEqual(len(self._calls(tool='follow_person')), 1)
+        self.assertEqual(prospect.stage, 'followed')
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_connect_routes_that_fail_never_end_in_a_follow(self):
+        self._start()
+        persona = self._persona()
+        prospect = self._prospect(persona)
+        broken = {'error': 'Something went wrong on the page'}
+        self._script(connect_with_person=[self.FOLLOW_ONLY] * 3, send_invite_direct=[broken] * 3)
+        for attempt in (1, 2):
+            self.profile.last_send_at = False
+            self._run()
+            item = self.env['li.work.item'].search([('prospect_id', '=', prospect.id)])
+            self.assertEqual((item.state, item.send_attempts, prospect.stage), ('queued', attempt, 'queued'))
+        self.profile.last_send_at = False
+        self._run()
+        self.assertEqual(self._calls(tool='follow_person'), [])
+        self.assertEqual((prospect.stage, prospect.needs_check), ('queued', True))     # a person looks at it
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_connect_pressed_without_proof_is_settled_by_the_sent_list(self):
+        self._start()
+        persona = self._persona()
+        on_list = self._prospect(persona)
+        not_sent = self._prospect(persona, 'sara-khan', 'Sara Khan')
+        unclear = self._prospect(persona, 'omar-malik', 'Omar Malik')
+        maybe = {'data': {'status': 'maybe_sent', 'route': 'More menu', 'direct': True, 'confirmed': False,
+                          'message': 'Connect was pressed but LinkedIn showed nothing.'}}
+        self._script(connect_with_person=[self.FOLLOW_ONLY] * 3, send_invite_direct=[maybe] * 3,
+                     get_sent_invitations=[sent_list('ali-raza', 'someone-else'), sent_list('someone-else'),
+                                           sent_list('someone-else', complete=False)])
+        self._run()
+        self.assertEqual(on_list.stage, 'invited')                     # the invitation exists: never followed
+        self.assertTrue(on_list.invite_verified_at)
+        self.assertEqual(self._calls(tool='follow_person'), [])
+        self.profile.last_send_at = False
+        self._run()
+        self.assertEqual(not_sent.stage, 'followed')                   # the whole list, without them: no Connect
+        self.assertEqual(len(self._calls(tool='follow_person')), 1)
+        self.profile.last_send_at = False
+        self._run()
+        self.assertEqual((unclear.stage, unclear.needs_check), ('queued', True))   # unknown: a person checks
+        self.assertEqual(len(self._calls(tool='follow_person')), 1)
+        self.assertIn('unknown', unclear.needs_check_reason.lower())
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_profile_that_shows_pending_is_invited_not_followed(self):
+        self._start()
+        persona = self._persona()
+        prospect = self._prospect(persona)
+        self._script(connect_with_person=[{'data': {
+            'status': 'follow_only', 'message': 'Follow only profile.',
+            'profile': 'Ali Raza\nFounder at Brand X\nLahore\nPending\nMessage\nAbout\nI run a brand.'}}])
+        self._run()
+        self.assertEqual(self._calls(tool='send_invite_direct'), [])
+        self.assertEqual(self._calls(tool='follow_person'), [])
+        self.assertEqual(prospect.stage, 'invited')
+        self.assertTrue(prospect.invite_verified_at)
+
+    # ------------------------------------------------------------------
+    # A file shared in the chat
+    # ------------------------------------------------------------------
+    def test_shared_file_is_one_message(self):
+        self._start()
+        self.profile.write({'my_display_name': 'Taha Sohail', 'last_inbox_check': fields.Datetime.now()})
+        persona, prospect = self._chat_prospect()
+        prospect.write({'thread_check_needed': True, 'li_thread_id': '2-abc'})
+        self._script(get_conversation=[thread_data(
+            'Ali Raza sent the following messages at 8:35 PM\nAli Raza\nHere it is.\n'
+            'Ali Raza - Odoo Functional Resume.pdf\n185 KB\nDownload')])
+        self._run()
+        self.assertEqual(prospect.message_ids_li.mapped('body'),
+                         ['Here it is.', '[Attachment] Ali Raza - Odoo Functional Resume.pdf (185 KB)'])
+        # the same thread read again adds nothing
+        prospect.thread_check_needed = True
+        self._script(get_conversation=[thread_data(
+            'Ali Raza sent the following messages at 8:35 PM\nAli Raza\nHere it is.\n'
+            'Ali Raza - Odoo Functional Resume.pdf\n185 KB\nDownload')])
+        self._run()
+        self.assertEqual(len(prospect.message_ids_li), 2)
+
+    def test_files_stored_as_three_messages_are_merged_once(self):
+        persona = self._persona(run=('chat',))
+        prospect = self._accepted(persona)
+        Message = self.env['li.message']
+        for body in ('Just in case, my resume:', 'Resume.pdf', '185 KB', 'Download', 'Download'):
+            Message.create({'prospect_id': prospect.id, 'direction': 'in', 'kind': 'reply', 'body': body})
+        self.env['ir.config_parameter'].sudo().search([('key', '=', 'li_sales.attachments_merged')]).unlink()
+        self.assertEqual(self.env['li.prospect']._li_merge_attachment_messages(), 1)
+        self.assertEqual(prospect.message_ids_li.sorted('id').mapped('body'),
+                         ['Just in case, my resume:', '[Attachment] Resume.pdf (185 KB)', 'Download'])
+        self.assertEqual(self.env['li.prospect']._li_merge_attachment_messages(), 0)       # once only
+
+    # ------------------------------------------------------------------
+    # Batch 2: read budget, invite verification, token limits, one-time repairs
+    # ------------------------------------------------------------------
+    CONNECT_SHOWN = {'data': {'status': 'connectable', 'seen': ['connectable', 'connectable'],
+                              'top_text': 'Someone\nFounder\nConnect\nMessage\nAbout\nText'}}
+    PENDING_SHOWN = {'data': {'status': 'pending', 'seen': ['pending', 'pending'],
+                              'top_text': 'Someone\nFounder\nPending\nMessage\nAbout\nText'}}
+    CONNECTED_SHOWN = {'data': {'status': 'already_connected', 'seen': ['already_connected'],
+                                'top_text': 'Someone\n· 1st\nFounder\nMessage\nAbout\nText'}}
+
+    def test_inbox_is_read_fast_only_in_working_hours(self):
+        self.env['ir.config_parameter'].sudo().set_param('li_sales.inbox_interval', 5)
+        monday = self.env['li.weekday'].search([('code', '=', 0)])
+        self._persona(run=('chat',), days=monday, chat_send_window_from=9.0, chat_send_window_to=17.0)
+        with freeze_time('2026-10-12 10:00:00'):                       # Monday, inside the window
+            self.assertEqual(self.Tools._bg_inbox_minutes(self.profile), 5)
+        with freeze_time('2026-10-12 22:00:00'):                       # Monday night
+            self.assertEqual(self.Tools._bg_inbox_minutes(self.profile), 60)
+        with freeze_time('2026-10-13 10:00:00'):                       # Tuesday: not a working day here
+            self.assertEqual(self.Tools._bg_inbox_minutes(self.profile), 60)
+        self.assertEqual(self.Tools._bg_inbox_minutes(self.profile2), 60)      # no persona at all
+
+    @freeze_time('2026-10-12 22:00:00')
+    def test_night_inbox_waits_an_hour(self):
+        self._start()
+        self.env['ir.config_parameter'].sudo().set_param('li_sales.inbox_interval', 5)
+        persona = self._persona(run=('chat',), chat_send_window_from=9.0, chat_send_window_to=17.0)
+        self._accepted(persona)
+        self.profile.last_inbox_check = fields.Datetime.now() - timedelta(minutes=20)
+        self._run()
+        self.assertEqual(self._calls(tool='get_inbox'), [])
+        self.profile.last_inbox_check = fields.Datetime.now() - timedelta(minutes=61)
+        self._run()
+        self.assertEqual(len(self._calls(tool='get_inbox')), 1)
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_frequent_reads_leave_room_for_verification_profiles_and_search(self):
+        self.env['ir.config_parameter'].sudo().set_param('li_sales.read_budget', 10)
+        Action = self.env['li.engine.action']
+        for action in ('inbox', 'thread', 'acceptance', 'inbox', 'thread', 'inbox'):
+            Action.create({'linkedin_profile_id': self.profile.id, 'action': action, 'reads': 1})
+        self.assertEqual(self.Tools._bg_routine_left(self.profile), 0)     # inbox, threads, acceptances: 60%
+        self.assertEqual(self.Tools._bg_budget_left(self.profile), 2)      # still free for the rest
+        Action.create({'linkedin_profile_id': self.profile.id, 'action': 'invite_verify', 'reads': 1})
+        self.assertEqual(self.Tools._bg_budget_left(self.profile), 1)
+        self._start()
+        persona = self._persona(run=('chat',))
+        self._accepted(persona, thread_check_needed=True)
+        self._run()
+        self.assertEqual(self._calls(tool='get_inbox'), [])
+        self.assertEqual(self._calls(tool='get_conversation'), [])
+
+    def test_only_invitation_rows_can_prove_the_sent_list_whole(self):
+        names = ['p%s' % i for i in range(12)]
+        proven = lambda **data: self.Tools._bg_sent_list(dict({'usernames': names, 'complete': True}, **data), None)[1]
+        self.assertTrue(proven(total=12, rows_only=True))
+        self.assertFalse(proven(total=12, rows_only=False))        # any link of the page: suggested people too
+        self.assertFalse(proven(total=11, rows_only=True))         # more names than invitations: not the rows
+        self.assertFalse(proven(total=30, rows_only=True))         # cut off
+        self.assertTrue(proven(total=12))                          # an engine without the flag: as before
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_invite_gone_from_the_list_is_judged_by_the_profile(self):
+        self._start()
+        persona = self._persona()
+        ago = lambda **delta: fields.Datetime.now() - timedelta(**delta)
+        old = self._prospect(persona, 'old-one', 'Old One', stage='invited', date_invited=ago(days=3))
+        pending = self._prospect(persona, 'still-pending', 'Still Pending', stage='invited', date_invited=ago(hours=2))
+        accepted = self._prospect(persona, 'now-connected', 'Now Connected', stage='invited',
+                                  date_invited=ago(hours=2))
+        fresh = self._prospect(persona, 'never-recorded', 'Never Recorded', stage='invited',
+                               date_invited=ago(hours=2))
+        self._script(get_sent_invitations=[sent_list('someone-else')],
+                     check_connection_state=[self.CONNECT_SHOWN, self.PENDING_SHOWN, self.CONNECTED_SHOWN,
+                                             self.CONNECT_SHOWN])
+        self.Tools._cron_verify_invites()
+        self.assertEqual([c['args']['linkedin_username'] for c in self._calls(tool='check_connection_state')],
+                         ['old-one', 'still-pending', 'now-connected', 'never-recorded'])
+        self.assertEqual(old.stage, 'queued')          # never seen on the list, however old: not "declined"
+        self.assertEqual((pending.stage, bool(pending.invite_verified_at)), ('invited', True))
+        self.assertEqual(accepted.stage, 'accepted')
+        self.assertEqual(fresh.stage, 'queued')                        # LinkedIn never recorded it: sent again
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_verified_invite_that_disappears_is_declined_not_invited_again(self):
+        self._start()
+        persona = self._persona()
+        ago = lambda **delta: fields.Datetime.now() - timedelta(**delta)
+        other = self._persona('Second persona', run=())
+        seen = dict(stage='invited', date_invited=ago(days=3), invite_verified_at=ago(days=2))
+        declined = self._prospect(persona, 'said-no', 'Said No', **seen)
+        accepted = self._prospect(persona, 'said-yes', 'Said Yes', **seen)
+        waiting = self._prospect(persona, 'still-there', 'Still There', **seen)
+        self._script(get_sent_invitations=[sent_list('still-there')],
+                     get_recent_connections=[{'data': {'usernames': ['said-yes'], 'count': 1}}],
+                     check_connection_state=[self.CONNECT_SHOWN])
+        self.Tools._cron_verify_invites()                              # no new invite: the daily comparison
+        self.assertEqual((declined.stage, accepted.stage, waiting.stage), ('declined', 'accepted', 'invited'))
+        self.assertEqual(len(self._calls(tool='check_connection_state')), 1)
+        self.assertEqual(self.profile.invites_not_recorded, 0)         # about the person, not the account
+        self.Tools._cron_verify_invites()                              # not read again within the day
+        self.assertEqual(len(self._calls(tool='get_sent_invitations')), 1)
+        self.assertTrue(self.env['li.event'].search([('prospect_id', '=', declined.id),
+                                                     ('event_type', '=', 'invite_withdrawn')]))
+        # declined once: never invited again, by any persona, not even on request
+        other.connection_agent_id.skip_if_contacted = False
+        counts = self.Tools._add_people(other, [{'name': 'Said No', 'linkedin_url': declined.linkedin_url}])
+        self.assertEqual((counts['created'], counts['contacted_elsewhere']), (0, 1))
+        answer = self.call('li_invite_person', linkedin_url=declined.linkedin_url, linkedin_profile='taha',
+                           persona=str(other.id))
+        self.assertFalse(answer['ok'])
+        self.assertIn('declined', answer['message'])
+        # a new day: the list is compared again
+        with freeze_time('2026-10-13 10:01:00'):
+            self.Tools._cron_verify_invites()
+        self.assertEqual(len(self._calls(tool='get_sent_invitations')), 2)
+
+    def test_limited_connector_counts_only_its_own_profiles(self):
+        mine = self._persona('Mine', run=())
+        theirs = self._persona('Theirs', profile=self.profile2, run=())
+        Event = self.env['li.event']
+        Event._log('invite_sent', 'connection', persona=mine, detail='one')
+        Event._log('invite_sent', 'connection', persona=theirs, detail='two')
+        Event._log('invite_sent', 'connection', persona=theirs, detail='three')
+        overdue = self._prospect(theirs, stage='replied')
+        activity = self.env['mail.activity'].create({
+            'res_model_id': self.env['ir.model']._get_id('li.prospect'), 'res_id': overdue.id,
+            'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id, 'user_id': self.rep.id})
+        overdue.write({'reply_activity_id': activity.id, 'reply_due_at': fields.Datetime.now() - timedelta(days=1)})
+        limited = self.Tools.with_context(li_allowed_profile_ids=[self.profile.id])
+        overview = limited._tool_li_overview()
+        self.assertEqual([p['linkedin_profile'] for p in overview['profiles']], [self.profile.account_key])
+        self.assertEqual([p['name'] for p in overview['personas']], ['Mine'])
+        self.assertEqual(overview['activity_agent']['overdue_reply_activities'], 0)
+        self.assertEqual(self.Tools._tool_li_overview()['activity_agent']['overdue_reply_activities'], 1)
+        result = limited._tool_li_finish_run(summary='done')
+        self.assertEqual([(a['linkedin_profile'], a['invites']) for a in result['accounts']],
+                         [(self.profile.account_key, 1)])
+        notes = lambda persona: [m for m in persona.message_ids if 'Run finished' in (m.body or '')]
+        self.assertEqual((len(notes(mine)), len(notes(theirs))), (1, 0))
+        run = self.env['li.claude.run'].browse(result['run_id'])
+        self.assertFalse(self.profile2 in run.linkedin_profile_ids)
+        # the other profile's run is its own: it still sees its two invites
+        full = self.Tools.with_context(li_allowed_profile_ids=[self.profile2.id])._tool_li_finish_run(summary='x')
+        self.assertEqual([(a['linkedin_profile'], a['invites']) for a in full['accounts']],
+                         [(self.profile2.account_key, 2)])
+
+    def test_repairs_run_once_not_on_every_upgrade(self):
+        Prospect = self.env['li.prospect']
+        persona = self._persona(run=())
+        self.env['ir.config_parameter'].sudo().search([('key', 'in', (
+            'li_sales.repaired_prospect_fields', 'li_sales.repaired_mojibake', 'li_sales.repaired_ui_messages'))]).unlink()
+        first = self._prospect(persona, headline='CEO at Brand X')
+        self.assertTrue(Prospect._li_repair_prospect_fields() >= 1)
+        self.assertEqual(first.company, 'Brand X')
+        second = self._prospect(persona, 'sara-khan', 'Sara Khan', headline='CTO at Other Co')
+        self.assertEqual(Prospect._li_repair_prospect_fields(), 0)     # the next upgrade does not run it again
+        self.assertFalse(second.company)
+        self.assertTrue(Prospect._li_repair_mojibake() >= 0)
+        self.assertTrue(Prospect._li_repair_ui_messages() >= 0)
+        second.name = 'ZoÃ« Khan'
+        self.env['li.message'].create({'prospect_id': second.id, 'direction': 'in', 'kind': 'reply',
+                                       'body': 'Dismiss'})
+        self.assertEqual(Prospect._li_repair_mojibake(), 0)
+        self.assertEqual(Prospect._li_repair_ui_messages(), 0)
+        self.assertEqual(second.name, 'ZoÃ« Khan')
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_manager_may_allow_a_declined_person_to_be_invited_again(self):
+        from odoo.exceptions import UserError
+        self._start()
+        persona = self._persona()
+        other = self._persona('Second persona', run=())
+        declined = self._prospect(persona, stage='declined', date_invited=fields.Datetime.now() - timedelta(days=5),
+                                  invite_verified_at=fields.Datetime.now() - timedelta(days=4))
+        with self.assertRaises(UserError):
+            declined.with_user(self.rep).action_allow_invite_again()       # not a manager
+        self.assertEqual(declined.stage, 'declined')
+        declined.with_user(self.manager).action_allow_invite_again()
+        self.assertEqual((declined.stage, declined.date_invited, declined.invite_verified_at),
+                         ('queued', False, False))
+        self.assertTrue(any('allowed a new invitation' in (m.body or '') and m.author_id == self.manager.partner_id
+                            for m in declined.message_ids))                # logged, with who did it
+        self.assertEqual(self.Tools._add_people(other, [{'name': 'Ali Raza', 'linkedin_url': declined.linkedin_url}])
+                         ['contacted_elsewhere'], 1)                       # the usual rules apply again
+        self._run()
+        self.assertEqual(len(self._calls(tool='connect_with_person')), 1)  # really invited again
+        self.assertEqual(declined.stage, 'invited')
+        # the Connection Agent is stopped: allowed, but waiting on hold
+        waiting = self._prospect(other, 'sara-khan', 'Sara Khan', stage='declined')
+        waiting.with_user(self.manager).action_allow_invite_again()
+        self.assertEqual(waiting.stage, 'held')
+        blocked = self._prospect(other, 'omar-malik', 'Omar Malik', stage='declined', do_not_contact=True)
+        with self.assertRaises(UserError):
+            blocked.with_user(self.manager).action_allow_invite_again()
+

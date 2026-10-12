@@ -14,6 +14,7 @@ AGENT_STATES = [
 
 PROSPECT_STAGES = [
     ('queued', 'Queued'),
+    ('held', 'On hold (agent stopped)'),
     ('invited', 'Invited'),
     ('followed', 'Followed (no Connect)'),
     ('accepted', 'Accepted'),
@@ -24,9 +25,10 @@ PROSPECT_STAGES = [
     ('not_interested', 'Closed (not interested)'),
     ('no_response', 'Closed (no response)'),
     ('withdrawn', 'Withdrawn'),
+    ('declined', 'Closed (invite declined)'),
     ('do_not_contact', 'Do not contact'),
 ]
-CLOSED_STAGES = ('not_interested', 'no_response', 'withdrawn', 'do_not_contact')
+CLOSED_STAGES = ('not_interested', 'no_response', 'withdrawn', 'declined', 'do_not_contact')
 
 EVENT_TYPES = [
     ('invite_sent', 'Invite sent'),

@@ -29,7 +29,7 @@ from odoo.exceptions import UserError
 from odoo.modules import module as odoo_module
 from odoo.tools import config
 
-from .li_common import local_now, normalize_name, one_paragraph, safe_zone, utc_now
+from .li_common import in_window, local_now, normalize_name, one_paragraph, safe_zone, utc_now
 from .li_engine import SEARCH_COOLDOWN, VERIFY_VALID, ToolError
 from .li_engine_manager import ENGINE_LOCK_NAMESPACE, is_odoo_sh
 from .li_engine_parse import (
@@ -45,7 +45,17 @@ SEND_PRIORITY = {'handoff': 0, 'message': 1, 'followup': 2, 'invite': 3}
 SEND_TOOLS = {'invite': 'connect_with_person', 'message': 'send_message', 'followup': 'send_message',
               'handoff': 'send_message'}
 BACKGROUND_SHARE = 0.8          # background reading may use 80% of the read budget; the rest is for re-reads
-THREADS_PER_RUN = 3
+# The frequent reads (inbox, changed threads, acceptances) may use 60% of the budget at most, so the
+# rest of the background share stays free for invite verification, profile reads and search all day.
+ROUTINE_SHARE = 0.6
+ROUTINE_ACTIONS = ('inbox', 'thread', 'acceptance')
+INBOX_OFF_HOURS = 60            # minutes between inbox reads outside the personas' working hours
+SENT_RECHECK = timedelta(hours=24)          # invites already verified are compared with the Sent list daily
+THREADS_PER_RUN = 8             # default of li_sales.threads_per_run
+THREAD_READ_TRIES = 5           # failed reads of one changed thread before it is left alone
+# changed threads are opened in this order: conversations in progress, new connections, closed people
+THREAD_PRIORITY = {'replied': 0, 'messaged': 0, 'warm': 0, 'meeting': 0, 'accepted': 1, 'invited': 1, 'queued': 1}
+CLOSED_PER_INBOX = 300
 MAX_RUN_SECONDS = 240
 ACCEPTANCE_RECHECK = timedelta(hours=12)
 INVITE_VERIFY_AFTER = timedelta(minutes=10)     # LinkedIn has settled by then
@@ -125,6 +135,8 @@ class LiProfileBackground(models.Model):
                                           help='Different people in a row whose invitation LinkedIn did not record '
                                                '(the profile still showed Connect after sending).')
     invite_refused_prospect_id = fields.Many2one('li.prospect', readonly=True, copy=False, ondelete='set null')
+    last_sent_check = fields.Datetime(readonly=True, copy=False,
+                                      help='Last read of LinkedIn\'s Sent invitations page.')
     last_success_at = fields.Datetime('Last successful action', readonly=True, copy=False)
     send_now_until = fields.Datetime(readonly=True, copy=False,
                                      help='"Send now" asked from Claude: until then the engine comes back as soon as '
@@ -210,10 +222,13 @@ class LiProfileBackground(models.Model):
         start = datetime.combine(local.date(), datetime.min.time(), tzinfo=safe_zone(tz))
         return start.astimezone(safe_zone('UTC')).replace(tzinfo=None)
 
-    def _reads_today(self):
+    def _reads_today(self, actions=None):
+        """Pages read today; `actions` limits the count to those kinds of action."""
         self.ensure_one()
         self.env.cr.execute("""SELECT COALESCE(SUM(reads), 0) FROM li_engine_action
-                               WHERE linkedin_profile_id = %s AND date >= %s""", (self.id, self._day_start()))
+                               WHERE linkedin_profile_id = %s AND date >= %s
+                                 AND (%s OR action = ANY(%s))""",
+                            (self.id, self._day_start(), not actions, list(actions or [])))
         return self.env.cr.fetchone()[0]
 
     def _session_lock(self):
@@ -238,11 +253,15 @@ class LiProspectBackground(models.Model):
     thread_check_needed = fields.Boolean(readonly=True, copy=False, index=True,
                                          help='The inbox row changed: the thread is read in the background.')
     last_thread_read = fields.Datetime(readonly=True, copy=False)
+    thread_read_tries = fields.Integer(readonly=True, copy=False,
+                                       help='Failed reads in a row of the changed thread (it is retried).')
     last_acceptance_check = fields.Datetime(readonly=True, copy=False)
     invite_verified_at = fields.Datetime(readonly=True, copy=False,
                                          help='Some minutes after an invite Odoo opens the profile again and '
                                               'checks that LinkedIn shows the invitation as pending.')
     invite_verify_tries = fields.Integer(readonly=True, copy=False)
+    invite_gone_check = fields.Datetime(readonly=True, copy=False,
+                                        help='Last look at the profile after the invitation left LinkedIn\'s Sent list.')
     profile_text = fields.Text('LinkedIn profile', readonly=True, copy=False,
                                help='The person\'s LinkedIn profile as read by the engine (headline, about, '
                                     'experience). Claude reads it before writing to this person.')
@@ -286,8 +305,19 @@ class LiProspectBackground(models.Model):
                 prospect.write(vals)
 
     @api.model
-    def _li_repair_prospect_fields(self):
-        """On upgrade: fill title and company and put misplaced headlines back."""
+    def _li_once(self, key, force=False):
+        """True the first time a one-time repair asks (then remembered), or when forced."""
+        params = self.env['ir.config_parameter'].sudo()
+        if params.get_param(key) and not force:
+            return False
+        params.set_param(key, '1')
+        return True
+
+    @api.model
+    def _li_repair_prospect_fields(self, force=False):
+        """Once, on upgrade: fill title and company and put misplaced headlines back."""
+        if not self._li_once('li_sales.repaired_prospect_fields', force):
+            return 0
         prospects = self.sudo().with_context(active_test=False).search([])
         prospects._li_fill_fields()
         return len(prospects)
@@ -303,11 +333,13 @@ class LiProspectRepair(models.Model):
     _inherit = 'li.prospect'
 
     @api.model
-    def _li_repair_mojibake(self):
+    def _li_repair_mojibake(self, force=False):
         """Text read before engine answers were decoded as UTF-8 (garbled names,
         headlines, locations, messages): repair it; a headline that turns out to be
-        LinkedIn's connection-degree label is cleared. Safe to run again."""
+        LinkedIn's connection-degree label is cleared. Runs once on upgrade."""
         from .li_engine_parse import _DEGREE_RE, repair_mojibake
+        if not self._li_once('li_sales.repaired_mojibake', force):
+            return 0
         fixed = 0
         for model, names in (('li.prospect', ('name', 'headline', 'title', 'company', 'location')),
                              ('li.message', ('body', 'sender_name'))):
@@ -332,12 +364,14 @@ class LiProspectUiTextRepair(models.Model):
     _inherit = 'li.prospect'
 
     @api.model
-    def _li_repair_ui_messages(self):
+    def _li_repair_ui_messages(self, force=False):
         """Remove LinkedIn interface text that an earlier version stored as messages
         (the online-status banner, quick-reply suggestions), and give back to the
-        agents a prospect that was taken over only because of such a line. Safe
-        to run again."""
+        agents a prospect that was taken over only because of such a line. Runs
+        once on upgrade."""
         from .li_engine_parse import _SUGGESTION_RE, is_thread_ui_text
+        if not self._li_once('li_sales.repaired_ui_messages', force):
+            return 0
         Message = self.env['li.message'].sudo()
         candidates = Message.search(['|', '|', '|', '|', ('body', '=ilike', 'reply to conversation with%'),
                                      ('body', '=ilike', 'your online status is%'), ('body', '=ilike', 'dismiss'),
@@ -382,6 +416,35 @@ class LiProspectInviteReverify(models.Model):
         prospects.write({'invite_verified_at': False, 'invite_verify_tries': 0})
         params.set_param('li_sales.invite_verify_sent_list', '1')
         return len(prospects)
+
+
+class LiProspectAttachmentRepair(models.Model):
+    _inherit = 'li.prospect'
+
+    @api.model
+    def _li_merge_attachment_messages(self):
+        """Once: a shared file was stored as three messages (its name, its size,
+        "Download"). They become one "[Attachment] name (size)" message, so the
+        conversation reads right and the file gets an answer."""
+        from .li_engine_parse import attachment_run
+        params = self.env['ir.config_parameter'].sudo()
+        if params.get_param('li_sales.attachments_merged'):
+            return 0
+        Message = self.env['li.message'].sudo()
+        merged = 0
+        for prospect in Message.search([('body', '=ilike', 'download')]).mapped('prospect_id'):
+            messages = prospect.message_ids_li.sorted('id')
+            index = 0
+            while index < len(messages):
+                same = messages[index:index + 3].filtered(lambda m: m.direction == messages[index].direction)
+                count, text = attachment_run(same.mapped('body')) if same[:1] == messages[index] else (0, '')
+                if count:
+                    messages[index].body = text
+                    messages[index + 1:index + count].unlink()
+                    merged += 1
+                index += count or 1
+        params.set_param('li_sales.attachments_merged', '1')
+        return merged
 
 
 class LiProspectFollowedRetry(models.Model):
@@ -444,6 +507,32 @@ class LiBackgroundWork(models.AbstractModel):
         budget = self._param('read_budget', 150)
         allowed = int(budget * BACKGROUND_SHARE) if background else budget
         return allowed - profile._reads_today()
+
+    def _bg_routine_left(self, profile):
+        """Reads left for the frequent work (inbox, changed threads, acceptances)."""
+        cap = int(self._param('read_budget', 150) * ROUTINE_SHARE)
+        return min(cap - profile._reads_today(ROUTINE_ACTIONS), self._bg_budget_left(profile))
+
+    def _bg_working_hours(self, profile):
+        """True inside the working hours of one of the profile's personas: a target
+        working day, within the send window of an agent of that persona that is not stopped."""
+        for persona in profile.persona_ids:
+            now = local_now(persona.target_timezone)
+            if not persona._is_working_day(now):
+                continue
+            for agent in (persona.connection_agent_id, persona.chat_agent_id):
+                if agent and agent.state != 'stopped' and in_window(now, agent.send_window_from,
+                                                                    agent.send_window_to):
+                    return True
+        return False
+
+    def _bg_inbox_minutes(self, profile):
+        """Minutes between inbox reads: the setting during working hours, at least
+        an hour outside them (nobody is answered at night anyway)."""
+        fast = self._param('inbox_interval', 60)
+        if self._bg_working_hours(profile):
+            return fast
+        return max(fast, self._param('inbox_interval_off_hours', INBOX_OFF_HOURS))
 
     def _bg_call(self, profile, tool, arguments, action, reads=0, item=None, prospect=None, persona=None):
         """One engine call, logged. Returns (data, error_kind, text): data is the
@@ -697,52 +786,101 @@ class LiBackgroundWork(models.AbstractModel):
         item.write({'state': 'sending', 'quota_consumed': True})
         self._bg_commit()                       # from here a crash means "outcome unknown", never a resend
         prospect = item.prospect_id
+        verified_pending = False
         if item.work_type == 'invite':
-            arguments = {'linkedin_username': prospect.linkedin_username}
-            if item.with_note and item.text_confirmed:
-                arguments['note'] = item.text_confirmed
+            data, kind, text, more, verified_pending = self._bg_invite(profile, item, deadline)
+            calls += more
+            if kind == 'later':                 # not enough time left for the next step: this person waits
+                item.write({'state': 'queued', 'confirmed': False, 'date_confirmed': False,
+                            'quota_consumed': False, 'error': text or False})
+                return calls
         else:
             arguments = {'linkedin_username': prospect.linkedin_username, 'message': item.text_confirmed,
                          'confirm_send': True}
-        data, kind, text = self._bg_call(profile, SEND_TOOLS[item.work_type], arguments, item.work_type,
-                                         item=item, prospect=prospect)
-        calls += 1
-        if item.work_type == 'invite' and kind is None:
-            prospect._store_profile_text(data.get('profile'))     # the invite already loaded their profile page
-            self._bg_note_action(profile, prospect, 'invite', _(
-                'Engine: %(status)s. LinkedIn confirmed: %(confirmed)s. Notice: %(notice)s. Dialog: %(dialog)s',
-                status=data.get('status') or '?', confirmed=_('yes') if data.get('confirmed') else _('no'),
-                notice=data.get('linkedin_notice') or '-', dialog=data.get('invite_dialog') or '-'))
-        verified_pending = False
-        if (item.work_type == 'invite' and kind is None and not prospect.date_invited
-                and (data.get('status') or '').strip().lower() == 'pending' and self._bg_time_for(deadline, 2)):
-            data, kind, text, more, verified_pending = self._bg_pending_or_send(profile, item, data)
-            calls += more
-        if (item.work_type == 'invite' and kind is None and self._bg_time_for(deadline)
-                and (data.get('status') or '').strip().lower() == 'send_failed'
-                and not is_weekly_limit(data.get('message'))):
-            data, kind, text, check_calls = self._bg_check_invite_dialog(profile, item, data)
-            calls += check_calls
-        if (item.work_type == 'invite' and kind is None and connect_outcome(data)[0] == 'not_invitable'
-                and self._bg_time_for(deadline, 2)):
-            # the engine found no Connect: try every other route before settling for Follow
-            data, kind, text, more = self._bg_connect_any_way(profile, item, data)
-            calls += more
-        if (item.work_type == 'invite' and kind is None and connect_outcome(data)[0] == 'not_invitable'
-                and item.persona_id.connection_agent_id.follow_if_no_connect and self._bg_time_for(deadline)):
-            data, kind, text, follow_calls = self._bg_follow(profile, item, data)
-            calls += follow_calls
+            data, kind, text = self._bg_call(profile, SEND_TOOLS[item.work_type], arguments, item.work_type,
+                                             item=item, prospect=prospect)
+            calls += 1
         self._bg_send_result(profile, item, data, kind, text)
         if verified_pending and prospect.stage == 'invited':
-            prospect.invite_verified_at = utc_now()         # LinkedIn's Sent list showed it
+            prospect.invite_verified_at = utc_now()         # LinkedIn's Sent list or the profile showed it
         return calls
 
-    def _bg_connect_any_way(self, profile, item, connect_data):
+    def _bg_invite(self, profile, item, deadline):
+        """One invitation, by every route. Returns (data, kind, text, calls,
+        verified): verified when LinkedIn itself showed the invitation (Sent list
+        or "Pending" on the profile). kind 'later' means no time is left for the
+        next step, so the person waits for another run: nobody is followed
+        before every Connect route was tried, and nobody is followed while an
+        invitation may exist."""
+        prospect = item.prospect_id
+        follow = item.persona_id.connection_agent_id.follow_if_no_connect
+        calls, verified = 0, False
+        later = (None, 'later', _('Waiting for a run with enough time to finish this invitation.'))
+
+        def status():
+            return (data.get('status') or '').strip().lower() if kind is None else ''
+
+        def no_connect():
+            return kind is None and connect_outcome(data)[0] == 'not_invitable'
+
+        if item.connect_tried:
+            # an earlier run tried every Connect route: only Follow is left
+            data, kind, text = {'status': 'connect_unavailable',
+                                'message': _('LinkedIn offers no Connect for this profile.')}, None, ''
+        else:
+            arguments = {'linkedin_username': prospect.linkedin_username}
+            if item.with_note and item.text_confirmed:
+                arguments['note'] = item.text_confirmed
+            data, kind, text = self._bg_call(profile, 'connect_with_person', arguments, 'invite', item=item,
+                                             prospect=prospect)
+            calls += 1
+            if kind is None:
+                prospect._store_profile_text(data.get('profile'))     # the invite already loaded their profile page
+                self._bg_note_action(profile, prospect, 'invite', _(
+                    'Engine: %(status)s. LinkedIn confirmed: %(confirmed)s. Notice: %(notice)s. Dialog: %(dialog)s',
+                    status=data.get('status') or '?', confirmed=_('yes') if data.get('confirmed') else _('no'),
+                    notice=data.get('linkedin_notice') or '-', dialog=data.get('invite_dialog') or '-'))
+        if status() == 'pending' and not prospect.date_invited and self._bg_time_for(deadline, 2):
+            data, kind, text, more, verified = self._bg_pending_or_send(profile, item, data, deadline)
+            calls += more
+        if status() == 'send_failed' and self._bg_time_for(deadline) and not is_weekly_limit(data.get('message')):
+            data, kind, text, more = self._bg_check_invite_dialog(profile, item, data)
+            calls += more
+        if no_connect() and not item.connect_tried and top_card_state(data.get('profile')) == 'pending':
+            # the engine saw no Connect because an invitation is already outstanding
+            self._bg_note_action(profile, prospect, 'invite', _(
+                'The profile itself shows "Pending": an invitation to this person already exists.'))
+            data, verified = dict(data, status='pending'), True
+        if no_connect() and not item.connect_tried:
+            if data.get('direct'):
+                item.connect_tried = True       # the routes were tried already (engine misread "pending")
+            elif not self._bg_time_for(deadline):
+                return later + (calls, False)   # never Follow without having tried every Connect route
+            else:
+                data, kind, text, more, checked = self._bg_connect_any_way(profile, item, data, deadline)
+                calls += more
+                verified = verified or checked
+                if kind == 'later':
+                    return later + (calls, False)
+                if kind == 'no_follow':         # the routes could not be tried: a person looks, nobody is followed
+                    kind, follow = None, False
+                elif no_connect():
+                    item.connect_tried = True
+        if no_connect() and follow:
+            if not self._bg_time_for(deadline):
+                return later + (calls, False)   # Follow in the next run (the routes are not tried again)
+            data, kind, text, more = self._bg_follow(profile, item, data)
+            calls += more
+        return data, kind, text, calls, verified
+
+    def _bg_connect_any_way(self, profile, item, connect_data, deadline):
         """The engine saw no Connect on this profile (often Follow is the main
         button and Connect sits in the "More" menu). send_invite_direct, an Odoo
         tool added to the engine, tries LinkedIn's invite link, the Connect button
-        and the More menu in turn. Returns (data, kind, text, calls): the engine's
-        own answer again when no route worked, so the person is followed."""
+        and the More menu in turn. Returns (data, kind, text, calls, verified):
+        the engine's own answer again when no route offers Connect, so the person
+        is followed. When the tool could not finish, nobody is followed: kind
+        'later' tries again in another run, 'no_follow' leaves it to a person."""
         prospect = item.prospect_id
         arguments = {'linkedin_username': prospect.linkedin_username}
         if item.with_note and item.text_confirmed:
@@ -750,21 +888,54 @@ class LiBackgroundWork(models.AbstractModel):
         self._bg_pause()
         data, kind, text = self._bg_call(profile, 'send_invite_direct', arguments, 'invite', item=item,
                                          prospect=prospect)
-        if kind in ('session', 'restricted', 'rate_limit'):
-            return None, kind, text, 1
-        if kind:
-            return connect_data, None, text, 1          # the extra try failed: as before
+        if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+            return None, kind, text, 1, False
+        if kind in ('timeout', 'transport'):
+            # the tool stopped half-way: Connect may have been pressed
+            data, kind = {'status': 'maybe_sent', 'direct': True, 'message': text}, None
+        elif kind:
+            item.send_attempts += 1
+            if item.send_attempts < MAX_TEXT_ATTEMPTS:
+                return None, 'later', text, 1, False
+            return connect_data, 'no_follow', text, 1, False
         self._bg_note_action(profile, prospect, 'invite', _(
             'No Connect found by the engine: tried the invite link, the Connect button and the More menu. '
             'Result: %(status)s by %(route)s. LinkedIn confirmed: %(confirmed)s. Notice: %(notice)s. '
             'Dialog: %(dialog)s', status=data.get('status') or '?', route=data.get('route') or '-',
             confirmed=_('yes') if data.get('confirmed') else _('no'),
             notice=data.get('linkedin_notice') or '-', dialog=data.get('invite_dialog') or '-'))
+        calls, verified = 1, False
+        if (data.get('status') or '').lower() == 'maybe_sent':
+            data, more, verified = self._bg_settle_maybe_sent(profile, item, data, deadline)
+            calls += more
         if (data.get('status') or '').lower() == 'connect_unavailable':
-            return connect_data, None, text, 1          # really no Connect: follow instead
-        return data, None, text, 1
+            return connect_data, None, text, calls, False       # really no Connect: follow instead
+        return data, None, text, calls, verified
 
-    def _bg_pending_or_send(self, profile, item, connect_data):
+    def _bg_settle_maybe_sent(self, profile, item, data, deadline):
+        """send_invite_direct pressed Connect (or stopped half-way) and nothing
+        showed what LinkedIn did. LinkedIn's Sent list decides before anything
+        else happens to this person: on the list, the invitation exists; a list
+        proven whole without them, nothing was sent (no Connect); anything else
+        is an unknown outcome a person checks. Returns (data, calls, verified)."""
+        prospect = item.prospect_id
+        unknown = dict(data, status='outcome_unknown', message=_(
+            'Connect was pressed for %s but nothing shows whether LinkedIn sent the invitation.', prospect.name))
+        if not self._bg_time_for(deadline) or self._bg_budget_left(profile, background=False) < 1:
+            return unknown, 0, False
+        self._bg_pause()
+        listed, kind, _text = self._bg_call(profile, 'get_sent_invitations', {'limit': 300}, 'invite_verify',
+                                            reads=1, prospect=prospect)
+        names, proven = self._bg_sent_list(listed, kind)
+        self._bg_note_sent_list(profile, prospect, listed, kind)
+        if (prospect.linkedin_username or '').lower() in names:
+            return dict(data, status='connected', message=_('Invitation found on LinkedIn\'s Sent list.')), 1, True
+        if proven:
+            return dict(data, status='connect_unavailable', message=_(
+                'Connect was pressed but LinkedIn\'s Sent list holds no invitation to this person.')), 1, False
+        return unknown, 1, False
+
+    def _bg_pending_or_send(self, profile, item, connect_data, deadline):
         """The engine says an invitation to this person is already pending, but
         Odoo never sent one. The engine reads that from the profile's buttons and
         gets it wrong for some profiles (it then sends nothing). LinkedIn's Sent
@@ -801,6 +972,9 @@ class LiBackgroundWork(models.AbstractModel):
             'Result: %(status)s. LinkedIn confirmed: %(confirmed)s. Notice: %(notice)s. Dialog: %(dialog)s',
             status=data.get('status') or '?', confirmed=_('yes') if data.get('confirmed') else _('no'),
             notice=data.get('linkedin_notice') or '-', dialog=data.get('invite_dialog') or '-'))
+        if (data.get('status') or '').lower() == 'maybe_sent':
+            data, more, verified = self._bg_settle_maybe_sent(profile, item, data, deadline)
+            return data, None, text, 2 + more, verified
         return data, None, text, 2, False
 
     def _bg_check_invite_dialog(self, profile, item, connect_data):
@@ -832,8 +1006,11 @@ class LiBackgroundWork(models.AbstractModel):
         total = data.get('total') or 0
         if not names:
             return names, bool(NO_SENT_INVITATIONS.search(data.get('page_text') or ''))
+        rows_only = data.get('rows_only')       # the names come from invitation rows, not from any link on the page
+        if rows_only is False:
+            return names, False                 # suggested people may be among them: proves nothing
         if total:
-            return names, len(names) >= total
+            return names, len(names) == total if rows_only else len(names) >= total
         return names, bool(data.get('complete')) and len(names) < SENT_PAGE_SIZE
 
     def _bg_note_sent_list(self, profile, prospect, data, kind):
@@ -1025,37 +1202,49 @@ class LiBackgroundWork(models.AbstractModel):
         """About ten minutes after an invite, check it against LinkedIn's own
         list of pending invitations (get_sent_invitations, an Odoo tool added to
         the engine: My Network > Manage > Sent). On the list: the invitation
-        exists. Not on it and not a connection: LinkedIn never recorded it, so
-        the prospect goes back to the queue, the invite is not counted and the
-        account's invites pause. When the list cannot be read, the person's
-        profile is checked instead."""
+        exists. Gone from a list proven whole: the person's own profile says why
+        (see _bg_judge_invite): accepted, never recorded (back to the queue) or
+        declined (closed, never invited again). Invites verified earlier are
+        compared with the list too, at least once a day. When the list cannot
+        be read whole, the profile of each unverified person is checked instead."""
+        Prospect = self.env['li.prospect'].sudo()
         prospects = self._bg_unverified_invites(profile, settled=True).filtered(
             lambda p: p.invite_verify_tries < INVITE_VERIFY_TRIES)     # after that a person decides
-        if not prospects or not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
+        watched = Prospect.search([('linkedin_profile_id', '=', profile.id), ('stage', '=', 'invited'),
+                                   ('invite_verified_at', '!=', False), ('linkedin_username', '!=', False)])
+        # nothing new to verify: the list is still read once a day for the invites it showed before
+        last_look = profile.last_sent_check or min(watched.mapped('invite_verified_at') or [utc_now()])
+        daily = bool(watched) and utc_now() - last_look >= SENT_RECHECK
+        if not (prospects or daily) or not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
             return 0
         data, kind, _text = self._bg_call(profile, 'get_sent_invitations', {'limit': 300}, 'invite_verify', reads=1)
         calls = 1
         if kind in ('session', 'restricted', 'rate_limit', 'refused'):
             return calls
+        profile.sudo().last_sent_check = utc_now()
         sent, proven = self._bg_sent_list(data, kind)
-        self._bg_note_sent_list(profile, self.env['li.prospect'], data, kind)
-        missing = self.env['li.prospect']
+        self._bg_note_sent_list(profile, Prospect, data, kind)
+        missing = Prospect
         for prospect in prospects:
             if (prospect.linkedin_username or '').lower() in sent:
                 prospect.invite_verified_at = utc_now()            # LinkedIn lists it as pending
                 profile.sudo().write({'invites_not_recorded': 0, 'invite_refused_prospect_id': False})
             else:
                 missing |= prospect
+        # verified earlier and gone now: accepted or declined (looked at once in twelve hours at most)
+        recheck = utc_now() - ACCEPTANCE_RECHECK
+        vanished = watched.filtered(
+            lambda p: (p.linkedin_username or '').lower() not in sent
+            and (not p.invite_gone_check or p.invite_gone_check < recheck)) if proven else Prospect
         self._bg_commit()
-        if not missing:
+        if not (missing or vanished):
             return calls
         if not proven:
             # the list may be cut off (newest first): absence proves nothing, so look at each profile
             return calls + self._bg_verify_invites_by_profile(profile, missing, deadline, limit)
         if not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
             return calls
-        # not pending: either accepted in the meantime, or never recorded. One read of the newest
-        # connections settles all of them; only when that list is unreadable, one search per person.
+        # gone from the list: one read of the newest connections finds those who accepted
         self._bg_pause()
         data, kind, _text = self._bg_call(profile, 'get_recent_connections', {'limit': 80}, 'invite_verify', reads=1)
         calls += 1
@@ -1064,62 +1253,90 @@ class LiBackgroundWork(models.AbstractModel):
         connected = {unquote(u).strip('/').lower() for u in (data or {}).get('usernames') or []} if kind is None \
             else set()
         checked = 0
-        for prospect in missing:
-            username = (prospect.linkedin_username or '').lower()
-            if connected:
-                is_connection = username in connected
-            else:
-                if checked >= (limit or INVITE_VERIFY_PER_RUN) or not self._bg_time_for(deadline) \
-                        or self._bg_budget_left(profile) < 1:
-                    break
-                self._bg_pause()
-                found, kind, _text = self._bg_call(profile, 'search_people',
-                                                   {'keywords': prospect.name, 'network': ['F']}, 'invite_verify',
-                                                   reads=1, prospect=prospect)
-                calls += 1
-                checked += 1
-                if kind:
-                    break
-                is_connection = prospect.linkedin_username in connected_usernames(found)
-            if is_connection:
+        for prospect in missing | vanished:
+            if (prospect.linkedin_username or '').lower() in connected:
                 self._accept(prospect, note=_('found connected when the invite was verified'))
-            else:
-                self._invite_was_not_recorded(profile, prospect)
+                self._bg_commit()
+                continue
+            # not pending, not among the newest connections: the person's own profile decides
+            if checked >= (limit or INVITE_VERIFY_PER_RUN) or not self._bg_time_for(deadline) \
+                    or self._bg_budget_left(profile) < 1:
+                break
+            self._bg_pause()
+            calls += 1
+            checked += 1
+            if not self._bg_judge_invite(profile, prospect):
+                break
             self._bg_commit()
         return calls
 
     def _bg_verify_invites_by_profile(self, profile, prospects, deadline, limit=None):
-        """Fallback when the Sent invitations list cannot be read: look at each
-        person's profile (check_connection_state)."""
+        """Fallback when the Sent invitations list cannot be read whole: look at
+        each person's profile."""
         calls = 0
         prospects = prospects.filtered(lambda p: p.invite_verify_tries < INVITE_VERIFY_TRIES)
         for prospect in prospects[:limit or INVITE_VERIFY_PER_RUN]:
             if not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
                 break
             self._bg_pause()
-            data, kind, _text = self._bg_call(profile, 'check_connection_state',
-                                              {'linkedin_username': prospect.linkedin_username}, 'invite_verify',
-                                              reads=1, prospect=prospect)
             calls += 1
-            if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+            if not self._bg_judge_invite(profile, prospect):
                 break
-            state = (data or {}).get('status') if kind is None else None
-            words = top_card_state((data or {}).get('top_text')) if kind is None else ''
-            self._bg_note_action(profile, prospect, 'invite_verify', _(
-                'Profile check: engine says %(state)s, the page\'s buttons say %(words)s',
-                state=state or '?', words=words or _('neither Pending nor Connect')))
-            if words == 'pending':
-                prospect.invite_verified_at = utc_now()        # the profile itself shows "Pending"
-                profile.sudo().write({'invites_not_recorded': 0, 'invite_refused_prospect_id': False})
-            elif words == 'connectable' or (not words and state == 'connectable'):
-                self._invite_was_not_recorded(profile, prospect)
-            elif state == 'already_connected':
-                self._accept(prospect, note=_('found connected when the invite was verified'))
-            else:
-                # the engine's "pending" alone is not proof (it misreads some profiles): try again later
-                prospect.invite_verify_tries += 1
             self._bg_commit()
         return calls
+
+    def _bg_judge_invite(self, profile, prospect):
+        """Open the profile of someone whose invitation is not (or no longer) on
+        LinkedIn's Sent list and act on what it shows (check_connection_state):
+        * Pending: the invitation exists;
+        * Message / 1st degree: they accepted;
+        * Connect again: an invite LinkedIn's list showed before was declined or
+          ignored: closed, never invited again. One that never showed up there
+          was not recorded by LinkedIn: back to the queue;
+        * anything else: looked at again later.
+        Returns False when the account itself has a problem (stop checking)."""
+        data, kind, _text = self._bg_call(profile, 'check_connection_state',
+                                          {'linkedin_username': prospect.linkedin_username}, 'invite_verify',
+                                          reads=1, prospect=prospect)
+        if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+            return False
+        state = (data or {}).get('status') if kind is None else None
+        words = top_card_state((data or {}).get('top_text')) if kind is None else ''
+        self._bg_note_action(profile, prospect, 'invite_verify', _(
+            'Profile check: engine says %(state)s, the page\'s buttons say %(words)s',
+            state=state or '?', words=words or _('neither Pending nor Connect')))
+        seen_before = bool(prospect.invite_verified_at)
+        prospect.invite_gone_check = utc_now()
+        if words == 'pending':
+            if not seen_before:
+                prospect.invite_verified_at = utc_now()        # the profile itself shows "Pending"
+                profile.sudo().write({'invites_not_recorded': 0, 'invite_refused_prospect_id': False})
+        elif words == 'connectable' or (not words and state == 'connectable'):
+            if seen_before:
+                self._invite_declined(prospect)
+            else:
+                self._invite_was_not_recorded(profile, prospect)
+        elif state == 'already_connected':
+            self._accept(prospect, note=_('found connected when the invite was verified'))
+        elif not seen_before:
+            # the engine's "pending" alone is not proof (it misreads some profiles): try again later
+            prospect.invite_verify_tries += 1
+        return True
+
+    def _invite_declined(self, prospect):
+        """The invitation existed and is gone while the profile offers Connect
+        again: declined, ignored or withdrawn. Closed; this person is never
+        invited again, by any persona."""
+        prospect = prospect.sudo()
+        invited_on = prospect.date_invited
+        prospect.write({'stage': 'declined'})
+        self.env['li.work.item'].sudo()._cancel_open([('prospect_id', '=', prospect.id)],
+                                                     reason=_('invitation declined'))
+        line = _('%(name)s declined or ignored the invitation sent on %(date)s UTC (it left LinkedIn\'s Sent '
+                 'list and the profile offers Connect again) — closed, never invited again',
+                 name=prospect.name, date=fields.Datetime.to_string(invited_on)[:16] if invited_on else '?')
+        self.env['li.event']._log('invite_withdrawn', 'connection', persona=prospect.persona_id, prospect=prospect,
+                                  detail=line, persona_body=line, prospect_body=line)
 
     def _invite_was_not_recorded(self, profile, prospect):
         """LinkedIn shows Connect again for someone recorded as invited."""
@@ -1264,10 +1481,13 @@ class LiBackgroundWork(models.AbstractModel):
         invited = self.env['li.prospect'].sudo().search([('linkedin_profile_id', '=', profile.id),
                                                          ('stage', '=', 'invited'), ('do_not_contact', '=', False)],
                                                         limit=200)
-        return tracked | invited
+        # closed people stay on the list: reading the inbox costs nothing more, and their thread is
+        # opened only when its row on the inbox page changed (they wrote again)
+        closed = self.sudo()._closed_prospects(profile, limit=CLOSED_PER_INBOX)
+        return tracked | invited | closed
 
     def _bg_inbox(self, profile, deadline):
-        minutes = self._param('inbox_interval', 60)
+        minutes = self._bg_inbox_minutes(profile)
         if profile.last_inbox_check and utc_now() - profile.last_inbox_check < timedelta(minutes=minutes):
             return 0
         followup = self.env['li.followup.agent']._get()
@@ -1277,7 +1497,7 @@ class LiBackgroundWork(models.AbstractModel):
                 or any(p.connection_agent_id.state == 'running' for p in profile.persona_ids)):
             return 0
         candidates = self._bg_inbox_candidates(profile)
-        if not candidates or self._bg_budget_left(profile) < 1:
+        if not candidates or self._bg_routine_left(profile) < 1:
             return 0
         data, kind, _text = self._bg_call(profile, 'get_inbox', {'limit': 20}, 'inbox', reads=1)
         profile.sudo().last_inbox_check = utc_now()
@@ -1299,17 +1519,22 @@ class LiBackgroundWork(models.AbstractModel):
         return 1
 
     def _bg_threads(self, profile, deadline):
+        """Open the changed threads: conversations in progress first, then new
+        connections, then closed people; at most li_sales.threads_per_run per
+        run, so a backlog (the first sync of a profile) is spread over runs."""
+        limit = max(self._param('threads_per_run', THREADS_PER_RUN), 1)
         prospects = self.env['li.prospect'].sudo().search([('linkedin_profile_id', '=', profile.id),
-                                                           ('thread_check_needed', '=', True)],
-                                                          order='write_date asc', limit=THREADS_PER_RUN)
+                                                           ('thread_check_needed', '=', True)])
+        prospects = prospects.sorted(lambda p: (THREAD_PRIORITY.get(p.stage, 2), p.write_date, p.id))[:limit]
         calls = 0
         for prospect in prospects:
-            if not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
+            if not self._bg_time_for(deadline) or self._bg_routine_left(profile) < 1:
                 break
             self._bg_read_thread(profile, prospect)
             calls += 1
             self._bg_commit()
-            if profile.connection_state != 'connected':
+            if profile.connection_state != 'connected' or (profile.bg_paused_until
+                                                             and profile.bg_paused_until > utc_now()):
                 break
         return calls
 
@@ -1328,9 +1553,16 @@ class LiBackgroundWork(models.AbstractModel):
         data, kind, text = self._bg_call(profile, 'get_conversation', arguments, 'thread', reads=1,
                                          prospect=prospect)
         prospect = prospect.sudo()
-        prospect.write({'thread_check_needed': False, 'last_thread_read': utc_now()})
         if kind:
-            return kind == 'other' and any(h in text.lower() for h in NO_THREAD_HINTS)
+            no_thread = kind == 'other' and any(h in text.lower() for h in NO_THREAD_HINTS)
+            # a busy or stopped engine ('refused') reached nothing: it does not count as a try
+            tries = prospect.thread_read_tries + (kind != 'refused')
+            if no_thread or kind == 'not_found' or tries >= THREAD_READ_TRIES:
+                prospect.write({'thread_check_needed': False, 'last_thread_read': utc_now(), 'thread_read_tries': 0})
+            else:
+                prospect.write({'thread_read_tries': tries})    # still marked as changed: the next run reads again
+            return no_thread
+        prospect.write({'thread_check_needed': False, 'last_thread_read': utc_now(), 'thread_read_tries': 0})
         conversation = (data.get('sections') or {}).get('conversation', '')
         messages = parse_thread(conversation, profile.my_display_name, prospect.name)
         if messages is None:
@@ -1402,7 +1634,7 @@ class LiBackgroundWork(models.AbstractModel):
         profile.sudo().last_acceptance_check = utc_now()
         calls = 0
         for prospect in pending:
-            if not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
+            if not self._bg_time_for(deadline) or self._bg_routine_left(profile) < 1:
                 break
             data, kind, _text = self._bg_call(profile, 'search_people', {'keywords': prospect.name, 'network': ['F']},
                                               'acceptance', reads=1, prospect=prospect)
@@ -1423,7 +1655,7 @@ class LiBackgroundWork(models.AbstractModel):
         if profile.last_connections_check and utc_now() - profile.last_connections_check < timedelta(minutes=minutes):
             return 0, False
         invited = self.env['li.prospect'].sudo().search(self._bg_invited_domain(profile))
-        if not invited or self._bg_budget_left(profile) < 1:
+        if not invited or self._bg_routine_left(profile) < 1:
             return 0, False
         data, kind, _text = self._bg_call(profile, 'get_recent_connections', {'limit': 40}, 'acceptance', reads=1)
         if kind in ('session', 'restricted', 'rate_limit', 'refused'):

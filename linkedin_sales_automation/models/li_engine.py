@@ -104,6 +104,9 @@ HANDOVER_RULE = (
     'asked, and exactly what to do next and by which channel). Odoo then creates the CRM lead with that '
     'instruction, hands the person to the salesperson and stops the agents; you get one item to acknowledge '
     'it. Do not set it for a general question you can answer from the service data. '
+    'When they decline for themselves but point to someone else or give an email address or a phone number to '
+    'use (for example "not for me, write to my partner at ..."), set sentiment negative and handover true with '
+    'those details: the lead goes to the salesperson and this person is closed politely. '
     'Not the right person: when they say so for the first time, do not hand over yet (sentiment neutral, never '
     'negative): the next message asks who the right person is. Hand over once that was asked: if they named '
     'someone, handover_request is "Referred to <name, role, how to reach them>" and the instruction tells the '
@@ -126,7 +129,9 @@ ANSWER_NOW = (
     'Their last message expects an answer now (a question, or a remark that closes the topic), and the next '
     'questionnaire step is not due yet. Answer what they wrote, helpfully and briefly, from the service and '
     'persona data and the conversation so far: if they ask what we offer, say it plainly and ask whether any of '
-    'it would help them; if they say they are fine or need nothing, close warmly and leave the door open. Do '
+    'it would help them; if they say they are fine or need nothing, close warmly and leave the door open; if '
+    'they shared a file (a line starting with "[Attachment]"), thank them for it by what it is and say what '
+    'happens with it. You cannot open the file: never claim to have read it. Do '
     'not ask the next questionnaire question in this message.')
 CLOSING = (
     'This person said they are fine or do not need anything, and the sequence has stopped. Write one warm last '
@@ -134,7 +139,8 @@ CLOSING = (
     'that we are around if they ever need help with what we do. No question, no pitch, no request.')
 REPLY_NOW_RULE = (
     'reply_now: true when their last message asks us something or clearly expects an answer now (for example '
-    'they ask what we do or offer, or they politely close the topic); false when it only answers our question, '
+    'they ask what we do or offer, they politely close the topic, or they shared a file, shown as a line '
+    'starting with "[Attachment]"); false when it only answers our question, '
     'so the next step can wait its normal delay. No message of theirs should stay unanswered.')
 FREE_REPLY = (
     'The questionnaire is finished for this person and they wrote again. Answer what they wrote, helpfully and '
@@ -906,6 +912,9 @@ class LiMcpEngine(models.AbstractModel):
             if others.filtered('do_not_contact'):
                 counts['do_not_contact'] += 1
                 continue
+            if others.filtered(lambda p: p.stage == 'declined'):
+                counts['contacted_elsewhere'] += 1      # declined an invitation: never invited again
+                continue
             if others.filtered(lambda p: p.persona_id == persona):
                 counts['duplicates'] += 1
                 continue
@@ -939,10 +948,10 @@ class LiMcpEngine(models.AbstractModel):
     # ------------------------------------------------------------------
     def _accept(self, prospect, note=None):
         prospect = prospect.sudo()
-        if prospect.stage not in ('queued', 'invited', 'withdrawn'):
+        if prospect.stage not in ('queued', 'held', 'invited', 'withdrawn', 'declined'):
             return False
         now = utc_now()
-        without_invite = prospect.stage == 'queued' and not prospect.date_invited
+        without_invite = prospect.stage in ('queued', 'held') and not prospect.date_invited
         chat = prospect.persona_id.chat_agent_id
         prospect.write({'stage': 'accepted', 'date_accepted': now,
                         'next_message_date': now + timedelta(hours=chat.first_message_delay or 0)})
@@ -1067,13 +1076,18 @@ class LiMcpEngine(models.AbstractModel):
             if self._allowed_profile_ids() is not None else []))
         open_items._close('cancelled', cancel_reason='released by li_finish_run')
         now = utc_now()
-        last = icp.get_param('li_sales.last_run_finished')
+        allowed = self._allowed_profile_ids()
+        # a connector limited to some profiles keeps its own "last run" and counts only those profiles
+        run_key = 'li_sales.last_run_finished' + ('.%s' % '-'.join(map(str, sorted(allowed))) if allowed is not None
+                                                  else '')
+        last = icp.get_param(run_key)
         try:
             since = fields.Datetime.to_datetime(last) if last else None
         except (ValueError, TypeError):
             since = None
         since = max(since or now - timedelta(hours=24), now - timedelta(hours=24))
-        events = self.env['li.event'].sudo().search([('date', '>=', since)])
+        events = self.env['li.event'].sudo().search([('date', '>=', since)] + (
+            [('linkedin_profile_id', 'in', allowed)] if allowed is not None else []))
         keys = {'invite_sent': 'invites', 'invite_accepted': 'accepted', 'message_sent': 'messages',
                 'followup_sent': 'followups', 'reply_received': 'replies', 'warm_lead': 'warm_leads',
                 'error': 'errors'}
@@ -1096,7 +1110,7 @@ class LiMcpEngine(models.AbstractModel):
                      '%(followups)s follow-ups, %(replies)s replies, %(warm_leads)s warm leads, %(errors)s errors',
                      **counts)
             persona.sudo().message_post(body=line, author_id=ai.id, subtype_xmlid='mail.mt_note')
-        icp.set_param('li_sales.last_run_finished', now.strftime('%Y-%m-%d %H:%M:%S'))
+        icp.set_param(run_key, now.strftime('%Y-%m-%d %H:%M:%S'))
         return {'released_items': len(open_items),
                 'released_sends': len(open_items.filtered(lambda i: i.work_type in SEND_TYPES)),
                 'accounts': list(accounts.values()),

@@ -191,6 +191,8 @@ class ResConfigSettings(models.TransientModel):
                                       default=15)
     li_inbox_interval = fields.Integer('Check inbox every (minutes)', config_parameter='li_sales.inbox_interval',
                                        default=60)
+    li_threads_per_run = fields.Integer('Changed conversations opened per run',
+                                        config_parameter='li_sales.threads_per_run', default=8)
     li_acceptance_interval = fields.Integer('Check acceptance every (hours)',
                                             config_parameter='li_sales.acceptance_interval', default=6)
     # Built-in engine: background work

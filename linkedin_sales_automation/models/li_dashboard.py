@@ -421,6 +421,7 @@ class LiDashboard(models.AbstractModel):
         'hot': ('warm', 'meeting'),
         'engaged': ('accepted', 'messaged', 'replied'),
         'pipeline': ('queued', 'invited', 'followed'),
+        'held': ('held',),             # on hold while the Connection Agent is stopped: waiting, not closed
     }
     MAP_MAX_PLACES = 3000
 
@@ -437,12 +438,14 @@ class LiDashboard(models.AbstractModel):
                                 'ORDER BY 4 DESC LIMIT %s', col('geo_lat'), col('geo_lng'), col('geo_place'),
                                 SQL(', ').join(groups), query.from_clause, query.where_clause, self.MAP_MAX_PLACES))
         places = []
-        for lat, lng, place, count, hot, engaged, pipeline in self.env.cr.fetchall():
+        for lat, lng, place, count, hot, engaged, pipeline, held in self.env.cr.fetchall():
             # the largest group colours the spot (ties go to the hotter one)
-            closed = count - hot - engaged - pipeline
-            tone = max((hot, 3, 'hot'), (engaged, 2, 'engaged'), (pipeline, 1, 'pipeline'), (closed, 0, 'closed'))[2]
+            closed = count - hot - engaged - pipeline - held
+            tone = max((hot, 4, 'hot'), (engaged, 3, 'engaged'), (pipeline, 2, 'pipeline'), (held, 1, 'held'),
+                       (closed, 0, 'closed'))[2]
             places.append({'lat': lat, 'lng': lng, 'place': place, 'count': count, 'hot': hot,
-                           'engaged': engaged, 'pipeline': pipeline, 'tone': tone})
+                           'engaged': engaged, 'pipeline': pipeline, 'held': held, 'closed': closed,
+                           'tone': tone})
         total = self.env['li.prospect'].search_count(self._scope_domain(filters))
         located = sum(p['count'] for p in places)
         self.env.cr.execute(SQL('SELECT count(DISTINCT %s) FROM %s WHERE %s', col('geo_country'),

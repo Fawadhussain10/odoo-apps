@@ -10,7 +10,7 @@
                             groups="linkedin_sales_automation.group_li_manager"/>
                     <button name="action_stop_all" type="object" string="Stop all agents"
                             groups="linkedin_sales_automation.group_li_manager"
-                            confirm="Stop every agent of the selected personas? Queued prospects not yet invited return to the pool."/>
+                            confirm="Stop every agent of the selected personas? Queued prospects not yet invited are put on hold: they are kept with their history and return to the queue when the Connection Agent runs again."/>
                 </header>
                 <field name="name" string="Persona"/>
                 <field name="linkedin_profile_id" optional="hide"/>
@@ -112,7 +112,7 @@
                                 <button name="action_connection_stop" type="object" string="Stop" class="btn-secondary"
                                         invisible="connection_state == 'stopped'"
                                         groups="linkedin_sales_automation.group_li_manager"
-                                        confirm="Stop the Connection Agent? Its queue is cleared (queued prospects return to the pool); prospects and history are kept."/>
+                                        confirm="Stop the Connection Agent? Queued prospects not yet invited are put on hold: nobody is deleted, they keep their history and return to the queue when the agent runs again."/>
                                 <span class="ms-auto text-muted">Last run <field name="con_last_run" nolabel="1" class="d-inline"/></span>
                             </div>
                             <div class="alert alert-warning" role="alert" invisible="not con_paused_until">

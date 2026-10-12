@@ -61,6 +61,9 @@
                         <setting string="Check inbox every" help="How often the LinkedIn inbox of a profile is read: by the engine in the background, or as a check_inbox item for Claude in Chrome. Only changed threads are opened.">
                             <field name="li_inbox_interval"/> minutes
                         </setting>
+                        <setting string="Changed conversations opened per run" help="Built-in engine: how many changed conversations one background run opens at most. Conversations in progress come first, then new connections, then people already closed (no response, not interested, withdrawn) who wrote again. What does not fit waits for the next run.">
+                            <field name="li_threads_per_run"/> conversations
+                        </setting>
                         <setting string="Max items per li_get_work" help="Claude in Chrome: keep it moderate (15–25), each LinkedIn action takes seconds up to a few minutes.">
                             <field name="li_max_items_per_run"/>
                         </setting>

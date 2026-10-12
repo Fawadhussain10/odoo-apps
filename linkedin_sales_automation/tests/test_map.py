@@ -68,6 +68,25 @@ class TestDashboardOperations(LiTransactionCase):
         self.assertEqual(lahore['tone'], 'engaged')                # the largest group colours the spot
         self.assertEqual(places['London, GB']['tone'], 'pipeline')
         self.assertEqual((data['located'], data['total'], data['countries']), (5, 6, 2))
+
+    def test_on_hold_has_its_own_colour_and_is_not_closed(self):
+        self.london.stage = 'held'
+        closed = self.env['li.prospect'].create({
+            'name': 'Karachi Closed', 'persona_id': self.persona.id, 'location': 'Karachi, Sindh, Pakistan',
+            'linkedin_url': 'https://www.linkedin.com/in/karachi-closed/', 'stage': 'no_response'})
+        places = {p['place']: p for p in self.Dashboard.get_data({})['map']['places']}
+        london = places['London, GB']
+        self.assertEqual((london['tone'], london['held'], london['closed'], london['pipeline']), ('held', 1, 0, 0))
+        karachi = places[closed.geo_place]
+        self.assertEqual((karachi['tone'], karachi['held'], karachi['closed']), ('closed', 0, 1))
+        # a place with people on hold and people in the pipeline shows the pipeline
+        self.lahore[1].stage = 'held'
+        self.lahore[2].stage = 'held'
+        self.lahore[0].stage = 'queued'
+        lahore = {p['place']: p for p in self.Dashboard.get_data({})['map']['places']}['Lahore, PK']
+        self.assertEqual((lahore['pipeline'], lahore['held'], lahore['closed'], lahore['tone']), (2, 2, 0, 'pipeline'))
+        from ..models.li_common import CLOSED_STAGES
+        self.assertNotIn('held', CLOSED_STAGES)
         popup = self.Dashboard.get_map_place(lahore['lat'], lahore['lng'], {})
         self.assertEqual(popup['count'], 4)
         self.assertEqual({p['name'] for p in popup['prospects']}, set(self.lahore.mapped('name')))
@@ -128,10 +147,10 @@ class TestDashboardOperations(LiTransactionCase):
         prospect = self.env['li.prospect'].create({
             'name': bad('Zoë Awan'), 'persona_id': self.persona.id, 'headline': bad('• 3rd+'),
             'location': bad('Lahore, Punjab, Pakistan • '), 'linkedin_url': 'https://www.linkedin.com/in/zoe-awan/'})
-        self.assertEqual(self.env['li.prospect']._li_repair_mojibake() >= 1, True)
+        self.assertEqual(self.env['li.prospect']._li_repair_mojibake(force=True) >= 1, True)
         self.assertEqual((prospect.name, prospect.headline), ('Zoë Awan', False))
         self.assertEqual(prospect.geo_place, 'Lahore, PK')
-        self.assertEqual(self.env['li.prospect']._li_repair_mojibake(), 0)      # nothing left to fix
+        self.assertEqual(self.env['li.prospect']._li_repair_mojibake(force=True), 0)      # nothing left to fix
 
     def test_rep_sees_only_own_queue(self):
         self.env['li.mcp.tools']._queue_send('invite', self.london)

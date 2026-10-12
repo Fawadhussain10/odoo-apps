@@ -5,6 +5,7 @@ token and calls ``li.mcp.tools.call_tool``; every tool runs as the module's
 technical user (group LinkedIn Sales / MCP Agent) through with_user().
 """
 import logging
+from datetime import timedelta
 
 from odoo import _, api, models
 
@@ -504,11 +505,15 @@ class LiMcpTools(models.AbstractModel):
             })
         followup = self.env['li.followup.agent']._get()
         activity = self.env['li.activity.agent']._get()
-        overdue = self.env['li.prospect'].search_count([('reply_overdue', '=', True)])
+        scope = [('linkedin_profile_id', 'in', allowed)] if allowed is not None else []
+        overdue = self.env['li.prospect'].search_count([('reply_overdue', '=', True)] + scope)
+        followups = WorkItem._followup_used() if allowed is None else WorkItem.search_count(
+            [('agent_type', '=', 'followup'), ('quota_consumed', '=', True),
+             ('date_released', '>', utc_now() - timedelta(hours=24))] + scope)
         return {
             'profiles': profiles,
             'personas': personas,
-            'followup_agent': {'state': followup.state, 'sent_last_24h': WorkItem._followup_used(),
+            'followup_agent': {'state': followup.state, 'sent_last_24h': followups,
                                'daily_limit': followup.daily_limit},
             'activity_agent': {'state': activity.state, 'overdue_reply_activities': overdue},
             'generated_at': iso_utc(utc_now()),

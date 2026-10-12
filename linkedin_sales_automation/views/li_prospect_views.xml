@@ -4,7 +4,7 @@
         <field name="name">li.prospect.list</field>
         <field name="model">li.prospect</field>
         <field name="arch" type="xml">
-            <list decoration-danger="reply_overdue" decoration-muted="stage in ('not_interested', 'no_response', 'withdrawn', 'do_not_contact')">
+            <list decoration-danger="reply_overdue" decoration-muted="stage in ('held', 'not_interested', 'no_response', 'withdrawn', 'declined', 'do_not_contact')">
                 <field name="name"/>
                 <field name="company"/>
                 <field name="title"/>
@@ -67,6 +67,9 @@
                     <button name="action_push_to_crm" type="object" string="Push to CRM now"
                             invisible="crm_lead_id or stage in ('do_not_contact', 'queued')"
                             confirm="Create the CRM lead for this prospect now? The prospect is taken over."/>
+                    <button name="action_allow_invite_again" type="object" string="Allow invite again"
+                            invisible="stage != 'declined'" groups="linkedin_sales_automation.group_li_manager"
+                            confirm="This person declined or ignored an earlier invitation. Put them back in the queue so they are invited again?"/>
                     <button name="action_clear_check" type="object" string="Mark checked"
                             invisible="not needs_check" groups="linkedin_sales_automation.group_li_manager"/>
                     <button name="action_do_not_contact" type="object" string="Do not contact"

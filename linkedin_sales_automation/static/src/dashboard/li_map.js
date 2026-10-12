@@ -9,6 +9,7 @@ const TONES = [
     ["hot", _t("Warm lead / meeting")],
     ["engaged", _t("Accepted / talking")],
     ["pipeline", _t("Queued / invited")],
+    ["held", _t("On hold")],
     ["closed", _t("Closed")],
 ];
 
@@ -215,6 +216,9 @@ export class LiProspectMap extends Component {
         }
         if (["queued", "invited"].includes(stage)) {
             return "pipeline";
+        }
+        if (stage === "held") {
+            return "held";
         }
         return "closed";
     }

@@ -3,6 +3,7 @@ $li-map-hot: #fbbf24;
 $li-map-engaged: #22d3ee;
 $li-map-pipeline: #a78bfa;
 $li-map-closed: #94a3b8;
+$li-map-held: #d6c28a;                 // on hold: waiting, neither in the pipeline nor closed
 
 .o_li_map_card {
     position: relative;
@@ -40,6 +41,7 @@ $li-map-closed: #94a3b8;
         &.o_li_tone_hot { background: $li-map-hot; box-shadow: 0 0 10px $li-map-hot; }
         &.o_li_tone_engaged { background: $li-map-engaged; box-shadow: 0 0 10px $li-map-engaged; }
         &.o_li_tone_pipeline { background: $li-map-pipeline; box-shadow: 0 0 10px $li-map-pipeline; }
+        &.o_li_tone_held { background: $li-map-held; box-shadow: 0 0 8px $li-map-held; }
         &.o_li_tone_closed { background: $li-map-closed; box-shadow: 0 0 8px $li-map-closed; }
     }
     .o_li_map_box {
@@ -67,6 +69,7 @@ $li-map-closed: #94a3b8;
     .o_li_tone_hot { fill: $li-map-hot; stroke: $li-map-hot; }
     .o_li_tone_engaged { fill: $li-map-engaged; stroke: $li-map-engaged; }
     .o_li_tone_pipeline { fill: $li-map-pipeline; stroke: $li-map-pipeline; }
+    .o_li_tone_held { fill: $li-map-held; stroke: $li-map-held; }
     .o_li_tone_closed { fill: $li-map-closed; stroke: $li-map-closed; }
     .o_li_map_halo { opacity: 0.55; stroke: none; }
     .o_li_map_pulse {
@@ -188,6 +191,7 @@ $li-map-closed: #94a3b8;
         &.o_li_tone_hot { background: $li-map-hot; }
         &.o_li_tone_engaged { background: $li-map-engaged; }
         &.o_li_tone_pipeline { background: $li-map-pipeline; }
+        &.o_li_tone_held { background: $li-map-held; }
         &.o_li_tone_closed { background: $li-map-closed; }
     }
     .o_li_map_person_text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
@@ -210,6 +214,7 @@ $li-map-closed: #94a3b8;
         &.o_li_tone_hot { color: $li-map-hot; background: rgba(251, 191, 36, 0.14); }
         &.o_li_tone_engaged { color: $li-map-engaged; background: rgba(34, 211, 238, 0.14); }
         &.o_li_tone_pipeline { color: $li-map-pipeline; background: rgba(167, 139, 250, 0.16); }
+        &.o_li_tone_held { color: $li-map-held; background: rgba(214, 194, 138, 0.14); }
         &.o_li_tone_closed { color: $li-map-closed; }
     }
     .o_li_map_all {
