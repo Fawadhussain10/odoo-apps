@@ -407,21 +407,42 @@ REFUSAL_NOTICE = re.compile(r'not sent|was(n.t| not) sent|weekly limit|limit for
                             r'invitation limit|too many (pending )?invitations|unable to (send|connect)', re.I)
 
 
-# Press a visible Connect control: on the top card of the profile, or inside the
-# open "More" menu. "500+ connections" and "Remove connection" never match.
+# Find a visible Connect control: on the top card of the profile (the section
+# that holds the person's name), or inside the open "More" menu, and mark it so
+# it can be pressed with a real mouse click. "500+ connections" and "Remove
+# connection" never match.
 CONNECT_CLICK_JS = """(inMenu) => {
     const label = (b) => ((b.getAttribute('aria-label') || '') + ' ' + (b.innerText || '')).trim().toLowerCase();
     const visible = (b) => !!(b.offsetWidth || b.offsetHeight || b.getClientRects().length);
+    const name = document.querySelector('main h1');
+    const card = (name && name.closest('section')) || document.querySelector('main section');
     const scopes = inMenu
         ? [...document.querySelectorAll('[role="menu"], .artdeco-dropdown__content')]
-        : [document.querySelector('main section')].filter(Boolean);
+        : [card].filter(Boolean);
     const items = scopes.flatMap((s) => [...s.querySelectorAll('button, a, [role="menuitem"], [role="button"]')]);
     const hit = items.find((b) => visible(b)
         && /(^|\\s)connect(\\s|$)|invite .{1,80} to connect/.test(label(b))
         && !/disconnect|remove connection/.test(label(b)));
-    if (hit) { hit.click(); return true; }
+    document.querySelectorAll('[data-odoo-connect]').forEach((b) => b.removeAttribute('data-odoo-connect'));
+    if (hit) { hit.setAttribute('data-odoo-connect', '1'); return true; }
     return false;
 }"""
+
+
+async def _press_connect(page, in_menu):
+    """Press the Connect control like a person does (scrolled into view, a real
+    click); a scripted click only when that is not possible. False: none found."""
+    if not await page.evaluate(CONNECT_CLICK_JS, in_menu):
+        return False
+    try:
+        await page.locator('[data-odoo-connect="1"]').first.click(timeout=4000)
+    except Exception:
+        try:
+            await page.evaluate("""() => { const b = document.querySelector('[data-odoo-connect="1"]');
+                                           if (b) { b.click(); } }""")
+        except Exception:
+            return False
+    return True
 
 
 # The top card of the profile now shows "Pending": an invitation is outstanding.
@@ -511,7 +532,7 @@ async def send_invite_direct_flow(extractor, username, note):
     await navigator._navigate_to_page(url)
     await session.check_rate_limit()
     await asyncio.sleep(1.5)
-    if await page.evaluate(CONNECT_CLICK_JS, False):
+    if await _press_connect(page, False):
         answer = await submit('Connect button') or await sent_without_dialog('Connect button')
         if answer:
             return answer
@@ -520,7 +541,7 @@ async def send_invite_direct_flow(extractor, username, note):
         opened = await actions._open_more_menu()
     except Exception:
         opened = False
-    if opened and await page.evaluate(CONNECT_CLICK_JS, True):
+    if opened and await _press_connect(page, True):
         answer = await submit('More menu') or await sent_without_dialog('More menu')
         if answer:
             return answer

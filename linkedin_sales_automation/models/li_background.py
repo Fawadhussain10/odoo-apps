@@ -451,6 +451,23 @@ class LiProspectFollowedRetry(models.Model):
     _inherit = 'li.prospect'
 
     @api.model
+    def _li_requeue_followed_with_connect(self):
+        """Once: people who were only followed although their saved profile page
+        shows a Connect button go back to the queue for a real invitation."""
+        from .li_engine_parse import top_card_state
+        if not self._li_once('li_sales.followed_with_connect_requeued'):
+            return 0
+        prospects = self.sudo().search([('stage', '=', 'followed'), ('do_not_contact', '=', False),
+                                        ('is_taken_over', '=', False), ('profile_text', '!=', False)])
+        prospects = prospects.filtered(lambda p: top_card_state(p.profile_text) == 'connectable')
+        prospects.write({'stage': 'queued', 'send_attempts': 0})
+        for prospect in prospects:
+            prospect.message_post(body=_('Back in the queue: the profile shows a Connect button, so following '
+                                         'was not the right outcome.'),
+                                  author_id=self.env['li.event']._ai_partner().id, subtype_xmlid='mail.mt_note')
+        return len(prospects)
+
+    @api.model
     def _li_requeue_followed_once(self):
         """Once: people who were only followed because the engine saw no Connect
         go back to the queue, so the wider search for Connect (invite link,
@@ -794,6 +811,8 @@ class LiBackgroundWork(models.AbstractModel):
                 item.write({'state': 'queued', 'confirmed': False, 'date_confirmed': False,
                             'quota_consumed': False, 'error': text or False})
                 return calls
+            if kind == 'handled':               # closed and left to a person inside _bg_invite
+                return calls
         else:
             arguments = {'linkedin_username': prospect.linkedin_username, 'message': item.text_confirmed,
                          'confirm_send': True}
@@ -815,6 +834,7 @@ class LiBackgroundWork(models.AbstractModel):
         prospect = item.prospect_id
         follow = item.persona_id.connection_agent_id.follow_if_no_connect
         calls, verified = 0, False
+        page = ''                               # the profile page as the engine read it for this invite
         later = (None, 'later', _('Waiting for a run with enough time to finish this invitation.'))
 
         def status():
@@ -836,6 +856,7 @@ class LiBackgroundWork(models.AbstractModel):
             calls += 1
             if kind is None:
                 prospect._store_profile_text(data.get('profile'))     # the invite already loaded their profile page
+                page = data.get('profile') or ''
                 self._bg_note_action(profile, prospect, 'invite', _(
                     'Engine: %(status)s. LinkedIn confirmed: %(confirmed)s. Notice: %(notice)s. Dialog: %(dialog)s',
                     status=data.get('status') or '?', confirmed=_('yes') if data.get('confirmed') else _('no'),
@@ -852,11 +873,9 @@ class LiBackgroundWork(models.AbstractModel):
                 'The profile itself shows "Pending": an invitation to this person already exists.'))
             data, verified = dict(data, status='pending'), True
         if no_connect() and not item.connect_tried:
-            if data.get('direct'):
-                item.connect_tried = True       # the routes were tried already (engine misread "pending")
-            elif not self._bg_time_for(deadline):
-                return later + (calls, False)   # never Follow without having tried every Connect route
-            else:
+            if not data.get('direct'):          # (direct: the routes were tried already, engine misread "pending")
+                if not self._bg_time_for(deadline):
+                    return later + (calls, False)   # never Follow without having tried every Connect route
                 data, kind, text, more, checked = self._bg_connect_any_way(profile, item, data, deadline)
                 calls += more
                 verified = verified or checked
@@ -864,8 +883,22 @@ class LiBackgroundWork(models.AbstractModel):
                     return later + (calls, False)
                 if kind == 'no_follow':         # the routes could not be tried: a person looks, nobody is followed
                     kind, follow = None, False
-                elif no_connect():
-                    item.connect_tried = True
+            if no_connect() and follow and top_card_state(page or prospect.profile_text) == 'connectable':
+                # the profile itself shows a Connect button: it is not a follow-only profile, Odoo just
+                # could not press Connect. Never Follow then: try again, and after three tries ask a person
+                item.send_attempts += 1
+                if item.send_attempts < MAX_TEXT_ATTEMPTS:
+                    return later + (calls, False)
+                reason = _('The LinkedIn profile of %s shows a Connect button, but Odoo could not open the '
+                           'invitation (tried %s times, by the invite link, the button and the More menu). '
+                           'Invite them by hand on LinkedIn, or skip them. They were not followed.',
+                           prospect.name, item.send_attempts)
+                item._close('failed', result_status='connect_not_pressed', quota_consumed=False, retry_safe=True,
+                            error=reason)
+                prospect._flag_check(reason)
+                return None, 'handled', reason, calls, False
+            if no_connect():
+                item.connect_tried = True
         if no_connect() and follow:
             if not self._bg_time_for(deadline):
                 return later + (calls, False)   # Follow in the next run (the routes are not tried again)
@@ -1018,10 +1051,18 @@ class LiBackgroundWork(models.AbstractModel):
         if kind:
             return
         names = [unquote(u).strip('/') for u in (data or {}).get('usernames') or []]
+        rows_only = (data or {}).get('rows_only')
+        if rows_only:
+            origin = _('invitation rows')
+        elif rows_only is False:
+            # no invitation row was recognised on the page: the names are every profile link on it
+            origin = _('fallback (profile checks)')
+        else:
+            origin = _('not stated by the engine')
         self._bg_note_action(profile, prospect, 'invite_verify', _(
-            'LinkedIn Sent list: %(n)s people read (LinkedIn says %(total)s), proven whole: %(proven)s. '
-            '%(names)s | page: %(page)s',
-            n=len(names), total=(data or {}).get('total') or '?',
+            'LinkedIn Sent list: %(n)s people read (LinkedIn says %(total)s), source: %(origin)s, '
+            'proven whole: %(proven)s. %(names)s | page: %(page)s',
+            n=len(names), total=(data or {}).get('total') or '?', origin=origin,
             proven=_('yes') if self._bg_sent_list(data, kind)[1] else _('no'),
             names=', '.join(names[:80]) or '-', page=((data or {}).get('page_text') or '')[:300]))
 

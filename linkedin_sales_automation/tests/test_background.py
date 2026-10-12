@@ -1482,3 +1482,95 @@ class TestBackgroundWork(BackgroundCase):
         with self.assertRaises(UserError):
             blocked.with_user(self.manager).action_allow_invite_again()
 
+    @freeze_time(MONDAY_10_UTC)
+    def test_verification_log_says_where_the_names_came_from(self):
+        self._start()
+        persona = self._persona()
+        mk = lambda key, name: self._prospect(persona, key, name, stage='invited',
+                                              date_invited=fields.Datetime.now() - timedelta(hours=2))
+        mk('ali-raza', 'Ali Raza')
+        last = lambda: self._actions(action='invite_verify').sorted('id')[-1].detail
+        rows = sent_list('ali-raza', 'someone-else')
+        rows['data'].update(rows_only=True, total=2)
+        self._script(get_sent_invitations=[rows])
+        self.Tools._cron_verify_invites()
+        self.assertIn('source: invitation rows, proven whole: yes', last())
+        sara = mk('sara-khan', 'Sara Khan')
+        links = sent_list('someone-else', 'suggested-person')
+        links['data'].update(rows_only=False, total=2)
+        self._script(get_sent_invitations=[links], check_connection_state=[self.PENDING_SHOWN])
+        self.Tools._cron_verify_invites()
+        listed = self._actions(action='invite_verify').filtered(lambda a: 'Sent list' in (a.detail or '')).sorted('id')
+        self.assertIn('source: fallback (profile checks), proven whole: no', listed[-1].detail)
+        self.assertEqual(len(self._calls(tool='check_connection_state')), 1)   # and the profile was checked
+        self.assertTrue(sara.invite_verified_at)
+        self._prospect(persona, 'omar-malik', 'Omar Malik', stage='invited',
+                       date_invited=fields.Datetime.now() - timedelta(hours=2))
+        self._script(get_sent_invitations=[sent_list('omar-malik')])           # an engine that does not say
+        self.Tools._cron_verify_invites()
+        listed = self._actions(action='invite_verify').filtered(lambda a: 'Sent list' in (a.detail or '')).sorted('id')
+        self.assertIn('source: not stated by the engine', listed[-1].detail)
+
+    # ------------------------------------------------------------------
+    # A profile that shows Connect is never followed
+    # ------------------------------------------------------------------
+    CONNECT_PAGE = ('Daniel Chao\n· 2nd\nArea Manager | Odoo Functional Consultant\nGreater Manresa Metropolitan Area\n'
+                    'Contact info\nConnect\nMessage\nMore\nAbout\nI like technology.')
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_profile_showing_connect_is_never_followed_when_odoo_cannot_press_it(self):
+        # the engine misreads the profile as "pending", the Sent list has no invitation, and no route
+        # opens the invite dialog although the page plainly offers Connect
+        self._start()
+        persona = self._persona()
+        prospect = self._prospect(persona, 'dchao', 'Daniel Chao')
+        pending = {'data': {'status': 'pending', 'message': 'Already pending.', 'profile': self.CONNECT_PAGE}}
+        self._script(connect_with_person=[pending] * 3,
+                     get_sent_invitations=[sent_list('someone-else')] * 3)      # the whole list, without him
+        for attempt in (1, 2):
+            self.profile.last_send_at = False
+            self._run()
+            item = self.env['li.work.item'].search([('prospect_id', '=', prospect.id)])
+            self.assertEqual((item.state, item.send_attempts, item.connect_tried, prospect.stage),
+                             ('queued', attempt, False, 'queued'))
+        self.profile.last_send_at = False
+        self._run()
+        self.assertEqual(self._calls(tool='follow_person'), [])                # never followed
+        self.assertEqual(len(self._calls(tool='send_invite_direct')), 3)
+        self.assertEqual((prospect.stage, prospect.needs_check), ('queued', True))
+        self.assertIn('shows a Connect button', prospect.needs_check_reason)
+        item = self.env['li.work.item'].search([('prospect_id', '=', prospect.id)])
+        self.assertEqual((item.state, item.result_status, item.quota_consumed), ('failed', 'connect_not_pressed', False))
+        self.assertEqual(persona.connection_agent_id.state, 'running')         # about this person, not the account
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_follow_only_engine_answer_with_connect_on_the_page_is_not_followed(self):
+        self._start()
+        persona = self._persona()
+        prospect = self._prospect(persona, 'dchao', 'Daniel Chao')
+        self._script(connect_with_person=[{'data': {'status': 'follow_only', 'message': 'Follow only profile.',
+                                                    'profile': self.CONNECT_PAGE}}])
+        self._run()                                    # the routes find nothing (default answer)
+        self.assertEqual(self._calls(tool='follow_person'), [])
+        item = self.env['li.work.item'].search([('prospect_id', '=', prospect.id)])
+        self.assertEqual((item.state, item.send_attempts, prospect.stage), ('queued', 1, 'queued'))
+        # the next try gets through: invited
+        self.profile.last_send_at = False
+        self._script(connect_with_person=[{'data': {'status': 'follow_only', 'profile': self.CONNECT_PAGE}}],
+                     send_invite_direct=[DIRECT_OK])
+        self._run()
+        self.assertEqual(prospect.stage, 'invited')
+
+    def test_people_followed_although_their_profile_shows_connect_go_back_once(self):
+        persona = self._persona()
+        wrong = self._prospect(persona, 'dchao', 'Daniel Chao', stage='followed', profile_text=self.CONNECT_PAGE)
+        right = self._prospect(persona, 'sara-khan', 'Sara Khan', stage='followed',
+                               profile_text='Sara Khan\n· 3rd\nCEO\nFollow\nMessage\nMore\nAbout\nText')
+        unread = self._prospect(persona, 'omar-malik', 'Omar Malik', stage='followed')
+        self.env['ir.config_parameter'].sudo().search(
+            [('key', '=', 'li_sales.followed_with_connect_requeued')]).unlink()
+        self.assertEqual(self.env['li.prospect']._li_requeue_followed_with_connect(), 1)
+        self.assertEqual((wrong.stage, right.stage, unread.stage), ('queued', 'followed', 'followed'))
+        wrong.stage = 'followed'
+        self.assertEqual(self.env['li.prospect']._li_requeue_followed_with_connect(), 0)   # once only
+

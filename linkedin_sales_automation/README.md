@@ -159,10 +159,16 @@ out?".
 * A person LinkedIn only lets you invite with their email address is followed
   instead (or flagged), without retries.
 * Every invite is verified about 10 minutes later against LinkedIn's own Sent
-  invitations list. On the list: it is real. Not on the list and not a
-  connection: LinkedIn never recorded it, so the person goes back to Queued,
-  the invite is not counted and that account's invites pause for a day. A
-  verified invite is not checked again; a person invited again is.
+  invitations page; only its invitation rows count, and the check in Engine
+  actions says so ("source: invitation rows"). On the list: it is real. Missing
+  from the whole list: Odoo opens that person's profile. **Pending** means the
+  invite exists, **Message** means they accepted, **Connect** again means
+  LinkedIn never recorded it: the person goes back to Queued and the invite is
+  not counted. An invite the list showed before and that is gone later was
+  declined: the stage becomes **Closed (invite declined)** and the person is
+  never invited again by any persona, unless a manager presses **Allow invite
+  again** on the prospect (logged in the chatter). Verified invites are compared
+  with the list once a day.
 * Before writing, Claude gets each person's LinkedIn profile from Odoo and is
   told to work in a fixed order: read the profile, read the conversation so far
   (the last 30 messages, with where it stands now), read the last reply and
@@ -203,7 +209,41 @@ out?".
   a person to check.
 * Engine accounts: a daily read budget (default 150 pages) shared by searches,
   inbox, conversations and acceptance checks; one action at a time per account.
-* Follow-only profiles (no Connect): followed instead, if the agent allows it.
+  The inbox is read at your interval only during the working hours of the
+  profile's personas (a working day, inside a send window) and once an hour
+  outside them. Inbox, conversation and acceptance reads together use at most
+  60% of the budget, so invite verification, profile reads and search always
+  have room.
+* Connect before Follow: Connect is tried by every route LinkedIn offers (the
+  invite link, the Connect button, Connect in the **More** menu) before anyone
+  is followed. Nobody is followed when a run has no time left for these routes,
+  while an invitation may exist (the Sent invitations page is read first), or
+  when the profile itself shows a Connect button: that person is tried again
+  and then flagged for you.
+* People closed as No response, Not interested, Withdrawn or Invite declined
+  are still heard (never Do-not-contact). When one of them writes again, the
+  reply is recorded and analysed like any other and a closing message still
+  waiting is dropped. Changed conversations are opened in order: conversations
+  in progress, then new connections, then closed people, at most 8 per run
+  (Settings > Runs > Changed conversations opened per run). Claude in Chrome
+  gets the same people as `closed_prospects` in its check_inbox item.
+* A conversation that could not be read (a timeout, a busy engine) stays marked
+  and is read again on the next run.
+* A file a prospect shares is stored as one `[Attachment] name (size)` message
+  and always gets an answer. Claude cannot open the file and never claims to.
+  A one-word reply such as "Sent" or "Read" is kept as a message.
+* "Not for me, but write to my partner at ...": the contact details go to CRM
+  for the salesperson and that person is closed with one polite message.
+* Stopping a Connection Agent, by hand or when its total is reached, deletes
+  nobody: people not yet invited wait in the stage **On hold (agent stopped)**
+  with their history and return to the queue when the agent runs again. On hold
+  has its own colour on the prospects map and is not counted as closed.
+* A connector (token) limited to some LinkedIn profiles sees, counts and
+  reports only those profiles.
+* A portfolio file opens in the browser only when it is a PDF or an image
+  (PNG, JPG, GIF, WebP); any other file is downloaded.
+* Title, company and location of a prospect are filled from the headline and
+  the profile page. Data repairs made by an upgrade run once.
 
 ## 8. Posts and dashboard
 
@@ -243,11 +283,22 @@ out?".
   accounts. Odoo reads LinkedIn's notice, pauses that account's Connection
   Agents until next Monday and resumes them by itself. Messages to people who
   accepted keep going out.
-* **People went from Invited back to Queued.** LinkedIn's Sent invitations list
-  did not show their invitation, so it was never sent (usually LinkedIn's
-  invitation limit). They are invited again later; nobody can be invited
-  twice. The scheduled action "LinkedIn Sales: verify sent invites" does this
-  check every 5 minutes.
+* **People went from Invited back to Queued.** LinkedIn's Sent invitations page
+  did not show their invitation and their profile offers Connect again, so it
+  was never recorded (usually LinkedIn's invitation limit). They are invited
+  again later; nobody can be invited twice. The scheduled action "LinkedIn
+  Sales: verify sent invites" does this check every 5 minutes.
+* **A prospect is On hold.** Its Connection Agent was stopped before this
+  person was invited. Run the agent again and they return to the queue.
+* **A prospect is Closed (invite declined).** The invitation was on LinkedIn's
+  Sent page and later gone while the profile offers Connect again. They are
+  never invited again; a manager can press **Allow invite again**.
+* **Someone was followed although their profile has a Connect button.** Odoo
+  now tries every Connect route first and never follows a profile that shows
+  Connect. People followed that way earlier go back to the queue once on
+  upgrade.
+* **Someone sent a file in the chat.** It shows as `[Attachment] name (size)`
+  and Claude gets a task to answer it. Download the file from the LinkedIn chat.
 * **Invites are paused for a day.** LinkedIn did not record invitations to two
   different people in a row and gave no reason, or the check above found an
   invite that was never recorded. Odoo pauses that account's
@@ -258,8 +309,10 @@ out?".
   wrote to that person by hand on LinkedIn from the account. Odoo stops the
   agents for that person only. A manager can press **Return to agents**.
 * **Replies are picked up slowly.** The inbox is read every 60 minutes by
-  default. Set **Check inbox every** to 20 or 30 minutes in Settings and raise
-  the daily read budget (for example 250), or ask Claude to answer replies now.
+  default. Set **Check inbox every** to 5 to 30 minutes in Settings and raise
+  the daily read budget (for example 450), or ask Claude to answer replies now.
+  The short interval applies during the personas' working hours; outside them
+  the inbox is read once an hour.
 * **The acceptance rate does not count someone who is connected.** It counts
   invitations Odoo sent. People who were already your connections are shown
   beside it as "already connected" and are still handled by the Chat Agent.
