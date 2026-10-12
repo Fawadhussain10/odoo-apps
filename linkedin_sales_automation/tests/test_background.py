@@ -23,6 +23,12 @@ def thread_data(text):
     return {'data': {'url': 'https://www.linkedin.com/messaging/thread/2-abc/', 'sections': {'conversation': text}}}
 
 
+def sent_list(*usernames, complete=True, text=''):
+    """LinkedIn's Sent invitations page as the engine returns it."""
+    return {'data': {'usernames': list(usernames), 'count': len(usernames), 'complete': complete,
+                     'page_text': text or 'Manage invitations Sent'}}
+
+
 def search_data(*people):
     lines, refs = [], []
     for username, name, headline in people:
@@ -251,6 +257,7 @@ class TestBackgroundWork(BackgroundCase):
             self.assertEqual(second.stage, 'invited')
             self.assertEqual(self.profile.invites_not_recorded, 2)
         self.assertEqual(third.stage, 'queued')
+        self._script(get_sent_invitations=[sent_list('sara-khan')])
         with freeze_time('2026-10-13 10:12:00'):
             self._run()
             self.assertTrue(second.invite_verified_at)
@@ -543,15 +550,55 @@ class TestBackgroundWork(BackgroundCase):
         self._run()
         self.assertEqual(prospect.stage, 'invited')
         self._run()
-        self.assertEqual(self._calls(tool='check_connection_state'), [])       # not settled yet
+        self.assertEqual(self._calls(tool='get_sent_invitations'), [])         # not settled yet
+        self._script(get_sent_invitations=[sent_list('someone-else', 'Ali-Raza')])
         with freeze_time('2026-10-12 10:11:00'):
             self._run()
-        self.assertEqual(self._calls(tool='check_connection_state')[0]['args'], {'linkedin_username': 'ali-raza'})
-        self.assertTrue(prospect.invite_verified_at)
+        self.assertEqual(len(self._calls(tool='get_sent_invitations')), 1)
+        self.assertTrue(prospect.invite_verified_at)                           # on LinkedIn's Sent list
         self.assertEqual(prospect.stage, 'invited')
+        self.assertEqual(self._calls(tool='check_connection_state'), [])
         with freeze_time('2026-10-12 10:14:00'):
             self._run()
-        self.assertEqual(len(self._calls(tool='check_connection_state')), 1)   # once per invite
+        self.assertEqual(len(self._calls(tool='get_sent_invitations')), 1)     # once per invite
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_verify_invites_accepted_meanwhile_and_empty_list(self):
+        self._start()
+        persona = self._persona()
+        mk = lambda key, name: self._prospect(persona, key, name, stage='invited',
+                                              date_invited=fields.Datetime.now() - timedelta(hours=2))
+        accepted, refused = mk('sara-khan', 'Sara Khan'), mk('omar-ali', 'Omar Ali')
+        # LinkedIn says there is no pending invitation at all; Sara is found among the connections
+        self._script(get_sent_invitations=[sent_list(text='You have no sent invitations')],
+                     search_people=[search_data(('sara-khan', 'Sara Khan', 'Founder')), search_data()])
+        self.assertEqual(self.Tools._cron_verify_invites(), 3)
+        self.assertEqual((accepted.stage, refused.stage), ('accepted', 'queued'))
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_verify_invites_falls_back_to_the_profile_when_the_list_is_unreadable(self):
+        self._start()
+        persona = self._persona()
+        mk = lambda key, name: self._prospect(persona, key, name, stage='invited',
+                                              date_invited=fields.Datetime.now() - timedelta(hours=2))
+        looks_pending, offered = mk('sara-khan', 'Sara Khan'), mk('omar-ali', 'Omar Ali')
+        self._script(get_sent_invitations=[sent_list(complete=False, text='Something else')],
+                     check_connection_state=[{'data': {'status': 'pending'}}, {'data': {'status': 'connectable'}}])
+        self.Tools._cron_verify_invites()
+        # "pending" read from the profile buttons is not proof: checked again later
+        self.assertEqual((looks_pending.stage, bool(looks_pending.invite_verified_at)), ('invited', False))
+        self.assertEqual(offered.stage, 'queued')
+
+    def test_earlier_profile_only_verifications_are_checked_again_once(self):
+        persona = self._persona()
+        prospect = self._prospect(persona, stage='invited', date_invited=fields.Datetime.now(),
+                                  invite_verified_at=fields.Datetime.now())
+        self.env['ir.config_parameter'].sudo().search([('key', '=', 'li_sales.invite_verify_sent_list')]).unlink()
+        self.assertEqual(self.env['li.prospect']._li_reverify_invites(), 1)
+        self.assertFalse(prospect.invite_verified_at)
+        prospect.invite_verified_at = fields.Datetime.now()
+        self.assertEqual(self.env['li.prospect']._li_reverify_invites(), 0)
+        self.assertTrue(prospect.invite_verified_at)
 
     @freeze_time(MONDAY_10_UTC)
     def test_verify_invites_scheduled_action_works_through_a_backlog(self):
@@ -559,12 +606,11 @@ class TestBackgroundWork(BackgroundCase):
         persona = self._persona()
         invited = [self._prospect(persona, 'p%s' % i, 'Person %s' % i, stage='invited',
                                   date_invited=fields.Datetime.now() - timedelta(days=2, minutes=i)) for i in range(6)]
-        offered = {'data': {'status': 'connectable', 'seen': ['connectable'], 'retry_safe': True}}
-        pending = {'data': {'status': 'pending', 'seen': ['pending'], 'retry_safe': True}}
-        self._script(check_connection_state=[offered, pending, offered, offered, pending, offered])
+        self._script(get_sent_invitations=[sent_list('p1', 'p4', 'other')])
         cron = self.env.ref('linkedin_sales_automation.cron_verify_invites')
         self.assertEqual((cron.interval_number, cron.interval_type), (5, 'minutes'))
-        self.assertEqual(self.Tools._cron_verify_invites(), 6)                 # all six in one run
+        # one read of the Sent list settles all six; the four not on it are looked up among the connections
+        self.assertEqual(self.Tools._cron_verify_invites(), 5)
         self.assertEqual(sorted(p.stage for p in invited), ['invited'] * 2 + ['queued'] * 4)
         self.assertEqual(len([p for p in invited if p.invite_verified_at]), 2)
         self.assertEqual(self.Tools._cron_verify_invites(), 0)                 # nothing left to check
@@ -582,11 +628,12 @@ class TestBackgroundWork(BackgroundCase):
             self._run()
         self.assertEqual((first.stage, second.stage), ('invited', 'invited'))
         self.assertEqual(self.env['li.event'].search_count([('event_type', '=', 'invite_sent')]), 2)
-        offered = {'data': {'status': 'connectable', 'seen': ['connectable', 'connectable'], 'retry_safe': True}}
-        self._script(check_connection_state=[offered, offered])
+        # LinkedIn's Sent list has other people, not these two; neither is a connection
+        self._script(get_sent_invitations=[sent_list('someone-else')])
         with freeze_time('2026-10-12 10:13:00'):
             self._run()
         self.assertEqual((first.stage, second.stage), ('queued', 'queued'))
+        self.assertEqual(self._calls(tool='check_connection_state'), [])       # the list decides, not the buttons
         self.assertFalse(first.date_invited)
         self.assertEqual(self.env['li.event'].search_count([('event_type', '=', 'invite_sent')]), 0)
         self.assertEqual(self.env['li.work.item'].search_count([('quota_consumed', '=', True)]), 0)
@@ -601,8 +648,9 @@ class TestBackgroundWork(BackgroundCase):
         with freeze_time('2026-10-13 10:16:00'):
             self._run()
             self.assertEqual(len(self._calls(tool='connect_with_person')), 3)   # waits for the verification
+        self._script(get_sent_invitations=[sent_list('ali-raza', 'sara-khan')])
         with freeze_time('2026-10-13 10:25:00'):
-            self._run()                                                        # verified pending (default)
+            self._run()                                                        # now on LinkedIn's Sent list
             self.assertEqual(self.profile.invites_not_recorded, 0)
         with freeze_time('2026-10-13 10:27:00'):
             self._run()

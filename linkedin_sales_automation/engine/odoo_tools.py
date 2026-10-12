@@ -8,6 +8,8 @@ with the engine's tools.
 * get_recent_connections - the newest 1st-degree connections, one page read
 * check_invite_dialog - open one person's invite dialog WITHOUT sending and say
   what LinkedIn asks there (e.g. the person's email address)
+* get_sent_invitations - LinkedIn's own list of invitations that are pending
+  (My Network > Manage > Sent): the authority on whether an invite exists
 * check_connection_state - open one person's profile and say what it shows now:
   pending (invited), connectable (Connect is offered: not invited), connected
 
@@ -38,6 +40,8 @@ SHARE_URL = 'https://www.linkedin.com/feed/?shareActive=true'
 POST_LINK = re.compile(r'/feed/update/(urn:li:(?:activity|share|ugcPost):\d+)')
 MAX_POST_CHARS = 3000
 CONNECTIONS_URL = 'https://www.linkedin.com/mynetwork/invite-connect/connections/'
+SENT_INVITATIONS_URL = 'https://www.linkedin.com/mynetwork/invitation-manager/sent/'
+MAX_SENT_INVITATIONS = 500
 MAX_CONNECTIONS = 80
 
 
@@ -302,6 +306,44 @@ async def read_notice(page, seconds=4.0):
     return ''
 
 
+# "Show more" / "Load more" at the end of a list (the engine keeps LinkedIn in English).
+MORE_BUTTON_JS = """() => {
+    const root = document.querySelector('main') || document;
+    const button = [...root.querySelectorAll('button')].find((b) =>
+        /^(show|load) more/i.test((b.innerText || '').trim()) && (b.offsetWidth || b.offsetHeight));
+    if (button) { button.click(); return true; }
+    return false;
+}"""
+MAIN_TEXT_JS = """() => ((document.querySelector('main') || document.body).innerText || '').trim().slice(0, 600)"""
+
+
+async def sent_invitations_flow(extractor, limit):
+    """Open the Sent invitations page and return the usernames listed there,
+    loading the whole list (scroll and "Show more") up to `limit`."""
+    session = _session_of(extractor)
+    page = session.page
+    await PageNavigator(session)._navigate_to_page(SENT_INVITATIONS_URL)
+    await session.check_rate_limit()
+    await asyncio.sleep(2.5)
+    usernames = await page.evaluate(CONNECTION_LINKS_JS)
+    complete = False
+    for _i in range(25):
+        if len(usernames) >= limit:
+            break
+        await page.mouse.wheel(0, 6000)
+        await asyncio.sleep(1.2)
+        clicked = await page.evaluate(MORE_BUTTON_JS)
+        if clicked:
+            await asyncio.sleep(1.8)
+        more = await page.evaluate(CONNECTION_LINKS_JS)
+        if len(more) <= len(usernames) and not clicked:
+            complete = True                     # nothing more loads: the whole list is here
+            break
+        usernames = more
+    return {'url': SENT_INVITATIONS_URL, 'usernames': usernames[:limit], 'count': min(len(usernames), limit),
+            'complete': complete, 'page_text': await page.evaluate(MAIN_TEXT_JS)}
+
+
 REFUSAL_NOTICE = re.compile(r'not sent|was(n.t| not) sent|weekly limit|limit for connection invitations|'
                             r'invitation limit|too many (pending )?invitations|unable to (send|connect)', re.I)
 
@@ -359,6 +401,25 @@ def install_invite_notices():
 
 
 def register_odoo_tools(mcp: FastMCP, *, tool_timeout: float) -> None:
+
+    @mcp.tool(timeout=tool_timeout, title='Get Sent Invitations',
+              annotations={'readOnlyHint': True, 'openWorldHint': True}, tags={'person'})
+    async def get_sent_invitations(ctx: Context, limit: int = 300) -> dict[str, Any]:
+        """Usernames of the people who have a pending invitation from the signed-in
+        account, from LinkedIn's Sent invitations page (Odoo add-on tool; one page).
+        Returns usernames, count, complete (the whole list was loaded) and the
+        first text of the page."""
+        limit = max(1, min(int(limit or 300), MAX_SENT_INVITATIONS))
+        try:
+            extractor = await get_ready_extractor(ctx, tool_name='get_sent_invitations')
+            return await sent_invitations_flow(extractor, limit)
+        except AuthenticationError as e:
+            try:
+                await handle_auth_error(e, ctx)
+            except Exception as relogin_exc:
+                raise_tool_error(relogin_exc, 'get_sent_invitations')
+        except Exception as e:
+            raise_tool_error(e, 'get_sent_invitations')
 
     @mcp.tool(timeout=tool_timeout, title='Check Connection State',
               annotations={'readOnlyHint': True, 'openWorldHint': True}, tags={'person'})

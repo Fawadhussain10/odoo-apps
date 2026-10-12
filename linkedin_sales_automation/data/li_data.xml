@@ -35,6 +35,7 @@
     <function model="res.config.settings" name="_li_upgrade_default_instructions"/>
     <function model="li.prospect" name="_li_repair_mojibake"/>
     <function model="li.prospect" name="_li_repair_ui_messages"/>
+    <function model="li.prospect" name="_li_reverify_invites"/>
     <function model="res.config.settings" name="_li_remove_duplicate_medium"/>
 
     <data noupdate="1">

@@ -19,6 +19,7 @@ Every engine call is logged in li.engine.action.
 """
 import logging
 import random
+import re
 import time
 from datetime import datetime, timedelta
 from urllib.parse import unquote
@@ -50,6 +51,7 @@ ACCEPTANCE_RECHECK = timedelta(hours=12)
 INVITE_VERIFY_AFTER = timedelta(minutes=10)     # LinkedIn has settled by then
 INVITE_VERIFY_WITHIN = timedelta(days=7)
 INVITE_VERIFY_PER_RUN = 3
+NO_SENT_INVITATIONS = re.compile(r'no (sent|pending) invitations|no invitations (sent|pending)|haven.t sent any|have no (sent|pending)', re.I)
 INVITE_VERIFY_PER_CRON = 10
 INVITE_VERIFY_TRIES = 2
 PROFILE_READ_TRIES = 2
@@ -327,6 +329,22 @@ class LiProspectUiTextRepair(models.Model):
                            'message written by hand.'),
                     author_id=self.env['li.event']._ai_partner().id, subtype_xmlid='mail.mt_note')
         return count
+
+
+class LiProspectInviteReverify(models.Model):
+    _inherit = 'li.prospect'
+
+    @api.model
+    def _li_reverify_invites(self):
+        """Once: invites marked verified by the first version of the check (which
+        read the profile buttons) are checked again against LinkedIn's list."""
+        params = self.env['ir.config_parameter'].sudo()
+        if params.get_param('li_sales.invite_verify_sent_list'):
+            return 0
+        prospects = self.sudo().search([('stage', '=', 'invited'), ('invite_verified_at', '!=', False)])
+        prospects.write({'invite_verified_at': False, 'invite_verify_tries': 0})
+        params.set_param('li_sales.invite_verify_sent_list', '1')
+        return len(prospects)
 
 
 class LiBackgroundWork(models.AbstractModel):
@@ -827,18 +845,59 @@ class LiBackgroundWork(models.AbstractModel):
         return calls
 
     def _bg_verify_invites(self, profile, deadline, limit=None):
-        """About ten minutes after an invite, open the person's profile again
-        (check_connection_state, an Odoo tool added to the engine). Pending: the
-        invitation exists. Connect offered again: LinkedIn never recorded it, so
+        """About ten minutes after an invite, check it against LinkedIn's own
+        list of pending invitations (get_sent_invitations, an Odoo tool added to
+        the engine: My Network > Manage > Sent). On the list: the invitation
+        exists. Not on it and not a connection: LinkedIn never recorded it, so
         the prospect goes back to the queue, the invite is not counted and the
-        account's invites pause. This does not rely on what the page showed in
-        the seconds after the click."""
+        account's invites pause. When the list cannot be read, the person's
+        profile is checked instead."""
+        prospects = self._bg_unverified_invites(profile, settled=True)
+        if not prospects or not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
+            return 0
+        data, kind, _text = self._bg_call(profile, 'get_sent_invitations', {'limit': 300}, 'invite_verify', reads=1)
+        calls = 1
+        if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+            return calls
+        sent = {unquote(u).strip('/').lower() for u in (data or {}).get('usernames') or []} if kind is None else set()
+        listed_none = kind is None and bool(NO_SENT_INVITATIONS.search((data or {}).get('page_text') or ''))
+        if not ((sent and (data or {}).get('complete')) or (not sent and listed_none)):
+            return calls + self._bg_verify_invites_by_profile(profile, prospects, deadline, limit)
+        checked = 0
+        for prospect in prospects:
+            if (prospect.linkedin_username or '').lower() in sent:
+                prospect.invite_verified_at = utc_now()            # LinkedIn lists it as pending
+                profile.sudo().write({'invites_not_recorded': 0, 'invite_refused_prospect_id': False})
+                continue
+            if checked >= (limit or INVITE_VERIFY_PER_RUN) or not self._bg_time_for(deadline) \
+                    or self._bg_budget_left(profile) < 1:
+                continue
+            # not pending: either accepted in the last minutes, or never recorded
+            self._bg_pause()
+            found, kind, _text = self._bg_call(profile, 'search_people',
+                                               {'keywords': prospect.name, 'network': ['F']}, 'invite_verify',
+                                               reads=1, prospect=prospect)
+            calls += 1
+            checked += 1
+            if kind:
+                break
+            if prospect.linkedin_username in connected_usernames(found):
+                prospect.invite_verified_at = utc_now()
+                self._accept(prospect, note=_('found connected when the invite was verified'))
+            else:
+                self._invite_was_not_recorded(profile, prospect)
+            self._bg_commit()
+        self._bg_commit()
+        return calls
+
+    def _bg_verify_invites_by_profile(self, profile, prospects, deadline, limit=None):
+        """Fallback when the Sent invitations list cannot be read: look at each
+        person's profile (check_connection_state)."""
         calls = 0
-        for prospect in self._bg_unverified_invites(profile, settled=True)[:limit or INVITE_VERIFY_PER_RUN]:
+        for prospect in prospects[:limit or INVITE_VERIFY_PER_RUN]:
             if not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
                 break
-            if calls:
-                self._bg_pause()
+            self._bg_pause()
             data, kind, _text = self._bg_call(profile, 'check_connection_state',
                                               {'linkedin_username': prospect.linkedin_username}, 'invite_verify',
                                               reads=1, prospect=prospect)
@@ -846,15 +905,13 @@ class LiBackgroundWork(models.AbstractModel):
             if kind in ('session', 'restricted', 'rate_limit', 'refused'):
                 break
             state = (data or {}).get('status') if kind is None else None
-            if state == 'pending':
-                prospect.invite_verified_at = utc_now()
-                profile.sudo().write({'invites_not_recorded': 0, 'invite_refused_prospect_id': False})
-            elif state == 'already_connected':
+            if state == 'already_connected':
                 prospect.invite_verified_at = utc_now()
                 self._accept(prospect, note=_('found connected when the invite was verified'))
             elif state == 'connectable':
                 self._invite_was_not_recorded(profile, prospect)
-            else:                                   # the page could not be judged: try once more, then let it be
+            else:
+                # "pending" on the profile is not proof (the buttons can mislead): try again later
                 prospect.invite_verify_tries += 1
             self._bg_commit()
         return calls
