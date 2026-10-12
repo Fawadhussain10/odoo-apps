@@ -54,6 +54,7 @@ INVITE_VERIFY_PER_RUN = 3
 NO_SENT_INVITATIONS = re.compile(r'no (sent|pending) invitations|no invitations (sent|pending)|haven.t sent any|have no (sent|pending)', re.I)
 INVITE_VERIFY_PER_CRON = 10
 INVITE_VERIFY_TRIES = 2
+INVITE_PERSON_TRIES = 2         # invitations LinkedIn did not record for one person before a person is asked
 PROFILE_READ_TRIES = 2
 PROFILES_PER_RUN = 2
 PROFILE_MAX_CHARS = 4000
@@ -651,6 +652,10 @@ class LiBackgroundWork(models.AbstractModel):
         calls += 1
         if item.work_type == 'invite' and kind is None:
             prospect._store_profile_text(data.get('profile'))     # the invite already loaded their profile page
+            self._bg_note_action(profile, prospect, 'invite', _(
+                'Engine: %(status)s. LinkedIn confirmed: %(confirmed)s. Notice: %(notice)s. Dialog: %(dialog)s',
+                status=data.get('status') or '?', confirmed=_('yes') if data.get('confirmed') else _('no'),
+                notice=data.get('linkedin_notice') or '-', dialog=data.get('invite_dialog') or '-'))
         if (item.work_type == 'invite' and kind is None and self._bg_time_for(deadline)
                 and (data.get('status') or '').strip().lower() == 'send_failed'
                 and not is_weekly_limit(data.get('message'))):
@@ -679,6 +684,14 @@ class LiBackgroundWork(models.AbstractModel):
         if kind is None and is_weekly_limit(data.get('text')):
             return dict(connect_data, message=(data.get('text') or '')[:300]), None, text, 1
         return connect_data, None, text, 1
+
+    def _bg_note_action(self, profile, prospect, action, text):
+        """Add what LinkedIn showed to the last logged action of that kind."""
+        row = self.env['li.engine.action'].sudo().search([
+            ('linkedin_profile_id', '=', profile.id), ('action', '=', action), ('prospect_id', '=', prospect.id)],
+            order='id desc', limit=1)
+        if row:
+            row.detail = ((row.detail + '\n') if row.detail else '') + (text or '')[:1500]
 
     def _bg_follow(self, profile, item, connect_data):
         """No Connect on that profile: follow the person instead (follow_person,
@@ -946,15 +959,55 @@ class LiBackgroundWork(models.AbstractModel):
                                             ('date', '>=', invited_on - timedelta(minutes=5))]).unlink()
         self.env['li.message'].sudo().search([('prospect_id', '=', prospect.id), ('kind', '=', 'note'),
                                               ('work_item_id', 'in', items.ids)]).unlink()
-        prospect.write({'stage': 'queued', 'date_invited': False, 'invite_verify_tries': 0, 'send_attempts': 0})
-        line = _('LinkedIn did not record the invitation to %(name)s sent on %(date)s UTC (the profile shows '
-                 'Connect again) — back in the queue, not counted as invited',
+        attempts = prospect.send_attempts + 1
+        prospect.write({'stage': 'queued', 'date_invited': False, 'invite_verify_tries': 0,
+                        'send_attempts': attempts})
+        line = _('LinkedIn did not record the invitation to %(name)s sent on %(date)s UTC (it is not on '
+                 'LinkedIn\'s Sent list) — back in the queue, not counted as invited',
                  name=prospect.name, date=fields.Datetime.to_string(invited_on)[:16])
         self.env['li.event']._log('error', 'connection', persona=prospect.persona_id, prospect=prospect,
                                   detail=line, prospect_body=line)
-        profile.sudo().write({'invites_not_recorded': max(profile.invites_not_recorded, INVITES_REFUSED_AFTER),
-                              'invite_refused_prospect_id': prospect.id})
-        self._bg_pause_invites(profile)
+        # is it this person (LinkedIn wants their email address, a special dialog) or the account?
+        outcome, shown = self._bg_diagnose_invite(profile, prospect)
+        if outcome == 'weekly_limit':
+            self._weekly_limit_reached(profile, shown)
+            return
+        if outcome == 'email_required':
+            prospect._flag_check(_('LinkedIn asks for this person\'s email address to connect: it cannot be sent '
+                                   'automatically. Invite them by hand, or skip them.'))
+            return                                  # about the person: the account is fine
+        if attempts >= INVITE_PERSON_TRIES:
+            prospect._flag_check(_('LinkedIn did not record %(n)s invitations to this person, while others go '
+                                   'through. Invite them by hand on LinkedIn, or skip them. LinkedIn showed: %(shown)s',
+                                   n=attempts, shown=shown or _('nothing unusual')))
+        profile = profile.sudo()
+        count = profile.invites_not_recorded
+        if profile.invite_refused_prospect_id != prospect:
+            count += 1
+        profile.write({'invites_not_recorded': count, 'invite_refused_prospect_id': prospect.id})
+        if count >= INVITES_REFUSED_AFTER:          # different people in a row: the account
+            self._bg_pause_invites(profile)
+
+    def _bg_diagnose_invite(self, profile, prospect):
+        """Open that person's invite dialog without sending and say what LinkedIn
+        asks there. Returns (outcome, text shown): email_required, weekly_limit or
+        unknown. The text is kept with the action for a person to read."""
+        if self._bg_budget_left(profile) < 1:
+            return 'unknown', ''
+        data, kind, _text = self._bg_call(profile, 'check_invite_dialog',
+                                          {'linkedin_username': prospect.linkedin_username}, 'invite_check',
+                                          reads=1, prospect=prospect)
+        if kind:
+            return 'unknown', ''
+        shown = ((data or {}).get('text') or '').strip()
+        self._bg_note_action(profile, prospect, 'invite_check', _(
+            'Invite dialog: %(status)s. LinkedIn shows: %(text)s', status=(data or {}).get('status') or '?',
+            text=shown or '-'))
+        if (data or {}).get('status') == 'email_required':
+            return 'email_required', shown
+        if is_weekly_limit(shown):
+            return 'weekly_limit', shown
+        return 'unknown', shown[:300]
 
     def _bg_enter_to_send(self, profile):
         summary = _('Switch LinkedIn to "Click Send to send" (%s)', profile.account_key)

@@ -627,6 +627,38 @@ class TestBackgroundWork(BackgroundCase):
         self.assertTrue(prospect.invite_verified_at)
 
     @freeze_time(MONDAY_10_UTC)
+    def test_invite_that_fails_for_one_person_does_not_pause_the_account(self):
+        self._start()
+        persona = self._persona()
+        mk = lambda key, name: self._prospect(persona, key, name, stage='invited',
+                                              date_invited=fields.Datetime.now() - timedelta(hours=2))
+        needs_email, odd = mk('sara-khan', 'Sara Khan'), mk('omar-ali', 'Omar Ali')
+        fine = mk('zara-noor', 'Zara Noor')
+        self._script(
+            get_sent_invitations=[sent_list('zara-noor'), sent_list('zara-noor')],
+            get_recent_connections=[{'data': {'usernames': ['old-friend'], 'count': 1}}] * 2,
+            check_invite_dialog=[
+                {'data': {'status': 'email_required', 'text': 'Enter their email to connect'}},
+                {'data': {'status': 'dialog', 'text': 'How do you know Omar?'}},
+                {'data': {'status': 'dialog', 'text': 'How do you know Omar?'}}])
+        agent = persona.connection_agent_id
+        self.Tools._cron_verify_invites()
+        self.assertTrue(fine.invite_verified_at)
+        # LinkedIn wants her email address: a person decides, the account is not blamed
+        self.assertEqual((needs_email.stage, needs_email.needs_check), ('queued', True))
+        self.assertIn('email address', needs_email.needs_check_reason)
+        # an unexplained miss for one person: back in the queue, what LinkedIn showed is kept
+        self.assertEqual((odd.stage, odd.needs_check, odd.send_attempts), ('queued', False, 1))
+        self.assertIn('How do you know Omar?', self._actions(action='invite_check')[0].detail)
+        self.assertEqual(agent.state, 'running')                       # one odd person does not pause invites
+        # the same person missed again: flagged for a person, and the queue moves on
+        odd.write({'stage': 'invited', 'date_invited': fields.Datetime.now() - timedelta(hours=1)})
+        self.Tools._cron_verify_invites()
+        self.assertEqual((odd.stage, odd.needs_check), ('queued', True))
+        self.assertIn('did not record 2 invitations', odd.needs_check_reason)
+        self.assertEqual(agent.state, 'running')
+
+    @freeze_time(MONDAY_10_UTC)
     def test_verify_invites_scheduled_action_works_through_a_backlog(self):
         self._start()
         persona = self._persona()

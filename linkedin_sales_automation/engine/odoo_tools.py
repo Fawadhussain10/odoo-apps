@@ -346,6 +346,7 @@ async def sent_invitations_flow(extractor, limit):
             'complete': complete, 'page_text': await page.evaluate(MAIN_TEXT_JS)}
 
 
+SENT_NOTICE = re.compile(r'invitation sent|invite sent|request sent', re.I)
 REFUSAL_NOTICE = re.compile(r'not sent|was(n.t| not) sent|weekly limit|limit for connection invitations|'
                             r'invitation limit|too many (pending )?invitations|unable to (send|connect)', re.I)
 
@@ -378,23 +379,37 @@ def install_invite_notices():
     submit, connect = ConnectionActions._submit_invite_dialog, ConnectionActions.connect_with_person
 
     async def _submit_invite_dialog(self, note):
-        self._odoo_notice = ''
+        self._odoo_notice, self._odoo_dialog = '', {}
+        try:                                    # what LinkedIn asks in the dialog, before anything is clicked
+            self._odoo_dialog = await self._session.page.evaluate(INVITE_DIALOG_JS)
+        except Exception:
+            self._odoo_dialog = {}
         result = await submit(self, note)
         if result and result[0]:
             self._odoo_notice = await read_notice(self._session.page)
         return result
 
     async def connect_with_person(self, *args, **kwargs):
-        self._odoo_notice = ''
+        self._odoo_notice, self._odoo_dialog = '', {}
         result = await connect(self, *args, **kwargs)
-        notice = getattr(self, '_odoo_notice', '')
-        if notice and isinstance(result, dict):
-            if result.get('status') == 'send_failed':
-                result['message'] = '%s LinkedIn says: %s' % (result.get('message') or '', notice)
-            elif result.get('status') == 'connected' and REFUSAL_NOTICE.search(notice):
-                # LinkedIn said no in its pop-up: its word counts, whatever the page showed right after
-                result['status'] = 'send_failed'
-                result['message'] = 'LinkedIn did not send the invitation. LinkedIn says: %s' % notice
+        if not isinstance(result, dict):
+            return result
+        notice = getattr(self, '_odoo_notice', '') or ''
+        dialog = getattr(self, '_odoo_dialog', None) or {}
+        # always say what LinkedIn showed: Odoo keeps it with the action
+        result['linkedin_notice'] = notice
+        result['invite_dialog'] = (dialog.get('text') or '')[:400]
+        result['confirmed'] = bool(SENT_NOTICE.search(notice))
+        if result.get('status') == 'send_failed' and notice:
+            result['message'] = '%s LinkedIn says: %s' % (result.get('message') or '', notice)
+        elif result.get('status') == 'connected' and REFUSAL_NOTICE.search(notice):
+            # LinkedIn said no in its pop-up: its word counts, whatever the page showed right after
+            result['status'] = 'send_failed'
+            result['message'] = 'LinkedIn did not send the invitation. LinkedIn says: %s' % notice
+        elif result.get('status') == 'connected' and dialog.get('email') and not result['confirmed']:
+            # the dialog asked for the member's email address: nothing can have been sent
+            result['status'] = 'connect_unavailable'
+            result['message'] = 'LinkedIn asks for this member\'s email address to connect.'
         return result
 
     ConnectionActions._submit_invite_dialog = _submit_invite_dialog
