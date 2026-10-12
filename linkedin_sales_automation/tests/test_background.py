@@ -554,6 +554,22 @@ class TestBackgroundWork(BackgroundCase):
         self.assertEqual(len(self._calls(tool='check_connection_state')), 1)   # once per invite
 
     @freeze_time(MONDAY_10_UTC)
+    def test_verify_invites_scheduled_action_works_through_a_backlog(self):
+        self._start()
+        persona = self._persona()
+        invited = [self._prospect(persona, 'p%s' % i, 'Person %s' % i, stage='invited',
+                                  date_invited=fields.Datetime.now() - timedelta(days=2, minutes=i)) for i in range(6)]
+        offered = {'data': {'status': 'connectable', 'seen': ['connectable'], 'retry_safe': True}}
+        pending = {'data': {'status': 'pending', 'seen': ['pending'], 'retry_safe': True}}
+        self._script(check_connection_state=[offered, pending, offered, offered, pending, offered])
+        cron = self.env.ref('linkedin_sales_automation.cron_verify_invites')
+        self.assertEqual((cron.interval_number, cron.interval_type), (5, 'minutes'))
+        self.assertEqual(self.Tools._cron_verify_invites(), 6)                 # all six in one run
+        self.assertEqual(sorted(p.stage for p in invited), ['invited'] * 2 + ['queued'] * 4)
+        self.assertEqual(len([p for p in invited if p.invite_verified_at]), 2)
+        self.assertEqual(self.Tools._cron_verify_invites(), 0)                 # nothing left to check
+
+    @freeze_time(MONDAY_10_UTC)
     def test_invite_linkedin_never_recorded_goes_back_to_the_queue(self):
         # the engine said "sent", LinkedIn shows Connect again: nothing was sent
         self._start()

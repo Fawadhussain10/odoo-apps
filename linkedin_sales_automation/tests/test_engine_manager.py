@@ -129,6 +129,30 @@ class TestEngineManager(LiTransactionCase):
             ppid = int(handle.read().split(')', 1)[1].split()[1])
         self.assertNotEqual(ppid, os.getpid(), 'not a child of the Odoo worker')
 
+    def test_watchdog_restarts_an_engine_after_the_server_was_renamed(self):
+        # the engine died with an Odoo restart and the machine got a new host name meanwhile:
+        # its session folder is here, so it is still ours
+        self.profile._engine_start()
+        profile = self.profile.sudo()
+        old_pid = profile.engine_pid
+        os.killpg(old_pid, signal.SIGKILL)
+        for _i in range(50):
+            if not _pid_alive(old_pid):
+                break
+            time.sleep(0.1)
+        (profile._session_dir() / 'cookies.json').write_text('{}')
+        profile.engine_host = 'old-name'
+        self.assertEqual(self.env['li.profile']._cron_engine_watchdog(), 1)
+        self.assertEqual(profile.engine_state, 'running')
+        self.assertNotEqual((profile.engine_pid, profile.engine_host), (old_pid, 'old-name'))
+        # an engine of another server (no session folder here) is left alone
+        profile._engine_kill()
+        profile.write({'engine_wanted': True, 'engine_host': 'other-server', 'engine_pid': 4242})
+        for child in profile._session_dir().iterdir():
+            child.unlink() if child.is_file() else None
+        if not any(profile._session_dir().iterdir()):
+            self.assertEqual(self.env['li.profile']._cron_engine_watchdog(), 0)
+
     def test_watchdog_restarts_a_dead_engine(self):
         self.profile._engine_start()
         old_pid = self.profile.sudo().engine_pid

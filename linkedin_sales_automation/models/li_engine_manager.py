@@ -285,6 +285,17 @@ class LiProfileEngine(models.Model):
     # ------------------------------------------------------------------
     # Paths
     # ------------------------------------------------------------------
+    def _session_is_here(self):
+        """The LinkedIn session of this profile lives on this machine. An engine
+        recorded under another host name is then ours all the same: the server was
+        renamed, or the database moved here with its data folder."""
+        self.ensure_one()
+        folder = self.env['li.engine.manager']._root() / 'sessions' / self.env.cr.dbname / str(self.id)
+        try:
+            return folder.is_dir() and any(folder.iterdir())
+        except OSError:
+            return False
+
     def _session_dir(self):
         """<root>/sessions/<database>/<profile id>, permissions 700."""
         self.ensure_one()
@@ -526,7 +537,8 @@ class LiProfileEngine(models.Model):
                 else:
                     profile._engine_refresh()
                     continue
-            if profile.engine_host and profile.engine_host != socket.gethostname() and profile.engine_pid:
+            if (profile.engine_host and profile.engine_host != socket.gethostname() and profile.engine_pid
+                    and not profile._session_is_here()):
                 continue                    # managed by another Odoo server
             try:
                 profile._engine_start()

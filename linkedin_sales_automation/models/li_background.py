@@ -50,6 +50,7 @@ ACCEPTANCE_RECHECK = timedelta(hours=12)
 INVITE_VERIFY_AFTER = timedelta(minutes=10)     # LinkedIn has settled by then
 INVITE_VERIFY_WITHIN = timedelta(days=7)
 INVITE_VERIFY_PER_RUN = 3
+INVITE_VERIFY_PER_CRON = 10
 INVITE_VERIFY_TRIES = 2
 PROFILE_READ_TRIES = 2
 PROFILES_PER_RUN = 2
@@ -792,7 +793,40 @@ class LiBackgroundWork(models.AbstractModel):
         return (profile.invites_not_recorded >= INVITES_REFUSED_AFTER
                 and bool(self._bg_unverified_invites(profile)))
 
-    def _bg_verify_invites(self, profile, deadline):
+    @api.model
+    def _cron_verify_invites(self):
+        """Scheduled action of its own: check the invites of every engine profile
+        against LinkedIn (see _bg_verify_invites). The background job does the
+        same a few at a time; this one works through a backlog faster and can be
+        run by hand from Scheduled Actions."""
+        self = self.sudo()
+        if is_odoo_sh():
+            return 0
+        deadline = time.monotonic() + self._bg_time_limit()
+        profiles = self.env['li.profile'].sudo().search(
+            [('execution_mode', '=', 'engine'), ('connection_state', '=', 'connected'),
+             ('engine_wanted', '=', True), ('interface_language', '!=', 'other')])
+        calls = 0
+        for profile in profiles:
+            if deadline - time.monotonic() < self._bg_call_timeout() + 5:
+                break
+            if profile.bg_paused_until and profile.bg_paused_until > utc_now():
+                continue
+            if not profile._session_lock():
+                continue                         # the background job or a Connect is using the engine
+            try:
+                if profile._engine_is_mine() and profile.engine_state == 'running':
+                    calls += self._bg_verify_invites(profile, deadline, limit=INVITE_VERIFY_PER_CRON)
+            except Exception:
+                if self._bg_in_test():
+                    raise
+                _logger.exception('Invite verification failed for profile %s', profile.id)
+                self.env.cr.rollback()
+            finally:
+                profile._session_unlock()
+        return calls
+
+    def _bg_verify_invites(self, profile, deadline, limit=None):
         """About ten minutes after an invite, open the person's profile again
         (check_connection_state, an Odoo tool added to the engine). Pending: the
         invitation exists. Connect offered again: LinkedIn never recorded it, so
@@ -800,9 +834,11 @@ class LiBackgroundWork(models.AbstractModel):
         account's invites pause. This does not rely on what the page showed in
         the seconds after the click."""
         calls = 0
-        for prospect in self._bg_unverified_invites(profile, settled=True)[:INVITE_VERIFY_PER_RUN]:
+        for prospect in self._bg_unverified_invites(profile, settled=True)[:limit or INVITE_VERIFY_PER_RUN]:
             if not self._bg_time_for(deadline) or self._bg_budget_left(profile) < 1:
                 break
+            if calls:
+                self._bg_pause()
             data, kind, _text = self._bg_call(profile, 'check_connection_state',
                                               {'linkedin_username': prospect.linkedin_username}, 'invite_verify',
                                               reads=1, prospect=prospect)
