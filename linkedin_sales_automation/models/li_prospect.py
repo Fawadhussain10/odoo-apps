@@ -342,6 +342,22 @@ class LiProspect(models.Model):
                                          'an earlier one.', self.env.user.name))
         return True
 
+    def action_try_connect_again(self):
+        """A manager sends someone who was only followed back to the queue: Odoo
+        tries every Connect route again (their profile may offer Connect in the
+        More menu). Still no Connect: they are followed again, nothing is lost."""
+        if not self.env.user.has_group('linkedin_sales_automation.group_li_manager'):
+            raise UserError(_('Only a LinkedIn Sales Manager can send a followed person back to the queue.'))
+        for prospect in self.sudo().filtered(lambda p: p.stage == 'followed'):
+            if prospect.do_not_contact:
+                raise UserError(_('%s is on the do-not-contact list.', prospect.name))
+            running = prospect.persona_id.connection_agent_id.state != 'stopped'
+            prospect.write({'stage': 'queued' if running else 'held', 'send_attempts': 0,
+                            'needs_check': False, 'needs_check_reason': False})
+            prospect.message_post(body=_('%s asked for another try to connect with this person, who was only '
+                                         'followed.', self.env.user.name))
+        return True
+
     def action_push_to_crm(self):
         """Manual pivot."""
         for prospect in self:

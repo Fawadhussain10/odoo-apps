@@ -67,6 +67,9 @@
                     <button name="action_push_to_crm" type="object" string="Push to CRM now"
                             invisible="crm_lead_id or stage in ('do_not_contact', 'queued')"
                             confirm="Create the CRM lead for this prospect now? The prospect is taken over."/>
+                    <button name="action_try_connect_again" type="object" string="Try Connect again"
+                            invisible="stage != 'followed'" groups="linkedin_sales_automation.group_li_manager"
+                            confirm="Put this person back in the queue? Odoo tries the invite link, the Connect button and the More menu again; if LinkedIn offers no Connect they are followed again."/>
                     <button name="action_allow_invite_again" type="object" string="Allow invite again"
                             invisible="stage != 'declined'" groups="linkedin_sales_automation.group_li_manager"
                             confirm="This person declined or ignored an earlier invitation. Put them back in the queue so they are invited again?"/>

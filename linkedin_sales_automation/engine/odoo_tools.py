@@ -420,9 +420,18 @@ CONNECT_CLICK_JS = """(inMenu) => {
         ? [...document.querySelectorAll('[role="menu"], .artdeco-dropdown__content')]
         : [card].filter(Boolean);
     const items = scopes.flatMap((s) => [...s.querySelectorAll('button, a, [role="menuitem"], [role="button"]')]);
-    const hit = items.find((b) => visible(b)
+    let hit = items.find((b) => visible(b)
         && /(^|\\s)connect(\\s|$)|invite .{1,80} to connect/.test(label(b))
         && !/disconnect|remove connection/.test(label(b)));
+    if (!hit && name) {
+        // LinkedIn changes its page structure: anywhere on the page, the control that names THIS
+        // person ("Invite <name> to connect"). Other people's Connect buttons name someone else.
+        const who = (name.innerText || '').replace(/\\s+/g, ' ').trim().toLowerCase();
+        if (who.length > 2) {
+            hit = [...document.querySelectorAll('button, a, [role="menuitem"], [role="button"]')]
+                .find((b) => visible(b) && label(b).replace(/\\s+/g, ' ').includes('invite ' + who + ' to connect'));
+        }
+    }
     document.querySelectorAll('[data-odoo-connect]').forEach((b) => b.removeAttribute('data-odoo-connect'));
     if (hit) { hit.setAttribute('data-odoo-connect', '1'); return true; }
     return false;
@@ -521,6 +530,59 @@ async def send_invite_direct_flow(extractor, username, note):
         pressed.append(route)
         return None
 
+    async def settle(route):
+        """Wait until the page has finished loading its scripts (a button pressed
+        before that does nothing), press Connect and watch what LinkedIn does:
+        an invite dialog (submitted as usual), its "Invitation sent" pop-up or
+        the button turning into "Pending" (many profiles send on the click
+        itself, without any dialog), or a refusal. Connect still there and
+        nothing happened: pressed once more."""
+        in_menu = route == 'More menu'
+        did_press = False
+        for _attempt in range(2):
+            if not await _press_connect(page, in_menu):
+                break
+            did_press = True
+            for _i in range(15):                # up to 6 seconds
+                await asyncio.sleep(0.4)
+                try:
+                    dialog = await page.evaluate(INVITE_DIALOG_JS)
+                    notice = await page.evaluate(NOTICE_JS)
+                    pending = await page.evaluate(PENDING_SHOWN_JS)
+                except Exception:
+                    continue
+                if dialog.get('open'):
+                    return await submit(route) or await sent_without_dialog(route)
+                if REFUSAL_NOTICE.search(notice or ''):
+                    return {'url': url, 'status': 'send_failed', 'route': route, 'linkedin_notice': notice,
+                            'confirmed': False, 'direct': True, 'note_sent': False, 'invite_dialog': '',
+                            'message': 'LinkedIn did not send the invitation. LinkedIn says: %s' % notice}
+                if SENT_NOTICE.search(notice or '') or pending:
+                    return {'url': url, 'status': 'connected', 'route': route, 'linkedin_notice': notice or '',
+                            'confirmed': bool(SENT_NOTICE.search(notice or '')), 'page_pending': bool(pending),
+                            'direct': True, 'note_sent': False, 'invite_dialog': '',
+                            'message': 'Invitation sent on the click (%s): %s.' % (
+                                route, 'LinkedIn confirmed it' if SENT_NOTICE.search(notice or '')
+                                else 'the profile now shows Pending')}
+            if in_menu:                         # the menu closed with the click: open it for the second try
+                try:
+                    if not await actions._open_more_menu():
+                        break
+                except Exception:
+                    break
+            else:
+                await asyncio.sleep(2.0)
+        if did_press:
+            pressed.append(route)               # pressed, and nothing shows what LinkedIn did
+        return None
+
+    async def loaded():
+        try:
+            await page.wait_for_load_state('networkidle', timeout=8000)
+        except Exception:
+            pass
+        await asyncio.sleep(2.0)
+
     # 1. LinkedIn's invite link
     await navigator._navigate_to_page(
         'https://www.linkedin.com/preload/custom-invite/?vanityName=%s' % quote(username))
@@ -531,18 +593,17 @@ async def send_invite_direct_flow(extractor, username, note):
     # 2. the Connect button on the profile itself
     await navigator._navigate_to_page(url)
     await session.check_rate_limit()
-    await asyncio.sleep(1.5)
-    if await _press_connect(page, False):
-        answer = await submit('Connect button') or await sent_without_dialog('Connect button')
-        if answer:
-            return answer
+    await loaded()
+    answer = await settle('Connect button')
+    if answer:
+        return answer
     # 3. Connect inside the "More" menu
     try:
         opened = await actions._open_more_menu()
     except Exception:
         opened = False
-    if opened and await _press_connect(page, True):
-        answer = await submit('More menu') or await sent_without_dialog('More menu')
+    if opened:
+        answer = await settle('More menu')
         if answer:
             return answer
     try:

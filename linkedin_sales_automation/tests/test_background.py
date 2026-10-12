@@ -1574,3 +1574,28 @@ class TestBackgroundWork(BackgroundCase):
         wrong.stage = 'followed'
         self.assertEqual(self.env['li.prospect']._li_requeue_followed_with_connect(), 0)   # once only
 
+    @freeze_time(MONDAY_10_UTC)
+    def test_manager_can_send_a_followed_person_back_for_another_connect_try(self):
+        from odoo.exceptions import UserError
+        self._start()
+        persona = self._persona()
+        followed = self._prospect(persona, 'ahad', 'Ahad Maaz', stage='followed',
+                                  profile_text='Ahad Maaz\n· 2nd\nHead of Solutions\nFollow\nMessage\nMore\nAbout\nText')
+        with self.assertRaises(UserError):
+            followed.with_user(self.rep).action_try_connect_again()
+        followed.with_user(self.manager).action_try_connect_again()
+        self.assertEqual(followed.stage, 'queued')
+        self.assertTrue(any('another try to connect' in (m.body or '') for m in followed.message_ids))
+        # this time the More menu offers Connect
+        self._script(connect_with_person=[self.FOLLOW_ONLY], send_invite_direct=[DIRECT_OK])
+        self._run()
+        self.assertEqual(followed.stage, 'invited')
+        self.assertEqual(self._calls(tool='follow_person'), [])
+        # and someone LinkedIn really offers no Connect for is simply followed again
+        again = self._prospect(persona, 'sara-khan', 'Sara Khan', stage='followed')
+        again.with_user(self.manager).action_try_connect_again()
+        self.profile.last_send_at = False
+        self._script(connect_with_person=[self.FOLLOW_ONLY])
+        self._run()
+        self.assertEqual(again.stage, 'followed')
+
