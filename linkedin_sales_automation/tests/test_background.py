@@ -1599,3 +1599,61 @@ class TestBackgroundWork(BackgroundCase):
         self._run()
         self.assertEqual(again.stage, 'followed')
 
+    # ------------------------------------------------------------------
+    # A slow engine
+    # ------------------------------------------------------------------
+    def test_engine_that_became_slow_is_restarted_by_the_watchdog(self):
+        self._start()
+        Action = self.env['li.engine.action']
+        started = fields.Datetime.now() - timedelta(hours=5)
+        self.profile.engine_started = started
+        slow = lambda ms, action='inbox': Action.create({
+            'linkedin_profile_id': self.profile.id, 'action': action, 'reads': 1, 'duration_ms': ms,
+            'date': started + timedelta(hours=4)})
+        slow(40000), slow(15000, 'acceptance'), slow(45000)
+        self.assertFalse(self.profile._engine_is_slow())               # two slow inbox reads are not enough
+        pid = self.profile.engine_pid
+        self.env['li.profile']._cron_engine_watchdog()
+        self.assertEqual(self.profile.engine_pid, pid)
+        slow(61000)
+        self.assertTrue(self.profile._engine_is_slow())
+        self.env['li.profile']._cron_engine_watchdog()
+        self.assertNotEqual(self.profile.engine_pid, pid)              # a fresh engine
+        self.assertEqual(self.profile.engine_state, 'running')
+        self.assertTrue(any('had become slow' in (m.body or '') for m in self.profile.message_ids))
+        self.assertFalse(self.profile._engine_is_slow())               # the old reads no longer count
+        self.env['li.profile']._cron_engine_watchdog()                 # and it is not restarted again
+
+    def test_fast_reads_after_a_slow_one_do_not_restart_the_engine(self):
+        self._start()
+        started = fields.Datetime.now() - timedelta(hours=5)
+        self.profile.engine_started = started
+        for ms in (61000, 50000, 12000):
+            self.env['li.engine.action'].create({
+                'linkedin_profile_id': self.profile.id, 'action': 'inbox', 'reads': 1, 'duration_ms': ms,
+                'date': started + timedelta(hours=4)})
+        self.assertFalse(self.profile._engine_is_slow())
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_engine_giving_up_at_its_time_limit_is_a_timeout_not_a_plain_failure(self):
+        self._start()
+        self.env['ir.config_parameter'].sudo().set_param('li_sales.engine_tool_timeout', 1)
+        persona = self._persona()
+        prospect = self._prospect(persona)
+        self._script(connect_with_person=[{'sleep': 1.2, 'error': "Error calling tool 'connect_with_person'"}])
+        self._run()
+        action = self._actions(action='invite')
+        self.assertEqual(action.status, 'timeout')
+        self.assertIn('no answer within 1 seconds', action.detail)
+        item = self.env['li.work.item'].search([('prospect_id', '=', prospect.id)])
+        self.assertEqual((item.state, item.result_status, item.retry_safe), ('failed', 'unknown', False))
+        self.assertTrue(prospect.needs_check)                          # it may have gone out: never sent twice
+        # the same words right away are an ordinary failure
+        self.env['ir.config_parameter'].sudo().set_param('li_sales.engine_tool_timeout', 60)
+        other = self._prospect(persona, 'sara-khan', 'Sara Khan')
+        self.profile.last_send_at = False
+        self._script(connect_with_person=[{'error': "Error calling tool 'connect_with_person'"}])
+        self._run()
+        self.assertEqual(self._actions(action='invite').sorted('id')[-1].status, 'other')
+        self.assertFalse(other.needs_check)
+

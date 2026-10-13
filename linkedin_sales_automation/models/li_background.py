@@ -49,6 +49,9 @@ BACKGROUND_SHARE = 0.8          # background reading may use 80% of the read bud
 # rest of the background share stays free for invite verification, profile reads and search all day.
 ROUTINE_SHARE = 0.6
 ROUTINE_ACTIONS = ('inbox', 'thread', 'acceptance')
+ENGINE_SLOW_AFTER = timedelta(minutes=30)      # a just-started engine is never judged slow
+ENGINE_SLOW_SHARE = 0.6                         # of the engine's time limit per action
+ENGINE_SLOW_READS = 3
 INBOX_OFF_HOURS = 60            # minutes between inbox reads outside the personas' working hours
 SENT_RECHECK = timedelta(hours=24)          # invites already verified are compared with the Sent list daily
 THREADS_PER_RUN = 8             # default of li_sales.threads_per_run
@@ -238,6 +241,39 @@ class LiProfileBackground(models.Model):
 
     def _session_unlock(self):
         self.env.cr.execute('SELECT pg_advisory_unlock(%s, %s)', (ENGINE_LOCK_NAMESPACE, self.id))
+
+    def _engine_is_slow(self):
+        """The engine's browser gets slower the longer it runs: the same inbox
+        read that takes 12 seconds after a start takes a minute some hours
+        later, and then every read fails at the time limit. True when the last
+        three inbox reads since the start each took most of that limit."""
+        self.ensure_one()
+        if not self.engine_started or utc_now() - self.engine_started < ENGINE_SLOW_AFTER:
+            return False
+        limit_ms = self.env['li.mcp.tools']._param('engine_tool_timeout', 60) * 1000 * ENGINE_SLOW_SHARE
+        rows = self.env['li.engine.action'].sudo().search([
+            ('linkedin_profile_id', '=', self.id), ('action', '=', 'inbox'), ('date', '>=', self.engine_started)],
+            order='id desc', limit=ENGINE_SLOW_READS)
+        return len(rows) == ENGINE_SLOW_READS and all(row.duration_ms >= limit_ms for row in rows)
+
+    @api.model
+    def _cron_engine_watchdog(self):
+        """Also restarts an engine whose reads have become slow, before they
+        start failing: a fresh engine is fast again."""
+        if not is_odoo_sh():
+            for profile in self.sudo().search([('engine_wanted', '=', True), ('execution_mode', '=', 'engine'),
+                                               ('engine_state', '=', 'running')]):
+                if not profile._engine_is_slow() or not profile._engine_lock(wait=False):
+                    continue                    # in use right now: the next round looks again
+                if profile._engine_is_mine():
+                    _logger.info('LinkedIn engine of profile %s restarted: its reads had become slow', profile.id)
+                    profile._engine_kill()
+                    profile.engine_wanted = True
+                    profile.message_post(body=_('Engine restarted by itself: LinkedIn pages had become slow to '
+                                                'read (a fresh engine is fast again).'),
+                                         author_id=self.env['li.event']._ai_partner().id,
+                                         subtype_xmlid='mail.mt_note')
+        return super()._cron_engine_watchdog()
 
     def action_open_engine_actions(self):
         self.ensure_one()
@@ -568,6 +604,13 @@ class LiBackgroundWork(models.AbstractModel):
         if result is not None and result.get('isError'):
             text = result_text(result)
             kind, wait = error_kind(text)
+            # the engine gives up on an action after its time limit and then only says "Error calling
+            # tool": that is a timeout (a send may have gone out), not a plain failure
+            limit = self._param('engine_tool_timeout', 60)
+            if kind == 'other' and time.monotonic() - started >= limit - 1:
+                kind = 'timeout'
+                text = _('%(text)s (no answer within %(n)s seconds: LinkedIn was loading slowly)',
+                         text=text, n=limit)
         status = kind or 'ok'
         self.env['li.engine.action'].sudo().create({
             'linkedin_profile_id': profile.id, 'action': action, 'reads': reads,
