@@ -34,7 +34,7 @@ from .li_engine import SEARCH_COOLDOWN, VERIFY_VALID, ToolError
 from .li_engine_manager import ENGINE_LOCK_NAMESPACE, is_odoo_sh
 from .li_engine_parse import (
     connect_outcome, connected_usernames, error_kind, inbox_preview, inbox_threads, interface_language,
-    is_weekly_limit, message_outcome, top_card_state, parse_search_results, parse_thread, result_data, result_text,
+    is_account_warning, is_weekly_limit, message_outcome, top_card_state, parse_search_results, parse_thread, result_data, result_text,
 )
 from .li_mcp_client import McpClientError
 from .li_post import parse_post_stats
@@ -48,6 +48,10 @@ BACKGROUND_SHARE = 0.8          # background reading may use 80% of the read bud
 # The frequent reads (inbox, changed threads, acceptances) may use 60% of the budget at most, so the
 # rest of the background share stays free for invite verification, profile reads and search all day.
 ROUTINE_SHARE = 0.6
+# The engine call reached nothing or the account itself has a problem: stop reading LinkedIn in this run.
+ACCOUNT_KINDS = ('session', 'restricted', 'rate_limit', 'warning')
+STOP_KINDS = ACCOUNT_KINDS + ('refused',)
+WARNING_PAUSE = timedelta(hours=24)     # LinkedIn warned the account about automated activity
 ROUTINE_ACTIONS = ('inbox', 'thread', 'acceptance')
 ENGINE_SLOW_AFTER = timedelta(minutes=30)      # a just-started engine is never judged slow
 ENGINE_SLOW_SHARE = 0.6                         # of the engine's time limit per action
@@ -241,6 +245,33 @@ class LiProfileBackground(models.Model):
 
     def _session_unlock(self):
         self.env.cr.execute('SELECT pg_advisory_unlock(%s, %s)', (ENGINE_LOCK_NAMESPACE, self.id))
+
+    def _linkedin_warned(self, text):
+        """LinkedIn showed this account its "unusual activity" page: it has seen
+        too many pages opened by a tool. The engine stays running, but nothing is
+        read or sent for a day (the agents resume by themselves after it), and the
+        owner is told to lower the settings that cause the traffic."""
+        profile = self.sudo()
+        if profile.bg_paused_until and profile.bg_paused_until > utc_now() + WARNING_PAUSE / 2:
+            return                              # already handled
+        until = utc_now() + WARNING_PAUSE
+        profile.bg_paused_until = until
+        reason = _('LinkedIn warned %s about unusual activity (a high volume of pages opened by a tool): '
+                   'nothing is read or sent for 24 hours', profile.name)
+        for persona in profile.persona_ids:
+            persona.connection_agent_id._pause_until(until, reason)
+            persona.chat_agent_id._pause_until(until, reason)
+            self.env['li.event']._log('error', 'system', persona=persona, detail=reason)
+        how = _('Before the agents run again, lower the traffic: Settings > Check inbox every 30 minutes or more, '
+                'Daily read budget about 200, Recent connections every 60 minutes, and send windows that '
+                'cover real business hours instead of the whole day. Open LinkedIn yourself and complete any '
+                'check it asks for.')
+        profile.message_post(body=_('%(reason)s. LinkedIn said: %(said)s %(how)s', reason=reason,
+                                    said=(text or '')[:300], how=how),
+                             author_id=self.env['li.event']._ai_partner().id, subtype_xmlid='mail.mt_note')
+        profile.activity_schedule('mail.mail_activity_data_todo', user_id=profile.owner_id.id,
+                                  summary=_('LinkedIn warned %s about unusual activity', profile.account_key),
+                                  note=how)
 
     def _engine_is_slow(self):
         """The engine's browser gets slower the longer it runs: the same inbox
@@ -582,7 +613,7 @@ class LiBackgroundWork(models.AbstractModel):
     def _bg_inbox_minutes(self, profile):
         """Minutes between inbox reads: the setting during working hours, at least
         an hour outside them (nobody is answered at night anyway)."""
-        fast = self._param('inbox_interval', 60)
+        fast = self._inbox_interval()
         if self._bg_working_hours(profile):
             return fast
         return max(fast, self._param('inbox_interval_off_hours', INBOX_OFF_HOURS))
@@ -611,6 +642,10 @@ class LiBackgroundWork(models.AbstractModel):
                 kind = 'timeout'
                 text = _('%(text)s (no answer within %(n)s seconds: LinkedIn was loading slowly)',
                          text=text, n=limit)
+        if result is not None and is_account_warning(result_text(result)):
+            # LinkedIn showed its "unusual activity" page instead of what was asked: whatever the tool
+            # answered, nothing more is read or sent on this account for a day
+            text, kind = result_text(result), 'warning'
         status = kind or 'ok'
         self.env['li.engine.action'].sudo().create({
             'linkedin_profile_id': profile.id, 'action': action, 'reads': reads,
@@ -642,6 +677,8 @@ class LiBackgroundWork(models.AbstractModel):
             profile._set_restricted(text[:300])
             profile.engine_wanted = False
             profile._engine_kill()
+        elif kind == 'warning':
+            profile._linkedin_warned(text)
         elif kind == 'rate_limit':
             profile.bg_paused_until = utc_now() + timedelta(seconds=max(wait, 60))
             profile.message_post(body=_('LinkedIn asked to slow down — background work on this profile paused '
@@ -964,7 +1001,7 @@ class LiBackgroundWork(models.AbstractModel):
         self._bg_pause()
         data, kind, text = self._bg_call(profile, 'send_invite_direct', arguments, 'invite', item=item,
                                          prospect=prospect)
-        if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+        if kind in STOP_KINDS:
             return None, kind, text, 1, False
         if kind in ('timeout', 'transport'):
             # the tool stopped half-way: Connect may have been pressed
@@ -1026,7 +1063,7 @@ class LiBackgroundWork(models.AbstractModel):
             return connect_data, None, '', 0, True
         listed, kind, text = self._bg_call(profile, 'get_sent_invitations', {'limit': 300}, 'invite_verify',
                                            reads=1, prospect=prospect)
-        if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+        if kind in STOP_KINDS:
             return None, kind, text, 1, False
         names, proven = self._bg_sent_list(listed, kind)
         self._bg_note_sent_list(profile, prospect, listed, kind)
@@ -1061,7 +1098,7 @@ class LiBackgroundWork(models.AbstractModel):
         data, kind, text = self._bg_call(profile, 'check_invite_dialog',
                                          {'linkedin_username': item.prospect_id.linkedin_username}, 'invite_check',
                                          reads=1, item=item, prospect=item.prospect_id)
-        if kind in ('session', 'restricted', 'rate_limit'):
+        if kind in ACCOUNT_KINDS:
             return None, kind, text, 1
         if kind is None and data.get('status') == 'email_required':
             return {'status': 'connect_unavailable',
@@ -1125,7 +1162,7 @@ class LiBackgroundWork(models.AbstractModel):
                                          item=item, prospect=item.prospect_id)
         if kind is None and data.get('status') in ('followed', 'already_following'):
             return {'status': 'followed', 'message': data.get('message')}, None, text, 1
-        if kind in ('session', 'restricted', 'rate_limit'):
+        if kind in ACCOUNT_KINDS:
             return None, kind, text, 1
         return connect_data, None, text, 1
 
@@ -1150,7 +1187,7 @@ class LiBackgroundWork(models.AbstractModel):
                 status, retry_safe, detail = connect_outcome(data)
             else:
                 status, retry_safe, detail = message_outcome(data)
-        elif kind in ('session', 'rate_limit', 'refused'):
+        elif kind in ('session', 'rate_limit', 'refused', 'warning'):
             status, retry_safe, detail = 'requeue', True, text   # stopped before LinkedIn was touched
         elif kind == 'restricted':
             status, retry_safe, detail = 'restricted', True, text
@@ -1303,7 +1340,7 @@ class LiBackgroundWork(models.AbstractModel):
             return 0
         data, kind, _text = self._bg_call(profile, 'get_sent_invitations', {'limit': 300}, 'invite_verify', reads=1)
         calls = 1
-        if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+        if kind in STOP_KINDS:
             return calls
         profile.sudo().last_sent_check = utc_now()
         sent, proven = self._bg_sent_list(data, kind)
@@ -1332,7 +1369,7 @@ class LiBackgroundWork(models.AbstractModel):
         self._bg_pause()
         data, kind, _text = self._bg_call(profile, 'get_recent_connections', {'limit': 80}, 'invite_verify', reads=1)
         calls += 1
-        if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+        if kind in STOP_KINDS:
             return calls
         connected = {unquote(u).strip('/').lower() for u in (data or {}).get('usernames') or []} if kind is None \
             else set()
@@ -1382,7 +1419,7 @@ class LiBackgroundWork(models.AbstractModel):
         data, kind, _text = self._bg_call(profile, 'check_connection_state',
                                           {'linkedin_username': prospect.linkedin_username}, 'invite_verify',
                                           reads=1, prospect=prospect)
-        if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+        if kind in STOP_KINDS:
             return False
         state = (data or {}).get('status') if kind is None else None
         words = top_card_state((data or {}).get('top_text')) if kind is None else ''
@@ -1684,7 +1721,7 @@ class LiBackgroundWork(models.AbstractModel):
                                               {'linkedin_username': prospect.linkedin_username}, 'person', reads=1,
                                               prospect=prospect)
             calls += 1
-            if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+            if kind in STOP_KINDS:
                 break                               # nothing was read: try again in a later run
             text = (((data or {}).get('sections') or {}).get('main_profile') or '') if kind is None else ''
             prospect.profile_read_tries += 1
@@ -1742,7 +1779,7 @@ class LiBackgroundWork(models.AbstractModel):
         if not invited or self._bg_routine_left(profile) < 1:
             return 0, False
         data, kind, _text = self._bg_call(profile, 'get_recent_connections', {'limit': 40}, 'acceptance', reads=1)
-        if kind in ('session', 'restricted', 'rate_limit', 'refused'):
+        if kind in STOP_KINDS:
             profile.sudo().last_connections_check = utc_now()
             return 1, True          # no more LinkedIn reads in this run
         usernames = {unquote(u).strip('/').lower() for u in (data or {}).get('usernames') or []} if not kind else set()

@@ -64,6 +64,17 @@ def error_kind(text):
     return 'other', 0
 
 
+# LinkedIn's page for accounts it suspects of automation ("We noticed some unusual
+# activity on your account ... accessed a high volume of LinkedIn profile data").
+WARNING_HINTS = ('noticed some unusual activity on your account', 'high volume of linkedin profile data',
+                 'accessed a high volume of linkedin')
+
+
+def is_account_warning(text):
+    lowered = (text or '').lower()
+    return any(h in lowered for h in WARNING_HINTS)
+
+
 def is_weekly_limit(text):
     lowered = (text or '').lower()
     return any(h in lowered for h in WEEKLY_LIMIT_HINTS)

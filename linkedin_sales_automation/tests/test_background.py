@@ -1301,7 +1301,7 @@ class TestBackgroundWork(BackgroundCase):
         monday = self.env['li.weekday'].search([('code', '=', 0)])
         self._persona(run=('chat',), days=monday, chat_send_window_from=9.0, chat_send_window_to=17.0)
         with freeze_time('2026-10-12 10:00:00'):                       # Monday, inside the window
-            self.assertEqual(self.Tools._bg_inbox_minutes(self.profile), 5)
+            self.assertEqual(self.Tools._bg_inbox_minutes(self.profile), 15)     # never below 15 minutes
         with freeze_time('2026-10-12 22:00:00'):                       # Monday night
             self.assertEqual(self.Tools._bg_inbox_minutes(self.profile), 60)
         with freeze_time('2026-10-13 10:00:00'):                       # Tuesday: not a working day here
@@ -1656,4 +1656,64 @@ class TestBackgroundWork(BackgroundCase):
         self._run()
         self.assertEqual(self._actions(action='invite').sorted('id')[-1].status, 'other')
         self.assertFalse(other.needs_check)
+
+    # ------------------------------------------------------------------
+    # LinkedIn's "unusual activity" warning, minimum inbox interval
+    # ------------------------------------------------------------------
+    WARNING_PAGE = ('We noticed some unusual activity on your account. Over time, our systems have shown your '
+                    'account has accessed a high volume of LinkedIn profile data.')
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_linkedin_warning_page_pauses_the_account_for_a_day(self):
+        self._start()
+        persona = self._persona(run=('connection', 'chat'))
+        prospect = self._prospect(persona, stage='invited', date_invited=fields.Datetime.now() - timedelta(hours=2))
+        self._accepted(persona, username='sara-khan', name='Sara Khan', thread_check_needed=True)
+        self._script(get_inbox=[{'data': {'sections': {'inbox': self.WARNING_PAGE}}}])
+        self._run()
+        self.assertEqual(self._actions(action='inbox').status, 'warning')
+        self.assertEqual([c['tool'] for c in self._calls()], ['get_inbox'])     # nothing more is opened
+        self.assertEqual(self.profile.bg_paused_until, fields.Datetime.now() + timedelta(hours=24))
+        for agent in (persona.connection_agent_id, persona.chat_agent_id):
+            self.assertEqual(agent.state, 'paused')
+            self.assertIn('unusual activity', agent.pause_reason)
+            self.assertEqual(agent.paused_until, fields.Datetime.now() + timedelta(hours=24))
+        self.assertTrue(self.profile.activity_ids.filtered(lambda a: 'unusual activity' in (a.summary or '')))
+        self.assertTrue(any('Check inbox every 30 minutes' in (m.body or '') for m in self.profile.message_ids))
+        with freeze_time('2026-10-12 20:00:00'):
+            self.assertEqual(self.Tools._cron_background_work(), 0)
+            self.assertEqual(len(self._calls()), 1)
+        with freeze_time('2026-10-13 10:01:00'):                       # a day later: by themselves again
+            self.env['li.connection.agent']._resume_due()
+            self.env['li.chat.agent']._resume_due()
+            self.assertEqual((persona.connection_agent_id.state, persona.chat_agent_id.state), ('running', 'running'))
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_warning_page_instead_of_a_send_sends_nothing_and_keeps_the_person(self):
+        self._start()
+        persona = self._persona()
+        prospect = self._prospect(persona)
+        self._script(connect_with_person=[{'data': {'status': 'unavailable', 'message': self.WARNING_PAGE}}])
+        self._run()
+        item = self.env['li.work.item'].search([('prospect_id', '=', prospect.id)])
+        self.assertEqual((item.state, item.quota_consumed, prospect.stage, prospect.needs_check),
+                         ('queued', False, 'queued', False))           # tried again after the pause
+        self.assertEqual(persona.connection_agent_id.state, 'paused')
+
+    def test_inbox_is_never_read_more_often_than_every_15_minutes(self):
+        from odoo.exceptions import UserError
+        icp = self.env['ir.config_parameter'].sudo()
+        icp.set_param('li_sales.inbox_interval', 5)
+        self.assertEqual(self.Tools._inbox_interval(), 15)
+        icp.set_param('li_sales.inbox_interval', 30)
+        self.assertEqual(self.Tools._inbox_interval(), 30)
+        settings = self.env['res.config.settings'].create({'li_inbox_interval': 5})
+        with self.assertRaises(UserError):
+            settings.execute()
+        icp.set_param('li_sales.inbox_interval', 5)
+        icp.search([('key', '=', 'li_sales.inbox_interval_min_applied')]).unlink()
+        self.assertTrue(self.env['res.config.settings']._li_raise_inbox_interval())
+        self.assertEqual(icp.get_param('li_sales.inbox_interval'), '15')
+        icp.set_param('li_sales.inbox_interval', 5)
+        self.assertFalse(self.env['res.config.settings']._li_raise_inbox_interval())     # once only
 

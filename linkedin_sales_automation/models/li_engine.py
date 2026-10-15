@@ -58,6 +58,7 @@ SEARCH_COOLDOWN = timedelta(minutes=60)
 MAX_SEND_FAILURES = 3
 DUPLICATE_RATIO = 0.9           # a new message this close to one already sent is a repeat
 DUPLICATE_MIN_CHARS = 25
+INBOX_MIN_MINUTES = 15
 LOCK_KEY = 74218301  # pg advisory lock serialising quota decisions
 
 GUARDRAILS = ('Never mention prices, discounts or promises that are not in the persona/service data. '
@@ -181,6 +182,11 @@ class LiMcpEngine(models.AbstractModel):
             return int(value) if value not in (None, False, '') else default
         except ValueError:
             return default
+
+    def _inbox_interval(self):
+        """Minutes between inbox reads: the setting, never below 15 (reading the
+        inbox every few minutes all day is the kind of traffic LinkedIn flags)."""
+        return max(self._param('inbox_interval', 60), INBOX_MIN_MINUTES)
 
     def _claim_timeout(self):
         return timedelta(minutes=max(self._param('claim_timeout', 15), 1))

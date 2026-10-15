@@ -40,6 +40,7 @@
     <function model="li.prospect" name="_li_requeue_followed_once"/>
     <function model="li.prospect" name="_li_merge_attachment_messages"/>
     <function model="li.prospect" name="_li_requeue_followed_with_connect"/>
+    <function model="res.config.settings" name="_li_raise_inbox_interval"/>
     <function model="res.config.settings" name="_li_remove_duplicate_medium"/>
 
     <data noupdate="1">

@@ -114,7 +114,7 @@ class LiMcpEngineChat(models.AbstractModel):
         ], order='last_activity_date desc', limit=limit)
 
     def _gen_check_inbox(self, profile, ctx):
-        minutes = self._param('inbox_interval', 60)
+        minutes = self._inbox_interval()
         recent = self.env['li.work.item'].search_count([
             ('linkedin_profile_id', '=', profile.id), ('work_type', '=', 'check_inbox'),
             '|', ('state', '=', 'released'),

@@ -299,9 +299,27 @@ class ResConfigSettings(models.TransientModel):
         return {'type': 'ir.actions.client', 'tag': 'reload'}
 
     def set_values(self):
+        from .li_engine import INBOX_MIN_MINUTES
+        if self.li_inbox_interval and self.li_inbox_interval < INBOX_MIN_MINUTES:
+            raise UserError(_('Check the inbox every %s minutes or more: reading LinkedIn every few minutes all '
+                              'day is the kind of traffic LinkedIn warns accounts about.', INBOX_MIN_MINUTES))
         super().set_values()
         value = (self.li_mcp_instructions or '').strip() or DEFAULT_INSTRUCTIONS
         self.env['ir.config_parameter'].sudo().set_param('li_sales.mcp_instructions', value)
+
+    @api.model
+    def _li_raise_inbox_interval(self):
+        """Once: an inbox interval below the new minimum is raised to it."""
+        from .li_engine import INBOX_MIN_MINUTES
+        icp = self.env['ir.config_parameter'].sudo()
+        if icp.get_param('li_sales.inbox_interval_min_applied'):
+            return False
+        icp.set_param('li_sales.inbox_interval_min_applied', '1')
+        value = self.env['li.mcp.tools']._param('inbox_interval', 60)
+        if value < INBOX_MIN_MINUTES:
+            icp.set_param('li_sales.inbox_interval', INBOX_MIN_MINUTES)
+            return True
+        return False
 
     @api.model
     def _li_upgrade_default_instructions(self):
