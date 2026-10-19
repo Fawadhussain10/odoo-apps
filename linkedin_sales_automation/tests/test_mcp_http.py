@@ -165,6 +165,8 @@ class TestMcpHttp(HttpCase, LiCommon):
         self.assertRegex(result['content'][0]['text'], r'^2 profiles, \d+ personas \(\d+ active\)\. Today: ')
         self.assertNotIn('{', result['content'][0]['text'])
         self.assertIn('profiles', result['structuredContent'])
+        # the whole answer is also in the text, for clients that only pass text on to the model
+        self.assertEqual(json.loads(result['content'][1]['text']), result['structuredContent'])
         bad = self.tool('li_confirm_send')
         self.assertTrue(bad['isError'])
         self.assertIn('work_id is required', bad['content'][0]['text'])
@@ -181,6 +183,7 @@ class TestMcpHttp(HttpCase, LiCommon):
         work = self.tool('li_get_work', linkedin_profile='taha')
         self.assertFalse(work['isError'], work)
         items = work['structuredContent']['items']
+        self.assertEqual(json.loads(work['content'][1]['text'])['items'][0]['work_id'], items[0]['work_id'])
         search = [i for i in items if i['type'] == 'search_prospects'][0]
         self.assertEqual(search['linkedin_profile'], 'taha')
         added = self.tool('li_add_prospects', work_id=search['work_id'], linkedin_profile='taha',

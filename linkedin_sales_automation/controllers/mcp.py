@@ -207,7 +207,11 @@ class LiSalesMcpController(http.Controller):
                 text = 'Internal error in %s: %s' % (name, exc)
             return _rpc_result(req_id, {'content': [{'type': 'text', 'text': str(text)}],
                                         'structuredContent': {'error': str(text)}, 'isError': True}), False, str(text)
-        return _rpc_result(req_id, {'content': [{'type': 'text', 'text': tools._summarize(name, result)}],
+        # the short summary first, then the whole answer as JSON text: clients that do not pass
+        # structuredContent on to the model (it then saw only "20 work item(s)") still get every field
+        full = json.dumps(result, ensure_ascii=False, default=str)
+        return _rpc_result(req_id, {'content': [{'type': 'text', 'text': tools._summarize(name, result)},
+                                                {'type': 'text', 'text': full}],
                                     'structuredContent': result, 'isError': False}), True, None
 
     def _log(self, method, tool, params, started, ok, error_text):
