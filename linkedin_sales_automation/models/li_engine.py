@@ -62,7 +62,9 @@ INBOX_MIN_MINUTES = 15
 LOCK_KEY = 74218301  # pg advisory lock serialising quota decisions
 
 GUARDRAILS = ('Never mention prices, discounts or promises that are not in the persona/service data. '
-              'Stop with anyone who says no or asks to stop.')
+              'Stop with anyone who says no or asks to stop. '
+              'Greet with a neutral "Hi" or "Hello" and their first name; use a religious greeting such as '
+              '"Salam" or "Assalam o Alaikum" only when they used one with us first, never guessed from a name.')
 JUDGEMENT = (
     'Treat the step, the template and these notes as guidelines, not a script. Think for yourself about what a '
     'thoughtful, experienced salesperson would naturally say next to this particular person at this point of '

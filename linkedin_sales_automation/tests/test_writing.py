@@ -74,6 +74,47 @@ class TestWritingItems(BackgroundCase):
             self.call('li_submit_text', work_id=item['work_id'], text='again')
 
     @freeze_time(MONDAY_10_UTC)
+    def test_queued_text_can_be_replaced_until_it_is_sent(self):
+        self._start()
+        persona = self._persona(run=('chat',))
+        prospect = self._accepted(persona)
+        item = self._items('message')[0]
+        self.assertIn('religious greeting', item['instructions'])
+        self.call('li_submit_text', work_id=item['work_id'], text='Salam Ali, thanks for connecting!')
+        work = self.env['li.work.item'].browse(item['work_id'])
+        # li_sending_status lists the queued text with its work_id
+        status = self.call('li_sending_status', linkedin_profile='taha')
+        queued = status['personas'][0]['queued_texts']
+        self.assertEqual([(q['work_id'], q['name'], q['text']) for q in queued],
+                         [(work.id, 'Ali Raza', 'Salam Ali, thanks for connecting!')])
+        # an invalid correction leaves the queued text as it was
+        with self.assertRaisesRegex(ToolError, 'Not changed: fill the placeholders'):
+            self.call('li_submit_text', work_id=work.id, text='Hi {first_name}!')
+        self.assertEqual(work.text_confirmed, 'Salam Ali, thanks for connecting!')
+        result = self.call('li_submit_text', work_id=work.id, text='Hi Ali,\nthanks for connecting!')
+        self.assertTrue(result['replaced'])
+        self.assertEqual((work.state, work.text_confirmed), ('queued', 'Hi Ali, thanks for connecting!'))
+        self.assertIn('Salam Ali, thanks for connecting!', prospect.message_ids[0].body)
+        self._script(get_conversation=[thread_data('')])
+        self._run()
+        self.assertEqual([c['args']['message'] for c in self._calls(tool='send_message')],
+                         ['Hi Ali, thanks for connecting!'])
+        self.assertEqual(work.state, 'done')
+        self.assertFalse(self.call('li_sending_status', linkedin_profile='taha')['personas'][0]['queued_texts'])
+        with self.assertRaisesRegex(ToolError, 'done'):
+            self.call('li_submit_text', work_id=work.id, text='Hello Ali')
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_text_being_sent_cannot_be_replaced(self):
+        persona = self._persona(run=('chat',))
+        self._accepted(persona)
+        item = self._items('message')[0]
+        self.call('li_submit_text', work_id=item['work_id'], text='Hi Ali, thanks for connecting!')
+        self.env['li.work.item'].browse(item['work_id']).state = 'sending'
+        with self.assertRaisesRegex(ToolError, 'being sent right now'):
+            self.call('li_submit_text', work_id=item['work_id'], text='Hello Ali, thanks for connecting!')
+
+    @freeze_time(MONDAY_10_UTC)
     def test_history_comes_first_and_a_repeat_is_refused(self):
         persona = self._persona(run=('chat',))
         prospect = self._accepted(persona)

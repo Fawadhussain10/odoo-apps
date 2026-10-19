@@ -354,6 +354,12 @@ class LiSendNow(models.AbstractModel):
                 'left_today': max(self._quota_left(persona_rec, 'connection'), 0),
                 'queued_to_send': WorkItem.search_count([('persona_id', '=', persona_rec.id),
                                                          ('state', 'in', ('queued', 'sending'))]),
+                # written but not sent yet: li_submit_text with the same work_id replaces the text
+                'queued_texts': [{'work_id': i.id, 'name': i.prospect_id.name, 'type': i.work_type,
+                                  'text': i.text_confirmed, 'submitted_at': iso_utc(i.date_submitted)}
+                                 for i in WorkItem.search([('persona_id', '=', persona_rec.id), ('state', '=', 'queued'),
+                                                           ('writing', '=', True), ('text_confirmed', '!=', False)],
+                                                          order='date_submitted asc, id asc')],
                 'queued_prospects': self.env['li.prospect'].search_count([('persona_id', '=', persona_rec.id),
                                                                           ('stage', '=', 'queued')]),
                 'agent_state': persona_rec.connection_agent_id.state,

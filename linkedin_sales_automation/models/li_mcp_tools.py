@@ -183,7 +183,8 @@ TOOLS = [
         'name': 'li_sending_status',
         'title': 'Sending status',
         'description': 'Built-in engine profiles: invites and messages sent today per persona (who, when, note or text), '
-                       'what is still queued, recent errors and when the engine runs next. Use it for "did it send?".',
+                       'what is still queued (queued_texts: texts written but not sent yet, with their work_id), '
+                       'recent errors and when the engine runs next. Use it for "did it send?".',
         'inputSchema': {'type': 'object', 'properties': {
             'linkedin_profile': {'type': 'string', 'description': 'Profile key (or name) from li_overview.'},
             'persona': STR,
@@ -196,7 +197,9 @@ TOOLS = [
         'description': 'Built-in engine profiles: answer an invite_note, message, followup or handoff writing item '
                        'with the exact text (one paragraph). Odoo queues it and sends it itself in the send window, '
                        'after re-reading the conversation; if the conversation changed meanwhile the text is '
-                       'dropped and a fresh item comes later. Before writing: ' + WRITE_ORDER,
+                       'dropped and a fresh item comes later. To correct a text that is queued but not sent yet, '
+                       'call it again with the same work_id (see queued_texts in li_sending_status): the new text '
+                       'replaces the old one. Before writing: ' + WRITE_ORDER,
         'inputSchema': {'type': 'object', 'properties': {
             'work_id': INT,
             'text': STR,

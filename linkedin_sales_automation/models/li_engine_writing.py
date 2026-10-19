@@ -301,6 +301,10 @@ class LiMcpWriting(models.AbstractModel):
         if not item.writing:
             raise ToolError('Work item %s is a Claude in Chrome item: send it in Chrome with li_confirm_send and '
                             'li_report_result.' % item.id)
+        if item.state == 'queued':
+            return self._replace_queued_text(item, text, step_done)
+        if item.state == 'sending':
+            raise ToolError('Work item %s is being sent right now: its text can no longer be changed.' % item.id)
         if item.state != 'released':
             raise ToolError('Work item %s is %s (%s). Call li_get_work for fresh items.' % (
                 item.id, item.state, item.cancel_reason or 'claim expired'))
@@ -325,6 +329,28 @@ class LiMcpWriting(models.AbstractModel):
         when = self._window_text(item.persona_id, agent)
         return {'ok': True, 'queued': True, 'work_id': item.id, 'send_window': when,
                 'message': 'Queued for %s: Odoo sends it %s.' % (
+                    item.prospect_id.name, 'shortly' if when == 'now' else 'in the send window (%s)' % when)}
+
+    def _replace_queued_text(self, item, text, step_done=None):
+        """A text queued but not sent yet is replaced by a corrected one. The
+        sender switches the item to sending (and commits) before it sends, so
+        a text changed here is the one that goes out, or the change is refused."""
+        text = one_paragraph(text)
+        error = self._validate_text(item, text)
+        if error:
+            raise ToolError('Not changed: %s. The queued text stays as it was.' % error)
+        old = item.text_confirmed or ''
+        values = {'text_confirmed': text}
+        if item.work_type == 'message' and step_done is not None:
+            values['keep_step'] = step_done is False
+        item.write(values)
+        if old != text:
+            item.prospect_id.sudo().message_post(
+                body=_('Queued %(kind)s changed by Claude before sending. Was: %(old)s', kind=item.work_type,
+                       old=old or '-'), subtype_xmlid='mail.mt_note')
+        when = self._window_text(item.persona_id, self._agent_of(item))
+        return {'ok': True, 'queued': True, 'replaced': True, 'work_id': item.id, 'send_window': when,
+                'message': 'Text for %s replaced; nothing was sent yet. Odoo sends the new text %s.' % (
                     item.prospect_id.name, 'shortly' if when == 'now' else 'in the send window (%s)' % when)}
 
     def _tool_li_submit_post_draft(self, work_id, text, title=None):
