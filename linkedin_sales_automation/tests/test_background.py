@@ -828,6 +828,32 @@ class TestBackgroundWork(BackgroundCase):
                          ('Founder and CEO at Deploy Systems', False, 'Founder and CEO', 'Deploy Systems'))
         self.assertEqual((typed.title, typed.company), ('Chief of everything', 'My own name'))    # kept
 
+    def test_search_line_values_are_replaced_from_the_profile_page(self):
+        persona = self._persona()
+        Prospect = self.env['li.prospect']
+        page = ('Kamran Qureshi\n· 1st\nResident Manager, SJABEED Enterprises, Abu Dhabi\n'
+                'Abu Dhabi Emirate, United Arab Emirates\n·\nContact info\nS J Abeed Enterprises')
+        wrong = Prospect.create({'name': 'Kamran Qureshi', 'persona_id': persona.id,
+                                 'linkedin_url': 'https://www.linkedin.com/in/kamran-q/', 'headline': 'See open roles',
+                                 'title': 'See open roles', 'location': 'Sara Eid • 2nd', 'profile_text': page})
+        right = Prospect.create({'name': 'Sara Eid', 'persona_id': persona.id,
+                                 'linkedin_url': 'https://www.linkedin.com/in/sara-eid/',
+                                 'headline': 'Human Resources Director', 'location': 'Dubai, United Arab Emirates',
+                                 'profile_text': 'Sara Eid\n· 2nd\nHuman Resources Director\n'
+                                                 'Dubai, United Arab Emirates\n·\nContact info'})
+        self.assertTrue(Prospect._li_repair_search_line_fields(force=True) >= 2)
+        self.assertEqual((wrong.headline, wrong.location),
+                         ('Resident Manager, SJABEED Enterprises, Abu Dhabi', 'Abu Dhabi Emirate, United Arab Emirates'))
+        self.assertTrue(wrong.title.startswith('Resident Manager'))           # not "See open roles" any more
+        self.assertEqual((right.headline, right.location), ('Human Resources Director', 'Dubai, United Arab Emirates'))
+        self.assertEqual(Prospect._li_repair_search_line_fields(), 0)          # once
+        # the profile page read while the invite was pending is marked out of date once they accepted
+        right.write({'profile_read_at': '2026-10-17 06:20:58', 'date_accepted': '2026-10-17 12:19:02',
+                     'stage': 'accepted'})
+        self.assertIn('connected since 2026-10-17 12:19 UTC', right._payload()['connection'])
+        self.assertIn('out of date', right._payload()['connection'])
+        self.assertEqual(wrong._payload()['connection'], 'not connected')
+
     # ------------------------------------------------------------------
     # Prospect profiles
     # ------------------------------------------------------------------

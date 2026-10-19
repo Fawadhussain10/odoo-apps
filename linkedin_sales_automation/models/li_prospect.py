@@ -5,7 +5,7 @@ from markupsafe import Markup, escape
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from .li_common import CLOSED_STAGES, PROSPECT_STAGES, linkedin_username, normalize_profile_url, utc_now
+from .li_common import CLOSED_STAGES, PROSPECT_STAGES, iso_utc, linkedin_username, normalize_profile_url, utc_now
 
 
 class LiProspect(models.Model):
@@ -198,7 +198,23 @@ class LiProspect(models.Model):
             'linkedin_url': self.linkedin_url,
             'username': self.linkedin_username or '',
             'profile': self.profile_text or '',
+            'profile_read_at': iso_utc(self.profile_read_at),
+            'connection': self._connection_payload(),
         }
+
+    def _connection_payload(self):
+        """Where the connection stands, from Odoo's records: the saved profile
+        page shows its buttons as they were when it was read."""
+        self.ensure_one()
+        if self.date_accepted:
+            status = _('connected since %s UTC', iso_utc(self.date_accepted)[:16].replace('T', ' '))
+            if self.profile_read_at and self.profile_read_at < self.date_accepted:
+                status += _('; the profile page was read before they accepted, so a "Pending", "Connect" or '
+                            '"2nd" in it is out of date')
+            return status
+        if self.stage == 'invited':
+            return _('invitation sent, not accepted yet')
+        return _('not connected')
 
     def _contact_payload(self):
         self.ensure_one()
@@ -281,10 +297,11 @@ class LiProspect(models.Model):
             user = user or prospect._owner_user() or self.env.user
             prospect.write({'is_taken_over': True, 'taken_over_by': user.id, 'date_taken_over': utc_now(),
                             'takeover_reason': reason, 'next_followup_date': False})
-            # cancel queued Chat Agent and Follow-up Agent messages for this prospect only
+            # cancel queued Chat Agent and Follow-up Agent messages for this prospect only; they count as
+            # discarded stale only when a message written by hand changed the conversation
             WorkItem._cancel_open([('prospect_id', '=', prospect.id),
                                    ('work_type', 'in', ('invite', 'message', 'followup', 'analyse'))],
-                                  reason=_('prospect taken over'), stale=True)
+                                  reason=_('prospect taken over'), stale=reason == 'human_message')
             why = {'manual': '', 'pivot': _(' at pivot'),
                    'human_message': _(' (a message written by hand was detected)'),
                    'contact_request': _(' (they asked for a person)')}[reason]

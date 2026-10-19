@@ -128,9 +128,13 @@ def message_outcome(data):
 # ---------------------------------------------------------------------------
 _DEGREE_RE = re.compile(r'^\W*(1st|2nd|3rd\+?)(\W|$)', re.I)
 _NOISE_LINES = {'connect', 'message', 'follow', 'following', 'pending', 'view profile', 'status is offline',
-                'status is online', 'premium', 'verified', 'open to work', 'hiring', 'save', 'more'}
+                'status is online', 'premium', 'verified', 'open to work', 'hiring', 'save', 'more',
+                'see open roles'}
+# LinkedIn's own lines between search results: hiring badges and Sales Navigator / Premium offers
 _NOISE_RE = re.compile(r'^(view .{1,80}profile|.{0,40}mutual connections?|.{0,40}followers?|'
                        r'current:|past:|summary:|skills:|provides services|degree connection|'
+                       r'see (open roles|jobs)|prioriti[sz]e the right prospects|(try|get|unlock|upgrade to) sales navigator|'
+                       r'try premium|reactivate premium|.{0,40}\bpremium for\b|'
                        r'\d+(st|nd|rd|th) degree connection|\(?(he|she|they)/(him|her|them)\)?)', re.I)
 
 
@@ -160,6 +164,9 @@ def parse_search_results(data, own_username=''):
     location are the first two meaningful lines after the name in the page text."""
     references = (data.get('references') or {}).get('search_results') or []
     lines = _clean_lines((data.get('sections') or {}).get('search_results', ''))
+    # the name of the next person is never this person's headline or place ("Sara Eid • 2nd")
+    names = {normalize_name(re.sub(r'^view\s+|[’\']s?\s+profile$', '', (r.get('text') or '').strip(), flags=re.I))
+             for r in references if r.get('kind') == 'person'} - {''}
     people, seen = [], set()
     for ref in references:
         if ref.get('kind') != 'person':
@@ -176,6 +183,9 @@ def parse_search_results(data, own_username=''):
             details = []
             for line in lines[start + 1:start + 12]:
                 if normalize_name(line).startswith(name_key) and details:
+                    break
+                key = normalize_name(line)
+                if any(key == other or key.startswith(other + ' ') for other in names - {name_key}):
                     break
                 if not _is_noise(line, name_key):
                     details.append(line)

@@ -37,6 +37,7 @@
     <function model="li.prospect" name="_li_repair_ui_messages"/>
     <function model="li.prospect" name="_li_reverify_invites"/>
     <function model="li.prospect" name="_li_repair_prospect_fields"/>
+    <function model="li.prospect" name="_li_repair_search_line_fields"/>
     <function model="li.prospect" name="_li_requeue_followed_once"/>
     <function model="li.prospect" name="_li_merge_attachment_messages"/>
     <function model="li.prospect" name="_li_requeue_followed_with_connect"/>

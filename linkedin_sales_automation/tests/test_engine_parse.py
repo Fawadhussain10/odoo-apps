@@ -128,6 +128,21 @@ class TestEngineParse(BaseCase):
         self.assertEqual(people[0]['linkedin_url'], 'https://www.linkedin.com/in/ali-raza/')
         self.assertEqual(connected_usernames(SEARCH), {'ali-raza', 'sara-khan-123', 'taha-test'})
         self.assertEqual(parse_search_results({}), [])
+        # LinkedIn's own lines and the next person's name are never a headline or a place
+        noisy = {'sections': {'search_results': 'Kamran Qureshi\n• 1st\nSee open roles\n'
+                                                'Prioritize the right prospects for your outreach\n'
+                                                'Sara Eid • 2nd\nHuman Resources Director\nDubai\n'
+                                                'Vinod Gadad\nTry Sales Navigator for free\nHR Business Partner\n'
+                                                'Abu Dhabi'},
+                 'references': {'search_results': [
+                     {'kind': 'person', 'url': '/in/kamran-q/', 'text': 'Kamran Qureshi'},
+                     {'kind': 'person', 'url': '/in/sara-eid/', 'text': 'Sara Eid'},
+                     {'kind': 'person', 'url': '/in/vinod-g/', 'text': 'Vinod Gadad'}]}}
+        self.assertEqual([(p['name'], p['headline'], p['location']) for p in parse_search_results(noisy)], [
+            ('Kamran Qureshi', '', ''),
+            ('Sara Eid', 'Human Resources Director', 'Dubai'),
+            ('Vinod Gadad', 'HR Business Partner', 'Abu Dhabi'),
+        ])
         self.assertIn('network=%5B%22F%22%5D', people_search_url('Ali Raza', ['F']))
 
     def test_inbox(self):

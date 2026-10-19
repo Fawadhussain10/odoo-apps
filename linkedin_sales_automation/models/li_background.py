@@ -348,25 +348,36 @@ class LiProspectBackground(models.Model):
         """Headline, location, title and company from what Odoo already knows:
         a headline that landed in Location goes back, the saved profile page
         fills what is missing, and title and company come from the headline.
-        Values a person typed are kept."""
+        The profile page is LinkedIn's own top card, so it also replaces a value
+        it does not contain that is no headline or place at all (a search-results
+        line such as "See open roles" or the next person's name)."""
         from .li_engine_parse import looks_like_headline, profile_top_fields, split_headline
         for prospect in self:
             vals = {}
+            page = prospect.profile_text or ''
             headline, location = prospect.headline or '', prospect.location or ''
             if not headline and looks_like_headline(location):
                 headline, location = location, ''
-            page_headline, page_location = profile_top_fields(prospect.profile_text, prospect.name)
-            headline = headline or page_headline
+            page_headline, page_location = profile_top_fields(page, prospect.name)
+            if page_headline and (not headline or (headline not in page and not looks_like_headline(headline))):
+                headline = page_headline
+            if page_location and not looks_like_headline(page_location) and location not in page:
+                location = ''
             if not location or looks_like_headline(location):
                 location = page_location if not looks_like_headline(page_location) else ''
-            if headline != (prospect.headline or ''):
+            changed = headline != (prospect.headline or '')
+            if changed:
                 vals['headline'] = headline[:250] or False
             if location != (prospect.location or ''):
                 vals['location'] = location[:120] or False
             title, company = split_headline(headline)
-            if not prospect.title and title:
+            # title and company taken from a wrong headline go with it
+            stale = changed and page_headline == headline
+            if title and (not prospect.title or (stale and prospect.title not in page)):
                 vals['title'] = title
-            if not prospect.company and company:
+            if stale and prospect.company and prospect.company not in page:
+                vals['company'] = company or False
+            elif not prospect.company and company:
                 vals['company'] = company
             if vals:
                 prospect.write(vals)
@@ -386,6 +397,17 @@ class LiProspectBackground(models.Model):
         if not self._li_once('li_sales.repaired_prospect_fields', force):
             return 0
         prospects = self.sudo().with_context(active_test=False).search([])
+        prospects._li_fill_fields()
+        return len(prospects)
+
+    @api.model
+    def _li_repair_search_line_fields(self, force=False):
+        """Once, on upgrade: headlines and places taken from search-result lines
+        that were not about the person ("See open roles", a Sales Navigator offer,
+        the next person's name) are replaced from the saved profile page."""
+        if not self._li_once('li_sales.repaired_search_line_fields', force):
+            return 0
+        prospects = self.sudo().with_context(active_test=False).search([('profile_text', '!=', False)])
         prospects._li_fill_fields()
         return len(prospects)
 
