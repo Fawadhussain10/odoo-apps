@@ -482,11 +482,33 @@ class TestBackgroundWork(BackgroundCase):
         self._start()
         persona, prospect = self._chat_prospect('')
         step = persona.chat_agent_id.step_ids.sorted('sequence')[0]
-        self._script(send_message=[{'data': {'status': 'enter_to_send_enabled', 'sent': False, 'retry_safe': True}}])
+        self._script(send_message=[{'data': {'status': 'enter_to_send_enabled', 'sent': False, 'retry_safe': True}}],
+                     use_click_to_send=[{'data': {'status': 'option_unavailable', 'retry_safe': True}}])
         item = self.Tools._queue_send('message', prospect, text='Hi Ali!', step=step)
         self._run()
         self.assertEqual((item.state, item.send_attempts), ('queued', 1))
         self.assertTrue(self.profile.activity_ids.filtered(lambda a: 'Click Send' in a.summary))
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_enter_to_send_is_switched_and_the_text_goes_out(self):
+        self._start()
+        persona, prospect = self._chat_prospect('')
+        step = persona.chat_agent_id.step_ids.sorted('sequence')[0]
+        self._script(send_message=[{'data': {'status': 'enter_to_send_enabled', 'sent': False, 'retry_safe': True,
+                                             'url': 'https://www.linkedin.com/messaging/compose/?x=1'}},
+                                   {'data': {'status': 'sent', 'sent': True, 'retry_safe': False}}],
+                     use_click_to_send=[{'data': {'status': 'click_to_send', 'retry_safe': True}}])
+        item = self.Tools._queue_send('message', prospect, text='Hi Ali!', step=step)
+        self._run()
+        self.assertEqual(self._calls(tool='use_click_to_send')[0]['args'],
+                         {'url': 'https://www.linkedin.com/messaging/compose/?x=1'})
+        self.assertEqual((item.state, item.send_attempts, item.error), ('queued', 0, False))
+        self.assertFalse(self.profile.activity_ids.filtered(lambda a: 'Click Send' in a.summary))
+        self.assertEqual(persona.chat_agent_id.consecutive_errors, 0)
+        with freeze_time('2026-10-12 10:20:00'):
+            self._run()
+        self.assertEqual(item.state, 'done')
+        self.assertEqual([c['args']['message'] for c in self._calls(tool='send_message')], ['Hi Ali!', 'Hi Ali!'])
 
     # ------------------------------------------------------------------
     # Inbox, threads, Activity Agent

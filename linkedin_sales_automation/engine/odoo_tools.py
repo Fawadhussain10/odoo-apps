@@ -640,6 +640,62 @@ async def connection_state_flow(extractor, username):
     return {'status': state, 'seen': states, 'top_text': top_text, 'retry_safe': True}
 
 
+# LinkedIn's "Press Enter to Send" preference hides the composer's Send button,
+# which the engine's send_message needs. The send-options toggle next to the
+# composer opens a menu with "Press Enter to Send" / "Click Send to send".
+SEND_MODE_JS = """(choose) => {
+    const visible = e => !!(e && e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden');
+    const sendButton = Array.from(document.querySelectorAll(
+        'form.msg-form button[type="submit"], button.msg-form__send-button')).some(visible);
+    const toggle = Array.from(document.querySelectorAll('.msg-form__send-toggle')).find(visible);
+    if (choose === 'toggle' && toggle) { toggle.click(); return {clicked: true, sendButton, toggle: true}; }
+    if (choose === 'click') {
+        const items = Array.from(document.querySelectorAll(
+            '[role="menuitemradio"], [role="menuitem"], [role="option"], .artdeco-dropdown__item, label, button'))
+            .filter(visible).filter(e => /click send to send/i.test((e.innerText || e.textContent || '').trim()));
+        if (items.length) { items[0].click(); return {clicked: true, sendButton, toggle: !!toggle}; }
+    }
+    return {clicked: false, sendButton, toggle: !!toggle};
+}"""
+MESSAGING_URL = 'https://www.linkedin.com/messaging/'
+
+
+async def click_to_send_flow(extractor, url=None):
+    """Switch LinkedIn messaging to "Click Send to send". Types nothing and sends
+    nothing: it only opens a composer and changes the send option."""
+    session = _session_of(extractor)
+    page = session.page
+    target = url if url and re.match(r'^https://www\.linkedin\.com/messaging/', url) else MESSAGING_URL
+    await PageNavigator(session)._navigate_to_page(target)
+    await session.check_rate_limit()
+    state = {}
+    for _i in range(20):
+        await asyncio.sleep(0.5)
+        state = await page.evaluate(SEND_MODE_JS, '')
+        if state['sendButton'] or state['toggle']:
+            break
+    if state.get('sendButton'):
+        return _result('click_to_send', 'LinkedIn already uses Click Send to send.', True)
+    if not state.get('toggle'):
+        return _result('composer_unavailable', 'No message composer with send options was found.', True)
+    await page.evaluate(SEND_MODE_JS, 'toggle')
+    for _i in range(10):
+        await asyncio.sleep(0.4)
+        if (await page.evaluate(SEND_MODE_JS, 'click'))['clicked']:
+            break
+    else:
+        try:
+            await page.keyboard.press('Escape')
+        except Exception:
+            pass
+        return _result('option_unavailable', 'The "Click Send to send" option was not found.', True)
+    for _i in range(10):
+        await asyncio.sleep(0.5)
+        if (await page.evaluate(SEND_MODE_JS, ''))['sendButton']:
+            return _result('click_to_send', 'Switched to Click Send to send.', True)
+    return _result('unconfirmed', 'The option was chosen but no Send button appeared.', True)
+
+
 def install_invite_notices():
     """Wrap the engine's invite flow in memory (no engine file is changed): keep
     the notice LinkedIn shows after the invite dialog is submitted, and add it
@@ -815,6 +871,26 @@ def register_odoo_tools(mcp: FastMCP, *, tool_timeout: float) -> None:
         except Exception as e:
             raise_tool_error(e, 'follow_person')
 
+
+    @mcp.tool(timeout=tool_timeout, title='Use Click Send To Send',
+              annotations={'destructiveHint': False, 'openWorldHint': True}, tags={'messaging', 'actions'})
+    async def use_click_to_send(ctx: Context, url: str | None = None) -> dict[str, Any]:
+        """Switch LinkedIn messaging from "Press Enter to Send" to "Click Send to
+        send", so send_message finds its Send button (Odoo add-on tool). Types and
+        sends nothing. url: the messaging page send_message reported (optional).
+
+        Returns status click_to_send (done or already so), or composer_unavailable,
+        option_unavailable, unconfirmed; with message and retry_safe (always true)."""
+        try:
+            extractor = await get_ready_extractor(ctx, tool_name='use_click_to_send')
+            return await click_to_send_flow(extractor, url)
+        except AuthenticationError as e:
+            try:
+                await handle_auth_error(e, ctx)
+            except Exception as relogin_exc:
+                raise_tool_error(relogin_exc, 'use_click_to_send')
+        except Exception as e:
+            raise_tool_error(e, 'use_click_to_send')
 
     @mcp.tool(timeout=tool_timeout, title='Create Post',
               annotations={'destructiveHint': True, 'openWorldHint': True}, tags={'post', 'actions'})

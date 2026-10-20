@@ -1220,6 +1220,11 @@ class LiBackgroundWork(models.AbstractModel):
         else:
             status, retry_safe, detail = 'failed', True, text
         if status == 'enter_to_send':
+            if self._bg_use_click_to_send(profile, data):
+                # nothing was typed or sent: the same text goes out in the next run, no attempt counted
+                item.write({'state': 'queued', 'confirmed': False, 'date_confirmed': False,
+                            'quota_consumed': False, 'error': False})
+                return
             self._bg_enter_to_send(profile)
             status = 'failed'
         if item.work_type == 'invite' and kind is None:
@@ -1542,6 +1547,20 @@ class LiBackgroundWork(models.AbstractModel):
         if is_weekly_limit(shown):
             return 'weekly_limit', shown
         return 'unknown', shown[:300]
+
+    def _bg_use_click_to_send(self, profile, data):
+        """LinkedIn's "Press Enter to Send" hides the Send button the engine
+        clicks: switch the account to "Click Send to send" (use_click_to_send, an
+        Odoo tool added to the engine; it types and sends nothing). True when done."""
+        url = (data or {}).get('url') or ''
+        result, kind, text = self._bg_call(profile, 'use_click_to_send', {'url': url} if url else {}, 'message')
+        if kind is None and (result or {}).get('status') == 'click_to_send':
+            profile.sudo().message_post(
+                body=_('LinkedIn was set to "Press Enter to Send"; the engine switched it to "Click Send to send" '
+                       'and sends the queued messages again.'),
+                author_id=self.env['li.event']._ai_partner().id, subtype_xmlid='mail.mt_note')
+            return True
+        return False
 
     def _bg_enter_to_send(self, profile):
         summary = _('Switch LinkedIn to "Click Send to send" (%s)', profile.account_key)
