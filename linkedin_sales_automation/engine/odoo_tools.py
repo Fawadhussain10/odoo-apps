@@ -763,24 +763,124 @@ def install_invite_notices():
     ConnectionActions._odoo_notices = True
 
 
+# The engine looks for the Message link in the first <section> of the profile
+# that holds no other section. A profile with an "Open to work" (or "Hiring")
+# card has that card as a section inside the top card, so the engine looks in
+# the card, finds no Message link and never messages the person. This check
+# starts from the Message link instead: the section that holds it must hold no
+# other Message link, and the link must name one profile. The engine then
+# verifies the recipient again on the message page, as for any other profile.
+MESSAGE_TARGET_JS = r"""() => {
+    const visible = e => {
+        const visibility = e && getComputedStyle(e).visibility;
+        return !!(e && visibility !== 'hidden' && visibility !== 'collapse' &&
+                  (e.offsetWidth || e.offsetHeight || e.getClientRects().length));
+    };
+    const active = a => visible(a) && !a.hasAttribute('disabled') &&
+        (a.getAttribute('aria-disabled') || '').toLowerCase() !== 'true';
+    const profileId = value => {
+        if (typeof value !== 'string' || /[\\\x00-\x1f\x7f]/.test(value)) return null;
+        try {
+            const url = new URL(value, window.location.href);
+            const host = url.hostname.toLowerCase().replace(/\.$/, '');
+            if (url.protocol !== 'https:' || !/(^|\.)linkedin\.com$/.test(host) || url.username ||
+                url.password || (url.port && url.port !== '443') || url.hash ||
+                url.pathname !== '/messaging/compose/') return null;
+            const ids = [...url.searchParams.getAll('recipient'), ...url.searchParams.getAll('profileUrn')]
+                .map(item => item.trim().replace(/^urn:li:fsd_profile:/, ''));
+            if (!ids.length || !ids.every(id => /^[A-Za-z0-9_-]+$/.test(id) && id === ids[0])) return null;
+            return ids[0];
+        } catch (error) {
+            return null;
+        }
+    };
+    const main = document.querySelector('main');
+    if (!main) return {status: 'unresolved', why: 'no main area on the page'};
+    const links = Array.from(main.querySelectorAll('a[href*="/messaging/compose/"]'))
+        .filter(a => visible(a) && !a.closest('aside'));
+    if (!links.length) return {status: 'unresolved', why: 'no Message link on the page'};
+    const card = links[0].closest('section');
+    if (!card) return {status: 'unresolved', why: 'the Message link is outside any section'};
+    const own = links.filter(a => a.closest('section') === card);
+    if (own.length !== 1 || !active(own[0])) {
+        return {status: 'unresolved', why: own.length + ' Message links in the top card'};
+    }
+    const href = own[0].getAttribute('href') || own[0].href || '';
+    if (!profileId(href)) return {status: 'unresolved', why: 'the Message link names no single profile'};
+    const heading = Array.from(card.querySelectorAll('h1, h2, h3'))
+        .find(h => visible(h) && h.closest('section') === card);
+    return {
+        status: 'resolved',
+        pageUrl: window.location.href,
+        displayName: heading ? (heading.innerText || heading.textContent || '').replace(/\s+/g, ' ').trim() : '',
+        composeHrefs: [href],
+    };
+}"""
+
+
+def message_target(data, sender_module):
+    """The engine's message target from MESSAGE_TARGET_JS's answer, built with
+    the engine's own URL checks; None when it is not one clear recipient."""
+    if not isinstance(data, dict) or data.get('status') != 'resolved':
+        return None
+    page_url, hrefs = data.get('pageUrl'), data.get('composeHrefs')
+    if not isinstance(page_url, str) or not isinstance(hrefs, list) or len(hrefs) != 1:
+        return None
+    profile_path = sender_module._profile_path_from_url(page_url)
+    parsed = sender_module._safe_linkedin_url(hrefs[0], base=page_url) if isinstance(hrefs[0], str) else None
+    if profile_path is None or parsed is None:
+        return None
+    compose_url = parsed.geturl()
+    profile_urn = sender_module._profile_urn_from_compose_url(compose_url)
+    if profile_urn is None:
+        return None
+    return sender_module._ProfileMessageTarget(profile_path=profile_path, profile_urn=profile_urn,
+                                               compose_url=compose_url,
+                                               display_name=(data.get('displayName') or '').strip() or None)
+
+
 def install_message_target_fix():
-    """Profiles with an "Open to work" or "Hiring" card have more than one heading
-    in their top card; the engine requires exactly one (the name) before it uses
-    the Message link, so it never messages them. Patched in memory (no engine
-    file is changed): the first heading is the name. Every other check stays:
-    exactly one Message link in the top card, carrying the person's profile id,
-    and the recipient is verified again on the message page."""
+    """Wrap the engine's Message-link lookup in memory (no engine file is
+    changed): when the engine finds no clear Message link, MESSAGE_TARGET_JS
+    looks again from the link itself; why it found none goes into the answer.
+    A profile with no Message link at all keeps the engine's own answer."""
     from linkedin_mcp_server.linkedin import message_sender
-    if getattr(message_sender, '_odoo_target_fix', False):
+    sender = getattr(message_sender, 'MessageSender', None)
+    if sender is None or not hasattr(sender, '_read_profile_message_target') \
+            or getattr(sender, '_odoo_target_fix', False):
         return
-    strict = 'headings.length !== 1 ||'
-    script = message_sender._PROFILE_MESSAGE_TARGET_JS
-    if strict not in script:
-        return                                  # the engine changed: leave it as it is
-    script = script.replace(strict, 'headings.length < 1 ||', 1)
-    message_sender._PROFILE_MESSAGE_TARGET_JS = script
-    message_sender._PROFILE_MESSAGE_TARGET_READY_JS = "() => (%s)().status === 'resolved'" % script
-    message_sender._odoo_target_fix = True
+    read_target, send = sender._read_profile_message_target, sender.send_message
+
+    async def _read_profile_message_target(self, *args, **kwargs):
+        self._odoo_target_note = ''
+        resolution = await read_target(self, *args, **kwargs)
+        if resolution.status == 'resolved':
+            return resolution
+        # 'failed' (no clear link) or 'unavailable' (no link in the section it looked at): look from the link
+        try:
+            data = await self._page.evaluate(MESSAGE_TARGET_JS)
+        except Exception as error:
+            self._odoo_target_note = 'page check failed: %s' % error
+            return resolution
+        target = message_target(data, message_sender)
+        if target is None:
+            self._odoo_target_note = (data or {}).get('why') or 'no single recipient'
+            return resolution
+        logger.info('Message link found from the link itself (the engine\'s own lookup failed)')
+        return message_sender._ProfileMessageTargetResolution('resolved', target)
+
+    async def send_message(self, *args, **kwargs):
+        self._odoo_target_note = ''
+        result = await send(self, *args, **kwargs)
+        note = getattr(self, '_odoo_target_note', '')
+        if isinstance(result, dict) and note and result.get('status') in ('recipient_resolution_failed',
+                                                                          'message_unavailable'):
+            result['message'] = '%s Odoo check: %s.' % (result.get('message') or '', note)
+        return result
+
+    sender._read_profile_message_target = _read_profile_message_target
+    sender.send_message = send_message
+    sender._odoo_target_fix = True
 
 def register_odoo_tools(mcp: FastMCP, *, tool_timeout: float) -> None:
 

@@ -7,6 +7,7 @@ from . import test_dashboard
 from . import test_dashboard_ui
 from . import test_engine_manager
 from . import test_login
+from . import test_engine_message_target
 from . import test_engine_parse
 from . import test_chrome_mode
 from . import test_background
