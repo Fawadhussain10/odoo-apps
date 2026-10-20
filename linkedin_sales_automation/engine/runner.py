@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import linkedin_mcp_server.server as engine_server  # noqa: E402
 
-from odoo_tools import install_invite_notices, register_odoo_tools  # noqa: E402
+from odoo_tools import install_invite_notices, install_message_target_fix, register_odoo_tools  # noqa: E402
 
 _register_post_tools = engine_server.register_post_tools
 
@@ -28,6 +28,7 @@ def register_post_tools(mcp, **kwargs):
 
 engine_server.register_post_tools = register_post_tools
 install_invite_notices()
+install_message_target_fix()
 
 from linkedin_mcp_server.cli_main import main  # noqa: E402
 

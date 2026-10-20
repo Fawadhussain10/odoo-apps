@@ -763,6 +763,25 @@ def install_invite_notices():
     ConnectionActions._odoo_notices = True
 
 
+def install_message_target_fix():
+    """Profiles with an "Open to work" or "Hiring" card have more than one heading
+    in their top card; the engine requires exactly one (the name) before it uses
+    the Message link, so it never messages them. Patched in memory (no engine
+    file is changed): the first heading is the name. Every other check stays:
+    exactly one Message link in the top card, carrying the person's profile id,
+    and the recipient is verified again on the message page."""
+    from linkedin_mcp_server.linkedin import message_sender
+    if getattr(message_sender, '_odoo_target_fix', False):
+        return
+    strict = 'headings.length !== 1 ||'
+    script = message_sender._PROFILE_MESSAGE_TARGET_JS
+    if strict not in script:
+        return                                  # the engine changed: leave it as it is
+    script = script.replace(strict, 'headings.length < 1 ||', 1)
+    message_sender._PROFILE_MESSAGE_TARGET_JS = script
+    message_sender._PROFILE_MESSAGE_TARGET_READY_JS = "() => (%s)().status === 'resolved'" % script
+    message_sender._odoo_target_fix = True
+
 def register_odoo_tools(mcp: FastMCP, *, tool_timeout: float) -> None:
 
     @mcp.tool(timeout=tool_timeout, title='Send Invite Direct',
