@@ -41,3 +41,11 @@ class TestEngineMessageTarget(TransactionCase):
                          ('failed', 'the Message link names no single profile'))
         for key in ('no_message', 'only_sidebar'):          # a sidebar Message link is someone else's
             self.assertEqual((pages[key]['patched'], pages[key]['patched_urn']), ('unavailable', None), key)
+        # "Press Enter to Send" is switched off whatever LinkedIn calls the option, and nothing is sent
+        for key in ('linkedin_radios', 'menu_click_send', 'plain_click_send_to_send'):
+            self.assertEqual(pages['send_mode_' + key]['status'], 'click_to_send', key)
+        self.assertEqual(pages['send_mode_already_click_send']['message'], 'LinkedIn already uses Click Send to send.')
+        missing = pages['send_mode_no_click_option']
+        self.assertEqual(missing['status'], 'option_unavailable')
+        self.assertIn('Menu shown: Press Enter to Send', missing['message'])     # what was there, for the owner
+        self.assertEqual({page['sent'] for key, page in pages.items() if key.startswith('send_mode_')}, {'no'})

@@ -646,8 +646,18 @@ async def connection_state_flow(extractor, username):
 SEND_TOGGLE = ('.msg-form__send-toggle', 'button[aria-label*="send options" i]',
                'button[aria-label*="Open send" i]')
 SEND_BUTTON = ('form.msg-form button.msg-form__send-button', 'form.msg-form button[type="submit"]')
-CLICK_SEND_OPTION = re.compile(r'click\s+send\s+to\s+send', re.I)
+# LinkedIn words the option "Click Send", "Click Send to send" or "Click send button
+# to send": anything that starts with "Click" and names Send, never "Press Enter".
+CLICK_SEND_OPTION = re.compile(r'^\s*click\b.{0,20}\bsend\b', re.I | re.S)
 MESSAGING_URL = 'https://www.linkedin.com/messaging/'
+# What a send-options menu shows once open (for the error when no option matched)
+SEND_MENU_JS = """() => {
+    const visible = e => !!(e && e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden');
+    const menus = Array.from(document.querySelectorAll(
+        '[role="menu"], [role="listbox"], [role="dialog"], .artdeco-dropdown__content, .msg-form__send-options'))
+        .filter(visible);
+    return menus.map(m => (m.innerText || '').replace(/\\s+/g, ' ').trim()).filter(Boolean).join(' || ').slice(0, 400);
+}"""
 
 
 async def _visible(page, selectors):
@@ -662,57 +672,133 @@ async def _visible(page, selectors):
     return None
 
 
-async def click_to_send_flow(extractor, url=None):
-    """Switch LinkedIn messaging to "Click Send to send". Types nothing and sends
-    nothing: it only opens a composer and changes the send option."""
-    session = _session_of(extractor)
-    page = session.page
-    target = url if url and re.match(r'^https://www\.linkedin\.com/messaging/', url) else MESSAGING_URL
-    await PageNavigator(session)._navigate_to_page(target)
-    await session.check_rate_limit()
+# LinkedIn's own marker on the "Click Send" radio button of the send-options menu
+CLICK_SEND_INPUT = '[data-test-msg-ui-send-mode-toggle-presenter__click-to-send-input]'
+
+
+async def _click_send_option(page):
+    """The "Click Send" choice of an open send-options menu: LinkedIn's marked
+    radio button, else a menu item, radio or option named so, else the smallest
+    visible element with that text."""
+    marked = page.locator(CLICK_SEND_INPUT)
+    try:
+        if await marked.count():
+            return marked.first
+    except Exception:
+        pass
+    for role in ('menuitemradio', 'menuitem', 'radio', 'option'):
+        found = await _first_matching(page.get_by_role(role, name=CLICK_SEND_OPTION))
+        if found:
+            return found
+    return await _first_matching(page.get_by_text(CLICK_SEND_OPTION))
+
+
+async def _first_matching(locator):
+    try:
+        for index in range(await locator.count()):
+            item = locator.nth(index)
+            if await item.is_visible():
+                return item
+    except Exception:
+        return None
+    return None
+
+
+async def _choose(page, option):
+    """Choose the option as a person does. A radio button is chosen through its
+    label: LinkedIn draws the label over the button, so a click on the button
+    itself never lands. Returns an error text, or '' when chosen."""
+    targets = []
+    try:
+        if await option.evaluate("e => e.tagName === 'INPUT'"):
+            input_id = await option.get_attribute('id')
+            if input_id:
+                targets.append(page.locator('label[for="%s"]' % input_id.replace('"', '\\"')).first)
+            targets.append(option.locator('xpath=ancestor::label[1]'))
+    except Exception:
+        pass
+    targets.append(option)
+    error = ''
+    for target in targets:
+        try:
+            if not await target.count():
+                continue
+            await target.click(timeout=5000)
+            return ''
+        except Exception as exc:
+            error = str(exc).splitlines()[0][:200]
+    try:
+        if await option.evaluate("e => e.tagName === 'INPUT'"):
+            await option.check(force=True, timeout=5000)     # a radio button: choosing it sends nothing
+            return ''
+    except Exception as exc:
+        error = str(exc).splitlines()[0][:200]
+    return error or 'no clickable element'
+
+
+async def switch_send_mode(page, wait=15.0):
+    """On a page with a message composer: choose "Click Send" in its send options.
+    Types and sends nothing."""
     toggle = None
-    for _i in range(30):
-        await asyncio.sleep(0.5)
+    for _i in range(int(wait / 0.5)):
         if await _visible(page, SEND_BUTTON):
             return _result('click_to_send', 'LinkedIn already uses Click Send to send.', True)
         toggle = await _visible(page, SEND_TOGGLE)
         if toggle:
             break
+        await asyncio.sleep(0.5)
     if not toggle:
         return _result('composer_unavailable', 'No message composer with send options was found on %s.' % page.url,
                        True)
-    await toggle.click()
     option = None
-    for _i in range(16):
-        await asyncio.sleep(0.4)
-        candidates = page.get_by_text(CLICK_SEND_OPTION)
-        try:
-            for index in range(await candidates.count()):
-                if await candidates.nth(index).is_visible():
-                    option = candidates.nth(index)
-                    break
-        except Exception:
-            option = None
+    for opening in ('click', 'Enter'):             # a second try with the keyboard if the click opened nothing
+        if opening == 'click':
+            await toggle.click()
+        else:
+            await toggle.focus()
+            await page.keyboard.press('Enter')
+        for _i in range(12):
+            await asyncio.sleep(0.4)
+            option = await _click_send_option(page)
+            if option:
+                break
         if option:
             break
     if not option:
         menu = ''
         try:
-            menu = (await page.evaluate("() => (document.querySelector('.msg-form') || document.body)"
-                                        ".innerText.slice(-400)")).replace('\n', ' | ')
+            menu = await page.evaluate(SEND_MENU_JS)
         except Exception:
             pass
         try:
             await page.keyboard.press('Escape')
         except Exception:
             pass
-        return _result('option_unavailable', 'The "Click Send to send" option was not found. Composer: %s' % menu, True)
-    await option.click()
+        return _result('option_unavailable', 'No "Click Send" option in the send options. Menu shown: %s'
+                       % (menu or 'none'), True)
+    error = await _choose(page, option)
+    if error:
+        try:
+            await page.keyboard.press('Escape')
+        except Exception:
+            pass
+        return _result('option_unavailable', 'The "Click Send" option could not be chosen: %s' % error, True)
     for _i in range(12):
         await asyncio.sleep(0.5)
         if await _visible(page, SEND_BUTTON):
             return _result('click_to_send', 'Switched to Click Send to send.', True)
     return _result('unconfirmed', 'The option was chosen but no Send button appeared.', True)
+
+
+async def click_to_send_flow(extractor, url=None):
+    """Switch LinkedIn messaging to "Click Send to send". Types nothing and sends
+    nothing: it only opens a composer and changes the send option."""
+    session = _session_of(extractor)
+    target = url if url and re.match(r'^https://www\.linkedin\.com/messaging/', url) else MESSAGING_URL
+    await PageNavigator(session)._navigate_to_page(target)
+    await session.check_rate_limit()
+    return await switch_send_mode(session.page)
+
 
 def install_invite_notices():
     """Wrap the engine's invite flow in memory (no engine file is changed): keep
