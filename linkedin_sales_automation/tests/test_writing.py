@@ -80,6 +80,7 @@ class TestWritingItems(BackgroundCase):
         prospect = self._accepted(persona)
         item = self._items('message')[0]
         self.assertIn('"Salam" and their first name when their name is a Muslim name', item['instructions'])
+        self.assertIn('for example Haitham, Adel, Dima', item['instructions'])     # Arabic names count as Muslim names
         self.call('li_submit_text', work_id=item['work_id'], text='Salam Ali, thanks for connecting!')
         work = self.env['li.work.item'].browse(item['work_id'])
         # li_sending_status lists the queued text with its work_id

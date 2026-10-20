@@ -154,6 +154,30 @@ class TestSendNow(BackgroundCase):
         self.assertEqual((failed[0]['name'], failed[0]['status'], failed[0]['flagged_for_check']),
                          ('Person Zero', 'unknown', True))
         self.assertIn('1 not sent (Person Zero: unknown', status['message'])
+        self.assertEqual(failed[0]['since_then'], 'nothing yet: still not sent')
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_failure_already_written_again_is_not_a_current_problem(self):
+        """Live test: the status listed this morning's failed sends as current problems
+        although they had been written again after the fix."""
+        self._start()
+        persona = self._persona(run=('chat',))
+        prospect = self._accepted(persona)
+        WorkItem = self.env['li.work.item']
+        failed = WorkItem.browse(self.Tools._create_item('message', 'chat', self.profile, persona, prospect)['work_id'])
+        failed._close('failed', error="LinkedIn is set to 'Press Enter to Send'")
+        status = self.call('li_sending_status', linkedin_profile='taha')
+        self.assertEqual(status['personas'][0]['not_sent_today'][0]['since_then'], 'nothing yet: still not sent')
+        self.assertIn('1 not sent (Ali Raza', status['message'])
+        again = WorkItem.browse(self.Tools._create_item('message', 'chat', self.profile, persona, prospect)['work_id'])
+        again.state = 'queued'
+        status = self.call('li_sending_status', linkedin_profile='taha')
+        self.assertIn('resolved', status['personas'][0]['not_sent_today'][0]['since_then'])
+        self.assertNotIn('not sent (', status['message'])
+        self.assertIn('1 earlier failure(s) already written again or sent', status['message'])
+        again._close('done')
+        status = self.call('li_sending_status', linkedin_profile='taha')
+        self.assertTrue(status['personas'][0]['not_sent_today'][0]['since_then'].startswith('sent at '))
 
     @freeze_time('2026-10-12 16:59:30')
     def test_status_never_promises_a_send_after_the_window(self):

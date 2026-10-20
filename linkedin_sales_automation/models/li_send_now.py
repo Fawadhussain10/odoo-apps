@@ -323,6 +323,16 @@ class LiSendNow(models.AbstractModel):
         local = to_local(when, persona.target_timezone)
         return persona._is_working_day(local) and in_window(local, agent.send_window_from, agent.send_window_to)
 
+    @staticmethod
+    def _since_failure(failed, newer):
+        """What happened for this person after a failed send, so an old failure
+        is not reported as a current problem."""
+        if not newer or newer.id < failed.id:
+            return 'nothing yet: still not sent'
+        if newer.state == 'done':
+            return 'sent at %s: resolved' % iso_utc(newer.date_done)
+        return 'written again, queued to send: resolved unless it fails again'
+
     def _tool_li_sending_status(self, linkedin_profile, persona=None):
         profile = self._engine_profile(linkedin_profile)
         personas = self._pick_personas(profile, persona)
@@ -341,11 +351,17 @@ class LiSendNow(models.AbstractModel):
             failed = WorkItem.search([('persona_id', '=', persona_rec.id), ('state', '=', 'failed'),
                                       ('work_type', 'in', SEND_ACTIONS), ('date_done', '>=', day_start)],
                                      order='date_done asc')
+            # a failure already followed by a newer item for the same person is history, not a current problem
+            later = {}
+            for item in WorkItem.search([('prospect_id', 'in', failed.prospect_id.ids), ('work_type', 'in', SEND_ACTIONS),
+                                         ('state', 'in', ('queued', 'sending', 'done'))], order='id asc'):
+                later[item.prospect_id.id, item.work_type] = item
             rows.append({
                 'persona': persona_rec.name,
                 'not_sent_today': [{'name': i.prospect_id.name, 'at': iso_utc(i.date_done), 'type': i.work_type,
                                     'status': i.result_status or 'failed',
-                                    'why': (i.error or '')[:200], 'flagged_for_check': bool(i.prospect_id.needs_check)}
+                                    'why': (i.error or '')[:200], 'flagged_for_check': bool(i.prospect_id.needs_check),
+                                    'since_then': self._since_failure(i, later.get((i.prospect_id.id, i.work_type)))}
                                    for i in failed],
                 'messages_today': [{'name': i.prospect_id.name, 'at': iso_utc(i.date_done), 'type': i.work_type,
                                     'text': (i.text_sent or '')[:160]} for i in messages],
@@ -379,7 +395,8 @@ class LiSendNow(models.AbstractModel):
                 in_progress, next_send = False, False
         next_windows = sorted({w for w in (self._next_window(p, p.connection_agent_id) for p in personas
                                             if p.connection_agent_id.state == 'running') if w})
-        not_sent = sum(len(r['not_sent_today']) for r in rows)
+        open_failures = [f for r in rows for f in r['not_sent_today'] if f['since_then'].startswith('nothing')]
+        resolved = sum(len(r['not_sent_today']) for r in rows) - len(open_failures)
         return {
             'linkedin_profile': profile.account_key, 'engine': profile.engine_state,
             'sending_in_progress': bool(in_progress), 'next_send_around': iso_utc(next_send) if next_send else False,
@@ -387,11 +404,13 @@ class LiSendNow(models.AbstractModel):
             'personas': rows,
             'recent_errors': [{'at': iso_utc(e.date), 'action': e.action, 'status': e.status,
                                'detail': (e.detail or '')[:200]} for e in errors],
-            'message': '%s: %s invite(s) and %s message(s) sent today%s%s%s.' % (
+            'message': '%s: %s invite(s) and %s message(s) sent today%s%s%s%s.' % (
                 profile.account_key, total, sum(len(r['messages_today']) for r in rows),
-                '; %s not sent (%s)' % (not_sent, '; '.join('%s: %s %s' % (f['name'], f['status'], f['why'][:80])
-                                                         for r in rows for f in r['not_sent_today'])[:400])
-                if not_sent else '',
+                '; %s not sent (%s)' % (len(open_failures), '; '.join(
+                    '%s: %s %s' % (f['name'], f['status'], f['why'][:80]) for f in open_failures)[:400])
+                if open_failures else '',
+                '; %s earlier failure(s) already written again or sent, not a current problem' % resolved
+                if resolved else '',
                 '; still sending, next one around %s UTC' % iso_utc(next_send)[11:16] if in_progress else
                 '; nothing more goes out now%s' % (' (next send window %s)' % next_windows[0] if next_windows else ''),
                 '; ' + '; '.join('%s: %s left, %s queued' % (

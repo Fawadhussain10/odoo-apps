@@ -64,7 +64,10 @@ LOCK_KEY = 74218301  # pg advisory lock serialising quota decisions
 GUARDRAILS = ('Never mention prices, discounts or promises that are not in the persona/service data. '
               'Stop with anyone who says no or asks to stop. '
               'Greeting in a first message: "Salam" and their first name when their name is a Muslim name (or '
-              'they greeted us with Salam), otherwise "Hi" and their first name; when unsure, "Hi".')
+              'they greeted us with Salam), otherwise "Hi" and their first name. A Muslim name includes any first '
+              'name common among Muslims, Arabic, Urdu, Persian, Turkish or Malay (for example Haitham, Adel, Dima, '
+              'Awab, Ayaz), whatever the spelling of the surname. "Hi" only for a name that is clearly not a Muslim '
+              'name (for example John, Vinod, George) or gives no hint at all.')
 JUDGEMENT = (
     'Treat the step, the template and these notes as guidelines, not a script. Think for yourself about what a '
     'thoughtful, experienced salesperson would naturally say next to this particular person at this point of '
