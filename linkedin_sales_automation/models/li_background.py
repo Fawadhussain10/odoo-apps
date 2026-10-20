@@ -1560,6 +1560,11 @@ class LiBackgroundWork(models.AbstractModel):
                        'and sends the queued messages again.'),
                 author_id=self.env['li.event']._ai_partner().id, subtype_xmlid='mail.mt_note')
             return True
+        profile.sudo().message_post(
+            body=_('The engine could not switch LinkedIn to "Click Send to send" (%(status)s): %(detail)s',
+                   status=(result or {}).get('status') or kind or '-',
+                   detail=((result or {}).get('message') or text or '-')[:500]),
+            author_id=self.env['li.event']._ai_partner().id, subtype_xmlid='mail.mt_note')
         return False
 
     def _bg_enter_to_send(self, profile):

@@ -643,21 +643,23 @@ async def connection_state_flow(extractor, username):
 # LinkedIn's "Press Enter to Send" preference hides the composer's Send button,
 # which the engine's send_message needs. The send-options toggle next to the
 # composer opens a menu with "Press Enter to Send" / "Click Send to send".
-SEND_MODE_JS = """(choose) => {
-    const visible = e => !!(e && e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden');
-    const sendButton = Array.from(document.querySelectorAll(
-        'form.msg-form button[type="submit"], button.msg-form__send-button')).some(visible);
-    const toggle = Array.from(document.querySelectorAll('.msg-form__send-toggle')).find(visible);
-    if (choose === 'toggle' && toggle) { toggle.click(); return {clicked: true, sendButton, toggle: true}; }
-    if (choose === 'click') {
-        const items = Array.from(document.querySelectorAll(
-            '[role="menuitemradio"], [role="menuitem"], [role="option"], .artdeco-dropdown__item, label, button'))
-            .filter(visible).filter(e => /click send to send/i.test((e.innerText || e.textContent || '').trim()));
-        if (items.length) { items[0].click(); return {clicked: true, sendButton, toggle: !!toggle}; }
-    }
-    return {clicked: false, sendButton, toggle: !!toggle};
-}"""
+SEND_TOGGLE = ('.msg-form__send-toggle', 'button[aria-label*="send options" i]',
+               'button[aria-label*="Open send" i]')
+SEND_BUTTON = ('form.msg-form button.msg-form__send-button', 'form.msg-form button[type="submit"]')
+CLICK_SEND_OPTION = re.compile(r'click\s+send\s+to\s+send', re.I)
 MESSAGING_URL = 'https://www.linkedin.com/messaging/'
+
+
+async def _visible(page, selectors):
+    for selector in selectors:
+        locator = page.locator(selector)
+        try:
+            for index in range(await locator.count()):
+                if await locator.nth(index).is_visible():
+                    return locator.nth(index)
+        except Exception:
+            continue
+    return None
 
 
 async def click_to_send_flow(extractor, url=None):
@@ -668,33 +670,49 @@ async def click_to_send_flow(extractor, url=None):
     target = url if url and re.match(r'^https://www\.linkedin\.com/messaging/', url) else MESSAGING_URL
     await PageNavigator(session)._navigate_to_page(target)
     await session.check_rate_limit()
-    state = {}
-    for _i in range(20):
+    toggle = None
+    for _i in range(30):
         await asyncio.sleep(0.5)
-        state = await page.evaluate(SEND_MODE_JS, '')
-        if state['sendButton'] or state['toggle']:
+        if await _visible(page, SEND_BUTTON):
+            return _result('click_to_send', 'LinkedIn already uses Click Send to send.', True)
+        toggle = await _visible(page, SEND_TOGGLE)
+        if toggle:
             break
-    if state.get('sendButton'):
-        return _result('click_to_send', 'LinkedIn already uses Click Send to send.', True)
-    if not state.get('toggle'):
-        return _result('composer_unavailable', 'No message composer with send options was found.', True)
-    await page.evaluate(SEND_MODE_JS, 'toggle')
-    for _i in range(10):
+    if not toggle:
+        return _result('composer_unavailable', 'No message composer with send options was found on %s.' % page.url,
+                       True)
+    await toggle.click()
+    option = None
+    for _i in range(16):
         await asyncio.sleep(0.4)
-        if (await page.evaluate(SEND_MODE_JS, 'click'))['clicked']:
+        candidates = page.get_by_text(CLICK_SEND_OPTION)
+        try:
+            for index in range(await candidates.count()):
+                if await candidates.nth(index).is_visible():
+                    option = candidates.nth(index)
+                    break
+        except Exception:
+            option = None
+        if option:
             break
-    else:
+    if not option:
+        menu = ''
+        try:
+            menu = (await page.evaluate("() => (document.querySelector('.msg-form') || document.body)"
+                                        ".innerText.slice(-400)")).replace('\n', ' | ')
+        except Exception:
+            pass
         try:
             await page.keyboard.press('Escape')
         except Exception:
             pass
-        return _result('option_unavailable', 'The "Click Send to send" option was not found.', True)
-    for _i in range(10):
+        return _result('option_unavailable', 'The "Click Send to send" option was not found. Composer: %s' % menu, True)
+    await option.click()
+    for _i in range(12):
         await asyncio.sleep(0.5)
-        if (await page.evaluate(SEND_MODE_JS, ''))['sendButton']:
+        if await _visible(page, SEND_BUTTON):
             return _result('click_to_send', 'Switched to Click Send to send.', True)
     return _result('unconfirmed', 'The option was chosen but no Send button appeared.', True)
-
 
 def install_invite_notices():
     """Wrap the engine's invite flow in memory (no engine file is changed): keep
