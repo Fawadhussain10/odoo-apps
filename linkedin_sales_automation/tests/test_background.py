@@ -1184,6 +1184,41 @@ class TestBackgroundWork(BackgroundCase):
                          (False, 0, 'replied'))
         self.assertEqual(prospect.message_ids_li.mapped('body'), ['Can we talk tomorrow?'])
 
+    @freeze_time(MONDAY_10_UTC)
+    def test_no_conversation_found_sends_a_first_message(self):
+        self._start()
+        self.profile.my_display_name = 'Taha Sohail'
+        persona, prospect = self._chat_prospect()
+        step = persona.chat_agent_id.step_ids.sorted('sequence')[0]
+        # nobody has written yet: LinkedIn has no conversation, which is what Claude wrote from
+        self._script(get_conversation=[{'error': 'Could not find a conversation for ali-raza.'}])
+        item = self.Tools._queue_send('message', prospect, text='Hi Ali, thanks for connecting!', step=step)
+        self._run()
+        self.assertEqual([c['args']['message'] for c in self._calls(tool='send_message')],
+                         ['Hi Ali, thanks for connecting!'])
+        self.assertEqual(item.state, 'done')
+        self.assertFalse(prospect.needs_check)
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_no_conversation_found_is_never_empty_when_odoo_has_messages(self):
+        self._start()
+        self.profile.my_display_name = 'Taha Sohail'
+        persona, prospect = self._chat_prospect()
+        step = persona.chat_agent_id.step_ids.sorted('sequence')[0]
+        self.env['li.message'].create({'prospect_id': prospect.id, 'direction': 'out', 'kind': 'manual',
+                                       'state': 'sent', 'body': 'Hello Ali', 'sender_name': 'Taha Sohail'})
+        # the lookup by name misses a conversation Odoo knows exists (no thread id saved)
+        self._script(get_conversation=[{'error': 'Could not find a conversation for ali-raza.'}])
+        item = self.Tools._queue_send('message', prospect, text='Hi Ali, thanks for connecting!', step=step)
+        self._run()
+        self.assertFalse(self._calls(tool='send_message'))                 # never sent blind
+        self.assertEqual((item.state, item.cancel_reason),
+                         ('cancelled', 'the conversation could not be read before sending'))
+        self.assertTrue(prospect.needs_check)
+        self.assertIn('Odoo has 1 message(s) with them', prospect.needs_check_reason)
+        self._run()
+        self.assertEqual(len(self._calls(tool='get_conversation')), 1)      # no read again while flagged
+
     def test_thread_that_keeps_failing_is_left_alone_after_five_tries(self):
         self._start()
         self.profile.write({'my_display_name': 'Taha Sohail', 'last_inbox_check': fields.Datetime.now()})

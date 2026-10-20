@@ -229,6 +229,67 @@ class TestWritingItems(BackgroundCase):
         self.assertIn('expects an answer now', self._items('message')[0]['instructions'])
 
     @freeze_time(MONDAY_10_UTC)
+    def test_long_chat_we_started_is_answered_from_profile_last_30_messages_and_their_message(self):
+        self._start()
+        persona = self._persona(run=('chat',))
+        first, second = persona.chat_step_ids.sorted('sequence')[:2]
+        second.wait_days = 1                                           # the next step is not due yet
+        prospect = self._accepted(persona)
+        Message = self.env['li.message']
+        start = fields.Datetime.now() - timedelta(days=10)
+        for n in range(34):                                            # we wrote first, then turn by turn
+            ours = n % 2 == 0
+            Message.create({'prospect_id': prospect.id, 'direction': 'out' if ours else 'in',
+                            'kind': 'message' if ours else 'reply', 'ai_generated': ours, 'state': 'sent',
+                            'body': ('Our message number %s about stock, invoices and reporting.' % n) if ours
+                            else 'Their answer number %s.' % n, 'date': start + timedelta(hours=n)})
+        Message.create({'prospect_id': prospect.id, 'direction': 'in', 'kind': 'reply',
+                        'body': 'What would it take to move our Shopify stock into Odoo?'})
+        prospect.write({'stage': 'replied', 'current_step_id': first.id, 'awaiting_reply': False,
+                        'last_outbound_date': start + timedelta(hours=32),
+                        'last_inbound_date': fields.Datetime.now(), 'needs_analysis': True})
+        # 1. Claude first reads profile, the last 30 messages and their new message, and says what it needs;
+        # nothing is written before that analysis
+        items = self._items()
+        self.assertEqual([i['type'] for i in items], ['analyse'])
+        analyse = items[0]
+        self.assertEqual(analyse['prospect']['profile'], prospect.profile_text)
+        self.assertEqual(len(analyse['conversation']), 30)
+        self.assertEqual(analyse['conversation'][0]['text'], 'Their answer number 5.')  # 35 messages: the last 30
+        self.assertEqual((analyse['conversation'][-1]['from'], analyse['conversation'][-1]['text']),
+                         ('prospect', 'What would it take to move our Shopify stock into Odoo?'))
+        self.assertFalse(analyse['situation']['prospect_wrote_first'])
+        self.assertEqual(analyse['situation']['last_message_from'], 'prospect')
+        self.call('li_record_analysis', work_id=analyse['work_id'], sentiment='positive', pivot=False,
+                  summary='Runs Shopify; asks how stock would move to Odoo.', reply_now=True)
+        # 2. the reply item carries the same context and answers their question now
+        item = self._items('message')[0]
+        self.assertEqual(item['prospect']['profile'], prospect.profile_text)
+        self.assertEqual(len(item['conversation']), 30)
+        self.assertEqual((item['situation']['last_reply_nature'], item['situation']['messages_from_us']),
+                         ('positive', 17))
+        self.assertEqual(item['situation']['their_last_reply'],
+                         'What would it take to move our Shopify stock into Odoo?')
+        self.assertIn('expects an answer now', item['instructions'])
+        self.assertFalse(self._items('message'))                       # one open message per person at a time
+        # 3. a text we already sent, even from the oldest part of the chat, is refused
+        with self.assertRaisesRegex(ToolError, 'repeats a message already sent'):
+            self.call('li_submit_text', work_id=item['work_id'],
+                      text='Our message number 0 about stock, invoices and reporting.')
+        self.call('li_submit_text', work_id=item['work_id'],
+                  text='We import products and stock levels from Shopify into Odoo, Ali, then keep them in sync.')
+        # 4. sent once, after a fresh read of the conversation
+        self._script(get_conversation=[thread_data('')])
+        self._run()
+        self.assertEqual(len(self._calls(tool='get_conversation')), 1)
+        self.assertEqual(len(self._calls(tool='send_message')), 1)
+        self.assertEqual(prospect.current_step_id, first)              # an answer: the questionnaire did not move
+        self.assertTrue(prospect.awaiting_reply)
+        self._run()
+        self.assertEqual(len(self._calls(tool='send_message')), 1)     # never sent twice
+        self.assertEqual(self._items('message'), [])                   # now it is their turn
+
+    @freeze_time(MONDAY_10_UTC)
     def test_not_interested_gets_one_warm_closing_message(self):
         self._start()
         persona = self._persona(run=('chat',))

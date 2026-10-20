@@ -1194,6 +1194,8 @@ class LiBackgroundWork(models.AbstractModel):
         takeover, unreadable thread)."""
         prospect = item.prospect_id
         if not self._bg_read_thread(profile, prospect, reread=True):
+            if prospect.needs_check and item.state == 'queued':     # flagged by the read: never sent blind
+                item._close('cancelled', cancel_reason=_('the conversation could not be read before sending'))
             return False, 1
         if item.state != 'queued':              # a new reply or a takeover cancelled it
             return False, 1
@@ -1722,6 +1724,15 @@ class LiBackgroundWork(models.AbstractModel):
         prospect = prospect.sudo()
         if kind:
             no_thread = kind == 'other' and any(h in text.lower() for h in NO_THREAD_HINTS)
+            if no_thread and prospect.message_ids_li:
+                # LinkedIn says there is no conversation, but Odoo holds messages with this person: the lookup
+                # missed it. Never treat that as an empty conversation (a text would go out blind).
+                no_thread = False
+                if reread:
+                    prospect._flag_check(_(
+                        'LinkedIn found no conversation with %(name)s, but Odoo has %(count)s message(s) with them. '
+                        'Nothing was sent: open the conversation in LinkedIn, then clear the check.',
+                        name=prospect.name, count=len(prospect.message_ids_li)))
             # a busy or stopped engine ('refused') reached nothing: it does not count as a try
             tries = prospect.thread_read_tries + (kind != 'refused')
             if no_thread or kind == 'not_found' or tries >= THREAD_READ_TRIES:
