@@ -32,6 +32,11 @@ class LiProspect(models.Model):
     current_step_id = fields.Many2one('li.chat.step', 'Current step', ondelete='set null',
                                       help='Last questionnaire step sent.')
     date_invited = fields.Datetime(readonly=True)
+    returned_at = fields.Datetime('Returned to agents on', readonly=True, copy=False)
+    handled_by_person_since = fields.Datetime(readonly=True, copy=False)
+    from_inbox = fields.Boolean('Wrote to us first', readonly=True, copy=False,
+                                help='Not found by a search: an existing contact who messaged us. The Chat Agent '
+                                     'answers them like any other reply.')
     date_accepted = fields.Datetime(readonly=True)
     date_first_message = fields.Datetime(readonly=True)
     date_first_reply = fields.Datetime(readonly=True)
@@ -273,6 +278,13 @@ class LiProspect(models.Model):
             'last_reply_nature': self.last_sentiment or '',
             'summary_so_far': self.ai_summary or '',
             'current_step': self.current_step_id.name or '',
+            'handled_by_a_person': (
+                'A person from our side wrote to them by hand from %s until %s (messages with kind manual). '
+                'Continue from where that person left off: never repeat what they said or asked.'
+                % (self.handled_by_person_since, self.returned_at)) if self.returned_at else '',
+            'existing_connection_wrote_first': (
+                'Not a new connection from a search: an existing contact who wrote to us. Answer what they '
+                'wrote first; never thank them for connecting.') if self.from_inbox else '',
         }
 
     def _conversation_payload(self, limit=30):
@@ -288,7 +300,7 @@ class LiProspect(models.Model):
     # ------------------------------------------------------------------
     # Takeover (6.6)
     # ------------------------------------------------------------------
-    def _take_over(self, user=None, reason='manual'):
+    def _take_over(self, user=None, reason='manual', detail=None):
         Event = self.env['li.event']
         WorkItem = self.env['li.work.item'].sudo()
         for prospect in self.sudo():
@@ -303,7 +315,8 @@ class LiProspect(models.Model):
                                    ('work_type', 'in', ('invite', 'message', 'followup', 'analyse'))],
                                   reason=_('prospect taken over'), stale=reason == 'human_message')
             why = {'manual': '', 'pivot': _(' at pivot'),
-                   'human_message': _(' (a message written by hand was detected)'),
+                   'human_message': _(' (a message written by hand was detected: "%s")',
+                                      (detail or '')[:200]),
                    'contact_request': _(' (they asked for a person)')}[reason]
             line = _('%(user)s took over %(name)s%(why)s — agents stopped for this prospect',
                      user=user.name, name=prospect.name, why=why)
@@ -318,10 +331,28 @@ class LiProspect(models.Model):
         if not self.env.user.has_group('linkedin_sales_automation.group_li_manager'):
             raise UserError(_('Only a LinkedIn Sales Manager can return a prospect to the agents.'))
         for prospect in self.sudo().filtered('is_taken_over'):
-            prospect.write({'is_taken_over': False, 'taken_over_by': False, 'date_taken_over': False,
-                            'takeover_reason': False})
-            line = _('%(user)s returned %(name)s to the agents — the Chat Agent resumes from the current step',
-                     user=self.env.user.name, name=prospect.name)
+            vals = {'is_taken_over': False, 'taken_over_by': False, 'date_taken_over': False,
+                    'takeover_reason': False, 'returned_at': utc_now(),
+                    'handled_by_person_since': prospect.date_taken_over,
+                    # read again: what was written while a person had it is picked up
+                    'thread_check_needed': True}
+            msgs = prospect.message_ids_li.filtered(lambda m: m.kind != 'note').sorted(
+                lambda m: (m.date or m.create_date, m.id))
+            their_turn = bool(msgs) and msgs[-1].direction == 'out'
+            unanswered = bool(msgs) and msgs[-1].direction == 'in' and not prospect.do_not_contact \
+                and prospect.stage not in CLOSED_STAGES
+            if unanswered:
+                # they wrote last: their reply is analysed and answered now
+                vals.update(needs_analysis=True, awaiting_reply=False)
+                if prospect.stage in ('accepted', 'messaged'):
+                    vals['stage'] = 'replied'
+            elif their_turn:
+                vals['awaiting_reply'] = True
+            prospect.write(vals)
+            line = _('%(user)s returned %(name)s to the agents — %(next)s',
+                     user=self.env.user.name, name=prospect.name,
+                     next=_('their last message is analysed and answered first') if unanswered
+                     else _('the Chat Agent waits for their reply and continues from the conversation'))
             prospect.message_post(body=line)
             prospect.persona_id.message_post(body=line)
         return True

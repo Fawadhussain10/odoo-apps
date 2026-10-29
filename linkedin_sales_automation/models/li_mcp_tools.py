@@ -283,7 +283,9 @@ TOOLS = [
     {
         'name': 'li_take_over',
         'title': 'Take over a prospect',
-        'description': 'Manual takeover from chat ("take over Ali Raza"): every agent stops for that prospect only.',
+        'description': 'Only when the user explicitly asks to take a person over ("take over Ali Raza", "stop the '
+                       'agents for Ali"): every agent stops for that prospect. Never call it because the user looks '
+                       'at, opens, checks or asks about a conversation.',
         'inputSchema': {'type': 'object', 'properties': {
             'prospect_id': INT,
             'linkedin_url': STR,

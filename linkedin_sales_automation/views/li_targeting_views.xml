@@ -38,6 +38,9 @@
             <field name="home_timezone" position="after">
                 <field name="invite_daily_cap"/>
                 <field name="invite_weekly_cap"/>
+                <field name="answer_other_messages"/>
+                <field name="inbound_persona_id" invisible="not answer_other_messages"
+                       options="{'no_create': True}" placeholder="First persona with a running Chat Agent"/>
             </field>
         </field>
     </record>
@@ -50,6 +53,8 @@
             <field name="linkedin_username" position="after">
                 <field name="fit_reason" invisible="not fit_reason"/>
                 <field name="fit_checked_at" invisible="not fit_checked_at"/>
+                <field name="from_inbox" invisible="not from_inbox"/>
+                <field name="returned_at" invisible="not returned_at"/>
             </field>
         </field>
     </record>

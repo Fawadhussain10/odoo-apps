@@ -384,3 +384,128 @@ class TestTargeting(BackgroundCase):
         tag.invalidate_recordset()
         self.env['li.target.tag']._li_recompute_places()
         self.assertEqual((tag.geo_label, tag.geo_precision), ('Florida, United States', 'region'))
+
+
+@tagged('post_install', '-at_install', 'linkedin_sales_automation')
+class TestTakeoverAndInbound(BackgroundCase):
+    """Taken over only when a person really wrote; handed back properly; other
+    people who message us are answered too."""
+
+    def _persona_chat(self):
+        persona = self._persona(run=('chat',))
+        self.profile.my_display_name = 'Taha Sohail'
+        return persona
+
+    def _sent(self, prospect, text):
+        step = prospect.persona_id.chat_agent_id.step_ids.sorted('sequence')[0]
+        item = self.Tools._queue_send('message', prospect, text=text, step=step)
+        item.write({'state': 'done', 'confirmed': True, 'text_sent': text})
+        return item
+
+    def test_agent_message_shown_a_little_differently_is_no_takeover(self):
+        persona = self._persona_chat()
+        prospect = self._accepted(persona)
+        self._sent(prospect, 'Salam Ali, thanks for connecting. How is payroll handled at your company today?')
+        self.Tools._record_thread(self.profile, prospect, [
+            {'sender_name': 'Taha Sohail',
+             'text': 'Salam Ali,  thanks for connecting! How is payroll handled at your company today'},
+            {'sender_name': 'Ali Raza', 'text': 'We use a spreadsheet.'}])
+        self.assertFalse(prospect.is_taken_over)
+        self.assertTrue(prospect.needs_analysis)
+        self.assertEqual(prospect.message_ids_li.filtered(lambda m: m.direction == 'out').mapped('ai_generated'),
+                         [True])
+
+    def test_message_really_written_by_hand_takes_over_and_says_which(self):
+        persona = self._persona_chat()
+        prospect = self._accepted(persona)
+        self._sent(prospect, 'Salam Ali, thanks for connecting. How is payroll handled at your company today?')
+        self.Tools._record_thread(self.profile, prospect, [
+            {'sender_name': 'Taha Sohail',
+             'text': 'Salam Ali, thanks for connecting. How is payroll handled at your company today?'},
+            {'sender_name': 'Taha Sohail', 'text': 'Can we have a call on Thursday at 3?'}])
+        self.assertEqual((prospect.is_taken_over, prospect.takeover_reason), (True, 'human_message'))
+        self.assertTrue(any('Can we have a call on Thursday at 3?' in (m.body or '') for m in prospect.message_ids))
+
+    def test_take_over_tool_is_only_for_explicit_requests(self):
+        from ..models.li_mcp_tools import TOOLS
+        tool = [t for t in TOOLS if t['name'] == 'li_take_over'][0]
+        self.assertIn('Never call it because the user looks at, opens', tool['description'])
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_hand_back_answers_their_reply(self):
+        persona = self._persona_chat()
+        prospect = self._accepted(persona)
+        self.Tools._record_thread(self.profile, prospect, [
+            {'sender_name': 'Taha Sohail', 'text': 'Hi Ali, Taha here, can I ask you something about payroll?'}])
+        self.assertTrue(prospect.is_taken_over)              # written by hand
+        self.Tools._record_thread(self.profile, prospect, [
+            {'sender_name': 'Taha Sohail', 'text': 'Hi Ali, Taha here, can I ask you something about payroll?'},
+            {'sender_name': 'Ali Raza', 'text': 'Sure, go ahead.'}])
+        self.assertFalse(prospect.needs_analysis)            # nobody answers while a person has it
+        prospect.with_user(self.manager).action_return_to_agents()
+        self.assertFalse(prospect.is_taken_over)
+        self.assertEqual((prospect.needs_analysis, prospect.awaiting_reply, prospect.stage),
+                         (True, False, 'replied'))
+        self.assertTrue(prospect.thread_check_needed)        # read again in the next run
+        self.assertIn('wrote to them by hand', prospect._situation_payload()['handled_by_a_person'])
+        items = self.call('li_get_work', linkedin_profile='taha')['items']
+        self.assertIn(prospect.id, [i['prospect']['id'] for i in items if i['type'] == 'analyse'])
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_hand_back_after_our_message_waits_for_them(self):
+        persona = self._persona_chat()
+        prospect = self._accepted(persona)
+        self.Tools._record_thread(self.profile, prospect, [
+            {'sender_name': 'Ali Raza', 'text': 'Hello there'},
+            {'sender_name': 'Taha Sohail', 'text': 'Hi Ali, Taha here, what does your team use for payroll?'}])
+        prospect.with_user(self.manager).action_return_to_agents()
+        self.assertEqual((prospect.needs_analysis, prospect.awaiting_reply), (False, True))
+
+    # ------------------------------------------------------------------
+    # Other people who message us
+    # ------------------------------------------------------------------
+    def _inbox(self, rows, threads):
+        return {'data': {'sections': {'inbox': '\n'.join(rows)}, 'references': {'inbox': [
+            {'kind': 'conversation', 'url': '/messaging/thread/%s/' % tid, 'text': name}
+            for name, tid in threads]}}}
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_other_people_who_message_us_are_answered(self):
+        self._start()
+        persona = self._persona_chat()
+        threads = [('Old Friend', '2-old=='), ('Quiet One', '2-quiet=='), ('Ad Company', '2-ad=='),
+                   ('Ali Raza, Sara Khan', '2-group==')]
+        first = self._inbox(['Old Friend', 'Oct 1', 'Thanks for the help last year',
+                             'Quiet One', 'Sep 3', 'You: See you'], threads)
+        second = self._inbox(['Old Friend', '10:30 AM', 'Hi Taha, are you still doing payroll software?',
+                              'Quiet One', '10:20 AM', 'You: Hi again',
+                              'Ad Company', '10:10 AM', 'Sponsored', 'Try our product',
+                              'Ali Raza, Sara Khan', '10:00 AM', 'Group hello'], threads)
+        conversation = {'data': {'url': 'https://www.linkedin.com/messaging/thread/2-old==/', 'sections': {
+            'conversation': 'Taha Sohail sent the following message at 9:00 AM\nTaha Sohail\nGood to see you here!\n'
+                            'Old Friend sent the following message at 10:30 AM\nOld Friend\n'
+                            'Hi Taha, are you still doing payroll software?'},
+            'references': {'conversation': [{'kind': 'person', 'url': '/in/taha-test/', 'text': 'Taha Sohail'},
+                                            {'kind': 'person', 'url': '/in/old-friend/', 'text': 'Old Friend'}]}}}
+        self._script(get_inbox=[first, second], get_conversation=[conversation])
+        self._run()                                          # first read: only notes what is there
+        self.assertFalse(self._calls(tool='get_conversation'))
+        self.profile.last_inbox_check = False
+        self._run()
+        reads = self._calls(tool='get_conversation')
+        self.assertEqual(reads, [{'tool': 'get_conversation', 'args': {'thread_id': '2-old=='}}])
+        friend = self.env['li.prospect'].search([('linkedin_username', '=', 'old-friend')])
+        self.assertEqual((friend.persona_id, friend.from_inbox, friend.stage), (persona, True, 'replied'))
+        self.assertFalse(friend.is_taken_over)               # our old message is history, not a takeover
+        self.assertTrue(friend.needs_analysis)               # Claude analyses, then answers
+        self.assertIn('existing contact', friend._situation_payload()['existing_connection_wrote_first'])
+        self.assertEqual(friend.message_ids_li.sorted('id').mapped('direction'), ['out', 'in'])
+        # nobody else: we wrote last, a sponsored message, a group chat
+        self.assertEqual(self.env['li.prospect'].search_count([('from_inbox', '=', True)]), 1)
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_other_messages_can_be_switched_off(self):
+        self._start()
+        self._persona_chat()
+        self.profile.answer_other_messages = False
+        self.assertFalse(self.profile._inbound_persona())

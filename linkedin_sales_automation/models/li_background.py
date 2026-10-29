@@ -1671,8 +1671,8 @@ class LiBackgroundWork(models.AbstractModel):
                 or any(p.connection_agent_id.state == 'running' for p in profile.persona_ids)):
             return 0
         candidates = self._bg_inbox_candidates(profile)
-        if not candidates or self._bg_routine_left(profile) < 1:
-            return 0
+        if (not candidates and not profile.sudo()._inbound_persona()) or self._bg_routine_left(profile) < 1:
+            return 0                            # (other people who write to us are answered too)
         data, kind, _text = self._bg_call(profile, 'get_inbox', {'limit': 20}, 'inbox', reads=1)
         profile.sudo().last_inbox_check = utc_now()
         if kind:
@@ -1690,7 +1690,7 @@ class LiBackgroundWork(models.AbstractModel):
                 vals.update(inbox_preview_hash=preview, thread_check_needed=True)
             if vals:
                 prospect.sudo().write(vals)
-        return 1
+        return 1 + self._bg_inbox_others(profile, data, deadline)
 
     def _bg_threads(self, profile, deadline):
         """Open the changed threads: conversations in progress first, then new

@@ -1,4 +1,5 @@
 """Chat Agent rules (6.2), conversation recording, analysis and pivot (6.3)."""
+import difflib
 import json
 from collections import Counter
 from datetime import timedelta
@@ -24,6 +25,8 @@ SEND_IN_CHROME = ('In Chrome open the prospect linkedin_url and click Message; r
                   + BROWSER_RULES)
 CHAT_STAGES = ('accepted', 'messaged', 'replied')
 # they wrote last and wait for our answer: written to and sent to before anyone else
+AGENT_LIKE_RATIO = 0.9          # a message of ours this close to an agent text is that agent message
+AGENT_LIKE_MIN_CHARS = 20
 REPLIED_DOMAIN = [('last_inbound_date', '!=', False), ('awaiting_reply', '=', False)]
 SELF_NAMES = {'you', 'me', 'moi', 'ich'}
 
@@ -545,9 +548,12 @@ class LiMcpEngineChat(models.AbstractModel):
             if agent_texts[key]:
                 agent_texts[key] -= 1  # already matched by an agent row
         new_in, new_human_out, new_agent_out = [], [], []
+        history = self.env.context.get('li_history_import')
         now = utc_now()
         Message = self.env['li.message'].sudo()
         for raw, body, key in fresh:
+            if key[0] == 'out' and not agent_texts[key[1]]:
+                key = (key[0], self._agent_text_like(agent_texts, key[1]) or key[1])
             direction = key[0]
             date = _parse_sent_at(raw.get('sent_at')) or now
             vals = {'prospect_id': prospect.id, 'direction': direction, 'body': body, 'date': date,
@@ -565,7 +571,12 @@ class LiMcpEngineChat(models.AbstractModel):
             else:
                 msg = Message.create(dict(vals, kind='manual', ai_generated=False))
                 new_human_out.append(msg)
-                self._on_human_outbound(prospect, msg, new_in)
+                if history:
+                    # the conversation before Odoo knew this person: our earlier messages are history
+                    prospect.write({'last_outbound_date': date, 'awaiting_reply': True})
+                    new_in = []         # only their messages after our last one wait for an answer
+                else:
+                    self._on_human_outbound(prospect, msg, new_in)
         if new_in:
             self._after_new_replies(prospect, new_in)
         parts = []
@@ -580,6 +591,22 @@ class LiMcpEngineChat(models.AbstractModel):
                 'stage': prospect.stage, 'taken_over': prospect.is_taken_over,
                 'needs_analysis': prospect.needs_analysis,
                 'message': '%s: %s.' % (prospect.name, ', '.join(parts) if parts else 'nothing new')}
+
+    @staticmethod
+    def _agent_text_like(agent_texts, text):
+        """The agent text this message of ours is, when LinkedIn shows it a little
+        differently (spacing, punctuation, a cut end): nearly the same words or
+        the start of it. None when it is really another message."""
+        if len(text) < AGENT_LIKE_MIN_CHARS:
+            return None
+        for known, count in agent_texts.items():
+            if count <= 0 or not known:
+                continue
+            if (known.startswith(text) or text.startswith(known)) and min(len(known), len(text)) >= AGENT_LIKE_MIN_CHARS:
+                return known
+            if difflib.SequenceMatcher(None, known, text).ratio() >= AGENT_LIKE_RATIO:
+                return known
+        return None
 
     @staticmethod
     def _new_thread_messages(stored, incoming):
@@ -621,7 +648,7 @@ class LiMcpEngineChat(models.AbstractModel):
         self._on_our_message(prospect)
         if not prospect.is_taken_over:
             owner = prospect.persona_id.linkedin_profile_id.owner_id
-            prospect._take_over(user=owner, reason='human_message')
+            prospect._take_over(user=owner, reason='human_message', detail=msg.body)
 
     def _after_new_replies(self, prospect, new_in):
         now = utc_now()
