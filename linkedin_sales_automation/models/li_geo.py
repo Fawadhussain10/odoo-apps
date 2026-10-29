@@ -99,6 +99,17 @@ def geocode(location):
     return found[:5] if found else None
 
 
+BIG_CITY = 1000000             # a city this big wins over a region of the same name ("Dubai")
+
+
+def _region_named(index, text, cc=None):
+    """The (region, place) whose name is exactly the text, or None."""
+    key = _key(text)
+    matches = [value for (code, region), value in index['regions'].items()
+               if region in (key, _SUFFIX.sub('', key)) and (not cc or code == cc)] if key else []
+    return max(matches, key=lambda m: m[1][5]) if matches else None
+
+
 def _geocode(location):
     """geocode() plus the region key of the place ('' for a country)."""
     parts = [p.strip() for p in (location or '').split(',') if p.strip()]
@@ -111,11 +122,14 @@ def _geocode(location):
         cc = index['country_names'][last]
         parts = parts[:-1]
     hints = {_key(p) for p in parts[1:]} | {_SUFFIX.sub('', _key(p)) for p in parts[1:]}
+    whole_region = _region_named(index, parts[0], cc) if len(parts) == 1 else None
     for part in parts[:2]:
         for name in _city_keys(part):
             candidates = [c for c in index['cities'].get(name, []) if not cc or c[1] == cc]
             if candidates:
                 best = max(candidates, key=lambda c: (c[2] in hints, c[5]))
+                if whole_region and best[5] < BIG_CITY:
+                    break           # "Florida", "Virginia": the state, not a small town of that name
                 return best[3], best[4], '%s, %s' % (best[0], best[1]), 'city', best[1], best[2]
     for part in parts:
         region_key = _SUFFIX.sub('', _key(part))

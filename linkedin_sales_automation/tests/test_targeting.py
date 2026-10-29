@@ -41,6 +41,11 @@ class TestPlacesAndTitles(BaseCase):
         self.assertEqual(understand_place('California')['precision'], 'region')
         self.assertEqual(understand_place('Londn')['label'].split(',')[0], 'London')
         self.assertIsNone(understand_place('Remote'))
+        # a state wins over a small town of the same name; a big city wins over its region
+        for state in ('Florida', 'Virginia', 'Delaware', 'Texas'):
+            self.assertEqual(understand_place(state)['label'], '%s, United States' % state)
+        self.assertEqual(understand_place('Georgia, USA')['label'], 'Georgia, United States')
+        self.assertEqual(understand_place('Dubai')['label'], 'Dubai, United Arab Emirates')
 
     def test_people_inside_or_outside_a_target(self):
         def target(text):
@@ -326,3 +331,11 @@ class TestTargeting(BackgroundCase):
         self._accepted(persona)
         waiting = self.Tools._chat_waiting(self.profile)
         self.assertTrue(any('1 accepted people never got a message' in line for line in waiting['personas']))
+
+    def test_upgrade_understands_places_again(self):
+        tag = self._tag('Florida')
+        self.env.cr.execute("UPDATE li_target_tag SET geo_label = 'Florida, Cuba', geo_precision = 'city' "
+                            "WHERE id = %s", (tag.id,))
+        tag.invalidate_recordset()
+        self.env['li.target.tag']._li_recompute_places()
+        self.assertEqual((tag.geo_label, tag.geo_precision), ('Florida, United States', 'region'))

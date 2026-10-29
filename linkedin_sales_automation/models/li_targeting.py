@@ -157,6 +157,14 @@ class LiTargetTagGeo(models.Model):
                 filter_text = tag.geo_lookup_note or _('LinkedIn filter: looked up before the next search')
             tag.geo_summary = '%s · %s' % (understood, filter_text)
 
+    @api.model
+    def _li_recompute_places(self):
+        """On every upgrade: places understood again with the current rules."""
+        tags = self.sudo().search([('kind', '=', 'location')])
+        self.env.add_to_compute(self._fields['geo_label'], tags)
+        tags._recompute_recordset()
+        return len(tags)
+
     def write(self, vals):
         if 'name' in vals and 'linkedin_geo_id' not in vals:
             vals = dict(vals, linkedin_geo_id=False, linkedin_geo_name=False, geo_lookup_date=False,
