@@ -23,6 +23,8 @@ SEND_IN_CHROME = ('In Chrome open the prospect linkedin_url and click Message; r
                   'status sent and text_sent (failed with error and retry_safe if it did not go out). '
                   + BROWSER_RULES)
 CHAT_STAGES = ('accepted', 'messaged', 'replied')
+# they wrote last and wait for our answer: written to and sent to before anyone else
+REPLIED_DOMAIN = [('last_inbound_date', '!=', False), ('awaiting_reply', '=', False)]
 SELF_NAMES = {'you', 'me', 'moi', 'ich'}
 
 
@@ -200,14 +202,20 @@ class LiMcpEngineChat(models.AbstractModel):
         return items
 
     def _chat_queue(self, domain, limit=100):
-        """People to write to, in order: first those who accepted and never got a
+        """People to write to, in order: first those who replied and wait for our
+        answer (oldest reply first), then those who accepted and never got a
         message (oldest acceptance first), then the others (oldest activity first)."""
         Prospect = self.env['li.prospect']
-        first = Prospect.search(domain + [('stage', '=', 'accepted'), ('current_step_id', '=', False),
-                                          ('date_first_message', '=', False)],
+        replied = Prospect.search(domain + REPLIED_DOMAIN, order='last_inbound_date asc, id asc', limit=limit)
+        first = Prospect.search(domain + [('id', 'not in', replied.ids), ('stage', '=', 'accepted'),
+                                          ('current_step_id', '=', False), ('date_first_message', '=', False)],
                                 order='date_accepted asc, id asc', limit=limit)
-        return first + Prospect.search(domain + [('id', 'not in', first.ids)], order='last_activity_date asc',
-                                       limit=limit)
+        return replied + first + Prospect.search(domain + [('id', 'not in', (replied + first).ids)],
+                                                 order='last_activity_date asc', limit=limit)
+
+    def _is_reply(self, prospect):
+        """They wrote last and wait for our answer."""
+        return bool(prospect.last_inbound_date and not prospect.awaiting_reply and not prospect.sequence_stopped)
 
     def _chat_candidates(self, profile, ctx, domain):
         """Personas of the profile whose Chat Agent may send now, with quota left."""

@@ -130,8 +130,11 @@ class LiMcpWriting(models.AbstractModel):
         for prospect in prospects.filtered(lambda p: p.id not in busy):
             if ctx['left'] - len(items) <= 0:
                 break
-            if room[prospect.persona_id.id] <= 0 or prospect._profile_pending():
+            if prospect._profile_pending():
                 continue                        # the profile is read first (next background run)
+            if room[prospect.persona_id.id] <= 0 and not self._is_reply(prospect):
+                continue                        # a reply is always written: the daily limit holds at sending,
+                                                # where replies go first and other messages wait for the next day
             step = self._next_step(prospect)
             answer = self._answer_mode(prospect, step, now)
             if answer:

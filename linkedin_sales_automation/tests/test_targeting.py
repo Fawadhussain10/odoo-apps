@@ -320,11 +320,56 @@ class TestTargeting(BackgroundCase):
         manual = self._prospect(persona, 'manual', 'Manual One', stage='accepted', profile_text='Founder at Y',
                                 profile_read_at=fields.Datetime.now(),
                                 date_invited=fields.Datetime.now() - timedelta(days=2))
-        queue = self.Tools._chat_queue([('persona_id', '=', persona.id), ('stage', 'in', ('accepted', 'messaged'))])
-        self.assertEqual(queue[:2], new | manual)
-        self.assertEqual(queue[2:], busy)
+        replied = self._replied(persona, 'sunaan', 'Sunaan Mushtaq')
+        queue = self.Tools._chat_queue([('persona_id', '=', persona.id),
+                                        ('stage', 'in', ('accepted', 'messaged', 'replied'))])
+        self.assertEqual(queue[:1], replied)                 # who replied comes first
+        self.assertEqual(queue[1:3], new | manual)           # then first messages
+        self.assertEqual(queue[3:], busy)
         items = [i for i in self.call('li_get_work', linkedin_profile='taha')['items'] if i['type'] == 'message']
-        self.assertEqual({i['prospect']['id'] for i in items[:2]}, {new.id, manual.id})
+        self.assertEqual(items[0]['prospect']['id'], replied.id)
+        self.assertEqual({i['prospect']['id'] for i in items[1:3]}, {new.id, manual.id})
+
+    def _replied(self, persona, username, name):
+        """Someone who answered our first message and waits for our answer."""
+        prospect = self._accepted(persona, username=username, name=name)
+        prospect.write({'stage': 'replied', 'current_step_id': persona.chat_agent_id.step_ids.sorted('sequence')[:1].id,
+                        'date_first_message': fields.Datetime.now() - timedelta(days=2),
+                        'last_outbound_date': fields.Datetime.now() - timedelta(days=2),
+                        'last_inbound_date': fields.Datetime.now() - timedelta(days=1),
+                        'last_activity_date': fields.Datetime.now() - timedelta(days=1)})
+        return prospect
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_replies_are_written_and_sent_before_first_messages(self):
+        self._start()
+        persona = self._persona(run=('chat',), chat_daily_limit=2)
+        first = self._accepted(persona, username='first-a', name='First A')
+        second = self._accepted(persona, username='first-b', name='First B')
+        third = self._accepted(persona, username='first-c', name='First C')
+        written = [i for i in self.call('li_get_work', linkedin_profile='taha')['items'] if i['type'] == 'message']
+        self.assertEqual(len(written), 2)                    # the day's room: 2 first messages
+        for item in written:
+            self.assertTrue(self.call('li_submit_text', work_id=item['work_id'], text='Hi there, thanks for '
+                                      'connecting. Glad to be in touch.')['ok'])
+        # Sunaan replies now: the room is full of first messages, his answer is still written
+        sunaan = self._replied(persona, 'sunaan', 'Sunaan Mushtaq')
+        result = self.call('li_get_work', linkedin_profile='taha')
+        items = [i for i in result['items'] if i['type'] == 'message']
+        self.assertEqual([i['prospect']['id'] for i in items], [sunaan.id])
+        why = {p['name']: p['why'] for p in result['chat_waiting']['people']}
+        self.assertIn("today's message limit (2) is taken", why[(first | second | third).filtered(
+            lambda p: p.id not in [w['prospect']['id'] for w in written]).name])
+        self.assertTrue(self.call('li_submit_text', work_id=items[0]['work_id'],
+                                  text='Thanks Sunaan, happy to explain what I wanted to ask.')['ok'])
+        # and sent first, before the first messages written earlier; the daily limit holds at sending
+        for _round in range(4):
+            self._run()
+        sent = [c['args']['linkedin_username'] for c in self._calls(tool='send_message')]
+        self.assertEqual(sent[0], 'sunaan')
+        self.assertEqual(len(sent), 2)
+        left = self.env['li.work.item'].search([('persona_id', '=', persona.id), ('state', '=', 'queued')])
+        self.assertEqual(len(left), 1)                       # waits for the next day, not thrown away
 
     def test_chat_waiting_names_a_stopped_chat_agent(self):
         persona = self._persona(run=())

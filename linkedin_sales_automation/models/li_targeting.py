@@ -474,8 +474,8 @@ class LiMcpTargeting(models.AbstractModel):
             for prospect in prospects:
                 why = self._chat_wait_reason(prospect, now, WorkItem)
                 if why:
-                    people.append({'name': prospect.name, 'persona': persona.name, 'stage': prospect.stage,
-                                   'why': why})
+                    people.append({'prospect_id': prospect.id, 'name': prospect.name, 'persona': persona.name,
+                                   'stage': prospect.stage, 'why': why})
         return {'personas': personas, 'people': people[:limit]}
 
     def _chat_wait_reason(self, prospect, now, WorkItem):
@@ -505,4 +505,9 @@ class LiMcpTargeting(models.AbstractModel):
             if why.startswith('due at '):
                 return _('next message (%(step)s) due at %(when)s UTC', step=step.name, when=why[7:23])
             return why
+        chat = prospect.persona_id.chat_agent_id
+        written = self._writing_open(prospect.persona_id, 'message')
+        if written >= chat.daily_limit and not self._is_reply(prospect):
+            return _('due, but today\'s message limit (%(n)s) is taken by %(w)s written messages waiting to be '
+                     'sent (people who replied go first): written next working day', n=chat.daily_limit, w=written)
         return ''

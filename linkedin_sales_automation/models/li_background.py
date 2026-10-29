@@ -834,11 +834,13 @@ class LiBackgroundWork(models.AbstractModel):
         })
 
     def _bg_send(self, profile, deadline):
-        """At most one send per run: the oldest queued item that may go now,
-        else the next invite without note."""
+        """At most one send per run: the queued item that may go now (answers to
+        people who replied first, then the oldest), else the next invite without note."""
         WorkItem = self.env['li.work.item'].sudo()
         queued = WorkItem.search([('linkedin_profile_id', '=', profile.id), ('state', '=', 'queued')])
-        for item in queued.sorted(lambda i: (SEND_PRIORITY.get(i.work_type, 9), i.id)):
+        # answers to people who replied go first, then the other messages, oldest first
+        for item in queued.sorted(lambda i: (SEND_PRIORITY.get(i.work_type, 9),
+                                             not (i.prospect_id and self._is_reply(i.prospect_id)), i.id)):
             verdict, reason, _wait = self._send_verdict_dry(item)
             if verdict == 'stop':
                 item._close('cancelled', cancel_reason=reason)

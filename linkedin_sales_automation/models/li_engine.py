@@ -360,10 +360,12 @@ class LiMcpEngine(models.AbstractModel):
             result['note'] = ('Odoo does the LinkedIn work of %s itself (built-in engine): search, inbox, '
                               'acceptance checks, sending and publishing. Do not open LinkedIn for it: only write '
                               '(li_submit_text, li_record_analysis, li_record_fit, li_submit_post_draft).' % profile.account_key)
-        if profile.connection_state == 'connected' and not any(i['type'] == 'message' for i in items):
+        if profile.connection_state == 'connected':
             waiting = self._chat_waiting(profile)
+            given = {i['prospect']['id'] for i in items if i.get('prospect')}
+            waiting['people'] = [p for p in waiting['people'] if p['prospect_id'] not in given]
             if waiting['people'] or waiting['personas']:
-                # never an unexplained empty list: why each person gets no message now
+                # nobody left unexplained: why each person not in the items gets no message now
                 result['chat_waiting'] = waiting
         if not items:
             reasons = list(dict.fromkeys(ctx['reasons']))[:12]
