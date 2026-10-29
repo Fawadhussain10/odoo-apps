@@ -11,8 +11,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 TOOLS = ['check_connection_state', 'check_invite_dialog', 'connect_with_person', 'create_post', 'follow_person',
          'get_conversation', 'get_inbox', 'get_my_profile', 'get_person_profile', 'get_post_stats',
-         'get_recent_connections', 'get_sent_invitations', 'search_people', 'send_invite_direct',
-         'send_message']
+         'get_recent_connections', 'get_sent_invitations', 'lookup_location', 'search_people',
+         'search_people_filtered', 'send_invite_direct', 'send_message']
 DEFAULTS = {
     'connect_with_person': {'status': 'connected', 'message': 'Connection request sent. State after send: pending.'},
     'send_message': {'status': 'sent', 'message': 'Message sent.', 'sent': True, 'retry_safe': False},
@@ -21,6 +21,9 @@ DEFAULTS = {
     'get_person_profile': {'url': 'https://www.linkedin.com/in/x/', 'sections': {
         'main_profile': 'Ali Raza\nFounder at Brand X\nLahore\nAbout\nI run a fashion brand on Shopify.'}},
     'search_people': {'url': 'https://www.linkedin.com/search/results/people/', 'sections': {'search_results': ''}},
+    'search_people_filtered': {'url': 'https://www.linkedin.com/search/results/people/',
+                               'sections': {'search_results': ''}},
+    'lookup_location': {'status': 'not_found', 'query': '', 'candidates': []},
     'send_invite_direct': {'status': 'connect_unavailable', 'message': 'LinkedIn offers no Connect for this profile.',
                            'confirmed': False, 'linkedin_notice': '', 'invite_dialog': '', 'route': '',
                            'direct': True},

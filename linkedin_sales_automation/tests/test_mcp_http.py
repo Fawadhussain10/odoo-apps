@@ -190,6 +190,12 @@ class TestMcpHttp(HttpCase, LiCommon):
                           people=[{'name': 'Ali Raza', 'headline': 'Founder, Brand X',
                                    'linkedin_url': 'https://www.linkedin.com/in/ali-raza/', 'username': 'ali-raza'}])
         self.assertEqual(added['structuredContent']['created'], 1)
+        # Claude's fit check before the invitation
+        screen = [i for i in self.tool('li_get_work', linkedin_profile='taha')['structuredContent']['items']
+                  if i['type'] == 'screen'][0]
+        fit = self.tool('li_record_fit', work_id=screen['work_id'], decisions=[
+            {'prospect_id': screen['people'][0]['prospect_id'], 'invite': True, 'reason': 'brand founder'}])
+        self.assertEqual(fit['structuredContent']['to_invite'], 1)
         invite = [i for i in self.tool('li_get_work', linkedin_profile='taha')['structuredContent']['items'] if i['type'] == 'invite'][0]
         self.assertEqual(invite['prospect']['username'], 'ali-raza')
         go = self.tool('li_confirm_send', work_id=invite['work_id'])

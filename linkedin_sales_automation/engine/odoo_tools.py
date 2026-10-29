@@ -15,6 +15,10 @@ with the engine's tools.
   (My Network > Manage > Sent): the authority on whether an invite exists
 * check_connection_state - open one person's profile and say what it shows now:
   pending (invited), connectable (Connect is offered: not invited), connected
+* lookup_location - LinkedIn's own location suggestions for a place name (what
+  its "Locations" filter offers), with the numeric location ids
+* search_people_filtered - a people search with LinkedIn's real filters
+  (location ids, title, connection degree, page) or a search URL built on LinkedIn
 
 install_invite_notices() also makes connect_with_person report what LinkedIn
 says in its pop-up when an invitation is not recorded (e.g. the weekly limit).
@@ -74,6 +78,104 @@ async def _first_visible(page, selectors, timeout=10000):
 
 def _result(status, message, retry_safe, **extra):
     return dict({'status': status, 'message': message, 'retry_safe': retry_safe}, **extra)
+
+
+PEOPLE_SEARCH_URL = 'https://www.linkedin.com/search/results/people/'
+MAX_SEARCH_PAGE = 100
+# LinkedIn's location suggestions, as its "Locations" filter asks for them. Runs
+# in the signed-in page: the csrf token is the JSESSIONID cookie, as for
+# LinkedIn's own requests. Every object holding a geo urn and a text is a candidate.
+LOCATION_LOOKUP_JS = """async (query) => {
+    const match = document.cookie.match(/JSESSIONID="?([^";]+)/);
+    const csrf = match ? match[1] : '';
+    const url = '/voyager/api/typeahead/hitsV2?keywords=' + encodeURIComponent(query)
+        + '&origin=OTHER&q=type&queryContext=List(geoVersion-%3E3,bingGeoSubTypeFilters-%3E'
+        + 'MARKET_AREA%7CCOUNTRY_REGION%7CADMIN_DIVISION_1%7CCITY)&type=GEO';
+    let response;
+    try {
+        response = await fetch(url, {credentials: 'include', headers: {
+            'csrf-token': csrf, 'accept': 'application/json', 'x-restli-protocol-version': '2.0.0'}});
+    } catch (e) {
+        return {http: 0, error: String(e), candidates: []};
+    }
+    if (!response.ok) { return {http: response.status, candidates: []}; }
+    const data = await response.json();
+    const found = [];
+    const textOf = (node) => {
+        for (const key of ['text', 'title', 'displayName', 'defaultLocalizedName']) {
+            const value = node[key];
+            if (typeof value === 'string' && value.trim()) { return value.trim(); }
+            if (value && typeof value.text === 'string' && value.text.trim()) { return value.text.trim(); }
+        }
+        return '';
+    };
+    const walk = (node) => {
+        if (!node || typeof node !== 'object') { return; }
+        if (Array.isArray(node)) { node.forEach(walk); return; }
+        let id = null;
+        for (const value of Object.values(node)) {
+            if (typeof value === 'string') {
+                const m = value.match(/urn:li:(?:fs_|fsd_)?geo:(\\d+)/);
+                if (m) { id = m[1]; break; }
+            }
+        }
+        const name = textOf(node);
+        if (id && name) { found.push({id, name}); }
+        Object.values(node).forEach(walk);
+    };
+    walk(data);
+    const seen = new Set();
+    return {http: response.status, candidates: found.filter((c) => !seen.has(c.id) && seen.add(c.id))};
+}"""
+
+
+def people_search_url(keywords='', geo_ids=None, title='', network=None, page=1, url=None):
+    """A LinkedIn people search URL with LinkedIn's own filters (geoUrn is the
+    "Locations" filter; a plain location word is ignored by LinkedIn). `url` is a
+    search built on LinkedIn: only its page changes."""
+    page = max(1, min(int(page or 1), MAX_SEARCH_PAGE))
+    if url:
+        base = re.sub(r'([?&])page=\d+&?', r'\1', url.strip()).rstrip('?&')
+        return '%s%spage=%s' % (base, '&' if '?' in base else '?', page)
+
+    def facet(values):
+        return quote('[%s]' % ','.join('"%s"' % v for v in values), safe='')
+
+    params = ['keywords=%s' % quote(keywords or '', safe='')]
+    if geo_ids:
+        params.append('geoUrn=%s' % facet(geo_ids))
+    if title:
+        params.append('titleFreeText=%s' % quote(title, safe=''))
+    if network:
+        params.append('network=%s' % facet(network))
+    params += ['origin=FACETED_SEARCH', 'page=%s' % page]
+    return '%s?%s' % (PEOPLE_SEARCH_URL, '&'.join(params))
+
+
+async def lookup_location_flow(extractor, query):
+    session = _session_of(extractor)
+    page = session.page
+    if 'linkedin.com' not in (page.url or ''):
+        await PageNavigator(session)._navigate_to_page(FEED_URL)
+        await session.check_rate_limit()
+    answer = await page.evaluate(LOCATION_LOOKUP_JS, query)
+    candidates = answer.get('candidates') or []
+    if not candidates:
+        return {'status': 'not_found' if answer.get('http') == 200 else 'unavailable', 'query': query,
+                'http': answer.get('http'), 'error': answer.get('error', ''), 'candidates': []}
+    return {'status': 'ok', 'query': query, 'candidates': candidates[:10]}
+
+
+async def filtered_search_flow(extractor, url):
+    """The engine's own search (same page reading and result format as
+    search_people), on a URL with LinkedIn's real filters."""
+    from linkedin_mcp_server.linkedin import person as person_module
+    original = person_module.build_people_search_url
+    person_module.build_people_search_url = lambda *args, **kwargs: url
+    try:
+        return await extractor.search_people('filtered')
+    finally:
+        person_module.build_people_search_url = original
 
 
 async def create_post_flow(extractor, text, image_path=None):
@@ -1053,6 +1155,53 @@ def register_odoo_tools(mcp: FastMCP, *, tool_timeout: float) -> None:
                 raise_tool_error(relogin_exc, 'check_invite_dialog')
         except Exception as e:
             raise_tool_error(e, 'check_invite_dialog')
+
+    @mcp.tool(timeout=tool_timeout, title='Look Up Location',
+              annotations={'readOnlyHint': True, 'openWorldHint': True}, tags={'search'})
+    async def lookup_location(query: str, ctx: Context) -> dict[str, Any]:
+        """LinkedIn's own location suggestions for a place name, as its people
+        search "Locations" filter offers them (Odoo add-on tool; no page is
+        opened when LinkedIn is already open). Returns status ok, not_found or
+        unavailable, and candidates [{id, name}]: the id is LinkedIn's location id."""
+        query = (query or '').strip()[:100]
+        if not query:
+            return {'status': 'not_found', 'query': query, 'candidates': []}
+        try:
+            extractor = await get_ready_extractor(ctx, tool_name='lookup_location')
+            return await lookup_location_flow(extractor, query)
+        except AuthenticationError as e:
+            try:
+                await handle_auth_error(e, ctx)
+            except Exception as relogin_exc:
+                raise_tool_error(relogin_exc, 'lookup_location')
+        except Exception as e:
+            raise_tool_error(e, 'lookup_location')
+
+    @mcp.tool(timeout=tool_timeout, title='Search People Filtered',
+              annotations={'readOnlyHint': True, 'openWorldHint': True}, tags={'search'})
+    async def search_people_filtered(ctx: Context, keywords: str = '', geo_ids: list[str] | None = None,
+                                     title: str = '', network: list[str] | None = None, page: int = 1,
+                                     url: str | None = None) -> dict[str, Any]:
+        """One page of a LinkedIn people search with LinkedIn's real filters
+        (Odoo add-on tool): geo_ids are LinkedIn location ids (from
+        lookup_location), title its Title filter, network degrees F/S/O, page
+        1-100. url: a people search URL built on LinkedIn, used as it is (only
+        its page changes). Same answer as search_people."""
+        geo_ids = [g for g in (str(x).strip() for x in (geo_ids or [])) if g.isdigit()][:10]
+        network = [n for n in (network or []) if n in ('F', 'S', 'O')]
+        if url and not url.startswith(PEOPLE_SEARCH_URL):
+            return {'status': 'invalid_url', 'message': 'Only a LinkedIn people search URL can be used.'}
+        target = people_search_url(keywords, geo_ids, title, network, page, url)
+        try:
+            extractor = await get_ready_extractor(ctx, tool_name='search_people_filtered')
+            return await filtered_search_flow(extractor, target)
+        except AuthenticationError as e:
+            try:
+                await handle_auth_error(e, ctx)
+            except Exception as relogin_exc:
+                raise_tool_error(relogin_exc, 'search_people_filtered')
+        except Exception as e:
+            raise_tool_error(e, 'search_people_filtered')
 
     @mcp.tool(timeout=tool_timeout, title='Get Recent Connections',
               annotations={'readOnlyHint': True, 'openWorldHint': True}, tags={'person'})

@@ -145,14 +145,17 @@ class TestBackgroundWork(BackgroundCase):
     @freeze_time(MONDAY_10_UTC)
     def test_search_queues_prospects(self):
         self._start()
-        persona = self._persona(job_titles='Founder', include_keywords='shopify')
-        self._script(search_people=[search_data(('ali-raza', 'Ali Raza', 'Founder at Brand X'),
-                                                ('sara-khan', 'Sara Khan', 'CEO at Shopify brand'))])
+        persona = self._persona(job_titles='Founder', include_keywords='shopify', fit_check=False)
+        self._script(search_people_filtered=[search_data(('ali-raza', 'Ali Raza', 'Founder at Brand X'),
+                                                         ('sara-khan', 'Sara Khan', 'Co-Founder of a Shopify brand'))])
         self._run()
-        call = self._calls(tool='search_people')[0]
-        self.assertEqual(call['args']['keywords'], 'Founder shopify')
+        call = self._calls(tool='search_people_filtered')[0]
+        # LinkedIn's Title filter, 2nd/3rd-degree people, first page
+        self.assertEqual(call['args'], {'keywords': 'Founder shopify', 'title': 'Founder', 'network': ['S', 'O'],
+                                        'page': 1})
         prospects = self.env['li.prospect'].search([('persona_id', '=', persona.id)])
         self.assertEqual(sorted(prospects.mapped('linkedin_username')), ['ali-raza', 'sara-khan'])
+        self.assertEqual(set(prospects.mapped('stage')), {'queued'})
         self.assertEqual(prospects.filtered(lambda p: p.linkedin_username == 'ali-raza').headline,
                          'Founder at Brand X')
         action = self._actions(action='search')
@@ -636,7 +639,7 @@ class TestBackgroundWork(BackgroundCase):
         self._script(get_sent_invitations=[sent_list('someone-else')],
                      check_connection_state=[self.CONNECTED_SHOWN, self.CONNECT_SHOWN])
         self.assertEqual(self.Tools._cron_verify_invites(), 4)     # list, connections (empty), two profiles
-        self.assertEqual(self._calls(tool='search_people'), [])
+        self.assertEqual(self._calls(tool='search_people_filtered'), [])
         self.assertEqual((accepted.stage, refused.stage), ('accepted', 'queued'))
 
     @freeze_time(MONDAY_10_UTC)
@@ -784,7 +787,7 @@ class TestBackgroundWork(BackgroundCase):
         self.assertEqual((cron.interval_number, cron.interval_type), (5, 'minutes'))
         # LinkedIn's Sent list, the newest connections, then the profile of each of the four not found
         self.assertEqual(self.Tools._cron_verify_invites(), 6)
-        self.assertEqual(self._calls(tool='search_people'), [])
+        self.assertEqual(self._calls(tool='search_people_filtered'), [])
         self.assertEqual(sorted(p.stage for p in invited), ['invited'] * 2 + ['queued'] * 4)
         self.assertEqual(len([p for p in invited if p.invite_verified_at]), 2)
         self.assertEqual(self.Tools._cron_verify_invites(), 0)                 # nothing left to check
@@ -1055,7 +1058,7 @@ class TestBackgroundWork(BackgroundCase):
     def test_engine_waiting_for_login_means_reconnect_needed(self):
         self._start()
         persona = self._persona()
-        self._script(search_people=[{'error': 'A LinkedIn login window is open and login is still in progress. '
+        self._script(search_people_filtered=[{'error': 'A LinkedIn login window is open and login is still in progress. '
                                               'This is not a failure. Complete the sign-in in the browser, then '
                                               'call this exact tool again in about 30 seconds to resume.'}])
         self._run()

@@ -13,6 +13,7 @@ AGENT_STATES = [
 ]
 
 PROSPECT_STAGES = [
+    ('screening', 'Fit check'),
     ('queued', 'Queued'),
     ('held', 'On hold (agent stopped)'),
     ('invited', 'Invited'),
@@ -27,8 +28,9 @@ PROSPECT_STAGES = [
     ('withdrawn', 'Withdrawn'),
     ('declined', 'Closed (invite declined)'),
     ('do_not_contact', 'Do not contact'),
+    ('unfit', 'Not a fit (never invited)'),
 ]
-CLOSED_STAGES = ('not_interested', 'no_response', 'withdrawn', 'declined', 'do_not_contact')
+CLOSED_STAGES = ('not_interested', 'no_response', 'withdrawn', 'declined', 'do_not_contact', 'unfit')
 
 EVENT_TYPES = [
     ('invite_sent', 'Invite sent'),
@@ -68,6 +70,7 @@ WORK_TYPES = [
     ('check_acceptance', 'Check acceptance'),
     ('invite', 'Invite'),
     ('search_prospects', 'Search prospects'),
+    ('screen', 'Fit check'),
     ('post_draft', 'Post draft'),
     ('publish_post', 'Publish post'),
     ('post_stats', 'Post stats'),

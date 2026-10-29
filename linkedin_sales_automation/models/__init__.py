@@ -19,5 +19,6 @@ from . import li_post
 from . import li_background
 from . import li_engine_writing
 from . import li_send_now
+from . import li_targeting
 from . import li_dashboard
 from . import li_calendar

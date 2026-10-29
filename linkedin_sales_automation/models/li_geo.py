@@ -6,7 +6,9 @@ CC BY 4.0, and country centroids computed from Natural Earth, public domain).
 Nothing is sent to any map or geocoding service.
 """
 import csv
+import difflib
 import gzip
+import math
 import os
 import re
 import threading
@@ -18,6 +20,8 @@ GEO_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 
 COUNTRY_ALIASES = {
     'usa': 'US', 'us': 'US', 'u s': 'US', 'united states of america': 'US', 'america': 'US',
+    'u s a': 'US', 'the us': 'US', 'the usa': 'US', 'the united states': 'US', 'united state': 'US',
+    'united state of america': 'US', 'united states america': 'US', 'states': 'US',
     'uk': 'GB', 'u k': 'GB', 'england': 'GB', 'scotland': 'GB', 'wales': 'GB', 'northern ireland': 'GB',
     'great britain': 'GB', 'britain': 'GB', 'uae': 'AE', 'ksa': 'SA', 'saudi': 'SA', 'russia': 'RU',
     'south korea': 'KR', 'korea': 'KR', 'north korea': 'KP', 'vietnam': 'VN', 'iran': 'IR', 'syria': 'SY',
@@ -91,6 +95,12 @@ def _city_keys(part):
 def geocode(location):
     """(lat, lng, label, precision, country code) for a LinkedIn location text,
     or None. precision: city, region or country."""
+    found = _geocode(location)
+    return found[:5] if found else None
+
+
+def _geocode(location):
+    """geocode() plus the region key of the place ('' for a country)."""
     parts = [p.strip() for p in (location or '').split(',') if p.strip()]
     if not parts:
         return None
@@ -106,25 +116,94 @@ def geocode(location):
             candidates = [c for c in index['cities'].get(name, []) if not cc or c[1] == cc]
             if candidates:
                 best = max(candidates, key=lambda c: (c[2] in hints, c[5]))
-                return best[3], best[4], '%s, %s' % (best[0], best[1]), 'city', best[1]
+                return best[3], best[4], '%s, %s' % (best[0], best[1]), 'city', best[1], best[2]
     for part in parts:
         region_key = _SUFFIX.sub('', _key(part))
         matches = [value for (code, key), value in index['regions'].items()
                    if key in (region_key, _key(part)) and (not cc or code == cc)] if region_key else []
         if matches:
             region, place = max(matches, key=lambda m: m[1][5])
-            return place[3], place[4], '%s, %s' % (region, place[1]), 'region', place[1]
+            return place[3], place[4], '%s, %s' % (region, place[1]), 'region', place[1], _key(region)
     if not cc and len(parts) == 1 and _key(parts[0]) in index['country_names']:
         cc = index['country_names'][_key(parts[0])]
     if cc:
         if cc in index['countries']:
             name, lat, lng = index['countries'][cc]
-            return lat, lng, name, 'country', cc
+            return lat, lng, name, 'country', cc, ''
         biggest = max((c for cities in index['cities'].values() for c in cities if c[1] == cc),
                       key=lambda c: c[5], default=None)
         if biggest:
-            return biggest[3], biggest[4], cc, 'country', cc
+            return biggest[3], biggest[4], cc, 'country', cc, ''
     return None
+
+
+CITY_RADIUS_KM = 60          # a city target also covers its metro area ("Greater Dubai Area", "Brooklyn, NY")
+
+
+def distance_km(lat1, lng1, lat2, lng2):
+    lat1, lng1, lat2, lng2 = map(math.radians, (lat1, lng1, lat2, lng2))
+    a = math.sin((lat2 - lat1) / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin((lng2 - lng1) / 2) ** 2
+    return 6371 * 2 * math.asin(min(1.0, math.sqrt(a)))
+
+
+def understand_place(text):
+    """What a place typed on a persona means, however it is written ("USA",
+    "America", "United State of America", "Dubai", "NYC"): a dict with label,
+    country (ISO code), country_name, precision (city, region, country), lat,
+    lng and query (the name to ask LinkedIn), or None. A small typo is forgiven
+    by the closest known country or city name."""
+    found = _geocode(text)
+    guessed = ''
+    if not found:
+        key = _key(text)
+        index = _load()
+        names = list(index['country_names']) + list(index['cities'])
+        close = difflib.get_close_matches(key, names, n=1, cutoff=0.86) if key else []
+        if close:
+            guessed = close[0]
+            found = _geocode(close[0])
+    if not found:
+        return None
+    lat, lng, label, precision, cc, region = found
+    index = _load()
+    country_name = index['countries'].get(cc, (cc,))[0]
+    if precision == 'country':
+        label, query = country_name, country_name
+    else:
+        place = label.split(',')[0].strip()
+        label = '%s, %s' % (place, country_name)
+        query = place
+    return {'label': label, 'country': cc, 'country_name': country_name, 'precision': precision,
+            'lat': lat, 'lng': lng, 'query': query, 'region': region, 'guessed': bool(guessed)}
+
+
+def place_in_target(location, targets):
+    """(True, target label) when a person's LinkedIn location lies in one of the
+    targets (dicts from understand_place, or {'text': ...} for a place that
+    could not be understood, matched by its words). A person who only gives a
+    country is not inside a city target."""
+    if not location:
+        return False, ''
+    found = _geocode(location)
+    words = ' %s ' % _key(location)
+    for target in targets:
+        if 'text' in target:
+            if _key(target['text']) and ' %s ' % _key(target['text']) in words:
+                return True, target['text']
+            continue
+        if not found or found[4] != target['country']:
+            continue
+        if target['precision'] == 'country':
+            return True, target['label']
+        if found[3] == 'country':
+            continue
+        far = distance_km(found[0], found[1], target['lat'], target['lng'])
+        if target['precision'] == 'city' and far <= CITY_RADIUS_KM:
+            return True, target['label']
+        if target['precision'] == 'region' and (found[5] == target.get('region')
+                                                or ' %s ' % _key(target['query']) in words):
+            return True, target['label']
+    return False, ''
 
 
 class LiProspectGeo(models.Model):

@@ -468,12 +468,20 @@ def top_card_state(text):
     return ''
 
 
-def people_search_url(keywords, network=None):
-    """LinkedIn people search address (what search_people opens)."""
+def people_search_url(keywords, network=None, geo_ids=None, title=None, page=None):
+    """LinkedIn people search address (what search_people opens); with geo_ids
+    (LinkedIn location ids) and title it uses LinkedIn's Locations and Title filters."""
     from urllib.parse import urlencode
-    params = {'keywords': keywords or '', 'origin': 'GLOBAL_SEARCH_HEADER'}
+    params = {'keywords': keywords or ''}
+    if geo_ids:
+        params['geoUrn'] = json.dumps([str(g) for g in geo_ids])
     if network:
         params['network'] = json.dumps(list(network))
+    if title:
+        params['titleFreeText'] = title
+    params['origin'] = 'FACETED_SEARCH' if (geo_ids or title or network) else 'GLOBAL_SEARCH_HEADER'
+    if page and page > 1:
+        params['page'] = page
     return 'https://www.linkedin.com/search/results/people/?' + urlencode(params)
 
 

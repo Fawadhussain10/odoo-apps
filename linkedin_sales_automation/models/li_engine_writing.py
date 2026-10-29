@@ -121,10 +121,10 @@ class LiMcpWriting(models.AbstractModel):
                  'situation': prospect._situation_payload()},
                 closing=True))
         personas = profile.persona_ids.filtered(lambda p: p.chat_agent_id.state == 'running')
-        prospects = self.env['li.prospect'].search([
+        prospects = self._chat_queue([
             ('persona_id', 'in', personas.ids), ('stage', 'in', CHAT_STAGES), ('is_taken_over', '=', False),
             ('do_not_contact', '=', False), ('needs_check', '=', False), ('needs_analysis', '=', False),
-            ('sequence_stopped', '=', False)], order='last_activity_date asc', limit=100)
+            ('sequence_stopped', '=', False)])
         busy = self._busy_prospects(prospects)
         room = {p.id: p.chat_agent_id.daily_limit - self._writing_open(p, 'message') for p in personas}
         for prospect in prospects.filtered(lambda p: p.id not in busy):

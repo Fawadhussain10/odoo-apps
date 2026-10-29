@@ -64,10 +64,13 @@ class LiMcpEngineChat(models.AbstractModel):
         wait = timedelta(days=step.wait_days or 0)
         if step.trigger == 'after_accept':
             if not prospect.current_step_id:
-                if not prospect.date_accepted:
+                # set to Accepted by hand or by an import: accepted at least since then
+                accepted = prospect.date_accepted or (prospect.stage in CHAT_STAGES and (
+                    prospect.date_invited or prospect.create_date))
+                if not accepted:
                     return False, 'not accepted yet'
-                due = prospect.date_accepted + timedelta(hours=chat.first_message_delay or 0) + wait
-                if prospect.last_inbound_date and prospect.last_inbound_date >= prospect.date_accepted:
+                due = accepted + timedelta(hours=chat.first_message_delay or 0) + wait
+                if prospect.last_inbound_date and prospect.last_inbound_date >= accepted:
                     # they wrote before our first message: answer soon, not after the first-message delay
                     if prospect.needs_analysis:
                         return False, 'reply not analysed yet'
@@ -196,6 +199,16 @@ class LiMcpEngineChat(models.AbstractModel):
             }))
         return items
 
+    def _chat_queue(self, domain, limit=100):
+        """People to write to, in order: first those who accepted and never got a
+        message (oldest acceptance first), then the others (oldest activity first)."""
+        Prospect = self.env['li.prospect']
+        first = Prospect.search(domain + [('stage', '=', 'accepted'), ('current_step_id', '=', False),
+                                          ('date_first_message', '=', False)],
+                                order='date_accepted asc, id asc', limit=limit)
+        return first + Prospect.search(domain + [('id', 'not in', first.ids)], order='last_activity_date asc',
+                                       limit=limit)
+
     def _chat_candidates(self, profile, ctx, domain):
         """Personas of the profile whose Chat Agent may send now, with quota left."""
         personas = {}
@@ -213,8 +226,7 @@ class LiMcpEngineChat(models.AbstractModel):
             personas[persona.id] = left
         if not personas:
             return self.env['li.prospect'], personas
-        prospects = self.env['li.prospect'].search(domain + [('persona_id', 'in', list(personas))],
-                                                   order='last_activity_date asc', limit=100)
+        prospects = self._chat_queue(domain + [('persona_id', 'in', list(personas))])
         busy = set(self.env['li.work.item'].search([('prospect_id', 'in', prospects.ids),
                                                     ('state', '=', 'released')]).mapped('prospect_id').ids)
         return prospects.filtered(lambda p: p.id not in busy), personas

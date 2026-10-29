@@ -67,7 +67,7 @@ class TestFoundation(LiTransactionCase):
         names = {t['name'] for t in TOOLS}
         self.assertEqual(names, {'li_overview', 'li_get_work', 'li_confirm_send', 'li_report_result',
                                  'li_add_prospects', 'li_record_conversation', 'li_mark_accepted',
-                                 'li_record_analysis', 'li_report_error', 'li_take_over', 'li_finish_run',
+                                 'li_record_analysis', 'li_record_fit', 'li_report_error', 'li_take_over', 'li_finish_run',
                                  'li_submit_text', 'li_submit_post_draft', 'li_send_now',
                                  'li_sending_status', 'li_check_inbox_now', 'li_invite_person'})
         for tool in TOOLS:

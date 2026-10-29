@@ -11,6 +11,16 @@ class AccountInvoice(models.Model):
     _inherit = "account.move"
     
     is_boolean = fields.Boolean(compute = "compute_is_boolean")
+    pdc_reference = fields.Char("PDC Reference", compute="_compute_pdc_reference",
+                                help="Bill Reference for vendor bills, Payment Reference for customer invoices.")
+
+    @api.depends('move_type', 'ref', 'payment_reference')
+    def _compute_pdc_reference(self):
+        for rec in self:
+            if rec.move_type in ('in_invoice', 'in_refund', 'in_receipt'):
+                rec.pdc_reference = rec.ref or False
+            else:
+                rec.pdc_reference = rec.payment_reference or False
 
     def compute_is_boolean(self):
         for rec in self:

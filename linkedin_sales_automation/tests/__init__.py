@@ -15,3 +15,4 @@ from . import test_writing
 from . import test_map
 from . import test_post_image
 from . import test_send_now
+from . import test_targeting

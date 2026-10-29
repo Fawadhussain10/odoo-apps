@@ -241,6 +241,18 @@ class LiChatAgent(models.Model):
         if not (self.pivot_criteria or '').strip():
             raise UserError(_('Set the pivot criteria before running the Chat Agent.'))
 
+    def action_run(self):
+        result = super().action_run()
+        late = self.filtered(lambda a: a.state == 'running'
+                             and a.step_ids.sorted(lambda s: (s.sequence, s.id))[:1].trigger != 'after_accept')
+        if late:
+            return {'type': 'ir.actions.client', 'tag': 'display_notification', 'params': {
+                'type': 'warning', 'sticky': True, 'title': _('The first chat step waits for a reply'),
+                'message': _('%s: the first questionnaire step is "After reply", so nobody who accepts gets a first '
+                             'message. Set it to "After accept" for the Chat Agent to start conversations.',
+                             ', '.join(late.mapped('persona_id.name')))}}
+        return result
+
     def _on_stop(self):
         self.env['li.work.item'].sudo()._cancel_open(
             [('persona_id', '=', self.persona_id.id), ('agent_type', '=', 'chat')],

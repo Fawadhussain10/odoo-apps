@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="li_persona_view_form_targeting" model="ir.ui.view">
+        <field name="name">li.persona.form.targeting</field>
+        <field name="model">li.persona</field>
+        <field name="inherit_id" ref="li_persona_view_form"/>
+        <field name="arch" type="xml">
+            <field name="location_ids" position="after">
+                <field name="location_summary" string="Understood as" invisible="not location_ids"
+                       class="text-muted"/>
+            </field>
+            <field name="exclude_keywords" position="after">
+                <field name="exclude_companies" placeholder="Competitors and companies never to invite"/>
+                <field name="fit_check"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="li_target_tag_view_list_geo" model="ir.ui.view">
+        <field name="name">li.target.tag.list.geo</field>
+        <field name="model">li.target.tag</field>
+        <field name="inherit_id" ref="li_target_tag_view_list"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="geo_label" invisible="kind != 'location'" optional="show"/>
+                <field name="linkedin_geo_id" invisible="kind != 'location'" optional="show"/>
+                <field name="linkedin_geo_name" invisible="kind != 'location'" optional="show"/>
+                <field name="geo_lookup_note" invisible="kind != 'location'" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="li_profile_view_form_caps" model="ir.ui.view">
+        <field name="name">li.profile.form.caps</field>
+        <field name="model">li.profile</field>
+        <field name="inherit_id" ref="li_profile_view_form"/>
+        <field name="arch" type="xml">
+            <field name="home_timezone" position="after">
+                <field name="invite_daily_cap"/>
+                <field name="invite_weekly_cap"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="li_prospect_view_form_fit" model="ir.ui.view">
+        <field name="name">li.prospect.form.fit</field>
+        <field name="model">li.prospect</field>
+        <field name="inherit_id" ref="li_prospect_view_form"/>
+        <field name="arch" type="xml">
+            <field name="linkedin_username" position="after">
+                <field name="fit_reason" invisible="not fit_reason"/>
+                <field name="fit_checked_at" invisible="not fit_checked_at"/>
+            </field>
+        </field>
+    </record>
+</odoo>

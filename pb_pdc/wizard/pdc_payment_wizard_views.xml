@@ -200,6 +200,7 @@
                                    readonly="state not in ['draft','bounced','returned']">
                                 <list decoration-muted="payment_state == 'paid'">
                                     <field name="name" decoration-bf="1"/>
+                                    <field name="pdc_reference" string="Reference" optional="show"/>
                                     <field name="invoice_date"/>
                                     <field name="invoice_date_due" widget="remaining_days"/>
                                     <field name="currency_id" column_invisible="1"/>

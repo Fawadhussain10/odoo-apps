@@ -240,16 +240,19 @@ class TestConnectionAgent(LiTransactionCase):
         result = self.call('li_add_prospects', work_id=search[0]['work_id'], people=[
             {'name': 'Ali Raza', 'headline': 'Founder, Brand X', 'linkedin_url': 'https://www.linkedin.com/in/ali-raza/'},
             {'name': 'Ali Raza', 'linkedin_url': 'https://www.linkedin.com/in/ali-raza?trk=x'},
-            {'name': 'Sara Khan', 'username': 'sara-khan'},
+            {'name': 'Sara Khan', 'headline': 'CEO at Shopify brand', 'username': 'sara-khan'},
+            {'name': 'Hr Person', 'headline': 'HR Manager at Brand Y', 'username': 'hr-person'},
             {'name': 'Rec Ruiter', 'headline': 'Recruiter at Talent', 'username': 'rec'},
             {'name': 'Shared', 'linkedin_url': 'https://www.linkedin.com/in/shared-%s-0/' % other.id},
             {'name': 'Blocked', 'username': 'dnc-%s-0' % other.id},
             {'name': 'No url'},
         ])
         self.assertEqual((result['created'], result['duplicates'], result['excluded'], result['contacted_elsewhere'],
-                          result['do_not_contact'], result['invalid']), (2, 1, 1, 1, 1, 1))
+                          result['do_not_contact'], result['invalid'], result['outside_target']),
+                         (2, 1, 1, 1, 1, 1, 1))              # HR Manager: not a Founder or CEO
         queued = self.env['li.prospect'].search([('persona_id', '=', persona.id)])
         self.assertEqual(set(queued.mapped('linkedin_username')), {'ali-raza', 'sara-khan'})
+        self.assertEqual(set(queued.mapped('stage')), {'screening'})     # Claude's fit check comes first
         # no second search while the cooldown runs
         self.assertFalse(self._of_type(self._work(linkedin_profile='taha'), 'search_prospects'))
 

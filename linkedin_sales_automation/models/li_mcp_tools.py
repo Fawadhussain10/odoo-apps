@@ -210,6 +210,24 @@ TOOLS = [
         'annotations': REPORT,
     },
     {
+        'name': 'li_record_fit',
+        'title': 'Record a fit check',
+        'description': 'Answer a screen item: for each listed person, invite true when they are the persona\'s '
+                       'ideal customer (role, seniority, industry, company type and size from criteria), invite false '
+                       'for anyone else: competitors selling our kind of service, recruiters, students, job seekers, '
+                       'other roles. When in doubt, false. Odoo invites only the people you approve; the others are '
+                       'closed as "Not a fit" and never invited.',
+        'inputSchema': {'type': 'object', 'properties': {
+            'work_id': INT,
+            'decisions': {'type': 'array', 'items': {'type': 'object', 'properties': {
+                'prospect_id': INT,
+                'invite': BOOL,
+                'reason': STR,
+            }, 'required': ['prospect_id', 'invite', 'reason'], 'additionalProperties': False}},
+        }, 'required': ['work_id', 'decisions'], 'additionalProperties': False},
+        'annotations': REPORT,
+    },
+    {
         'name': 'li_submit_post_draft',
         'title': 'Submit a post draft',
         'description': 'Answer a post_draft item with the post text (at most 3000 characters, line breaks allowed) '
@@ -431,7 +449,7 @@ class LiMcpTools(models.AbstractModel):
 
     def _summary_li_add_prospects(self, result):
         skipped = sum(result.get(k, 0) for k in ('duplicates', 'contacted_elsewhere', 'do_not_contact', 'excluded',
-                                                   'invalid'))
+                                                   'outside_target', 'invalid'))
         return '%s prospects queued, %s skipped.' % (result.get('created', 0), skipped)
 
     def _summary_li_finish_run(self, result):

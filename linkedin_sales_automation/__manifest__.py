@@ -58,6 +58,7 @@ Customers are responsible for using LinkedIn in line with LinkedIn's terms.
         'views/crm_lead_views.xml',
         'views/res_config_settings_views.xml',
         'views/li_dashboard_views.xml',
+        'views/li_targeting_views.xml',
         'views/li_menus.xml',
     ],
     'assets': {

@@ -185,6 +185,7 @@
                         <thead>
                             <tr>
                                 <th>Number</th>
+                                <th>Reference</th>
                                 <th>Date</th>
                                 <th>Due Date</th>
                                 <th class="r">Total</th>
@@ -194,6 +195,7 @@
                         <tbody>
                             <tr t-foreach="invoices" t-as="inv" t-att-class="'alt' if inv_index % 2 else ''">
                                 <td class="strong" t-esc="inv.name"/>
+                                <td t-esc="inv.pdc_reference or '—'"/>
                                 <td><span t-field="inv.invoice_date"/></td>
                                 <td><span t-field="inv.invoice_date_due"/></td>
                                 <td class="r"><span t-field="inv.amount_total"/></td>

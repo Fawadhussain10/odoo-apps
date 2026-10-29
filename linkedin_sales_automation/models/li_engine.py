@@ -26,15 +26,16 @@ from .li_mcp_tools import ToolError
 
 _logger = logging.getLogger(__name__)
 
-WORK_ORDER = ['check_inbox', 'analyse', 'handoff', 'message', 'followup', 'check_acceptance', 'invite',
+WORK_ORDER = ['check_inbox', 'analyse', 'handoff', 'message', 'followup', 'check_acceptance', 'w_screen', 'invite',
               'publish_post', 'post_stats', 'post_draft', 'search_prospects']
 # engine profiles: Odoo does the LinkedIn part itself, Claude only writes
-ENGINE_WORK_ORDER = ['analyse', 'w_handoff', 'w_message', 'w_followup', 'w_invite_note', 'post_draft']
+ENGINE_WORK_ORDER = ['analyse', 'w_handoff', 'w_message', 'w_followup', 'w_screen', 'w_invite_note', 'post_draft']
 REPORT_WITH = {
     'verify_account': 'li_report_result',
     'check_inbox': 'li_record_conversation',
     'check_acceptance': 'li_mark_accepted',
     'search_prospects': 'li_add_prospects',
+    'screen': 'li_record_fit',
     'invite': 'li_report_result',
     'message': 'li_report_result',
     'followup': 'li_report_result',
@@ -358,7 +359,12 @@ class LiMcpEngine(models.AbstractModel):
         if profile.execution_mode == 'engine':
             result['note'] = ('Odoo does the LinkedIn work of %s itself (built-in engine): search, inbox, '
                               'acceptance checks, sending and publishing. Do not open LinkedIn for it: only write '
-                              '(li_submit_text, li_record_analysis, li_submit_post_draft).' % profile.account_key)
+                              '(li_submit_text, li_record_analysis, li_record_fit, li_submit_post_draft).' % profile.account_key)
+        if profile.connection_state == 'connected' and not any(i['type'] == 'message' for i in items):
+            waiting = self._chat_waiting(profile)
+            if waiting['people'] or waiting['personas']:
+                # never an unexplained empty list: why each person gets no message now
+                result['chat_waiting'] = waiting
         if not items:
             reasons = list(dict.fromkeys(ctx['reasons']))[:12]
             if profile.execution_mode == 'engine' and profile.connection_state == 'connected':
@@ -366,7 +372,9 @@ class LiMcpEngine(models.AbstractModel):
                     'Nothing to write for %s right now: no reply to analyse, no message, follow-up or handoff due, '
                     'no invite waiting for a note and no post idea. This is normal: Odoo keeps searching, sending '
                     'invites without notes and reading the inbox by itself; writing items appear once people accept '
-                    'or reply. Call li_finish_run.' % profile.account_key)
+                    'or reply.%s Call li_finish_run.' % (profile.account_key, (
+                        ' chat_waiting says, per person, why no message is due now: tell the user.'
+                        if result.get('chat_waiting') else '')))
             else:
                 result['message'] = 'No work allowed right now for %s. Call li_finish_run.' % profile.account_key + (
                     ' Reasons: ' + '; '.join(reasons) if reasons else '')
@@ -445,6 +453,10 @@ class LiMcpEngine(models.AbstractModel):
         """Running Connection Agents of the profile that may send now."""
         result = []
         WorkItem = self.env['li.work.item'].sudo()
+        account_left, why = profile.sudo()._invites_left()
+        if account_left <= 0:
+            ctx['reasons'].append(why)
+            return result
         for persona in profile.persona_ids.filtered(lambda p: p.connection_agent_id.state == 'running'):
             agent = persona.connection_agent_id
             ok, reason = self._window(persona, agent)
@@ -467,7 +479,7 @@ class LiMcpEngine(models.AbstractModel):
                 self._notify_limit(persona, agent)
                 ctx['reasons'].append('%s: Connection Agent daily limit (%s) reached' % (persona.name, agent.daily_limit))
                 continue
-            result.append((persona, agent, left))
+            result.append((persona, agent, min(left, account_left)))
         return result
 
     def _gen_invite(self, profile, ctx):
@@ -524,7 +536,7 @@ class LiMcpEngine(models.AbstractModel):
         for persona, agent, left in self._connection_personas(profile, ctx):
             if ctx['left'] - len(items) <= 0:
                 break
-            queued = Prospect.search_count([('persona_id', '=', persona.id), ('stage', '=', 'queued'),
+            queued = Prospect.search_count([('persona_id', '=', persona.id), ('stage', 'in', ('queued', 'screening')),
                                             ('needs_check', '=', False)])
             if queued >= left:
                 continue  # the queue covers what may still be sent today
@@ -539,6 +551,7 @@ class LiMcpEngine(models.AbstractModel):
             combos = [(t, l) for l in (locations or ['']) for t in (titles or [''])]
             title, location = combos[agent.search_page % len(combos)]
             keywords = ' '.join(filter(None, [title, persona.include_keywords]))
+            geo_ids = [t.linkedin_geo_id for t in persona.location_ids if t.linkedin_geo_id]
             search_url = persona.search_url or ''
             note = ''
             if 'linkedin.com/sales' in search_url:
@@ -556,14 +569,16 @@ class LiMcpEngine(models.AbstractModel):
                 'search_url': search_url,
                 'search_number': agent.search_page + 1,
                 'wanted': max(left * 2, 10),
-                'people_search_url': people_search_url(keywords),
+                'exclude_companies': persona.exclude_companies or '',
+                'people_search_url': people_search_url(keywords, network=['S', 'O'], geo_ids=geo_ids, title=title),
                 'instructions': 'In Chrome open people_search_url (LinkedIn people search for "%s")%s. Read the '
                                 'first page of results. Keep only people who fit the persona (ideal customer, '
-                                'industries, seniority) and return them with li_add_prospects (name, headline, '
-                                'location, linkedin_url). Odoo removes duplicates and people who must not be '
+                                'job title, industries, seniority, location) and return them with li_add_prospects '
+                                '(name, headline, location, linkedin_url). Odoo drops anyone outside the persona\'s '
+                                'locations, job titles or excluded companies, duplicates and people who must not be '
                                 'contacted. Read-only: click no Connect or Message button.%s %s' % (
-                                    keywords, ', then set the Locations filter to "%s"' % location if location else '',
-                                    note, BROWSER_RULES),
+                                    keywords, ', then set the Locations filter to "%s"' % location
+                                    if location and not geo_ids else '', note, BROWSER_RULES),
             }))
             agent.sudo().last_search_date = utc_now()
         return items
@@ -640,6 +655,10 @@ class LiMcpEngine(models.AbstractModel):
             return 'hold', reason, 0
         if self._quota_left(persona, item.agent_type, exclude=item) <= 0:
             return 'hold', 'daily limit reached', 0
+        if item.work_type == 'invite':
+            account_left, why = profile.sudo()._invites_left()
+            if account_left <= 0:
+                return 'hold', why, 0
         error = self._validate_text(item, text)
         if error:
             return 'invalid', 'invalid text: %s' % error, 0
@@ -903,7 +922,7 @@ class LiMcpEngine(models.AbstractModel):
         Prospect = self.env['li.prospect']
         excluded = [normalize_text(k) for k in (persona.exclude_keywords or '').replace(';', ',').split(',') if k.strip()]
         counts = {'created': 0, 'duplicates': 0, 'contacted_elsewhere': 0, 'do_not_contact': 0, 'excluded': 0,
-                  'invalid': 0}
+                  'invalid': 0, 'outside_target': 0, 'outside_reasons': []}
         seen = set()
         for person in people:
             username = linkedin_username(person.get('linkedin_url')) or linkedin_username(person.get('username'))
@@ -932,6 +951,12 @@ class LiMcpEngine(models.AbstractModel):
             if others and agent.skip_if_contacted:
                 counts['contacted_elsewhere'] += 1
                 continue
+            fits, why = persona._target_check(person)
+            if not fits:
+                counts['outside_target'] += 1
+                if len(counts['outside_reasons']) < 5:
+                    counts['outside_reasons'].append('%s: %s' % (person['name'].strip(), why))
+                continue
             title, company = split_headline(person.get('headline'))
             Prospect.create({
                 'name': person['name'].strip(),
@@ -941,7 +966,8 @@ class LiMcpEngine(models.AbstractModel):
                 'location': person.get('location') or False,
                 'linkedin_url': normalize_profile_url(person.get('linkedin_url'), username),
                 'persona_id': persona.id,
-                'stage': 'queued',
+                'stage': 'screening' if persona.fit_check else 'queued',
+                'fit_reason': why or False,
             })
             counts['created'] += 1
         agent.sudo().write({'search_page': agent.search_page + 1})
@@ -949,9 +975,12 @@ class LiMcpEngine(models.AbstractModel):
             persona.sudo().message_post(
                 body=_('%(n)s new prospects queued from a LinkedIn search', n=counts['created']),
                 author_id=self.env['li.event']._ai_partner().id, subtype_xmlid='mail.mt_note')
-        counts['message'] = '%(created)s queued, %(duplicates)s duplicates, %(contacted_elsewhere)s already ' \
+        counts['message'] = '%(created)s queued, %(outside_target)s outside the persona (location, job title or ' \
+                            'excluded company), %(duplicates)s duplicates, %(contacted_elsewhere)s already ' \
                             'contacted by another persona, %(do_not_contact)s do-not-contact, %(excluded)s ' \
                             'excluded by keywords, %(invalid)s without a LinkedIn URL.' % counts
+        if persona.fit_check and counts['created']:
+            counts['message'] += ' The new people wait for Claude\'s fit check before any invitation.'
         return counts
 
     # ------------------------------------------------------------------

@@ -51,6 +51,8 @@ ROUTINE_SHARE = 0.6
 # The engine call reached nothing or the account itself has a problem: stop reading LinkedIn in this run.
 ACCOUNT_KINDS = ('session', 'restricted', 'rate_limit', 'warning')
 STOP_KINDS = ACCOUNT_KINDS + ('refused',)
+LOCATION_LOOKUP_EVERY = timedelta(days=7)
+SEARCH_PAGES = 100
 WARNING_PAUSE = timedelta(hours=24)     # LinkedIn warned the account about automated activity
 ROUTINE_ACTIONS = ('inbox', 'thread', 'acceptance')
 ENGINE_SLOW_AFTER = timedelta(minutes=30)      # a just-started engine is never judged slow
@@ -83,6 +85,7 @@ NO_THREAD_HINTS = ('could not find a conversation',)
 ACTIONS = [
     ('profile', 'Read own profile'),
     ('search', 'Search people'),
+    ('location', 'Look up location'),
     ('inbox', 'Read inbox'),
     ('thread', 'Read thread'),
     ('acceptance', 'Check acceptance'),
@@ -793,7 +796,7 @@ class LiBackgroundWork(models.AbstractModel):
     def _bg_profile(self, profile, deadline):
         calls = 0
         for step in (self._bg_send, self._bg_publish, self._bg_inbox, self._bg_threads, self._bg_verify_invites, self._bg_profiles, self._bg_acceptance,
-                     self._bg_post_stats, self._bg_search):
+                     self._bg_post_stats, self._bg_locations, self._bg_search):
             if profile.connection_state != 'connected' or (profile.bg_paused_until
                                                              and profile.bg_paused_until > utc_now()):
                 break
@@ -1847,37 +1850,96 @@ class LiBackgroundWork(models.AbstractModel):
         self._bg_commit()
         return 1, False
 
+    def _bg_locations(self, profile, deadline):
+        """LinkedIn's own id of each persona location, asked once (LinkedIn's
+        location suggestions, the same as typing in its "Locations" filter): the
+        search then uses LinkedIn's real location filter."""
+        personas = profile.persona_ids.filtered(lambda p: p.connection_agent_id.state == 'running')
+        now = utc_now()
+        todo = personas.location_ids.filtered(
+            lambda t: not t.linkedin_geo_id and (not t.geo_lookup_date or now - t.geo_lookup_date > LOCATION_LOOKUP_EVERY))
+        calls = 0
+        for tag in todo[:3]:
+            if not self._bg_time_for(deadline):
+                break
+            query = tag.geo_query or tag.name
+            data, kind, text = self._bg_call(profile, 'lookup_location', {'query': query}, 'location')
+            calls += 1
+            if kind and 'unknown tool' in (text or '').lower():
+                # the engine still runs the previous add-on tools: asked again hourly until it is restarted
+                tag.sudo().write({'geo_lookup_date': now - LOCATION_LOOKUP_EVERY + timedelta(hours=1),
+                                  'geo_lookup_note': _('LinkedIn filter: restart the engine to look it up')})
+                break
+            if kind in STOP_KINDS:
+                break
+            if kind:
+                tag.sudo().write({'geo_lookup_date': now, 'geo_lookup_note': _('LinkedIn filter: lookup failed (%s), '
+                                                                             'tried again in a week', kind)})
+                continue
+            candidates = (data or {}).get('candidates') or []
+            pick = tag._pick_linkedin_place(candidates)
+            if pick:
+                tag.sudo().write({'linkedin_geo_id': str(pick['id']), 'linkedin_geo_name': pick.get('name'),
+                                  'geo_lookup_date': now, 'geo_lookup_note': False})
+            else:
+                offered = ', '.join(c.get('name', '') for c in candidates[:4]) or _('nothing')
+                tag.sudo().write({'geo_lookup_date': now, 'geo_lookup_note': _(
+                    'LinkedIn filter: LinkedIn offered %(offered)s for "%(q)s"; enter the LinkedIn location ID by '
+                    'hand', offered=offered, q=query)})
+            self._bg_commit()
+        return calls
+
+    def _bg_search_arguments(self, persona, agent):
+        """(tool, arguments) of the next people search for a persona: LinkedIn's
+        Locations filter (location ids), its Title filter (one job title per
+        search, in turn) and 2nd/3rd-degree people only, page after page; or the
+        persona's own LinkedIn search URL."""
+        url = (persona.search_url or '').strip()
+        if url.startswith('https://www.linkedin.com/search/results/people/'):
+            return 'search_people_filtered', {'url': url, 'page': agent.search_page % SEARCH_PAGES + 1}
+        titles = [t.strip() for t in re.split(r'[,;\n]+', persona.job_titles or '') if t.strip()] or ['']
+        title = titles[agent.search_page % len(titles)]
+        page = (agent.search_page // len(titles)) % SEARCH_PAGES + 1
+        arguments = {'keywords': ' '.join(filter(None, [title, persona.include_keywords])), 'title': title,
+                     'network': ['S', 'O'], 'page': page}
+        geo_ids = [t.linkedin_geo_id for t in persona.location_ids if t.linkedin_geo_id]
+        if geo_ids:
+            arguments['geo_ids'] = geo_ids
+        return 'search_people_filtered', arguments
+
     def _bg_search(self, profile, deadline):
         Prospect = self.env['li.prospect']
         ctx = {'reasons': [], 'left': 1, 'sends': {profile.id: 0}}
         for persona, agent, left in self._connection_personas(profile, ctx):
-            queued = Prospect.search_count([('persona_id', '=', persona.id), ('stage', '=', 'queued'),
-                                            ('needs_check', '=', False)])
-            if queued >= left:
+            waiting = Prospect.search_count([('persona_id', '=', persona.id), ('stage', 'in', ('queued', 'screening')),
+                                             ('needs_check', '=', False)])
+            if waiting >= left:
                 continue
             if agent.last_search_date and utc_now() - agent.last_search_date < SEARCH_COOLDOWN:
                 continue
             if self._bg_budget_left(profile) < 1:
                 return 0
-            titles = [t.strip() for t in (persona.job_titles or '').replace('\n', ',').split(',') if t.strip()]
-            locations = persona.location_ids.mapped('name')
-            combos = [(t, l) for l in (locations or ['']) for t in (titles or [''])]
-            title, location = combos[agent.search_page % len(combos)]
-            keywords = ' '.join(filter(None, [title, persona.include_keywords]))
-            arguments = {'keywords': keywords}
-            if location:
-                arguments['location'] = location
+            if persona.location_ids.filtered(lambda t: not t.linkedin_geo_id and not t.geo_lookup_date):
+                continue                    # its locations are looked up first (_bg_locations)
+            tool, arguments = self._bg_search_arguments(persona, agent)
             agent.sudo().last_search_date = utc_now()
-            data, kind, _text = self._bg_call(profile, 'search_people', arguments, 'search', reads=1, persona=persona)
+            data, kind, text = self._bg_call(profile, tool, arguments, 'search', reads=1, persona=persona)
+            if kind and 'unknown tool' in (text or '').lower():
+                # engine not restarted since the update: its plain search (LinkedIn ignores a location word,
+                # so every result still passes the persona check before it is queued)
+                arguments = {'keywords': arguments.get('keywords') or ''}
+                data, kind, text = self._bg_call(profile, 'search_people', arguments, 'search', reads=1,
+                                                 persona=persona)
             if kind:
                 return 1
             own = (profile.linkedin_url or '').rstrip('/').rsplit('/', 1)[-1].lower()
             people = parse_search_results(data, own_username=own)
             counts = self._add_people(persona, people)
             self._bg_last_action(profile).detail = \
-                _('%(found)s found: %(created)s queued, %(dup)s duplicates, %(other)s skipped',
-                  found=len(people), created=counts['created'], dup=counts['duplicates'],
+                _('%(found)s found: %(created)s queued, %(outside)s outside the persona, %(dup)s duplicates, '
+                  '%(other)s skipped', found=len(people), created=counts['created'],
+                  outside=counts['outside_target'], dup=counts['duplicates'],
                   other=counts['contacted_elsewhere'] + counts['do_not_contact'] + counts['excluded']
-                  + counts['invalid'])
+                  + counts['invalid']) + ''.join('\n- %s' % r for r in counts['outside_reasons'])
             return 1
         return 0
