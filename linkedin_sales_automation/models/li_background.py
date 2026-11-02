@@ -656,6 +656,9 @@ class LiBackgroundWork(models.AbstractModel):
                                                                  else 'transport')
         except UserError as exc:        # engine busy or not running: nothing reached LinkedIn
             text, kind = str(exc), 'refused'
+        # the call can take a minute: anything that changed the profile meanwhile (a user, Send now, Claude)
+        # would make the writes below fail with a serialization error, and a send would stay "outcome unknown"
+        self._bg_commit()
         wait = 0
         if result is not None and result.get('isError'):
             text = result_text(result)
