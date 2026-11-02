@@ -10,6 +10,8 @@
   weekly caps, whatever its personas allow and whatever the outcome of each try.
 * The Chat Agent says why nobody is due for a message.
 """
+import csv
+import os
 import re
 from datetime import datetime, time, timedelta
 
@@ -164,6 +166,28 @@ class LiTargetTagGeo(models.Model):
         self.env.add_to_compute(self._fields['geo_label'], tags)
         tags._recompute_recordset()
         return len(tags)
+
+    @api.model
+    def _li_load_locations(self):
+        """On every upgrade: the places of data/li_locations.csv as location tags.
+        Adds what is missing and fills an empty id; an id already on a tag (typed
+        by hand or looked up) is never replaced, and no tag is removed."""
+        path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'li_locations.csv')
+        with open(path, encoding='utf-8', newline='') as data:
+            rows = list(csv.DictReader(data))
+        tags = {tag.name: tag for tag in self.sudo().search([('kind', '=', 'location')])}
+        new = []
+        for row in rows:
+            tag = tags.get(row['name'])
+            geo_id = row['linkedin_geo_id']
+            if tag is None:
+                new.append({'name': row['name'], 'kind': 'location', 'linkedin_geo_id': geo_id or False,
+                            'linkedin_geo_name': row['name'] if geo_id else False})
+            elif geo_id and not tag.linkedin_geo_id:
+                tag.write({'linkedin_geo_id': geo_id, 'linkedin_geo_name': row['name'], 'geo_lookup_note': False})
+        if new:
+            self.sudo().create(new)
+        return len(new)
 
     def write(self, vals):
         if 'name' in vals and 'linkedin_geo_id' not in vals:

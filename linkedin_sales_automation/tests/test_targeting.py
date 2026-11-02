@@ -158,13 +158,27 @@ class TestTargeting(BackgroundCase):
     @freeze_time(MONDAY_10_UTC)
     def test_failed_lookup_says_what_happened(self):
         self._start()
-        tag = self._tag('Oman')
+        tag = self._tag('Sohar')
         self._persona(location_ids=[(6, 0, tag.ids)])
-        self._script(lookup_location=[{'data': {'status': 'unavailable', 'query': 'Oman', 'http': 404,
+        self._script(lookup_location=[{'data': {'status': 'unavailable', 'query': 'Sohar', 'http': 404,
                                                 'error': '', 'candidates': []}}])
         self._run()
         self.assertIn('the lookup failed (HTTP 404)', tag.geo_lookup_note)
         self.assertFalse(self._calls(tool='search_people_filtered'))
+
+    def test_location_file_loads_and_keeps_our_ids(self):
+        Tag = self.env['li.target.tag']
+        hand = self._tag('Muscat, Oman')
+        hand.linkedin_geo_id = '999'
+        Tag._li_load_locations()
+        again = Tag._li_load_locations()
+        self.assertEqual(again, 0)                                      # nothing twice
+        self.assertEqual(hand.linkedin_geo_id, '999')                   # a typed id stays
+        oman = Tag.search([('kind', '=', 'location'), ('name', '=', 'Oman')])
+        self.assertEqual((oman.linkedin_geo_id, oman.geo_country), ('103619019', 'OM'))
+        salalah = Tag.search([('kind', '=', 'location'), ('name', '=', 'Salalah, Oman')])
+        self.assertEqual((salalah.geo_precision, salalah.geo_country), ('city', 'OM'))
+        self.assertFalse(salalah.linkedin_geo_id)
 
     @freeze_time(MONDAY_10_UTC)
     def test_city_locations_are_searched_and_checked(self):
