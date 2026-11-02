@@ -181,6 +181,22 @@ class TestTargeting(BackgroundCase):
         self.assertFalse(salalah.linkedin_geo_id)
 
     @freeze_time(MONDAY_10_UTC)
+    def test_empty_result_pages_start_again_from_the_first_page(self):
+        self._start()
+        tag = self._tag('Pakistan')
+        tag.linkedin_geo_id = '101022442'
+        persona = self._persona(job_titles='Founder, CEO', location_ids=[(6, 0, tag.ids)])
+        agent = persona.connection_agent_id
+        agent.search_page = 68
+        self.env['li.mcp.tools']._bg_note_search_result(persona, agent, [])
+        self.assertEqual((agent.search_page, agent.search_empty_runs), (68, 1))      # the next title may have more
+        self.env['li.mcp.tools']._bg_note_search_result(persona, agent, [])
+        self.assertEqual((agent.search_page, agent.search_empty_runs), (0, 0))       # every title ran out
+        agent.search_empty_runs = 1
+        self.env['li.mcp.tools']._bg_note_search_result(persona, agent, [{'name': 'x'}])
+        self.assertEqual(agent.search_empty_runs, 0)
+
+    @freeze_time(MONDAY_10_UTC)
     def test_city_locations_are_searched_and_checked(self):
         self._start()
         muscat, salalah = self._tag('Muscat'), self._tag('Salalah')

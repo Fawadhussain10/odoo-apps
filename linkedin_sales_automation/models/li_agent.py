@@ -158,6 +158,8 @@ class LiConnectionAgent(models.Model):
     total_target = fields.Integer('Stop after total', help='Stop automatically after N invites. 0 = no limit.')
     search_page = fields.Integer(default=0, readonly=True, copy=False,
                                  help='Next result page to ask for in search_prospects items.')
+    search_empty_runs = fields.Integer(default=0, readonly=True, copy=False,
+                                       help='Searches in a row that found nobody (technical).')
     last_search_date = fields.Datetime(readonly=True, copy=False)
 
     _sql_constraints = [

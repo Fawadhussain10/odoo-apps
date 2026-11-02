@@ -1919,6 +1919,18 @@ class LiBackgroundWork(models.AbstractModel):
             arguments['geo_ids'] = geo_ids
         return 'search_people_filtered', arguments
 
+    def _bg_note_search_result(self, persona, agent, people):
+        """The result pages have run out when every job title in turn found nobody
+        (a narrow location has far fewer pages): start again from the first page."""
+        if people:
+            agent.sudo().search_empty_runs = 0
+            return
+        titles = re.split(r'[,;\n]+', persona.job_titles or '') if not (persona.search_url or '').strip() else []
+        if agent.search_empty_runs + 1 >= max(len([t for t in titles if t.strip()]), 1):
+            agent.sudo().write({'search_page': 0, 'search_empty_runs': 0})
+        else:
+            agent.sudo().search_empty_runs += 1
+
     def _bg_search(self, profile, deadline):
         Prospect = self.env['li.prospect']
         ctx = {'reasons': [], 'left': 1, 'sends': {profile.id: 0}}
@@ -1947,6 +1959,7 @@ class LiBackgroundWork(models.AbstractModel):
             own = (profile.linkedin_url or '').rstrip('/').rsplit('/', 1)[-1].lower()
             people = parse_search_results(data, own_username=own)
             counts = self._add_people(persona, people)
+            self._bg_note_search_result(persona, agent, people)
             self._bg_last_action(profile).detail = \
                 _('%(found)s found: %(created)s queued, %(outside)s outside the persona, %(dup)s duplicates, '
                   '%(other)s skipped', found=len(people), created=counts['created'],
