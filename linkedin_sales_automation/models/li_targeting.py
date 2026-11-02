@@ -215,11 +215,29 @@ class LiPersonaTargeting(models.Model):
              'Claude compares their headline with the ideal customer, industries, seniority and company size. '
              'Only people Claude approves are invited. Claude must run for invites to go out.')
     location_summary = fields.Text('Locations understood', compute='_compute_location_summary')
+    location_warning = fields.Char(compute='_compute_location_summary')
 
-    @api.depends('location_ids.geo_summary')
+    @api.depends('location_ids.geo_summary', 'location_ids.linkedin_geo_id', 'search_url')
     def _compute_location_summary(self):
         for persona in self:
             persona.location_summary = '\n'.join(persona.location_ids.mapped('geo_summary')) or False
+            missing = persona.location_ids.filtered(lambda t: not t.linkedin_geo_id)
+            if not missing or (persona.search_url or '').strip():
+                persona.location_warning = False
+            elif persona._search_needs_location():
+                persona.location_warning = _(
+                    'Searching is stopped: %s has no LinkedIn location ID, so no new people are found or invited. '
+                    'Enter the ID on the location tag (Targeting tags).', ', '.join(missing.mapped('name')))
+            else:
+                persona.location_warning = _('%s is not searched: it has no LinkedIn location ID.',
+                                             ', '.join(missing.mapped('name')))
+
+    def _search_needs_location(self):
+        """True when a search would have no LinkedIn location filter although the
+        persona targets places: it would return the whole world, all rejected."""
+        self.ensure_one()
+        return bool(self.location_ids and not (self.search_url or '').strip()
+                    and not any(self.location_ids.mapped('linkedin_geo_id')))
 
     def _target_check(self, person):
         """(True, what matched) or (False, why not) for one person found for this

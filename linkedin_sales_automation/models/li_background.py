@@ -1878,6 +1878,13 @@ class LiBackgroundWork(models.AbstractModel):
                 tag.sudo().write({'geo_lookup_date': now, 'geo_lookup_note': _('LinkedIn filter: lookup failed (%s), '
                                                                              'tried again in a week', kind)})
                 continue
+            if (data or {}).get('status') == 'unavailable':
+                # say what happened: LinkedIn refused, it did not answer "no such place"
+                tag.sudo().write({'geo_lookup_date': now, 'geo_lookup_note': _(
+                    'LinkedIn filter: the lookup failed (%(why)s); enter the LinkedIn location ID by hand',
+                    why=data.get('error') or 'HTTP %s' % data.get('http'))})
+                self._bg_commit()
+                continue
             candidates = (data or {}).get('candidates') or []
             pick = tag._pick_linkedin_place(candidates)
             if pick:
@@ -1921,8 +1928,8 @@ class LiBackgroundWork(models.AbstractModel):
                 continue
             if self._bg_budget_left(profile) < 1:
                 return 0
-            if persona.location_ids.filtered(lambda t: not t.linkedin_geo_id and not t.geo_lookup_date):
-                continue                    # its locations are looked up first (_bg_locations)
+            if persona._search_needs_location():
+                continue                    # never a search of the whole world: see location_warning
             tool, arguments = self._bg_search_arguments(persona, agent)
             agent.sudo().last_search_date = utc_now()
             data, kind, text = self._bg_call(profile, tool, arguments, 'search', reads=1, persona=persona)

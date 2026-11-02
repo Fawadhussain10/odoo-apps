@@ -131,7 +131,7 @@ _NOISE_LINES = {'connect', 'message', 'follow', 'following', 'pending', 'view pr
                 'status is online', 'premium', 'verified', 'open to work', 'hiring', 'save', 'more',
                 'see open roles'}
 # LinkedIn's own lines between search results: hiring badges and Sales Navigator / Premium offers
-_NOISE_RE = re.compile(r'^(view .{1,80}profile|.{0,40}mutual connections?|.{0,40}followers?|'
+_NOISE_RE = re.compile(r'^(view .{1,80}profile|.{0,200}mutual connections?|.{0,40}followers?|'
                        r'current:|past:|summary:|skills:|provides services|degree connection|'
                        r'see (open roles|jobs)|prioriti[sz]e the right prospects|(try|get|unlock|upgrade to) sales navigator|'
                        r'try premium|reactivate premium|.{0,40}\bpremium for\b|'
@@ -157,13 +157,56 @@ def _is_noise(line, name_key):
     return key.startswith(name_key + ' ') and len(key) - len(name_key) < 25   # "Jane Doe • 2nd"
 
 
+_RESULT_DEGREE_RE = re.compile(r'^(?P<name>.*?)\s*(?:•|·)\s*(1st|2nd|3rd\+?)\b', re.I)
+_RESULT_ACTIONS = {'connect', 'message', 'follow', 'following', 'pending', 'view', 'view profile'}
+
+
+def _result_blocks(lines):
+    """[(normalised name, lines of that result)]: each real result carries its
+    degree ("Sara Eid • 2nd", or "• 2nd" on the line under the name). People
+    named under "mutual connections" and hidden "LinkedIn Member" rows have none."""
+    starts = []
+    for index, line in enumerate(lines):
+        match = _RESULT_DEGREE_RE.match(line)
+        if not match:
+            continue
+        if match.group('name').strip():
+            starts.append((index, normalize_name(match.group('name'))))
+        else:
+            above = next((line for line in reversed(lines[:index]) if not _is_noise(line, '')), '')
+            starts.append((index, normalize_name(above)))
+    blocks = []
+    for position, (index, name) in enumerate(starts):
+        end = starts[position + 1][0] if position + 1 < len(starts) else len(lines)
+        blocks.append((name, lines[index + 1:end]))
+    return blocks
+
+
+def _read_result_block(block):
+    """(headline, location, current role) of one result."""
+    details, current = [], ''
+    in_card = True
+    for line in block:
+        key = line.strip().lower()
+        if key.startswith('current:'):
+            current = current or line.split(':', 1)[1].strip()
+        if key in _RESULT_ACTIONS:
+            in_card = False                 # the button ends the headline and place
+        elif in_card and len(details) < 2 and not _is_noise(line, ''):
+            details.append(line)
+    return (details[0] if details else '', details[1] if len(details) > 1 else '', current)
+
+
 def parse_search_results(data, own_username=''):
-    """People of a search_people answer: [{name, linkedin_url, username, headline, location}].
+    """People of a search_people answer: [{name, linkedin_url, username, headline, location}],
+    with title when the result shows a "Current:" role.
 
     The profile link and the name come from the result links; headline and
-    location are the first two meaningful lines after the name in the page text."""
+    location are the first two meaningful lines after the name in the page text.
+    Links to people named only inside a "mutual connections" line are not results."""
     references = (data.get('references') or {}).get('search_results') or []
     lines = _clean_lines((data.get('sections') or {}).get('search_results', ''))
+    blocks = _result_blocks(lines)
     # the name of the next person is never this person's headline or place ("Sara Eid • 2nd")
     names = {normalize_name(re.sub(r'^view\s+|[’\']s?\s+profile$', '', (r.get('text') or '').strip(), flags=re.I))
              for r in references if r.get('kind') == 'person'} - {''}
@@ -175,10 +218,27 @@ def parse_search_results(data, own_username=''):
         name = re.sub(r'^view\s+|[’\']s?\s+profile$', '', (ref.get('text') or '').strip(), flags=re.I).strip()
         if not username or not name or username in seen or username == own_username:
             continue
+        name_key = normalize_name(name)
+        if blocks:
+            block = next((b for key, b in blocks if key == name_key or key.startswith(name_key + ' ')
+                          or name_key.startswith(key + ' ')), None)
+            if block is not None:
+                seen.add(username)
+                headline, location, current = _read_result_block(block)
+                person = {'name': name, 'username': username,
+                          'linkedin_url': 'https://www.linkedin.com/in/%s/' % username,
+                          'headline': headline[:250], 'location': location[:120]}
+                if current:
+                    person['title'] = current[:250]
+                people.append(person)
+                continue
+            if not any(normalize_name(line) == name_key for line in lines):
+                continue                    # only named inside "… mutual connections"
         seen.add(username)
         headline = location = ''
-        name_key = normalize_name(name)
-        start = next((i for i, line in enumerate(lines) if normalize_name(line).startswith(name_key)), None)
+        start = next((i for i, line in enumerate(lines) if normalize_name(line) == name_key), None)
+        if start is None:
+            start = next((i for i, line in enumerate(lines) if normalize_name(line).startswith(name_key)), None)
         if start is not None:
             details = []
             for line in lines[start + 1:start + 12]:

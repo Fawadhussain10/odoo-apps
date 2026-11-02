@@ -5,6 +5,11 @@
         <field name="model">li.persona</field>
         <field name="inherit_id" ref="li_persona_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning mb-0" role="alert" invisible="not location_warning">
+                    <field name="location_warning" readonly="1"/>
+                </div>
+            </xpath>
             <field name="location_ids" position="after">
                 <field name="location_summary" string="Understood as" invisible="not location_ids"
                        class="text-muted"/>

@@ -85,48 +85,14 @@ MAX_SEARCH_PAGE = 100
 # LinkedIn's location suggestions, as its "Locations" filter asks for them. Runs
 # in the signed-in page: the csrf token is the JSESSIONID cookie, as for
 # LinkedIn's own requests. Every object holding a geo urn and a text is a candidate.
-LOCATION_LOOKUP_JS = """async (query) => {
-    const match = document.cookie.match(/JSESSIONID="?([^";]+)/);
-    const csrf = match ? match[1] : '';
-    const url = '/voyager/api/typeahead/hitsV2?keywords=' + encodeURIComponent(query)
-        + '&origin=OTHER&q=type&queryContext=List(geoVersion-%3E3,bingGeoSubTypeFilters-%3E'
-        + 'MARKET_AREA%7CCOUNTRY_REGION%7CADMIN_DIVISION_1%7CCITY)&type=GEO';
-    let response;
-    try {
-        response = await fetch(url, {credentials: 'include', headers: {
-            'csrf-token': csrf, 'accept': 'application/json', 'x-restli-protocol-version': '2.0.0'}});
-    } catch (e) {
-        return {http: 0, error: String(e), candidates: []};
-    }
-    if (!response.ok) { return {http: response.status, candidates: []}; }
-    const data = await response.json();
-    const found = [];
-    const textOf = (node) => {
-        for (const key of ['text', 'title', 'displayName', 'defaultLocalizedName']) {
-            const value = node[key];
-            if (typeof value === 'string' && value.trim()) { return value.trim(); }
-            if (value && typeof value.text === 'string' && value.text.trim()) { return value.text.trim(); }
-        }
-        return '';
-    };
-    const walk = (node) => {
-        if (!node || typeof node !== 'object') { return; }
-        if (Array.isArray(node)) { node.forEach(walk); return; }
-        let id = null;
-        for (const value of Object.values(node)) {
-            if (typeof value === 'string') {
-                const m = value.match(/urn:li:(?:fs_|fsd_)?geo:(\\d+)/);
-                if (m) { id = m[1]; break; }
-            }
-        }
-        const name = textOf(node);
-        if (id && name) { found.push({id, name}); }
-        Object.values(node).forEach(walk);
-    };
-    walk(data);
-    const seen = new Set();
-    return {http: response.status, candidates: found.filter((c) => !seen.has(c.id) && seen.add(c.id))};
-}"""
+LOCATION_BUTTON = re.compile(r'^\s*locations?\b', re.I)
+LOCATION_WAIT_MS = 8000
+
+
+def _place_key(text):
+    return ' '.join(re.sub(r'[^\w]+', ' ', (text or '').lower()).split())
+
+
 
 
 def people_search_url(keywords='', geo_ids=None, title='', network=None, page=1, url=None):
@@ -153,17 +119,37 @@ def people_search_url(keywords='', geo_ids=None, title='', network=None, page=1,
 
 
 async def lookup_location_flow(extractor, query):
+    """Use LinkedIn's Locations filter as a person does: open it on a people
+    search, type the place, pick the suggestion of that name and read its id from
+    the geoUrn of the address LinkedIn goes to. Nothing else is clicked."""
     session = _session_of(extractor)
     page = session.page
-    if 'linkedin.com' not in (page.url or ''):
-        await PageNavigator(session)._navigate_to_page(FEED_URL)
-        await session.check_rate_limit()
-    answer = await page.evaluate(LOCATION_LOOKUP_JS, query)
-    candidates = answer.get('candidates') or []
-    if not candidates:
-        return {'status': 'not_found' if answer.get('http') == 200 else 'unavailable', 'query': query,
-                'http': answer.get('http'), 'error': answer.get('error', ''), 'candidates': []}
-    return {'status': 'ok', 'query': query, 'candidates': candidates[:10]}
+    await PageNavigator(session)._navigate_to_page(PEOPLE_SEARCH_URL + '?keywords=manager&origin=SWITCH_SEARCH_VERTICAL')
+    await session.check_rate_limit()
+    try:
+        await page.get_by_role('button', name=LOCATION_BUTTON).first.click(timeout=LOCATION_WAIT_MS)
+        box = page.get_by_placeholder(re.compile('location', re.I)).first
+        await box.click(timeout=LOCATION_WAIT_MS)
+        await box.type(query, delay=60)
+        options = page.get_by_role('option')
+        await options.first.wait_for(timeout=LOCATION_WAIT_MS)
+        names = [' '.join(t.split()) for t in await options.all_inner_texts()]
+        wanted = _place_key(query)
+        index = next((i for i, n in enumerate(names) if _place_key(n) == wanted), None)
+        if index is None:
+            index = next((i for i, n in enumerate(names) if _place_key(n).startswith(wanted + ' ')), None)
+        if index is None:
+            return {'status': 'not_found', 'query': query, 'candidates': [{'name': n} for n in names[:6]]}
+        await options.nth(index).click(timeout=LOCATION_WAIT_MS)
+        await page.get_by_role('button', name=re.compile(r'show .*results?', re.I)).first.click(timeout=LOCATION_WAIT_MS)
+        await page.wait_for_url(re.compile('geoUrn'), timeout=LOCATION_WAIT_MS * 2)
+    except Exception as exc:        # the page differs from what is expected: Odoo asks for the id by hand
+        return {'status': 'unavailable', 'query': query, 'error': str(exc).split('\n')[0][:200], 'candidates': []}
+    found = re.search(r'%22(\d+)%22|"(\d+)"', page.url.split('geoUrn=', 1)[-1])
+    if not found:
+        return {'status': 'unavailable', 'query': query, 'error': 'no geoUrn in %s' % page.url[:150], 'candidates': []}
+    return {'status': 'ok', 'query': query, 'candidates': [{'id': found.group(1) or found.group(2),
+                                                            'name': names[index]}]}
 
 
 async def filtered_search_flow(extractor, url):

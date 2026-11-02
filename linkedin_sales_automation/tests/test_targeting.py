@@ -4,6 +4,7 @@ from odoo import fields
 from odoo.tests import BaseCase, freeze_time, tagged
 
 from .test_background import MONDAY_10_UTC, BackgroundCase
+from ..models.li_engine_parse import parse_search_results
 from ..models.li_geo import place_in_target, understand_place
 from ..models.li_targeting import names_found, title_found, title_patterns
 
@@ -142,15 +143,64 @@ class TestTargeting(BackgroundCase):
     def test_location_linkedin_does_not_know_is_reported(self):
         self._start()
         tag = self._tag('Dubai')
-        self._persona(location_ids=[(6, 0, tag.ids)])
+        persona = self._persona(location_ids=[(6, 0, tag.ids)])
         self._script(lookup_location=[{'data': {'status': 'ok', 'query': 'Dubai', 'candidates': [
             {'id': '1', 'name': 'Dubai, Georgia'}]}}])        # a place of the same name elsewhere: not taken
         self._run()
         self.assertFalse(tag.linkedin_geo_id)
         self.assertIn('enter the LinkedIn location ID by hand', tag.geo_lookup_note)
-        # still searched, and still checked person by person
-        self.assertEqual(len(self._calls(tool='search_people_filtered')), 1)
-        self.assertNotIn('geo_ids', self._calls(tool='search_people_filtered')[0]['args'])
+        # never a search of the whole world, and the persona says why
+        self.assertFalse(self._calls(tool='search_people_filtered'))
+        self.assertIn('Searching is stopped: Dubai has no LinkedIn location ID', persona.location_warning)
+        tag.linkedin_geo_id = '100205264'
+        self.assertFalse(persona.location_warning)
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_failed_lookup_says_what_happened(self):
+        self._start()
+        tag = self._tag('Oman')
+        self._persona(location_ids=[(6, 0, tag.ids)])
+        self._script(lookup_location=[{'data': {'status': 'unavailable', 'query': 'Oman', 'http': 404,
+                                                'error': '', 'candidates': []}}])
+        self._run()
+        self.assertIn('the lookup failed (HTTP 404)', tag.geo_lookup_note)
+        self.assertFalse(self._calls(tool='search_people_filtered'))
+
+    @freeze_time(MONDAY_10_UTC)
+    def test_city_locations_are_searched_and_checked(self):
+        self._start()
+        muscat, salalah = self._tag('Muscat'), self._tag('Salalah')
+        muscat.linkedin_geo_id, salalah.linkedin_geo_id = '111', '222'
+        persona = self._persona(job_titles='Founder', location_ids=[(6, 0, (muscat | salalah).ids)], fit_check=False)
+        self._script(search_people_filtered=[people_data(
+            ('in-muscat', 'In Muscat', 'Founder at A', 'Muscat, Masqaţ, Oman'),
+            ('in-salalah', 'In Salalah', 'Founder at B', 'Salalah, Dhofar, Oman'),
+            ('in-sohar', 'In Sohar', 'Founder at C', 'Sohar, Oman'))])
+        self._run()
+        self.assertEqual(self._calls(tool='search_people_filtered')[0]['args']['geo_ids'], ['111', '222'])
+        self.assertEqual(sorted(self.env['li.prospect'].search([('persona_id', '=', persona.id)]).mapped(
+            'linkedin_username')), ['in-muscat', 'in-salalah'])
+
+    def test_search_page_as_linkedin_shows_it(self):
+        text = '\n\n'.join([
+            'LinkedIn Member', 'Assistant Payroll Manager at Muriya', 'Oman', 'View', 'Current: Payroll at MURIYA',
+            'Ajay Vijayagopalan (Assoc CIPD, MBA (HR), CCBM) \n • 2nd', 'Senior HR & Payroll Professional', 'Oman',
+            'Connect', 'Current: Compensation, Benefits & Payroll Manager at Mohsin Haider Darwish LLC',
+            'Marcos Ravanini, Fiaz Khan & 1 other mutual connection',
+            'Prioritize the right prospects for your outreach', 'Get 50% Off Sales Nav',
+            'Sanjeev V R • 3rd+', 'HR & Operations Manager | Payroll', 'Muscat, Masqaţ, Oman', 'Message',
+            'Current: Manager - Payroll & Operations at Pu'])
+        data = {'sections': {'search_results': text}, 'references': {'search_results': [
+            {'kind': 'person', 'url': '/in/%s/' % u, 'text': n} for u, n in (
+                ('ajay', 'Ajay Vijayagopalan (Assoc CIPD, MBA (HR), CCBM)'), ('marcos', 'Marcos Ravanini'),
+                ('fiaz', 'Fiaz Khan'), ('sanjeev', 'Sanjeev V R'))]}}
+        people = parse_search_results(data)
+        self.assertEqual([p['username'] for p in people], ['ajay', 'sanjeev'])     # no mutual connections
+        ajay, sanjeev = people
+        self.assertEqual((ajay['headline'], ajay['location']), ('Senior HR & Payroll Professional', 'Oman'))
+        self.assertEqual(sanjeev['location'], 'Muscat, Masqaţ, Oman')
+        persona = self._persona(run=(), job_titles='Payroll Manager', location_ids=[(6, 0, self._tag('Oman').ids)])
+        self.assertTrue(persona._target_check(ajay)[0])                 # by his Current: role
 
     @freeze_time(MONDAY_10_UTC)
     def test_old_engine_falls_back_to_plain_search_and_still_filters(self):
