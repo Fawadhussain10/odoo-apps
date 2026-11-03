@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_hrw_root" name="HR Workflows" sequence="76"
+              web_icon="hr_process_workflow,static/description/icon.png"
+              groups="hr_process_workflow.group_hrw_requester"/>
+    <menuitem id="menu_hrw_dashboard" name="Dashboard" parent="menu_hrw_root" sequence="1"
+              action="action_hrw_dashboard"
+              groups="hr_process_workflow.group_hrw_hr_ops,hr_process_workflow.group_hrw_gm,hr_process_workflow.group_hrw_ceo,hr_process_workflow.group_hrw_payroll"/>
+    <menuitem id="menu_hrw_requests" name="Requests" parent="menu_hrw_root" sequence="10"/>
+    <menuitem id="menu_hrw_to_approve" name="To Approve" parent="menu_hrw_requests" sequence="1"
+              action="action_hrw_request_to_approve"/>
+    <menuitem id="menu_hrw_all" name="All Requests" parent="menu_hrw_requests" sequence="2"
+              action="action_hrw_request_all"/>
+    <menuitem id="menu_hrw_new_hire" name="New Hires" parent="menu_hrw_requests" sequence="10"
+              action="action_hrw_request_new_hire"/>
+    <menuitem id="menu_hrw_resignation" name="Resignations" parent="menu_hrw_requests" sequence="20"
+              action="action_hrw_request_resignation" groups="hr_process_workflow.group_hrw_hr_ops"/>
+    <menuitem id="menu_hrw_termination" name="Terminations" parent="menu_hrw_requests" sequence="30"
+              action="action_hrw_request_termination" groups="hr_process_workflow.group_hrw_hr_ops"/>
+    <menuitem id="menu_hrw_change" name="Salary / Position Changes" parent="menu_hrw_requests" sequence="40"
+              action="action_hrw_request_change" groups="hr_process_workflow.group_hrw_hr_ops"/>
+    <menuitem id="menu_hrw_reporting" name="Reporting" parent="menu_hrw_root" sequence="50"
+              groups="hr_process_workflow.group_hrw_hr_ops,hr_process_workflow.group_hrw_gm,hr_process_workflow.group_hrw_ceo"/>
+    <menuitem id="menu_hrw_analysis" name="Request Analysis" parent="menu_hrw_reporting" sequence="1"
+              action="action_hrw_request_analysis"/>
+    <menuitem id="menu_hrw_config" name="Configuration" parent="menu_hrw_root" sequence="90"
+              groups="hr_process_workflow.group_hrw_admin"/>
+    <menuitem id="menu_hrw_settings" name="Settings" parent="menu_hrw_config" sequence="1" action="action_hrw_settings"/>
+    <menuitem id="menu_hrw_matrix" name="Approval Matrix" parent="menu_hrw_config" sequence="5" action="action_hrw_step"/>
+    <menuitem id="menu_hrw_components" name="Salary Components" parent="menu_hrw_config" sequence="10"
+              action="action_hr_salary_component"/>
+    <menuitem id="menu_hrw_grades" name="Grades" parent="menu_hrw_config" sequence="20" action="action_hr_employee_grade"/>
+    <menuitem id="menu_hrw_bu" name="Business Units" parent="menu_hrw_config" sequence="30" action="action_hr_business_unit"/>
+    <menuitem id="menu_hrw_statutory" name="Statutory Registrations" parent="menu_hrw_config" sequence="40"
+              action="action_hr_statutory_type"/>
+</odoo>

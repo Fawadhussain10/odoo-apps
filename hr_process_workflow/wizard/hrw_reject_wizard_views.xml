@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hrw_reject_wizard_form" model="ir.ui.view">
+        <field name="name">hr.workflow.reject.wizard.form</field>
+        <field name="model">hr.workflow.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="request_id" invisible="1"/>
+                <field name="comment" placeholder="Why is this request rejected?"/>
+                <footer>
+                    <button name="action_reject" type="object" string="Reject" class="btn-danger"/>
+                    <button special="cancel" string="Discard"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

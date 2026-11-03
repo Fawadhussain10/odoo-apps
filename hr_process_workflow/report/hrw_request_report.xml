@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_hrw_request" model="ir.actions.report">
+        <field name="name">HR Request Form</field>
+        <field name="model">hr.workflow.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_process_workflow.report_hrw_request</field>
+        <field name="report_file">hr_process_workflow.report_hrw_request</field>
+        <field name="print_report_name">'%s - %s' % (object.name, object.employee_id.sudo().name or object.new_employee_name or '')</field>
+        <field name="binding_model_id" ref="model_hr_workflow_request"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_hrw_request_document">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=o.requested_by.lang or user.lang)"/>
+            <t t-set="emp" t-value="o.employee_id.sudo()"/>
+            <t t-set="accent" t-value="{'new_hire': '#0d9488', 'resignation': '#d97706', 'termination': '#e11d48', 'change': '#2563eb'}[o.request_type]"/>
+            <t t-set="state_color" t-value="{'draft': '#64748b', 'in_approval': '#2563eb', 'approved': '#0284c7', 'done': '#0d9488', 'rejected': '#e11d48', 'cancel': '#94a3b8'}[o.state]"/>
+            <div class="page hrw-pdf">
+                <style>
+                    .article > .pt-5 { padding-top: 0 !important; }
+                    .hrw-pdf { padding-top: 6px; }
+                    .hrw-pdf { font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif; color: #0f172a; font-size: 11.5px; }
+                    .hrw-pdf table { width: 100%; border-collapse: collapse; border: 0 !important; margin: 0; }
+                    .hrw-pdf table td, .hrw-pdf table th { border-left: 0 !important; border-right: 0 !important; border-top: 0 !important; }
+                    .hrw-banner table td, .hrw-tiles td, .hrw-net td, table.sign td { border: 0 !important; }
+                    .hrw-pdf tr, .hrw-pdf thead, .hrw-pdf tbody, .hrw-pdf tfoot { border: 0 !important; border-color: transparent !important; }
+                    .hrw-banner td, .hrw-net td { border-color: transparent !important; }
+                    .pct { font-size: 9.5px; font-weight: bold; margin-top: 1px; }
+                    .hrw-banner { border-radius: 14px; color: #fff; padding: 18px 24px 20px 24px; page-break-inside: avoid; background: #0f2a4a;
+                        background: -webkit-linear-gradient(left, #0b1f3a 0%, #134e6f 55%, #0d9488 100%);
+                        background: linear-gradient(90deg, #0b1f3a 0%, #134e6f 55%, #0d9488 100%); }
+                    .hrw-banner td { vertical-align: middle; }
+                    .hrw-eyebrow { font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; color: #99f6e4; font-weight: bold; }
+                    .hrw-title { font-size: 25px; font-weight: bold; margin: 4px 0 2px 0; color: #fff; }
+                    .hrw-sub { color: #cbe7f0; font-size: 11px; }
+                    .hrw-who { font-size: 15px; line-height: 20px; font-weight: bold; color: #fff; }
+                    .hrw-who-ar { font-size: 12px; line-height: 20px; height: 20px; overflow: hidden; color: #cbe7f0; }
+                    .hrw-id { font-size: 10px; line-height: 14px; color: #cbe7f0; }
+                    .hrw-pill { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 10px; font-weight: bold;
+                        letter-spacing: 1px; text-transform: uppercase; background: #fff; }
+                    .hrw-pdf table.hrw-tiles { margin-top: 14px !important; }
+                    .hrw-tiles td.tile { width: 25%; padding: 0 5px; vertical-align: top; }
+                    .hrw-tiles td.first { padding-left: 0; }
+                    .hrw-tiles td.last { padding-right: 0; }
+                    .hrw-tile { border-radius: 10px; padding: 9px 12px; background: #f1f5f9; height: 40px; }
+                    .hrw-tile .l { font-size: 8.5px; color: #0e7490; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
+                    .hrw-tile .v { font-size: 13.5px; line-height: 18px; height: 18px; overflow: hidden; white-space: nowrap; font-weight: bold; margin-top: 4px; color: #0f172a; }
+                    .hrw-tile .v span { line-height: 18px; }
+                    .hrw-card { border: 1px solid #e2e8f0; border-radius: 12px; margin-top: 16px; }
+                    .hrw-card-h { padding: 8px 14px; border-bottom: 1px solid #e2e8f0; background: #f8fafc;
+                        border-radius: 12px 12px 0 0; font-weight: bold; font-size: 12px; color: #0f172a; }
+                    .hrw-card-h .bar { display: inline-block; width: 4px; height: 12px; border-radius: 2px; margin-right: 8px; vertical-align: -1px; }
+                    .hrw-card-h .hint { float: right; font-weight: normal; color: #64748b; font-size: 10px; }
+                    .hrw-card-b { padding: 6px 14px 10px 14px; }
+                    table.kv td { padding: 6px 4px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; line-height: 16px; }
+                    table.kv td.k { color: #64748b; width: 17%; font-size: 10.5px; }
+                    table.kv td.v { width: 33%; font-weight: bold; }
+                    table.grid th { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: #64748b;
+                        padding: 7px 6px; border-bottom: 2px solid #e2e8f0; text-align: left; }
+                    table.grid td { padding: 7px 6px; border-bottom: 1px solid #f1f5f9; }
+                    table.grid tr.total td { font-weight: bold; background: #f8fafc; border-bottom: 0; }
+                    .num { text-align: right !important; white-space: nowrap; }
+                    .up { color: #059669; font-weight: bold; }
+                    .down { color: #e11d48; font-weight: bold; }
+                    .old { color: #94a3b8; text-decoration: line-through; }
+                    .hrw-net { margin-top: 10px; border-radius: 10px; padding: 12px 16px; color: #fff; background: #0b1f3a;
+                        background: -webkit-linear-gradient(left, #0b1f3a 0%, #134e6f 100%);
+                        background: linear-gradient(90deg, #0b1f3a 0%, #134e6f 100%); }
+                    .hrw-net td { color: #fff; }
+                    .hrw-net .l { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #99f6e4; font-weight: bold; }
+                    .hrw-net .v { font-size: 20px; font-weight: bold; text-align: right; }
+                    .dec { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 9.5px; font-weight: bold; }
+                    .dec-approved { background: #ccfbf1; color: #0f766e; }
+                    .dec-rejected { background: #ffe4e6; color: #be123c; }
+                    .dec-pending { background: #dbeafe; color: #1d4ed8; }
+                    .dec-skipped { background: #f1f5f9; color: #64748b; }
+                    .step-no { display: inline-block; width: 18px; height: 18px; line-height: 18px; text-align: center; border-radius: 9px;
+                        font-size: 9.5px; font-weight: bold; color: #fff; margin-right: 6px; }
+                    .hrw-text { padding: 8px 0 2px 0; line-height: 1.55; }
+                    table.sign td { padding: 0 5px; vertical-align: bottom; }
+                    .sign-box { border: 1px dashed #cbd5e1; border-radius: 10px; height: 96px; padding: 8px; text-align: center; background: #fcfcfd; }
+                    .sign-line { margin-top: 58px; border-top: 1.5px solid #334155; padding-top: 4px; font-weight: bold; font-size: 10px; }
+                    .sign-sub { font-size: 8.5px; color: #94a3b8; }
+                    .hrw-foot { margin-top: 16px; text-align: center; color: #94a3b8; font-size: 9px; letter-spacing: .5px; }
+                </style>
+
+                <!-- BANNER -->
+                <div class="hrw-banner">
+                    <table>
+                        <tr>
+                            <td style="width: 62%;">
+                                <div class="hrw-eyebrow">HR Request · <span t-field="o.name"/></div>
+                                <div class="hrw-title" t-field="o.request_type"/>
+                                <div class="hrw-sub">
+                                    Requested on <span t-field="o.request_date"/> by <span t-field="o.requested_by"/>
+                                    <t t-if="o.company_id"> · <span t-field="o.company_id"/></t>
+                                </div>
+                            </td>
+                            <td style="width: 38%; text-align: right;">
+                                <span class="hrw-pill" t-attf-style="color: #{state_color};" t-field="o.state"/>
+                                <div class="hrw-who" style="margin-top: 10px;" t-esc="emp.name or o.new_employee_name"/>
+                                <div class="hrw-who-ar" dir="rtl" t-esc="emp.name_ar or o.new_employee_name_ar"/>
+                                <div class="hrw-id" t-if="o.employee_code">ID <t t-esc="o.employee_code"/></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- TILES -->
+                <table class="hrw-tiles">
+                    <tr>
+                        <td class="tile first">
+                            <div class="hrw-tile">
+                                <div class="l" t-esc="{'new_hire': 'Joining date', 'change': 'Effective date'}.get(o.request_type, 'Last working day')"/>
+                                <div class="v"><span t-field="o.effective_date"/></div>
+                            </div>
+                        </td>
+                        <td class="tile">
+                            <div class="hrw-tile">
+                                <div class="l">Department</div>
+                                <div class="v" t-esc="(o.new_department_id if o.request_type == 'new_hire' else o.department_id).name or '-'"/>
+                            </div>
+                        </td>
+                        <td class="tile">
+                            <div class="hrw-tile">
+                                <div class="l">Position</div>
+                                <div class="v" t-esc="((o.new_job_title or o.new_job_id.name) if o.request_type == 'new_hire' else (o.job_title or o.job_id.name)) or '-'"/>
+                            </div>
+                        </td>
+                        <td class="tile last">
+                            <div class="hrw-tile">
+                                <t t-if="o.request_type in ('resignation', 'termination')">
+                                    <div class="l">Net settlement</div>
+                                    <div class="v"><span t-field="o.settlement_net"/></div>
+                                </t>
+                                <t t-elif="o.request_type == 'change'">
+                                    <div class="l">Salary change / month</div>
+                                    <div t-attf-class="v #{'up' if o.total_difference &gt; 0 else ('down' if o.total_difference &lt; 0 else '')}">
+                                        <span t-field="o.total_difference"/>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="l">Gross salary / month</div>
+                                    <div class="v"><span t-field="o.new_total"/></div>
+                                </t>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- EMPLOYEE -->
+                <div class="hrw-card">
+                    <div class="hrw-card-h"><span class="bar" t-attf-style="background: #{accent};"/>Employee details</div>
+                    <div class="hrw-card-b">
+                        <table class="kv">
+                            <t t-if="o.request_type == 'new_hire'">
+                                <tr>
+                                    <td class="k">Nationality</td><td class="v"><span t-field="o.nationality_id"/></td>
+                                    <td class="k">ID / Passport</td><td class="v"><t t-esc="o.identification_id or ''"/> <t t-esc="o.passport_id or ''"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="k">Business unit</td><td class="v"><span t-field="o.new_business_unit_id"/></td>
+                                    <td class="k">Grade</td><td class="v"><span t-field="o.new_grade_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="k">Reports to</td><td class="v"><span t-field="o.new_manager_id"/></td>
+                                    <td class="k">Contract</td><td class="v"><span t-field="o.contract_type_id"/>
+                                        <t t-if="o.contract_end_date"> until <span t-field="o.contract_end_date"/></t></td>
+                                </tr>
+                                <tr>
+                                    <td class="k">Bank</td><td class="v"><span t-field="o.bank_id"/> <t t-esc="o.bank_acc_number or ''"/></td>
+                                    <td class="k">Contact</td><td class="v"><t t-esc="o.work_email or ''"/> <t t-esc="o.mobile_phone or ''"/></td>
+                                </tr>
+                            </t>
+                            <t t-else="">
+                                <tr>
+                                    <td class="k">Business unit</td><td class="v"><span t-field="o.business_unit_id"/></td>
+                                    <td class="k">Grade</td><td class="v"><span t-field="o.grade_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="k">Reports to</td><td class="v"><span t-field="o.manager_id"/></td>
+                                    <td class="k">Joined on</td><td class="v"><t t-esc="emp.first_contract_date" t-options="{'widget': 'date'}"/></td>
+                                </tr>
+                                <tr t-if="o.request_type in ('resignation', 'termination')">
+                                    <td class="k">Reason for leaving</td><td class="v"><span t-field="o.departure_reason_id"/></td>
+                                    <td class="k">Notice</td><td class="v">
+                                        <t t-if="o.notice_date"><span t-field="o.notice_date"/> · </t><t t-esc="o.notice_period_days"/> days</td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CHANGES -->
+                <div class="hrw-card" t-if="o.request_type == 'change'">
+                    <div class="hrw-card-h"><span class="bar" t-attf-style="background: #{accent};"/>What changes</div>
+                    <div class="hrw-card-b">
+                        <table class="grid">
+                            <thead><tr><th style="width: 26%;">Item</th><th>From</th><th>To</th></tr></thead>
+                            <tbody>
+                                <tr t-if="o.new_company_id and o.new_company_id != o.company_id"><td>Company</td><td class="old" t-esc="o.company_id.name"/><td><b t-esc="o.new_company_id.name"/></td></tr>
+                                <tr t-if="o.new_business_unit_id and o.new_business_unit_id != o.business_unit_id"><td>Business unit</td><td class="old" t-esc="o.business_unit_id.name or '-'"/><td><b t-esc="o.new_business_unit_id.name"/></td></tr>
+                                <tr t-if="o.new_department_id and o.new_department_id != o.department_id"><td>Department</td><td class="old" t-esc="o.department_id.name or '-'"/><td><b t-esc="o.new_department_id.name"/></td></tr>
+                                <tr t-if="(o.new_job_id and o.new_job_id != o.job_id) or (o.new_job_title and o.new_job_title != o.job_title)"><td>Position</td><td class="old" t-esc="o.job_title or o.job_id.name or '-'"/><td><b t-esc="o.new_job_title or o.new_job_id.name"/></td></tr>
+                                <tr t-if="o.new_manager_id and o.new_manager_id != o.manager_id"><td>Reports to</td><td class="old" t-esc="o.manager_id.name or '-'"/><td><b t-esc="o.new_manager_id.name"/></td></tr>
+                                <tr t-if="o.new_grade_id and o.new_grade_id != o.grade_id"><td>Grade</td><td class="old" t-esc="o.grade_id.name or '-'"/><td><b t-esc="o.new_grade_id.name"/></td></tr>
+                                <tr t-if="o.new_cost_center_id and o.new_cost_center_id != o.cost_center_id"><td>Cost center</td><td class="old" t-esc="o.cost_center_id.name or '-'"/><td><b t-esc="o.new_cost_center_id.name"/></td></tr>
+                                <tr><td>Salary (gross / month)</td><td class="old"><span t-field="o.old_total"/></td><td><b><span t-field="o.new_total"/></b></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SALARY -->
+                <div class="hrw-card" t-if="o.request_type in ('new_hire', 'change') and o.salary_line_ids">
+                    <div class="hrw-card-h"><span class="bar" t-attf-style="background: #{accent};"/>Salary breakdown
+                        <span class="hint" t-if="o.request_type == 'change'">
+                            Budget approved: <b t-esc="'Yes' if o.budget_approved else 'No'"/>
+                            <t t-if="o.budget_reference"> · <t t-esc="o.budget_reference"/></t>
+                        </span>
+                    </div>
+                    <div class="hrw-card-b">
+                        <table class="grid">
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th t-if="o.request_type == 'change'" class="num">Current</th>
+                                    <th class="num" t-esc="'New' if o.request_type == 'change' else 'Monthly amount'"/>
+                                    <th t-if="o.request_type == 'change'" class="num">Change</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.salary_line_ids.filtered(lambda l: l.old_amount or l.new_amount)" t-as="l">
+                                    <td t-esc="l.component_id.name"/>
+                                    <td t-if="o.request_type == 'change'" class="num"><span t-field="l.old_amount"/></td>
+                                    <td class="num"><b><span t-field="l.new_amount"/></b></td>
+                                    <td t-if="o.request_type == 'change'" class="num">
+                                        <span t-attf-class="#{'up' if l.difference &gt; 0 else ('down' if l.difference &lt; 0 else '')}">
+                                            <span t-field="l.difference"/>
+                                            <div t-if="l.difference_pct" class="pct"><t t-esc="'%+.1f' % l.difference_pct"/> %</div>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="total">
+                                    <td>Gross salary</td>
+                                    <td t-if="o.request_type == 'change'" class="num"><span t-field="o.old_total"/></td>
+                                    <td class="num"><span t-field="o.new_total"/></td>
+                                    <td t-if="o.request_type == 'change'" class="num">
+                                        <span t-attf-class="#{'up' if o.total_difference &gt; 0 else ('down' if o.total_difference &lt; 0 else '')}">
+                                            <span t-field="o.total_difference"/>
+                                            <div t-if="o.total_difference_pct" class="pct"><t t-esc="'%+.1f' % o.total_difference_pct"/> %</div>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SETTLEMENT -->
+                <div class="hrw-card" t-if="o.request_type in ('resignation', 'termination')">
+                    <div class="hrw-card-h"><span class="bar" t-attf-style="background: #{accent};"/>Final settlement</div>
+                    <div class="hrw-card-b">
+                        <table class="grid">
+                            <thead><tr><th>Description</th><th class="num">Earnings</th><th class="num">Deductions</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="o.settlement_line_ids" t-as="l">
+                                    <td><t t-esc="l.name"/><span t-if="l.note" style="color: #94a3b8;"> · <t t-esc="l.note"/></span></td>
+                                    <td class="num"><span t-if="l.line_type == 'earning'" t-field="l.amount"/></td>
+                                    <td class="num down"><span t-if="l.line_type == 'deduction'" t-field="l.amount"/></td>
+                                </tr>
+                                <tr t-if="not o.settlement_line_ids"><td colspan="3" style="color: #94a3b8;">Settlement not computed yet.</td></tr>
+                                <tr class="total">
+                                    <td>Total</td>
+                                    <td class="num"><span t-field="o.settlement_earnings"/></td>
+                                    <td class="num"><span t-field="o.settlement_deductions"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="hrw-net">
+                            <table><tr>
+                                <td class="l">Net amount payable to the employee</td>
+                                <td class="v"><span t-field="o.settlement_net"/></td>
+                            </tr></table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REASON -->
+                <div class="hrw-card" t-if="o.reason or o.legal_opinion">
+                    <div class="hrw-card-h"><span class="bar" t-attf-style="background: #{accent};"/>Reason</div>
+                    <div class="hrw-card-b">
+                        <div class="hrw-text" t-field="o.reason"/>
+                        <div t-if="o.legal_opinion" style="margin-top: 6px; padding: 8px 12px; border-radius: 8px; background: #fffbeb; border-left: 3px solid #d97706;">
+                            <b style="color: #b45309;">Legal review</b>
+                            <div class="hrw-text" style="padding-top: 2px;" t-field="o.legal_opinion"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- APPROVALS -->
+                <t t-set="lines" t-value="o.approval_ids.filtered(lambda a: a.round == o.round).sorted('sequence')"/>
+                <div class="hrw-card" t-if="lines">
+                    <div class="hrw-card-h"><span class="bar" t-attf-style="background: #{accent};"/>Approval trail
+                        <span class="hint" t-if="o.cycle_days">Fully approved in <t t-esc="round(o.cycle_days, 1)"/> days</span></div>
+                    <div class="hrw-card-b">
+                        <table class="grid">
+                            <thead><tr><th>Step</th><th>Decision</th><th>By</th><th>On</th><th>Comment</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="lines" t-as="a">
+                                    <td>
+                                        <span class="step-no" t-attf-style="background: #{'#0d9488' if a.state == 'approved' else ('#e11d48' if a.state == 'rejected' else '#cbd5e1')};" t-esc="a_index + 1"/>
+                                        <b t-esc="a.name"/>
+                                    </td>
+                                    <td><span t-attf-class="dec dec-#{a.state}" t-field="a.state"/></td>
+                                    <td t-esc="a.decided_by.name or ', '.join(a.approver_ids.mapped('name'))"/>
+                                    <td><span t-field="a.decided_date" t-options="{'widget': 'date'}"/></td>
+                                    <td style="color: #64748b;" t-esc="a.comment or ''"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SIGNATURES -->
+                <t t-if="o.request_type in ('resignation', 'termination')">
+                    <t t-set="signers" t-value="['HR Department', 'General Manager', 'Finance Manager', 'Group Finance Manager', 'Chief Executive Officer']"/>
+                </t>
+                <t t-elif="o.request_type == 'change'">
+                    <t t-set="signers" t-value="['Employee', 'HR Director', 'Finance', 'Group Finance Manager', 'GM / CEO']"/>
+                </t>
+                <t t-else="">
+                    <t t-set="signers" t-value="['Hiring Manager', 'HR Operations', 'HR Director']"/>
+                </t>
+                <div style="margin-top: 16px; page-break-inside: avoid;">
+                    <div style="font-weight: bold; font-size: 12px; margin-bottom: 8px;"><span style="display: inline-block; width: 4px; height: 12px; border-radius: 2px; margin-right: 8px; vertical-align: -1px;" t-attf-style="background: #{accent}; display: inline-block; width: 4px; height: 12px; border-radius: 2px; margin-right: 8px; vertical-align: -1px;"/>Signatures</div>
+                    <table class="sign">
+                        <tr>
+                            <td t-foreach="signers" t-as="s" t-attf-style="width: #{int(100 / len(signers))}%;">
+                                <div class="sign-box">
+                                    <div class="sign-line" t-esc="s"/>
+                                    <div class="sign-sub">Name · Signature · Date</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="hrw-foot">Generated by HR Workflows · <t t-esc="o.name"/></div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_hrw_request">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="hr_process_workflow.report_hrw_request_document"/>
+            </t>
+        </t>
+    </template>
+</odoo>

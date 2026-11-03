@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_hrw" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.hrw</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="HR Workflows" string="HR Workflows" name="hr_process_workflow"
+                     groups="hr_process_workflow.group_hrw_admin">
+                    <block title="Final Settlement" name="hrw_settlement">
+                        <setting string="End of Service Gratuity"
+                                 help="Days of basic salary per year of service, used by Compute Settlement.">
+                            <div class="content-group mt-2">
+                                <div class="row"><label class="col-lg-7 o_light_label" for="hrw_gratuity_days_first"/>
+                                    <field name="hrw_gratuity_days_first"/></div>
+                                <div class="row"><label class="col-lg-7 o_light_label" for="hrw_gratuity_days_after"/>
+                                    <field name="hrw_gratuity_days_after"/></div>
+                                <div class="row"><label class="col-lg-7 o_light_label" for="hrw_gratuity_min_years"/>
+                                    <field name="hrw_gratuity_min_years"/></div>
+                            </div>
+                        </setting>
+                        <setting string="Daily Rate" help="Monthly salary is divided by this number of days.">
+                            <field name="hrw_month_days"/>
+                        </setting>
+                        <setting help="Archive the employee when a resignation / termination is applied.">
+                            <field name="hrw_archive_on_exit"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+    <record id="action_hrw_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'hr_process_workflow', 'bin_size': False}</field>
+    </record>
+</odoo>

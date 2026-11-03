@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hrw_step_tree" model="ir.ui.view">
+        <field name="name">hr.workflow.approval.step.tree</field>
+        <field name="model">hr.workflow.approval.step</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="request_type"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="approver_type"/>
+                <field name="group_ids" widget="many2many_tags" invisible="approver_type != 'groups'"
+                       required="approver_type == 'groups'"/>
+                <field name="user_ids" widget="many2many_tags_avatar" invisible="approver_type != 'users'"
+                       required="approver_type == 'users'"/>
+                <field name="sla_days"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_hrw_step_search" model="ir.ui.view">
+        <field name="name">hr.workflow.approval.step.search</field>
+        <field name="model">hr.workflow.approval.step</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group><filter name="group_type" string="Transaction" context="{'group_by': 'request_type'}"/></group>
+            </search>
+        </field>
+    </record>
+    <record id="action_hrw_step" model="ir.actions.act_window">
+        <field name="name">Approval Matrix</field>
+        <field name="res_model">hr.workflow.approval.step</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{'search_default_group_type': 1}</field>
+    </record>
+
+    <record id="view_hr_salary_component_tree" model="ir.ui.view">
+        <field name="name">hr.salary.component.tree</field>
+        <field name="model">hr.salary.component</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="contract_field_id" options="{'no_create': True}"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_hr_salary_component" model="ir.actions.act_window">
+        <field name="name">Salary Components</field>
+        <field name="res_model">hr.salary.component</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{'active_test': False}</field>
+    </record>
+
+    <record id="view_hr_employee_grade_tree" model="ir.ui.view">
+        <field name="name">hr.employee.grade.tree</field>
+        <field name="model">hr.employee.grade</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="min_salary"/>
+                <field name="max_salary"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_hr_employee_grade" model="ir.actions.act_window">
+        <field name="name">Grades</field>
+        <field name="res_model">hr.employee.grade</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="view_hr_business_unit_tree" model="ir.ui.view">
+        <field name="name">hr.business.unit.tree</field>
+        <field name="model">hr.business.unit</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="manager_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_hr_business_unit" model="ir.actions.act_window">
+        <field name="name">Business Units</field>
+        <field name="res_model">hr.business.unit</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="view_hr_statutory_type_tree" model="ir.ui.view">
+        <field name="name">hr.statutory.type.tree</field>
+        <field name="model">hr.statutory.type</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_hr_statutory_type" model="ir.actions.act_window">
+        <field name="name">Statutory Registrations</field>
+        <field name="res_model">hr.statutory.type</field>
+        <field name="view_mode">tree</field>
+    </record>
+</odoo>

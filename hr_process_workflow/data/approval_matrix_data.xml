@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- New hire: Hiring Manager -> HR Operations -> HR Director -->
+    <record id="step_nh_hr_ops" model="hr.workflow.approval.step">
+        <field name="request_type">new_hire</field><field name="sequence">10</field>
+        <field name="name">HR Operations Validation</field><field name="category">hr_validation</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_hr_ops')])]"/>
+        <field name="sla_days">2</field>
+    </record>
+    <record id="step_nh_hr_director" model="hr.workflow.approval.step">
+        <field name="request_type">new_hire</field><field name="sequence">20</field>
+        <field name="name">HR Director Review</field><field name="category">final</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_hr_director')])]"/>
+        <field name="sla_days">2</field>
+    </record>
+
+    <!-- Resignation: HR -> Department Head -> HR Director -> Settlement (Finance) -> Authorized GM -->
+    <record id="step_rs_dept_head" model="hr.workflow.approval.step">
+        <field name="request_type">resignation</field><field name="sequence">10</field>
+        <field name="name">Department Head / Line Manager</field><field name="category">review</field>
+        <field name="approver_type">department_head</field><field name="sla_days">2</field>
+    </record>
+    <record id="step_rs_hr_director" model="hr.workflow.approval.step">
+        <field name="request_type">resignation</field><field name="sequence">20</field>
+        <field name="name">HR Director</field><field name="category">review</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_hr_director')])]"/>
+        <field name="sla_days">2</field>
+    </record>
+    <record id="step_rs_settlement" model="hr.workflow.approval.step">
+        <field name="request_type">resignation</field><field name="sequence">30</field>
+        <field name="name">Final Settlement (HR / Finance)</field><field name="category">settlement</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_finance')])]"/>
+        <field name="sla_days">3</field>
+    </record>
+    <record id="step_rs_gm" model="hr.workflow.approval.step">
+        <field name="request_type">resignation</field><field name="sequence">40</field>
+        <field name="name">Authorized General Manager</field><field name="category">final</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_gm')])]"/>
+        <field name="sla_days">2</field>
+    </record>
+
+    <!-- Termination: HR -> HR Director -> Legal -> Settlement -> CEO / authorized GM -->
+    <record id="step_tr_hr_director" model="hr.workflow.approval.step">
+        <field name="request_type">termination</field><field name="sequence">10</field>
+        <field name="name">HR Director</field><field name="category">review</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_hr_director')])]"/>
+        <field name="sla_days">2</field>
+    </record>
+    <record id="step_tr_legal" model="hr.workflow.approval.step">
+        <field name="request_type">termination</field><field name="sequence">20</field>
+        <field name="name">Legal Review</field><field name="category">legal</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_legal')])]"/>
+        <field name="sla_days">3</field>
+    </record>
+    <record id="step_tr_settlement" model="hr.workflow.approval.step">
+        <field name="request_type">termination</field><field name="sequence">30</field>
+        <field name="name">Final Settlement (HR / Finance)</field><field name="category">settlement</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_finance')])]"/>
+        <field name="sla_days">3</field>
+    </record>
+    <record id="step_tr_final" model="hr.workflow.approval.step">
+        <field name="request_type">termination</field><field name="sequence">40</field>
+        <field name="name">CEO / Authorized GM</field><field name="category">final</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_ceo'), ref('group_hrw_gm')])]"/>
+        <field name="sla_days">2</field>
+    </record>
+
+    <!-- Salary / position change: HR -> HR Director -> Finance -> Group Finance Manager -> GM / CEO; Payroll applies -->
+    <record id="step_sc_hr_director" model="hr.workflow.approval.step">
+        <field name="request_type">change</field><field name="sequence">10</field>
+        <field name="name">HR Director</field><field name="category">review</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_hr_director')])]"/>
+        <field name="sla_days">2</field>
+    </record>
+    <record id="step_sc_finance" model="hr.workflow.approval.step">
+        <field name="request_type">change</field><field name="sequence">20</field>
+        <field name="name">Finance Review (Budget)</field><field name="category">finance</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_finance')])]"/>
+        <field name="sla_days">2</field>
+    </record>
+    <record id="step_sc_group_finance" model="hr.workflow.approval.step">
+        <field name="request_type">change</field><field name="sequence">30</field>
+        <field name="name">Group Finance Manager</field><field name="category">review</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_group_finance')])]"/>
+        <field name="sla_days">2</field>
+    </record>
+    <record id="step_sc_final" model="hr.workflow.approval.step">
+        <field name="request_type">change</field><field name="sequence">40</field>
+        <field name="name">GM / CEO (Financial DOA)</field><field name="category">final</field>
+        <field name="approver_type">groups</field><field name="group_ids" eval="[(6, 0, [ref('group_hrw_gm'), ref('group_hrw_ceo')])]"/>
+        <field name="sla_days">2</field>
+    </record>
+</odoo>

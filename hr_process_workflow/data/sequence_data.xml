@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_hrw_new_hire" model="ir.sequence">
+        <field name="name">HR Request - New Hire</field>
+        <field name="code">hr.workflow.request.new_hire</field>
+        <field name="prefix">NH/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_hrw_resignation" model="ir.sequence">
+        <field name="name">HR Request - Resignation</field>
+        <field name="code">hr.workflow.request.resignation</field>
+        <field name="prefix">RS/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_hrw_termination" model="ir.sequence">
+        <field name="name">HR Request - Termination</field>
+        <field name="code">hr.workflow.request.termination</field>
+        <field name="prefix">TR/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_hrw_change" model="ir.sequence">
+        <field name="name">HR Request - Salary / Position Change</field>
+        <field name="code">hr.workflow.request.change</field>
+        <field name="prefix">SC/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

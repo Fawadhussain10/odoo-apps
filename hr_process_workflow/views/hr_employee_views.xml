@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_hrw" model="ir.ui.view">
+        <field name="name">hr.employee.form.hrw</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_open_hrw_requests" type="object" class="oe_stat_button" icon="fa-random"
+                        groups="hr_process_workflow.group_hrw_hr_ops">
+                    <field name="hrw_request_count" widget="statinfo" string="HR Requests"/>
+                </button>
+            </div>
+            <xpath expr="//h1" position="after">
+                <h3><field name="name_ar" placeholder="الاسم بالعربية" class="text-end" dir="rtl"/></h3>
+            </xpath>
+            <field name="department_id" position="before">
+                <field name="business_unit_id"/>
+            </field>
+            <field name="job_id" position="after">
+                <field name="employee_code" groups="hr.group_hr_user"/>
+                <field name="grade_id" groups="hr.group_hr_user"/>
+                <field name="cost_center_id" groups="hr.group_hr_user"/>
+            </field>
+            <xpath expr="//notebook" position="inside">
+                <page string="Statutory Registrations" name="hrw_statutory" groups="hr.group_hr_user">
+                    <field name="statutory_line_ids">
+                        <tree editable="bottom">
+                            <field name="type_id"/>
+                            <field name="reference"/>
+                            <field name="status" widget="badge" decoration-success="status == 'registered'"
+                                   decoration-warning="status in ('pending', 'in_progress')"
+                                   decoration-danger="status == 'expired'"/>
+                            <field name="date"/>
+                            <field name="expiry_date"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_employee_filter_hrw" model="ir.ui.view">
+        <field name="name">hr.employee.search.hrw</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="employee_code" groups="hr.group_hr_user"/>
+                <field name="name_ar"/>
+                <field name="business_unit_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_department_form_hrw" model="ir.ui.view">
+        <field name="name">hr.department.form.hrw</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_form"/>
+        <field name="arch" type="xml">
+            <field name="manager_id" position="before">
+                <field name="business_unit_id"/>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_contract_view_form_hrw" model="ir.ui.view">
+        <field name="name">hr.contract.form.hrw</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Salary Components" name="hrw_components">
+                    <field name="hrw_salary_line_ids">
+                        <tree editable="bottom">
+                            <field name="component_id" options="{'no_create': True}"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="amount" sum="Total"/>
+                        </tree>
+                    </field>
+                    <group class="oe_subtotal_footer">
+                        <field name="hrw_gross"/>
+                        <field name="hrw_request_id" invisible="not hrw_request_id"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

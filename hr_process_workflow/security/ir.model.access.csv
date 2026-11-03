@@ -1,0 +1,30 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_request_req,request requester,model_hr_workflow_request,group_hrw_requester,1,1,1,0
+access_request_ops,request hr ops,model_hr_workflow_request,group_hrw_hr_ops,1,1,1,1
+access_approval_req,approval requester,model_hr_workflow_approval,group_hrw_requester,1,0,0,0
+access_approval_admin,approval admin,model_hr_workflow_approval,group_hrw_admin,1,1,1,1
+access_salary_line_req,salary line requester,model_hr_workflow_salary_line,group_hrw_requester,1,1,1,1
+access_settlement_req,settlement requester,model_hr_workflow_settlement_line,group_hrw_requester,1,0,0,0
+access_settlement_ops,settlement hr ops,model_hr_workflow_settlement_line,group_hrw_hr_ops,1,1,1,1
+access_settlement_fin,settlement finance,model_hr_workflow_settlement_line,group_hrw_finance,1,1,1,1
+access_statutory_line_req,statutory line requester,model_hr_statutory_line,group_hrw_requester,1,1,1,1
+access_statutory_line_hr,statutory line hr,model_hr_statutory_line,hr.group_hr_user,1,1,1,1
+access_step_user,step user,model_hr_workflow_approval_step,base.group_user,1,0,0,0
+access_step_admin,step admin,model_hr_workflow_approval_step,group_hrw_admin,1,1,1,1
+access_bu_user,bu user,model_hr_business_unit,base.group_user,1,0,0,0
+access_bu_admin,bu admin,model_hr_business_unit,group_hrw_admin,1,1,1,1
+access_bu_hr,bu hr manager,model_hr_business_unit,hr.group_hr_manager,1,1,1,1
+access_grade_user,grade user,model_hr_employee_grade,base.group_user,1,0,0,0
+access_grade_admin,grade admin,model_hr_employee_grade,group_hrw_admin,1,1,1,1
+access_grade_hr,grade hr manager,model_hr_employee_grade,hr.group_hr_manager,1,1,1,1
+access_stat_type_user,statutory type user,model_hr_statutory_type,base.group_user,1,0,0,0
+access_stat_type_admin,statutory type admin,model_hr_statutory_type,group_hrw_admin,1,1,1,1
+access_component_user,component user,model_hr_salary_component,base.group_user,1,0,0,0
+access_component_admin,component admin,model_hr_salary_component,group_hrw_admin,1,1,1,1
+access_contract_line_hr,contract salary line hr,model_hr_contract_component_line,hr.group_hr_user,1,0,0,0
+access_contract_line_mgr,contract salary line contract mgr,model_hr_contract_component_line,hr_contract.group_hr_contract_manager,1,1,1,1
+access_contract_line_payroll,contract salary line payroll,model_hr_contract_component_line,group_hrw_payroll,1,1,1,1
+access_reject_wizard,reject wizard,model_hr_workflow_reject_wizard,group_hrw_requester,1,1,1,0
+access_hr_job_requester,hr.job requester read,hr.model_hr_job,group_hrw_requester,1,0,0,0
+access_contract_type_requester,hr.contract.type requester read,hr.model_hr_contract_type,group_hrw_requester,1,0,0,0
+access_departure_reason_requester,hr.departure.reason requester read,hr.model_hr_departure_reason,group_hrw_requester,1,0,0,0

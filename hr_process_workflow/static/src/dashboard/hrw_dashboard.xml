@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="hr_process_workflow.AnimatedNumber">
+        <span class="hrw-num" t-esc="text"/>
+    </t>
+
+    <t t-name="hr_process_workflow.HrwDirectorDashboard">
+        <div class="o_hrw_dash" t-att-class="{'is-ready': state.ready}">
+            <div class="hrw-bg-blob hrw-blob-1"/>
+            <div class="hrw-bg-blob hrw-blob-2"/>
+
+            <div class="hrw-container">
+                <!-- ============================================================ HERO -->
+                <section class="hrw-hero hrw-reveal" style="--d: 0ms">
+                    <div class="hrw-hero-grid"/>
+                    <div class="hrw-hero-left">
+                        <div class="hrw-eyebrow"><i class="fa fa-bolt me-1"/>HR Dashboard</div>
+                        <h1 class="hrw-hero-title">
+                            <t t-esc="greeting"/><t t-if="firstName">, <t t-esc="firstName"/></t>
+                            <span class="hrw-wave">👋</span>
+                        </h1>
+                        <p class="hrw-hero-sub" t-if="state.data">
+                            <strong><t t-esc="state.data.total_in_range"/></strong> requests from
+                            <span class="hrw-hero-period"><i class="fa fa-calendar me-1"/><t t-esc="periodLabel"/></span>
+                        </p>
+                        <div class="hrw-quick">
+                            <button class="hrw-quick-btn" t-on-click="() => this.newRequest('new_hire')">
+                                <i class="fa fa-user-plus"/> New Hire
+                            </button>
+                            <button class="hrw-quick-btn" t-on-click="() => this.newRequest('change')">
+                                <i class="fa fa-exchange"/> Salary / Job Change
+                            </button>
+                            <button class="hrw-quick-btn" t-on-click="() => this.newRequest('resignation')">
+                                <i class="fa fa-sign-out"/> Resignation
+                            </button>
+                            <button class="hrw-quick-btn" t-on-click="() => this.newRequest('termination')">
+                                <i class="fa fa-user-times"/> Termination
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hrw-hero-right" t-if="state.data">
+                        <div class="hrw-glass-stat">
+                            <div class="hrw-glass-label">Monthly salary cost change</div>
+                            <div class="hrw-glass-value">
+                                <AnimatedNumber value="state.data.net_impact" fmt="'money'" currency="state.data.currency"/>
+                            </div>
+                            <div class="hrw-glass-foot">new joiners − leavers ± salary changes</div>
+                            <div class="hrw-glass-split">
+                                <t t-foreach="state.data.cost_by_type" t-as="c" t-key="c.key">
+                                    <div class="hrw-glass-chip">
+                                        <span class="hrw-dot" t-att-style="'background:' + typeColors[c.key].main"/>
+                                        <span t-esc="c.label"/>
+                                        <strong t-esc="money(c.value)"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================ FILTERS -->
+                <section class="hrw-filters hrw-reveal" style="--d: 60ms" t-if="state.data">
+                    <div class="hrw-filter-group">
+                        <HrwSelect icon="'fa-building-o'" placeholder="'All companies'" options="state.data.options.companies"
+                                   value="state.filters.company_ids[0] || ''" onChange="(v) => this.setCompany(v)"/>
+                        <HrwSelect icon="'fa-sitemap'" placeholder="'All business units'" options="state.data.options.business_units"
+                                   value="state.filters.business_unit_id" onChange="(v) => this.setFilter('business_unit_id', v)"/>
+                        <HrwSelect icon="'fa-users'" placeholder="'All departments'" options="state.data.options.departments"
+                                   value="state.filters.department_id" onChange="(v) => this.setFilter('department_id', v)"/>
+                        <HrwSelect icon="'fa-user-circle-o'" placeholder="'All approvers'" options="approverOptions"
+                                   value="state.filters.approver_id" onChange="(v) => this.setFilter('approver_id', v)"/>
+                        <HrwSelect icon="'fa-tag'" placeholder="'All request types'" options="typeOptions"
+                                   value="state.filters.request_type" onChange="(v) => this.setFilter('request_type', v)"/>
+                    </div>
+                    <div class="hrw-filter-group">
+                        <div class="hrw-segment">
+                            <t t-foreach="presets" t-as="p" t-key="p.key">
+                                <button t-att-class="{'active': state.preset === p.key}" t-on-click="() => this.setPreset(p.key)"
+                                        t-esc="p.label"/>
+                            </t>
+                        </div>
+                        <t t-if="state.preset === 'custom'">
+                            <input type="date" class="hrw-date" t-att-value="state.filters.date_from"
+                                   t-on-change="(ev) => this.onFilter('date_from', ev)"/>
+                            <span class="hrw-arrow">→</span>
+                            <input type="date" class="hrw-date" t-att-value="state.filters.date_to"
+                                   t-on-change="(ev) => this.onFilter('date_to', ev)"/>
+                        </t>
+                        <button class="hrw-reset" t-if="activeFilterCount" t-on-click="resetFilters">
+                            <i class="fa fa-times-circle"/> Clear filters <span class="hrw-badge" t-esc="activeFilterCount"/>
+                        </button>
+                        <span class="hrw-spinner" t-if="state.loading"/>
+                    </div>
+                </section>
+
+                <!-- ============================================================ SKELETON -->
+                <t t-if="!state.data">
+                    <div class="hrw-kpis">
+                        <t t-foreach="[1,2,3,4,5,6,7,8]" t-as="s" t-key="s">
+                            <div class="hrw-card hrw-skeleton" style="height: 128px;"/>
+                        </t>
+                    </div>
+                </t>
+
+                <t t-if="state.data">
+                    <!-- ======================================================== KPI CARDS -->
+                    <section class="hrw-kpis" t-att-class="{'is-loading': state.loading}">
+                        <t t-foreach="state.data.kpis" t-as="k" t-key="k.key">
+                            <div t-att-class="'hrw-card hrw-kpi hrw-reveal tone-' + k.tone"
+                                 t-att-style="'--d:' + (100 + k_index * 50) + 'ms'"
+                                 t-on-click="() => this.openDomain(k.label, k.domain)">
+                                <div class="hrw-kpi-top">
+                                    <div class="hrw-kpi-icon"><i t-att-class="'fa ' + k.icon"/></div>
+                                    <i class="fa fa-arrow-right hrw-kpi-go"/>
+                                </div>
+                                <div class="hrw-kpi-value">
+                                    <AnimatedNumber value="k.value" fmt="k.fmt" currency="state.data.currency"/>
+                                    <small t-if="k.fmt === 'days'">days</small>
+                                </div>
+                                <div class="hrw-kpi-label" t-esc="k.label"/>
+                                <div class="hrw-kpi-hint" t-esc="k.hint"/>
+                                <div class="hrw-kpi-glow"/>
+                            </div>
+                        </t>
+                    </section>
+
+                    <!-- ======================================================== TREND + MIX -->
+                    <section class="hrw-row hrw-row-2-1">
+                        <div class="hrw-card hrw-panel hrw-reveal" style="--d: 450ms">
+                            <div class="hrw-panel-head">
+                                <div>
+                                    <h3>Requests per month</h3>
+                                    <p>How many requests came in, by type</p>
+                                </div>
+                                <div class="hrw-legend">
+                                    <t t-foreach="state.data.trend" t-as="s" t-key="s.key">
+                                        <button t-att-class="{'hrw-legend-item': true, 'off': state.hiddenSeries[s.key]}"
+                                                t-on-click="() => this.toggleSeries(s.key)">
+                                            <span class="hrw-dot" t-att-style="'background:' + typeColors[s.key].main"/>
+                                            <t t-esc="s.label"/>
+                                        </button>
+                                    </t>
+                                </div>
+                            </div>
+                            <t t-set="c" t-value="chart"/>
+                            <div class="hrw-chart-wrap" t-on-mouseleave="() => this.state.hoverIdx = null">
+                                <svg t-att-viewBox="'0 0 ' + c.W + ' ' + c.H" class="hrw-chart" preserveAspectRatio="none">
+                                    <defs>
+                                        <t t-foreach="c.lines" t-as="l" t-key="l.key">
+                                            <linearGradient t-att-id="'hrwg-' + l.key" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" t-att-stop-color="l.color" stop-opacity="0.32"/>
+                                                <stop offset="100%" t-att-stop-color="l.color" stop-opacity="0"/>
+                                            </linearGradient>
+                                        </t>
+                                    </defs>
+                                    <t t-foreach="c.grid" t-as="g" t-key="g_index">
+                                        <line t-att-x1="c.P.l" t-att-x2="c.W - c.P.r" t-att-y1="g.y" t-att-y2="g.y" class="hrw-grid-line"/>
+                                        <text t-att-x="c.P.l - 8" t-att-y="g.y + 4" class="hrw-axis" text-anchor="end" t-esc="g.label"/>
+                                    </t>
+                                    <t t-foreach="c.xLabels" t-as="xl" t-key="xl_index">
+                                        <text t-if="xl.show" t-att-x="xl.x" t-att-y="c.H - 8" class="hrw-axis" text-anchor="middle" t-esc="xl.label"/>
+                                    </t>
+                                    <t t-foreach="c.lines" t-as="l" t-key="l.key">
+                                        <path t-att-d="l.area" t-att-fill="'url(#hrwg-' + l.key + ')'" class="hrw-area"/>
+                                        <path t-att-d="l.line" t-att-stroke="l.color" class="hrw-line" fill="none"/>
+                                    </t>
+                                    <t t-if="state.hoverIdx !== null">
+                                        <line t-att-x1="c.slots[state.hoverIdx].cx" t-att-x2="c.slots[state.hoverIdx].cx"
+                                              t-att-y1="c.P.t" t-att-y2="c.H - c.P.b" class="hrw-cursor"/>
+                                        <t t-foreach="c.lines" t-as="l" t-key="l.key">
+                                            <circle t-att-cx="l.pts[state.hoverIdx][0]" t-att-cy="l.pts[state.hoverIdx][1]" r="5"
+                                                    t-att-fill="l.color" class="hrw-point"/>
+                                        </t>
+                                    </t>
+                                    <t t-foreach="c.slots" t-as="s" t-key="s.i">
+                                        <rect t-att-x="s.x" t-att-y="0" t-att-width="s.w" t-att-height="c.H" fill="transparent"
+                                              t-on-mouseenter="() => this.state.hoverIdx = s.i"/>
+                                    </t>
+                                </svg>
+                                <t t-set="tt" t-value="tooltip"/>
+                                <div t-if="tt" t-att-class="{'hrw-tooltip': true, 'flip': tt.flip}" t-att-style="'left:' + tt.left + '%'">
+                                    <div class="hrw-tooltip-title"><t t-esc="tt.month"/><span t-esc="tt.total"/></div>
+                                    <t t-foreach="tt.rows" t-as="r" t-key="r.key">
+                                        <div class="hrw-tooltip-row">
+                                            <span class="hrw-dot" t-att-style="'background:' + r.color"/>
+                                            <span t-esc="r.label"/><strong t-esc="r.value"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hrw-card hrw-panel hrw-reveal" style="--d: 500ms">
+                            <div class="hrw-panel-head">
+                                <div>
+                                    <h3>Requests by type</h3>
+                                    <p>Share of each request type</p>
+                                </div>
+                            </div>
+                            <t t-set="dn" t-value="donut"/>
+                            <div class="hrw-donut-wrap">
+                                <svg viewBox="0 0 200 200" class="hrw-donut">
+                                    <circle cx="100" cy="100" t-att-r="dn.R" class="hrw-donut-track"/>
+                                    <t t-foreach="dn.arcs" t-as="a" t-key="a.key">
+                                        <circle cx="100" cy="100" t-att-r="dn.R" class="hrw-donut-arc"
+                                                t-att-stroke="a.color" t-att-stroke-dasharray="a.dash"
+                                                t-att-stroke-dashoffset="a.offset"
+                                                t-on-click="() => this.openDomain(a.label, a.domain)"/>
+                                    </t>
+                                </svg>
+                                <div class="hrw-donut-center">
+                                    <div class="hrw-donut-total"><AnimatedNumber value="dn.total"/></div>
+                                    <div class="hrw-donut-caption">requests</div>
+                                </div>
+                            </div>
+                            <div class="hrw-mix-list">
+                                <t t-foreach="dn.arcs" t-as="a" t-key="a.key">
+                                    <div class="hrw-mix-item" t-on-click="() => this.openDomain(a.label, a.domain)">
+                                        <span class="hrw-mix-icon" t-att-style="'background:' + typeColors[a.key].soft + ';color:' + a.color">
+                                            <i t-att-class="'fa ' + typeIcons[a.key]"/>
+                                        </span>
+                                        <span class="hrw-mix-label" t-esc="a.label"/>
+                                        <span class="hrw-mix-value" t-esc="a.value"/>
+                                        <span class="hrw-mix-pct" t-esc="a.pct + '%'"/>
+                                    </div>
+                                </t>
+                                <div t-if="!dn.arcs.length" class="hrw-empty"><i class="fa fa-pie-chart"/>No requests in this period</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ======================================================== APPROVERS + OVERDUE -->
+                    <section class="hrw-row hrw-row-1-1">
+                        <div class="hrw-card hrw-panel hrw-reveal" style="--d: 550ms">
+                            <div class="hrw-panel-head">
+                                <div>
+                                    <h3>Approvers</h3>
+                                    <p>What each person has done and what is waiting</p>
+                                </div>
+                            </div>
+                            <div class="hrw-approvers">
+                                <t t-foreach="state.data.approvers" t-as="a" t-key="a.id">
+                                    <div class="hrw-approver" t-on-click="() => this.openDomain('Waiting for ' + a.name, a.domain)">
+                                        <img class="hrw-avatar" t-att-src="avatar(a.id)" t-att-alt="a.name"/>
+                                        <div class="hrw-approver-body">
+                                            <div class="hrw-approver-top">
+                                                <strong t-esc="a.name"/>
+                                                <span class="hrw-approver-speed" t-if="a.avg_hours">
+                                                    <i class="fa fa-bolt"/> <t t-esc="a.avg_hours"/>h to reply
+                                                </span>
+                                            </div>
+                                            <div class="hrw-stackbar">
+                                                <span class="seg-decided" t-att-style="'width:' + approverPct(a, 'decided') + '%'"/>
+                                                <span class="seg-pending" t-att-style="'width:' + approverPct(a, 'pending') + '%'"/>
+                                            </div>
+                                            <div class="hrw-approver-meta">
+                                                <span><b t-esc="a.decided"/> done</span>
+                                                <span><b t-esc="a.pending"/> waiting</span>
+                                                <span t-if="a.overdue" class="hrw-pill-danger"><i class="fa fa-exclamation-circle"/> <t t-esc="a.overdue"/> late</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                                <div t-if="!state.data.approvers.length" class="hrw-empty"><i class="fa fa-check-circle"/>No approvals yet</div>
+                            </div>
+                        </div>
+
+                        <div class="hrw-card hrw-panel hrw-reveal" style="--d: 600ms">
+                            <div class="hrw-panel-head">
+                                <div>
+                                    <h3>Late approvals <span class="hrw-count-chip danger" t-if="state.data.overdue.length" t-esc="state.data.overdue.length"/></h3>
+                                    <p>Waiting longer than allowed</p>
+                                </div>
+                            </div>
+                            <div class="hrw-list">
+                                <t t-foreach="state.data.overdue" t-as="r" t-key="r.id">
+                                    <div class="hrw-list-item" t-on-click="() => this.openRecord(r.id)">
+                                        <span class="hrw-pulse"/>
+                                        <span class="hrw-type-icon" t-att-style="'background:' + typeColors[r.type].soft + ';color:' + typeColors[r.type].main">
+                                            <i t-att-class="'fa ' + typeIcons[r.type]"/>
+                                        </span>
+                                        <div class="hrw-list-body">
+                                            <div class="hrw-list-title"><t t-esc="r.employee"/> <small t-esc="r.name"/></div>
+                                            <div class="hrw-list-sub"><i class="fa fa-flag-o"/> <t t-esc="r.step"/></div>
+                                        </div>
+                                        <div class="hrw-avatars">
+                                            <t t-foreach="r.approvers" t-as="u" t-key="u.id">
+                                                <img t-att-src="avatar(u.id)" t-att-title="u.name"/>
+                                            </t>
+                                        </div>
+                                        <span class="hrw-chip danger"><t t-esc="r.days_overdue"/> <t t-esc="r.days_overdue === 1 ? 'day' : 'days'"/> late</span>
+                                    </div>
+                                </t>
+                                <div t-if="!state.data.overdue.length" class="hrw-empty success">
+                                    <i class="fa fa-check-circle"/>Nothing is late
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ======================================================== UPCOMING / FUNNEL / CYCLE -->
+                    <section class="hrw-row hrw-row-1-1-1">
+                        <div class="hrw-card hrw-panel hrw-reveal" style="--d: 650ms">
+                            <div class="hrw-panel-head">
+                                <div>
+                                    <h3>Coming up</h3>
+                                    <p>Changes that start in the next 30 days</p>
+                                </div>
+                            </div>
+                            <div class="hrw-timeline">
+                                <t t-foreach="state.data.upcoming" t-as="r" t-key="r.id">
+                                    <div class="hrw-tl-item" t-on-click="() => this.openRecord(r.id)">
+                                        <t t-set="dp" t-value="dateParts(r.effective_date)"/>
+                                        <div class="hrw-tl-date" t-att-style="'background:' + typeColors[r.type].soft + ';color:' + typeColors[r.type].main">
+                                            <b t-esc="dp.day"/><span t-esc="dp.month"/>
+                                        </div>
+                                        <div class="hrw-tl-body">
+                                            <div class="hrw-list-title" t-esc="r.employee"/>
+                                            <div class="hrw-list-sub"><t t-esc="r.type_label"/> · <t t-esc="r.state_label"/></div>
+                                        </div>
+                                        <span class="hrw-chip" t-esc="daysLeftLabel(r.days_left)"/>
+                                    </div>
+                                </t>
+                                <div t-if="!state.data.upcoming.length" class="hrw-empty"><i class="fa fa-calendar-o"/>Nothing scheduled</div>
+                            </div>
+                        </div>
+
+                        <div class="hrw-card hrw-panel hrw-reveal" style="--d: 700ms">
+                            <div class="hrw-panel-head">
+                                <div>
+                                    <h3>Requests by status</h3>
+                                    <p>Where every request stands</p>
+                                </div>
+                            </div>
+                            <div class="hrw-funnel">
+                                <t t-foreach="funnel" t-as="f" t-key="f.key">
+                                    <div class="hrw-funnel-row" t-on-click="() => this.openDomain(f.label, f.domain)">
+                                        <div class="hrw-funnel-label"><span t-esc="f.label"/><b t-esc="f.value"/></div>
+                                        <div class="hrw-funnel-track">
+                                            <div class="hrw-funnel-bar" t-att-style="'width:' + f.pct + '%;background:' + f.color"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <div class="hrw-card hrw-panel hrw-reveal" style="--d: 750ms">
+                            <div class="hrw-panel-head">
+                                <div>
+                                    <h3>Approval speed</h3>
+                                    <p>Average days to get fully approved</p>
+                                </div>
+                            </div>
+                            <div class="hrw-cycle">
+                                <t t-foreach="cycleBars" t-as="b" t-key="b.key">
+                                    <div class="hrw-cycle-col">
+                                        <div class="hrw-cycle-val" t-esc="b.value + 'd'"/>
+                                        <div class="hrw-cycle-track">
+                                            <div class="hrw-cycle-bar"
+                                                 t-att-style="'height:' + b.pct + '%;background:linear-gradient(180deg,' + b.color.grad[0] + ',' + b.color.grad[1] + ')'"/>
+                                        </div>
+                                        <div class="hrw-cycle-label" t-esc="b.label"/>
+                                    </div>
+                                </t>
+                                <div t-if="!cycleBars.length" class="hrw-empty"><i class="fa fa-hourglass-o"/>Nothing approved yet</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ======================================================== DEPARTMENTS + RECENT -->
+                    <section class="hrw-row hrw-row-1-2">
+                        <div class="hrw-card hrw-panel hrw-reveal" style="--d: 800ms">
+                            <div class="hrw-panel-head">
+                                <div>
+                                    <h3>Busiest departments</h3>
+                                    <p>Most open requests</p>
+                                </div>
+                            </div>
+                            <div class="hrw-depts">
+                                <t t-foreach="deptBars" t-as="d" t-key="d.id">
+                                    <div class="hrw-dept" t-on-click="() => this.openDomain(d.name, d.domain)">
+                                        <span class="hrw-rank" t-esc="d.rank"/>
+                                        <div class="hrw-dept-body">
+                                            <div class="hrw-funnel-label"><span t-esc="d.name"/><b t-esc="d.value"/></div>
+                                            <div class="hrw-funnel-track"><div class="hrw-funnel-bar hrw-grad-bar" t-att-style="'width:' + d.pct + '%'"/></div>
+                                        </div>
+                                    </div>
+                                </t>
+                                <div t-if="!deptBars.length" class="hrw-empty"><i class="fa fa-building-o"/>No open requests</div>
+                            </div>
+                        </div>
+
+                        <div class="hrw-card hrw-panel hrw-reveal" style="--d: 850ms">
+                            <div class="hrw-panel-head">
+                                <div>
+                                    <h3>Latest requests</h3>
+                                    <p>Most recently updated</p>
+                                </div>
+                            </div>
+                            <div class="hrw-table">
+                                <div class="hrw-tr hrw-th">
+                                    <span>Request</span><span>Employee</span><span>Department</span><span>Status</span><span>Start date</span><span class="text-end">Cost / month</span>
+                                </div>
+                                <t t-foreach="state.data.recent" t-as="r" t-key="r.id">
+                                    <div class="hrw-tr" t-on-click="() => this.openRecord(r.id)">
+                                        <span class="hrw-req">
+                                            <span class="hrw-type-icon sm" t-att-style="'background:' + typeColors[r.type].soft + ';color:' + typeColors[r.type].main">
+                                                <i t-att-class="'fa ' + typeIcons[r.type]"/>
+                                            </span>
+                                            <t t-esc="r.name"/>
+                                        </span>
+                                        <span class="hrw-emp">
+                                            <span class="hrw-initials" t-esc="initials(r.employee)"/>
+                                            <t t-esc="r.employee"/>
+                                        </span>
+                                        <span class="text-muted" t-esc="r.department"/>
+                                        <span><span t-att-class="'hrw-status st-' + r.state" t-esc="r.step"/></span>
+                                        <span t-esc="fmtDate(r.effective_date)"/>
+                                        <span t-att-class="{'text-end hrw-impact': true, 'neg': r.cost_impact &lt; 0, 'pos': r.cost_impact &gt; 0}"
+                                              t-esc="r.cost_impact ? money(r.cost_impact) : '—'"/>
+                                    </div>
+                                </t>
+                                <div t-if="!state.data.recent.length" class="hrw-empty"><i class="fa fa-inbox"/>No requests yet</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer class="hrw-footer">HRMS Process Workflows · PackBytes</footer>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="hr_process_workflow.HrwSelect">
+        <div class="hrw-dd" t-att-class="{'is-open': state.open, 'has-value': !!selected}" t-ref="root" t-on-keydown="onKey">
+            <button type="button" class="hrw-dd-btn" t-on-click="toggle">
+                <span class="hrw-dd-ico"><i t-attf-class="fa #{props.icon or 'fa-filter'}"/></span>
+                <span t-if="selected and selected.color" class="hrw-dd-dot" t-attf-style="background: #{selected.color};"/>
+                <span class="hrw-dd-label" t-esc="selected ? selected.name : props.placeholder"/>
+                <i class="fa fa-angle-down hrw-dd-caret"/>
+            </button>
+            <div t-if="state.open" class="hrw-dd-panel">
+                <div t-if="searchable" class="hrw-dd-search">
+                    <i class="fa fa-search"/>
+                    <input t-ref="search" type="text" placeholder="Search..." t-model="state.query"/>
+                </div>
+                <div class="hrw-dd-list">
+                    <t t-foreach="items" t-as="o" t-key="o.isAll ? '__all' : o.id">
+                        <div class="hrw-dd-item" t-att-class="{'is-selected': isSelected(o), 'is-active': o_index === state.active, 'is-all': o.isAll}"
+                             t-on-click="() => this.pick(o)" t-on-mouseenter="() => this.state.active = o_index">
+                            <span t-if="o.isAll" class="hrw-dd-badge all"><i class="fa fa-th-large"/></span>
+                            <span t-elif="o.color" class="hrw-dd-badge" t-attf-style="background: #{o.soft or '#f1f5f9'}; color: #{o.color};"><i t-attf-class="fa #{o.icon or 'fa-circle'}"/></span>
+                            <span t-else="" class="hrw-dd-badge" t-esc="initials(o.name)"/>
+                            <span class="hrw-dd-name" t-esc="o.name"/>
+                            <i t-if="isSelected(o)" class="fa fa-check hrw-dd-check"/>
+                        </div>
+                    </t>
+                    <div t-if="!items.length" class="hrw-dd-empty">Nothing found</div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
