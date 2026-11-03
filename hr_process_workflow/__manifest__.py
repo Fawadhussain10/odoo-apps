@@ -40,8 +40,9 @@ HRMS Process Workflows
             'hr_process_workflow/static/src/dashboard/**/*',
         ],
     },
-    'price': 70,
-    'currency': "USD",
+    'images': ['static/description/banner.png'],
     'application': True,
     'installable': True,
+    'price': 70,
+    'currency': "USD",
 }
