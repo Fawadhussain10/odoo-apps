@@ -1939,7 +1939,7 @@ class LiBackgroundWork(models.AbstractModel):
                                              ('needs_check', '=', False)])
             if waiting >= left:
                 continue
-            if agent.last_search_date and utc_now() - agent.last_search_date < SEARCH_COOLDOWN:
+            if agent.last_search_date and utc_now() - agent.last_search_date < self._search_cooldown():
                 continue
             if self._bg_budget_left(profile) < 1:
                 return 0
@@ -1960,11 +1960,14 @@ class LiBackgroundWork(models.AbstractModel):
             people = parse_search_results(data, own_username=own)
             counts = self._add_people(persona, people)
             self._bg_note_search_result(persona, agent, people)
+            hidden = len(re.findall(r'(?m)^\s*LinkedIn Member\s*$', (data.get('sections') or {}).get('search_results') or ''))
+            hidden_note = _(', %s hidden by LinkedIn (no profile link: the monthly search limit of a free account)',
+                            hidden) if hidden else ''
             self._bg_last_action(profile).detail = \
                 _('%(found)s found: %(created)s queued, %(outside)s outside the persona, %(dup)s duplicates, '
                   '%(other)s skipped', found=len(people), created=counts['created'],
                   outside=counts['outside_target'], dup=counts['duplicates'],
                   other=counts['contacted_elsewhere'] + counts['do_not_contact'] + counts['excluded']
-                  + counts['invalid']) + ''.join('\n- %s' % r for r in counts['outside_reasons'])
+                  + counts['invalid']) + hidden_note + ''.join('\n- %s' % r for r in counts['outside_reasons'])
             return 1
         return 0

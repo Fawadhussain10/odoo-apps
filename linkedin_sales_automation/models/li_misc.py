@@ -202,6 +202,10 @@ class ResConfigSettings(models.TransientModel):
                                     default=150)
     li_connections_every = fields.Integer('Recent connections read every (minutes)',
                                           config_parameter='li_sales.connections_every', default=15)
+    li_search_every = fields.Integer(
+        'People search every (minutes)', config_parameter='li_sales.search_every', default=60,
+        help='Gap between two LinkedIn people searches of one persona. A free LinkedIn account has a monthly search '
+             'limit: once it is reached LinkedIn shows only a few people per search, so search less often.')
     li_acceptance_every = fields.Integer('Acceptance checks every (minutes)',
                                          config_parameter='li_sales.acceptance_every', default=60)
     li_acceptance_per_run = fields.Integer('Acceptance checks per run', config_parameter='li_sales.acceptance_per_run',

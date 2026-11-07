@@ -182,6 +182,10 @@ class LiMcpEngine(models.AbstractModel):
     def _lock(self):
         self.env.cr.execute('SELECT pg_advisory_xact_lock(%s)', (LOCK_KEY,))
 
+    def _search_cooldown(self):
+        """Gap between two searches of one persona (Settings), at least 15 minutes."""
+        return timedelta(minutes=max(self._param('search_every', 60), 15))
+
     def _param(self, key, default):
         value = self.env['ir.config_parameter'].sudo().get_param('li_sales.%s' % key)
         try:
@@ -544,7 +548,7 @@ class LiMcpEngine(models.AbstractModel):
                 continue  # the queue covers what may still be sent today
             if self._has_open([('persona_id', '=', persona.id), ('work_type', '=', 'search_prospects')]):
                 continue
-            if agent.last_search_date and utc_now() - agent.last_search_date < SEARCH_COOLDOWN:
+            if agent.last_search_date and utc_now() - agent.last_search_date < self._search_cooldown():
                 continue
             titles = [t.strip() for t in (persona.job_titles or '').replace('\n', ',').split(',') if t.strip()]
             locations = persona.location_ids.mapped('name')

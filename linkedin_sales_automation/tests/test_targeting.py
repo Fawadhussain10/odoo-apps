@@ -181,6 +181,15 @@ class TestTargeting(BackgroundCase):
         self.assertFalse(salalah.linkedin_geo_id)
 
     @freeze_time(MONDAY_10_UTC)
+    def test_search_gap_is_a_setting(self):
+        tools = self.env['li.mcp.tools']
+        self.assertEqual(tools._search_cooldown(), timedelta(minutes=60))
+        self.env['ir.config_parameter'].sudo().set_param('li_sales.search_every', '240')
+        self.assertEqual(tools._search_cooldown(), timedelta(minutes=240))
+        self.env['ir.config_parameter'].sudo().set_param('li_sales.search_every', '1')
+        self.assertEqual(tools._search_cooldown(), timedelta(minutes=15))
+
+    @freeze_time(MONDAY_10_UTC)
     def test_empty_result_pages_start_again_from_the_first_page(self):
         self._start()
         tag = self._tag('Pakistan')

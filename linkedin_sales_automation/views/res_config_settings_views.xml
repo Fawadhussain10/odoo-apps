@@ -53,6 +53,9 @@
                             Recent connections every <field name="li_connections_every"/> minutes
                             <div class="mt-1">fallback: <field name="li_acceptance_per_run"/> invites every <field name="li_acceptance_every"/> minutes</div>
                         </setting>
+                        <setting string="People searches" help="Gap between two LinkedIn people searches of one persona. A free LinkedIn account has a monthly search limit: once it is reached, LinkedIn shows only a few people per search and hides the rest, so search less often.">
+                            One search every <field name="li_search_every"/> minutes per persona
+                        </setting>
                         <setting string="Engine action timeout" help="The engine gives up on one LinkedIn action after this time. A send that times out has an unknown outcome: it is never repeated and the prospect is flagged for a person to check. Applies after an engine restart.">
                             <field name="li_engine_tool_timeout"/> seconds
                         </setting>
